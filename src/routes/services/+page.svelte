@@ -15,7 +15,7 @@
             title: 'Web Development',
             description: 'Custom web applications built with modern technologies like SvelteKit, React, and Node.js.',
             features: ['Responsive Design', 'SEO Optimized', 'Fast Performance', 'Modern Frameworks'],
-            price: 'From $1,000',
+            price: 'From $500 / ₦500,000',
             timeline: '4-8 weeks',
             projects: '50+ completed'
         },
@@ -24,7 +24,7 @@
             title: 'Mobile Apps',
             description: 'Cross-platform mobile applications for iOS and Android using React Native and Flutter.',
             features: ['Native Performance', 'Offline Capability', 'App Store Ready', 'Push Notifications'],
-            price: 'From $3,000',
+            price: 'From $700 / ₦1,000,000',
             timeline: '6-12 weeks',
             projects: '30+ completed'
         },
@@ -33,7 +33,7 @@
             title: 'Backend Systems',
             description: 'Scalable server architecture, APIs, and database solutions for your business needs.',
             features: ['RESTful APIs', 'Microservices', 'Database Design', 'API Documentation'],
-            price: 'From $4,000',
+            price: 'From $600 / ₦700,000',
             timeline: '4-10 weeks',
             projects: '40+ completed'
         },
@@ -42,7 +42,7 @@
             title: 'Cloud Solutions',
             description: 'Deployment, migration, and management of cloud infrastructure on AWS, Azure, and Google Cloud.',
             features: ['Cloud Migration', 'DevOps', 'Serverless Architecture', 'Auto Scaling'],
-            price: 'From $2,000',
+            price: 'From 1,000 / ₦1,200,000',
             timeline: '2-6 weeks',
             projects: '35+ completed'
         },
@@ -51,7 +51,7 @@
             title: 'Security & Compliance',
             description: 'Enterprise-grade security solutions and compliance frameworks for your applications.',
             features: ['Security Audits', 'GDPR Compliance', 'Data Protection', 'Penetration Testing'],
-            price: 'From $3,000',
+            price: 'From $1,000 / ₦1,500,000',
             timeline: '2-4 weeks',
             projects: '25+ completed'
         },

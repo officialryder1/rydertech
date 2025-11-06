@@ -287,19 +287,19 @@
           
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-4 pt-8">
-            <button class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
+            <a href="/contact" class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
               <span class="flex items-center">
                 Start Your Journey
                 <ArrowRight class="w-5 h-5 ml-2" />
               </span>
-            </button>
+            </a>
             
-            <button class="px-8 py-4 border-2 border-[var(--primary)]/20 text-[var(--primary)] font-semibold rounded-xl hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-300">
+            <a href="/work" class="px-8 py-4 border-2 border-[var(--primary)]/20 text-[var(--primary)] font-semibold rounded-xl hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-300">
               <span class="flex items-center">
                 View Our Work
                 <Sparkles class="w-5 h-5 ml-2" />
               </span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -614,12 +614,12 @@
           Let's combine your vision with our technical expertise to build digital experiences that captivate and convert.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button class="px-8 py-4 bg-[var(--secondary)] text-gray-900 font-black rounded-xl hover:bg-[var(--secondary-light)] transition-all duration-300 text-lg">
+          <a href="/contact" class="px-8 py-4 bg-[var(--secondary)] text-gray-900 font-black rounded-xl hover:bg-[var(--secondary-light)] transition-all duration-300 text-lg">
             <span class="flex items-center justify-center">
               Start Your Project
               <Zap class="w-5 h-5 ml-2" />
             </span>
-          </button>
+          </a>
           <button class="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl hover:border-white/60 hover:bg-white/10 transition-all duration-300">
             <span class="flex items-center justify-center">
               <MessageCircle class="w-5 h-5 mr-2" />

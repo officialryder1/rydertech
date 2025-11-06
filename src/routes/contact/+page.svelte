@@ -258,7 +258,7 @@
                                 <div>
                                     <p class="font-semibold">Email</p>
                                     <a href="mailto:hello@rydertech.com" class="text-muted-foreground hover:text-primary">
-                                        hello@rydertech.com
+                                        rydertech.ng@gmail.com
                                     </a>
                                 </div>
                             </div>
@@ -269,7 +269,7 @@
                                 <div>
                                     <p class="font-semibold">Phone</p>
                                     <a href="tel:+15551234567" class="text-muted-foreground hover:text-primary">
-                                        +1 (555) 123-4567
+                                        +234 903 3147 769
                                     </a>
                                 </div>
                             </div>
@@ -279,7 +279,7 @@
                                 </div>
                                 <div>
                                     <p class="font-semibold">Office</p>
-                                    <p class="text-muted-foreground">San Francisco, CA</p>
+                                    <p class="text-muted-foreground"> Jabi, Abuja</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
