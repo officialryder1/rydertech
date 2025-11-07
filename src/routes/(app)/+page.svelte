@@ -563,7 +563,7 @@
           {#each testimonials as _, i}
             <button
               class="w-3 h-3 rounded-full transition-all duration-300 {i === activeTestimonial ? 'bg-[var(--primary)] scale-125' : 'bg-gray-300 hover:bg-gray-400'}"
-              on:click={() => setActiveTestimonial(i)}
+              onclick={() => setActiveTestimonial(i)}
             />
           {/each}
         </div>

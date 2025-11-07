@@ -44,6 +44,7 @@
 		"vite": "^7.1.10"
 	},
 	"dependencies": {
-		"@supabase/supabase-js": "^2.79.0"
+		"@supabase/supabase-js": "^2.79.0",
+		"mode-watcher": "^1.1.0"
 	}
 }

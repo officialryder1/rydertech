@@ -1,7 +1,8 @@
 <script lang="ts">
-	import '../app.css';
+	import '../../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { onMount } from 'svelte';
+ 
 	import { 
     Code, 
     CircuitBoard,
@@ -96,6 +97,7 @@
 
   <!-- Main Content -->
   <main>
+    
     {@render children()}
   </main>
 
