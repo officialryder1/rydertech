@@ -29,7 +29,7 @@
         {
             title: 'Healthcare Management System',
             description: 'Comprehensive healthcare platform for patient records, appointments, and telemedicine.',
-            image: '/api/placeholder/600/400',
+            image: '#',
             category: 'Custom Software',
             technologies: ['React', 'Python', 'MongoDB', 'Docker'],
             liveUrl: '#',
@@ -39,7 +39,7 @@
         {
             title: 'Real Estate Platform',
             description: 'Property listing and management system with virtual tours and AI-powered recommendations.',
-            image: '/api/placeholder/600/400',
+            image: '#',
             category: 'Web Development',
             technologies: ['Vue.js', 'Laravel', 'MySQL', 'AWS'],
             liveUrl: '#',
@@ -49,7 +49,7 @@
         {
             title: 'Fitness Tracking App',
             description: 'Cross-platform fitness app with workout plans, progress tracking, and social features.',
-            image: '/api/placeholder/600/400',
+            image: "#",
             category: 'Mobile Development',
             technologies: ['Flutter', 'Node.js', 'MongoDB', 'Google Fit'],
             liveUrl: '#',
@@ -59,7 +59,7 @@
         {
             title: 'Supply Chain Management',
             description: 'Enterprise supply chain solution with inventory optimization and logistics tracking.',
-            image: '/api/placeholder/600/400',
+            image: '#',
             category: 'Custom Software',
             technologies: ['Angular', 'Java', 'Oracle', 'Azure'],
             liveUrl: '#',
