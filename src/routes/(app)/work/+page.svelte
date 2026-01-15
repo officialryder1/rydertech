@@ -1,6 +1,5 @@
 <script>
     import FindsNg from '$lib/assets/findsng.png';
-    import RyderX from '$lib/assets/ryderx.png';
     import { ExternalLink, Github, ArrowRight, Filter, Eye } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
@@ -20,7 +19,7 @@
         {
             title: 'RyderXchange',
             description: 'Secure mobile banking application with biometric authentication and real-time transactions.',
-            image: RyderX,
+            image: 'image/ryderx.png',
             category: 'Mobile Development',
             technologies: ['React Native', 'Supabase', 'Plaid API', 'AWS'],
             liveUrl: 'https://ryderx.vercel.app/',
