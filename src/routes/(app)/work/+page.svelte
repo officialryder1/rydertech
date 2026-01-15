@@ -1,7 +1,6 @@
 <script>
     import FindsNg from '$lib/assets/findsng.png';
     import RyderX from '$lib/assets/ryderx.png';
-    import { onMount } from 'svelte';
     import { ExternalLink, Github, ArrowRight, Filter, Eye } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
