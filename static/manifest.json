@@ -1,0 +1,29 @@
+{
+    "name": "Rydertech",
+    "short_name": "rydertech.ng",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a1538",
+    "theme_color": "#3B82F6",
+    "description": "Digitalizing the world, starting from africa.",
+    "icons": [
+        {
+            "src": "/icons/pwa-64x64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/pwa-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/pwa-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+
+    ]
+    
+
+}

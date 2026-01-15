@@ -21,6 +21,9 @@
   	let mouseY = $state(0);
 	let date = new Date();
 	
+   onMount(() => {
+        detectServiceWorkerUpdate();
+    });
 
 	onMount(() => {
 		const handleScroll = () => scrollY = window.scrollY;
@@ -37,6 +40,24 @@
 		window.removeEventListener('mousemove', handleMouseMove);
 		};
 	});
+
+  async function detectServiceWorkerUpdate() {
+        const registration = await navigator.serviceWorker.ready;
+
+        registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+
+            newWorker?.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New update available
+                    if (confirm('A new version is available. Do you want to update?')) {
+                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+    }
 </script>
 
 <svelte:head>

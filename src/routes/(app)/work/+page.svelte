@@ -1,4 +1,6 @@
 <script>
+    import FindsNg from '$lib/assets/findsng.png';
+    import RyderX from '$lib/assets/ryderx.png';
     import { onMount } from 'svelte';
     import { ExternalLink, Github, ArrowRight, Filter, Eye } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
@@ -9,20 +11,20 @@
         {
             title: 'E-Commerce Platform',
             description: 'A full-featured online store with inventory management, payment processing, and customer analytics.',
-            image: '/api/placeholder/600/400',
+            image: FindsNg,
             category: 'Web Development',
             technologies: ['SvelteKit', 'Node.js', 'PostgreSQL', 'Stripe'],
-            liveUrl: '#',
+            liveUrl: 'https://findsng.vercel.app/',
             githubUrl: '#',
             featured: true
         },
         {
-            title: 'Mobile Banking App',
+            title: 'RyderXchange',
             description: 'Secure mobile banking application with biometric authentication and real-time transactions.',
-            image: '/api/placeholder/600/400',
+            image: RyderX,
             category: 'Mobile Development',
-            technologies: ['React Native', 'Firebase', 'Plaid API', 'AWS'],
-            liveUrl: '#',
+            technologies: ['React Native', 'Supabase', 'Plaid API', 'AWS'],
+            liveUrl: 'https://ryderx.vercel.app/',
             githubUrl: '#',
             featured: true
         },
@@ -109,7 +111,7 @@
                     <Button
                         variant={activeCategory === category ? "default" : "outline"}
                         onclick={() => filterProjects(category)}
-                        class="flex items-center gap-2"
+                        class="flex items-center gap-"
                     >
                         {#if activeCategory === category}
                             <Filter class="w-4 h-4" />

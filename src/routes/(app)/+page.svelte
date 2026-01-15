@@ -79,7 +79,7 @@
     { name: 'RyderXchange', logo: 'RX', description: 'Blockchain Infrastructure' },
     { name: 'SOGCA', logo: 'SOG', description: 'Church Platform' },
     { name: 'CouqleQuest', logo: 'CQ', description: 'App Development' },
-    { name: 'MobileFirst', logo: 'MF', description: 'App Development' },
+    { name: 'Discova', logo: 'DV', description: 'Multi-vendor platform' },
     { name: 'SweetEdge', logo: 'SE', description: 'Fashion Brand' },
     { name: 'DbTravels', logo: 'DBT', description: 'Traveling Agency' }
   ];
