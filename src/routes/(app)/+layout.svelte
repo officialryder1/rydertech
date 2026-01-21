@@ -63,11 +63,59 @@
 </script>
 
 <svelte:head>
-	<title>RyderTech - Creative Software Development Agency</title>
-	<meta name="description" content="RyderTech delivers cutting-edge software solutions with creative design and modern technologies." />
-	<meta name="keywords" content="RyderTech, Software Development, Creative Agency, Web Development, Mobile Apps, Custom Software, Technology Solutions" />
-	<meta name="author" content="RyderTech" />
+	<title>RyderTech - Leading Web Design & Software Agency in Nigeria</title>
+	<meta name="description" content="RyderTech is Nigeria's top web design and software development agency. We create custom websites, mobile apps, and digital solutions for businesses across Nigeria." />
+
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Open Graph -->
+   <meta property="og:type" content="website" />
+   <meta property="og:url" content="https://rydertech.ng"/>
+   <meta property="og:title" content="RyderTech - Web Design & Software Agency in Nigeria" />
+   <meta property="og:description" content="Nigeria's premier web design and software development agency creating digital solutions for businesses." />
+    <meta property="og:image" content="https://rydertech.ng/og-image.jpg" />
+
+  <!-- Twitter Card -->
+   <meta property="twitter:card" content="summary_large_image" />
+   <meta property="twitter:url" content="https://rydertech.ng" />
+   <meta property="twitter:title" content="RyderTech - Web Design & Software Agency in Nigeria" />
+   <meta property="twitter:description" content="Nigeria's premier web design and software development agency creating digital solutions for businesses." />
+   <meta property="twitter:image" content="https://rydertech.ng/og-image.jpg" />
+
+   <!-- Additional SEO tags -->
+    <meta name="keywords" content="web design Nigeria, software agency Nigeria, website development Lagos, website development abuja, custom software Nigeria, mobile app development Nigeria, e-commerce website Nigeria, digital agency Nigeria" />
+    <meta name="author" content="RyderTech" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+
+    <!-- Local Business Schema -->
+     <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "RyderTech",
+        "description": "Leading web design and software development agency in Nigeria",
+        "url": "https://rydertech.ng",
+        "logo": "https://rydertech.ng/logo.png",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "NG",
+            "addressRegion": "Abuja",
+            "addressLocality": "Abuja"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+234-903-314-7769",
+            "contactType": "Customer Service",
+            "areaServed": "NG",
+            "availableLanguage": ["English"]
+        },
+        "sameAs": [
+            "https://twitter.com/official_ryder0",
+            "https://instagram.com/rydertech.ng"
+        ]
+    }
+    </script>
 </svelte:head>
 
 <div class="min-h-screen bg-white overflow-hidden">

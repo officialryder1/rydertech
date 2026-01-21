@@ -9,7 +9,6 @@ tags: ["Svelte", "React", "Performance", "JavaScript", "Frontend"]
 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSev0BVNf_hMVzOWCm7qKwmhQNymHDEGHh5KQ&s"
 views: 1247,
 comments: 23
-featured: true,
 ---
 
 # Introduction

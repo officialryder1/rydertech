@@ -205,7 +205,7 @@
                       ? 'bg-[var(--primary)] text-white'
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
-                  on:click={() => selectedCategory = category}
+                  onclick={() => selectedCategory = category}
                 >
                   <div class="flex items-center justify-between">
                     <span>{category}</span>
@@ -234,7 +234,7 @@
                   <Badge 
                     variant="outline" 
                     class="cursor-pointer hover:bg-[var(--primary)] hover:text-white transition-colors"
-                    on:click={() => {
+                    onclick={() => {
                       searchQuery = tag;
                       selectedCategory = 'All';
                     }}
@@ -403,7 +403,7 @@
                 </p>
                 <Button 
                   variant="outline" 
-                  on:click={() => {
+                  onclick={() => {
                     selectedCategory = 'All';
                     searchQuery = '';
                   }}

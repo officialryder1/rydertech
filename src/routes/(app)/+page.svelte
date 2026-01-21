@@ -257,12 +257,6 @@
   }
 </script>
 
-<svelte:head>
-  <title>RyderTech - Creative Software Development Agency</title>
-  <meta name="description" content="RyderTech delivers cutting-edge software solutions with creative design and modern technologies. We build web, mobile, and cloud applications that stand out." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-</svelte:head>
-
 <div class="min-h-screen bg-white overflow-hidden">
   <!-- Animated Background -->
   <div class="fixed inset-0 pointer-events-none geometric-pattern" />
@@ -292,19 +286,15 @@
           
           <!-- Main Headline -->
           <h1 class="text-5xl md:text-7xl font-black leading-tight">
-            <span class="gradient-text">Build</span>
+             Nigeria's Leading <span class="gradient-text">Web Design</span>
             <br />
-            <span class="text-gray-900">Digital</span>
-            <br />
-            <span class="shimmer-text">Experiences</span>
+            <span class="text-gray-900">& Software Agency</span>
           </h1>
           
           <!-- Description -->
           <p class="text-xl text-gray-600 leading-relaxed">
-            We craft <span class="text-[var(--primary)] font-semibold">unique software solutions</span> that 
-            blend <span class="text-[var(--secondary)] font-semibold">creative design</span> with 
-            <span class="text-[var(--accent)] font-semibold">cutting-edge technology</span> to create 
-            memorable digital experiences.
+            We build <strong>professional websites</strong> and <strong>custom software</strong> for businesses across Nigeria. 
+            Serving clients in <strong>Lagos</strong>, <strong>Abuja</strong>, <strong>Port Harcourt</strong>, and nationwide.
           </p>
           
           <!-- CTA Buttons -->
