@@ -10,18 +10,6 @@ export default defineConfig({
 	ssr: {
 		noExternal: ['svelte-sonner']
 	},
-	build: {
-		rollupOptions: {
-			output: {
-				manualChunks: {
-					// split vendor chunks for better caching
-					'vendor': ['svelte', '@sveltejs/kit'],
-					'ui': ['@lucide/svelte', 'svelte-sonner']
-				}
-			}
-		}
-
-	},
 	server: {
     fs: {
       // Allow serving files from project root
