@@ -96,8 +96,8 @@
       </a>
       
       <!-- Navigation Links -->
-      <div class="hidden md:flex space-x-8">
-        {#each ['Services', 'Work', 'About', 'Contact'] as item}
+      <div class="hidden md:flex space-x-5 pr-5">
+        {#each ['Services', 'Work', 'About', 'Reviews', 'Contact'] as item}
           <a 
             href="/{item.toLowerCase()}" 
             class="text-gray-700 hover:text-[var(--primary)] font-semibold transition-all duration-300 relative group"
@@ -164,7 +164,7 @@
         <div>
           <h3 class="font-black text-lg mb-4">Explore</h3>
           <div class="space-y-2 text-gray-400">
-            {#each ['Our Work', 'Services', 'About', 'Blog', 'Careers'] as item}
+            {#each ['Our Work', 'Services', 'About', 'Reviews', 'Blog', 'Careers'] as item}
               <a 
                 href="/{item.toLowerCase().replace(' ', '-')}" 
                 class="hover:text-white transition-colors cursor-pointer block"

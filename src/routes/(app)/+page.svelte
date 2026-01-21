@@ -1,6 +1,7 @@
 <script>
     import NewsLetterModel from '$lib/components/NewsLetterModel.svelte';
   import { onMount } from 'svelte';
+  import { supabase } from '$lib/supabaseClient';
   import { 
     Code, 
     Globe, 
@@ -14,17 +15,38 @@
     TrendingUp,
     Star,
     MessageCircle,
-    Mail,
-    Phone,
-    MapPin,
     Cpu,
     Zap,
     Sparkles,
-    CircuitBoard,
     Quote
   } from '@lucide/svelte';
 
   let showNewsletter = $state(false);
+  let realTestimonials = $state([])
+  let loading = $state(true)
+
+  onMount(async () => {
+    await loadTestimonials();
+  })
+
+  async function loadTestimonials() {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select(`
+        *,
+        projects (
+          project_name
+        )
+      `)
+      .eq('approved', true)
+      .order('created_at', { ascending: false })
+      .limit(6);
+
+    if (!error) {
+      realTestimonials = data || [];
+    }
+    loading = false;
+  }
 
   // Original services from your first request
   const services = [
@@ -506,97 +528,75 @@
   </section>
 
   <!-- Testimonials Section -->
-  <section class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
-    <div class="container mx-auto max-w-6xl px-4">
-      <div class="text-center mb-16">
-        <div class="inline-flex items-center space-x-2 bg-[var(--secondary)]/10 border border-[var(--secondary)]/20 rounded-full px-4 py-2 text-sm text-[var(--secondary-dark)] font-semibold mb-4">
-          <Quote class="w-4 h-4" />
-          <span>CLIENT TESTIMONIALS</span>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-          What Our <span class="gradient-text">Clients Say</span>
-        </h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Don't just take our word for it. Here's what our partners have to say about working with RyderTech.
-        </p>
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+  <div class="container mx-auto max-w-6xl px-4">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center space-x-2 bg-[var(--secondary)]/10 border border-[var(--secondary)]/20 rounded-full px-4 py-2 text-sm text-[var(--secondary-dark)] font-semibold mb-4">
+        <Quote class="w-4 h-4" />
+        <span>REAL CLIENT FEEDBACK</span>
       </div>
+      <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+        What Our <span class="gradient-text">Clients Say</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Real feedback from clients we've worked with. Each review is verified from actual projects.
+      </p>
+    </div>
 
-      <!-- Testimonial Carousel -->
-      <div class="relative">
-        <!-- Main Testimonial -->
-        <div class="glass-card rounded-3xl p-8 md:p-12 border border-white/20 shadow-2xl mb-8">
-          <div class="flex flex-col md:flex-row gap-8 items-center">
-            <!-- Client Avatar & Info -->
-            <div class="text-center md:text-left md:min-w-48">
-              <div class="w-20 h-20 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-2xl flex items-center justify-center mx-auto md:mx-0 mb-4">
-                <span class="text-white font-black text-xl">
-                  {testimonials[activeTestimonial].name.split(' ').map(n => n[0]).join('')}
+    {#if loading}
+      <div class="text-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+        <p class="mt-4 text-gray-600">Loading testimonials...</p>
+      </div>
+    {:else if realTestimonials.length === 0}
+      <div class="text-center py-12">
+        <p class="text-gray-500">No testimonials yet. Be the first to review!</p>
+      </div>
+    {:else}
+      <!-- Testimonial Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {#each realTestimonials as testimonial}
+          <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/20 transition-all duration-300 hover:shadow-lg">
+            <div class="flex items-start space-x-3 mb-4">
+              <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span class="text-[var(--primary)] font-black text-sm">
+                  {testimonial.client_name?.split(' ').map(n => n[0]).join('') || 'C'}
                 </span>
               </div>
-              <h3 class="font-black text-gray-900 text-lg">{testimonials[activeTestimonial].name}</h3>
-              <p class="text-[var(--primary)] font-semibold">{testimonials[activeTestimonial].role}</p>
-              <p class="text-gray-600 text-sm">{testimonials[activeTestimonial].company}</p>
-              <div class="flex justify-center md:justify-start mt-2">
-                {#each Array(testimonials[activeTestimonial].rating) as _, i}
-                  <Star class="w-4 h-4 fill-[var(--secondary)] text-[var(--secondary)]" />
-                {/each}
+              <div>
+                <h4 class="font-black text-gray-900">{testimonial.client_name || 'Client'}</h4>
+                <p class="text-[var(--primary)] text-sm font-semibold">
+                  {testimonial.projects?.project_name || 'Project'}
+                </p>
               </div>
             </div>
-
-            <!-- Testimonial Content -->
-            <div class="flex-1">
-              <Quote class="w-8 h-8 text-[var(--primary)]/30 mb-4" />
-              <p class="text-gray-700 text-lg leading-relaxed italic mb-6">
-                "{testimonials[activeTestimonial].content}"
-              </p>
-              <div class="bg-gradient-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-lg px-4 py-3 inline-block">
-                <span class="text-[var(--primary)] font-semibold text-sm">
-                  Project: {testimonials[activeTestimonial].project}
-                </span>
+            <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
+              "{testimonial.testimonial || testimonial.feedback}"
+            </p>
+            <div class="flex items-center justify-between mt-4">
+              <div class="flex">
+                {#each Array(5) as _, i}
+                  <Star class="w-3 h-3 {i < testimonial.rating ? 'fill-[var(--secondary)] text-[var(--secondary)]' : 'fill-gray-200 text-gray-300'}" />
+                {/each}
               </div>
+              <span class="text-xs text-gray-500">
+                {new Date(testimonial.created_at).toLocaleDateString()}
+              </span>
             </div>
           </div>
-        </div>
-
-        <!-- Testimonial Navigation -->
-        <div class="flex justify-center space-x-3">
-          {#each testimonials as _, i}
-            <button
-              class="w-3 h-3 rounded-full transition-all duration-300 {i === activeTestimonial ? 'bg-[var(--primary)] scale-125' : 'bg-gray-300 hover:bg-gray-400'}"
-              onclick={() => setActiveTestimonial(i)}
-            />
-          {/each}
-        </div>
-
-        <!-- Testimonial Grid (Small screens) -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {#each testimonials.slice(0, 3) as testimonial, i}
-            <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/20 transition-all duration-300 hover:shadow-lg">
-              <div class="flex items-start space-x-3 mb-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span class="text-[var(--primary)] font-black text-sm">
-                    {testimonial.name.split(' ').map(n => n[0]).join('')}
-                  </span>
-                </div>
-                <div>
-                  <h4 class="font-black text-gray-900">{testimonial.name}</h4>
-                  <p class="text-[var(--primary)] text-sm font-semibold">{testimonial.company}</p>
-                </div>
-              </div>
-              <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                "{testimonial.content}"
-              </p>
-              <div class="flex mt-3">
-                {#each Array(testimonial.rating) as _, i}
-                  <Star class="w-3 h-3 fill-[var(--secondary)] text-[var(--secondary)]" />
-                {/each}
-              </div>
-            </div>
-          {/each}
-        </div>
+        {/each}
       </div>
-    </div>
-  </section>
+
+      <!-- View All Reviews Button -->
+      <div class="text-center mt-12">
+        <a href="/reviews" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+          View All Reviews
+          <ArrowRight class="w-4 h-4 ml-2" />
+        </a>
+      </div>
+    {/if}
+  </div>
+</section>
 
   <!-- Creative CTA Section -->
   <section class="py-20 px-4 relative overflow-hidden">
