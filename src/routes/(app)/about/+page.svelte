@@ -9,25 +9,25 @@
 
     const team = [
         {
-            name: 'Alex Ryder',
+            name: 'Official Ryder',
             role: 'Founder & CEO',
-            bio: '10+ years in software development and business strategy.',
+            bio: '6+ years in software development and business strategy.',
             image: '/api/placeholder/200/200'
         },
         {
-            name: 'Sarah Chen',
+            name: 'VIctor Onourah',
             role: 'Lead Developer',
             bio: 'Full-stack developer specializing in modern web technologies.',
             image: '/api/placeholder/200/200'
         },
         {
-            name: 'Mike Rodriguez',
+            name: 'Mike james',
             role: 'Mobile Specialist',
             bio: 'Cross-platform mobile development expert.',
             image: '/api/placeholder/200/200'
         },
         {
-            name: 'Emily Watson',
+            name: 'Unstoppqble',
             role: 'UX/UI Designer',
             bio: 'Creating intuitive and beautiful user experiences.',
             image: '/api/placeholder/200/200'

@@ -9,6 +9,7 @@
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
   import { Input } from '$lib/components/ui/input';
+  import { goto } from '$app/navigation'
   
   let { data } = $props()
   console.log(data)
@@ -28,7 +29,7 @@
 
   const popularTags = [
     'Svelte', 'React', 'AWS', 'AI', 'Security', 
-    'Performance', 'Design', 'JavaScript', 'Node.js'
+    'Performance', 'Design', 'JavaScript', 'Node.js', 'business'
   ];
 
   // State
@@ -436,11 +437,11 @@
         Let's discuss how our expertise can help you build the next generation of digital solutions.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button variant="secondary" size="lg" class="text-lg">
+        <Button href="/contact" variant="secondary" size="lg" class="text-lg">
           Start Your Project
           <ArrowRight class="w-5 h-5 ml-2" />
         </Button>
-        <Button variant="outline" size="lg" class="text-lg bg-transparent border-white text-white hover:bg-white hover:text-[var(--primary)]">
+        <Button href="/services" variant="outline" size="lg" class="text-lg bg-transparent border-white text-white hover:bg-white hover:text-[var(--primary)]">
           Browse Our Services
         </Button>
       </div>
