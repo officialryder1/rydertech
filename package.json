@@ -49,6 +49,7 @@
 		"@supabase/supabase-js": "^2.79.0",
 		"@vercel/analytics": "^1.6.1",
 		"mode-watcher": "^1.1.0",
+		"openai": "^6.16.0",
 		"svelte-sonner": "^1.0.7"
 	}
 }

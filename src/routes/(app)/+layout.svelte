@@ -27,20 +27,8 @@
         detectServiceWorkerUpdate();
     });
 
+
 	onMount(() => {
-		const handleScroll = () => scrollY = window.scrollY;
-		const handleMouseMove = (e) => {
-		mouseX = e.clientX;
-		mouseY = e.clientY;
-		};
-
-		window.addEventListener('scroll', handleScroll);
-		window.addEventListener('mousemove', handleMouseMove);
-
-		return () => {
-		window.removeEventListener('scroll', handleScroll);
-		window.removeEventListener('mousemove', handleMouseMove);
-		};
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
@@ -57,6 +45,22 @@
         observer.observe(img);
       });
     }
+    
+		const handleScroll = () => scrollY = window.scrollY;
+		const handleMouseMove = (e) => {
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+		};
+
+		window.addEventListener('scroll', handleScroll);
+		window.addEventListener('mousemove', handleMouseMove);
+
+		return () => {
+		window.removeEventListener('scroll', handleScroll);
+		window.removeEventListener('mousemove', handleMouseMove);
+		};
+
+    
 	});
 
   async function detectServiceWorkerUpdate() {
