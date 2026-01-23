@@ -3,6 +3,7 @@
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
   import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail } from "@lucide/svelte";
+  import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   
   // Define your theme colors
   const theme = {
@@ -12,6 +13,18 @@
     muted: 'hsl(var(--muted))',
     background: 'hsl(var(--background))',
   };
+  let showNewsletter = $state(false);
+
+  function handleNewsletterClose() {
+    showNewsletter = false;
+    // Remember that user closed the modal (don't show for 7 days)
+    localStorage.setItem('rydertech_newsletter_closed', 'true');
+    setTimeout(() => {
+      localStorage.removeItem('rydertech_newsletter_closed');
+    }, 7 * 24 * 60 * 60 * 1000); // 7 days
+  }
+
+  
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-secondary/5">
@@ -22,6 +35,12 @@
         <Sparkles class="w-4 h-4 text-primary" />
         <span class="text-sm font-medium text-primary">EXPERIMENTAL LABS</span>
       </div>
+
+      <NewsLetterModel 
+        show={showNewsletter}
+        onClose={handleNewsletterClose}
+        onSubscribe={handleNewsletterSubscribe}
+    />
       
       <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
         RyderTech <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Labs</span>

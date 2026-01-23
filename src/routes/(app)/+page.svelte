@@ -18,7 +18,13 @@
     Cpu,
     Zap,
     Sparkles,
-    Quote
+    Quote,
+    Calculator, 
+    FileText, 
+    LayoutGrid,
+    Bell,
+    Mail,
+    Badge
   } from '@lucide/svelte';
 
   let showNewsletter = $state(false);
@@ -517,6 +523,203 @@
     </div>
   </section>
 
+  <!-- RyderTech Labs Showcase -->
+<section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)]/5 via-white to-[var(--secondary)]/5 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-[var(--secondary)]/10 to-[var(--accent)]/10 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="container mx-auto max-w-6xl relative z-10">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-[var(--primary)]/20 to-[var(--secondary)]/20 border border-[var(--primary)]/30 rounded-full px-4 py-2 text-sm text-[var(--primary-dark)] font-semibold mb-4">
+        <Sparkles class="w-4 h-4" />
+        <span>FREE TOOLS & RESOURCES</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+        Explore <span class="gradient-text">RyderTech Labs</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Free AI-powered tools to help founders plan, validate, and build better digital products.
+      </p>
+    </div>
+
+    <!-- Labs Tools Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      <!-- Website Cost Estimator Card -->
+      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl">
+            <Calculator class="w-6 h-6 text-blue-600" />
+          </div>
+          <Badge variant="outline" class="text-xs font-semibold border-[var(--secondary)]/30 text-[var(--secondary-dark)]">
+            <Sparkles class="w-3 h-3 mr-1" />
+            NEW
+          </Badge>
+        </div>
+        
+        <h3 class="text-xl font-black text-gray-900 mb-3">Website Cost Estimator</h3>
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Get a rough estimate of what it would cost to build your website based on your idea. 
+          Get estimates in NGN or USD with real-time exchange rates.
+        </p>
+        
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center text-sm">
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Free to use, no signup required</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">NGN & USD currency support</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Based on 50+ real projects</span>
+          </div>
+        </div>
+        
+        <a 
+          href="/labs/cost-estimator" 
+          class="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
+        >
+          Try Free Tool
+          <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+        </a>
+      </div>
+
+      <!-- Website Copy Analyzer Card (Coming Soon) -->
+      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl">
+            <FileText class="w-6 h-6 text-purple-600" />
+          </div>
+          <Badge variant="outline" class="text-xs font-semibold border-gray-300 text-gray-500">
+            COMING SOON
+          </Badge>
+        </div>
+        
+        <h3 class="text-xl font-black text-gray-900 mb-3">Website Copy Analyzer</h3>
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Analyze your homepage copy and get AI-powered feedback on clarity and conversion potential.
+        </p>
+        
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center text-sm">
+            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+            </div>
+            <span class="text-gray-500">AI-powered feedback</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+            </div>
+            <span class="text-gray-500">SEO optimization tips</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+            </div>
+            <span class="text-gray-500">Conversion rate insights</span>
+          </div>
+        </div>
+        
+        <button 
+          disabled
+          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
+        >
+          Notify Me When Ready
+          <Bell class="w-4 h-4 ml-2" />
+        </button>
+      </div>
+
+      <!-- MVP Feature Planner Card (Coming Soon) -->
+      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 rounded-xl">
+            <LayoutGrid class="w-6 h-6 text-emerald-600" />
+          </div>
+          <Badge variant="outline" class="text-xs font-semibold border-gray-300 text-gray-500">
+            COMING SOON
+          </Badge>
+        </div>
+        
+        <h3 class="text-xl font-black text-gray-900 mb-3">MVP Feature Planner</h3>
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Prioritize features for your app or product MVP with AI-powered recommendations.
+        </p>
+        
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center text-sm">
+            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+            </div>
+            <span class="text-gray-500">AI-powered prioritization</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+            </div>
+            <span class="text-gray-500">Timeline estimation</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+            </div>
+            <span class="text-gray-500">Resource planning</span>
+          </div>
+        </div>
+        
+        <button 
+          disabled
+          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
+        >
+          Notify Me When Ready
+          <Bell class="w-4 h-4 ml-2" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Labs Call to Action -->
+    <div class="text-center">
+      <div class="bg-white rounded-2xl p-8 border-2 border-[var(--primary)]/20 shadow-lg max-w-3xl mx-auto">
+        <div class="flex items-center justify-center mb-6">
+          <div class="p-3 bg-gradient-to-r from-[var(--primary)]/20 to-[var(--secondary)]/20 rounded-xl mr-4">
+            <Globe class="w-6 h-6 text-[var(--primary)]" />
+          </div>
+          <div>
+            <h3 class="text-2xl font-black text-gray-900">More Tools Coming Soon</h3>
+            <p class="text-gray-600">We're constantly building new tools to help founders and product teams.</p>
+          </div>
+        </div>
+        
+        <div class="grid sm:grid-cols-2 gap-4 mt-6">
+          <a 
+            href="/labs" 
+            class="py-3 px-6 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
+          >
+            Explore All Tools
+            <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+          </a>
+          
+          <button 
+            on:click={() => showNewsletter = true}
+            class="py-3 px-6 border-2 border-[var(--primary)]/30 text-[var(--primary)] font-semibold rounded-xl hover:border-[var(--primary)]/60 hover:bg-[var(--primary)]/5 transition-all duration-300 flex items-center justify-center group"
+          >
+            <Mail class="w-4 h-4 mr-2" />
+            Get Lab Updates
+          </button>
+        </div>
+        
+        <p class="text-sm text-gray-500 mt-4">
+          Subscribe to be first to know about new tools, features, and exclusive content.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
   <!-- Testimonials Section -->
 <section class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
   <div class="container mx-auto max-w-6xl px-4">
@@ -633,5 +836,24 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .tool-card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .tool-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Pulse animation for the "NEW" badge */
+  @keyframes gentle-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  .pulse-gentle {
+    animation: gentle-pulse 2s ease-in-out infinite;
   }
 </style>
