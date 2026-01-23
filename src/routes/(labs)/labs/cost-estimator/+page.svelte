@@ -5,6 +5,8 @@
   import { Badge } from "$lib/components/ui/badge";
   import { ArrowLeft, ArrowRight, Calculator, Mail, MessageSquare, Sparkles, ChevronRight, Clock, Layers, Palette, Globe, DollarSign, RefreshCw } from "@lucide/svelte";
   import { fade } from "svelte/transition";
+
+
   
   // Currency types and state
   type Currency = 'USD' | 'NGN';
@@ -344,6 +346,8 @@
         max: convertToNGN(costRangeUSD.max) 
       };
 </script>
+
+
 
 <div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-secondary/5 py-8">
   <div class="container mx-auto px-4 max-w-4xl">
