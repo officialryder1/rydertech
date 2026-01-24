@@ -6,8 +6,8 @@
     Calendar, Eye, CheckCircle, XCircle, Filter,
     Download, Search, Plus, ArrowRight, BarChart3,
     Shield, Settings, Bell, ChevronDown, MoreHorizontal,
-    X, FileText  // Added missing imports
-  } from '@lucide/svelte'; // Removed @ from import path
+    X, FileText  
+  } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';

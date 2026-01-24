@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Twitter, Linkedin, Link, Mail, Facebook } from 'lucide-svelte';
+  import { Twitter, Linkedin, Link, Mail, Facebook } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { toast } from 'svelte-sonner';
 

@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { supabase } from '$lib/supabaseClient';
   import { Button } from '$lib/components/ui/button';
-  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
+  import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
   import { Check, X, Trash2, ChevronLeft } from '@lucide/svelte';
   import StarRating from '$lib/components/ui/star-rating.svelte';

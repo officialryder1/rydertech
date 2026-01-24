@@ -24,6 +24,34 @@
     }, 7 * 24 * 60 * 60 * 1000); // 7 days
   }
 
+   async function handleNewsletterSubscribe(email) {
+    // Here you would integrate with your actual email service
+    console.log('Subscribing email:', email);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Store subscription in localStorage
+    localStorage.setItem('rydertech_newsletter_subscribed', 'true');
+    
+    // In a real app, you would send this to your backend/email service
+    // Example with fetch:
+    /*
+    try {
+      const response = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      if (!response.ok) throw new Error('Subscription failed');
+    } catch (error) {
+      console.error('Subscription error:', error);
+      throw error;
+    }
+    */
+  }
+
   
 </script>
 

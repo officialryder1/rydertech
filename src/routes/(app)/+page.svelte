@@ -704,7 +704,7 @@
           </a>
           
           <button 
-            on:click={() => showNewsletter = true}
+            onclick={() => showNewsletter = true}
             class="py-3 px-6 border-2 border-[var(--primary)]/30 text-[var(--primary)] font-semibold rounded-xl hover:border-[var(--primary)]/60 hover:bg-[var(--primary)]/5 transition-all duration-300 flex items-center justify-center group"
           >
             <Mail class="w-4 h-4 mr-2" />

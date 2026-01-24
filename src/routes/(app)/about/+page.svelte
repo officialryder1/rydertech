@@ -1,10 +1,10 @@
 <script>
     import { 
         Users, Target, Eye, Heart, Award, Clock,
-        ArrowRight, Mail, MessageCircle, MapPin
+        ArrowRight, Mail, MessageCircle
     } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
-    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
+    import { Card, CardDescription, CardTitle } from '$lib/components/ui/card';
     import { Badge } from '$lib/components/ui/badge';
 
     const team = [

@@ -1,5 +1,4 @@
 <script>
-    import { page } from '$app/stores';
 
     let { title, date, author, excerpt, category, readTime, tags=[], image } = $props();
 </script>

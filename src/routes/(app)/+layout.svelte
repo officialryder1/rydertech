@@ -5,12 +5,8 @@
 	import { onMount } from 'svelte';
  
 	import { 
-    Code, 
     CircuitBoard,
     Zap,
-    Sparkles,
-    ArrowRight,
-    MessageCircle,
     Mail,
     Phone,
     MapPin
@@ -45,7 +41,7 @@
         observer.observe(img);
       });
     }
-    
+
 		const handleScroll = () => scrollY = window.scrollY;
 		const handleMouseMove = (e) => {
 		mouseX = e.clientX;
