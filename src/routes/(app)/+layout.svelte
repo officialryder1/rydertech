@@ -4,6 +4,7 @@
   import { dev, browser} from '$app/environment';
 	import { onMount } from 'svelte';
   import { afterNavigate } from '$app/navigation';
+  import { page } from '$app/stores'
  
 	import { 
     CircuitBoard,
