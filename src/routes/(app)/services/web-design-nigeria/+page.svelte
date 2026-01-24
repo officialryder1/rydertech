@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Globe, CheckCircle, Zap, Shield } from '@lucide/svelte';
+  import { Globe, CheckCircle } from '@lucide/svelte';
   
   const services = [
     { title: 'Responsive Website Design', description: 'Mobile-friendly websites that work perfectly on all devices' },

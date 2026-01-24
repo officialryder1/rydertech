@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import { 
     Calendar, User, Clock, ArrowRight, Search, 
     Tag, BookOpen, TrendingUp, Filter, ChevronDown,

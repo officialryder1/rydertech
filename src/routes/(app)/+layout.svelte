@@ -1,8 +1,9 @@
 <script lang="ts">
 	import '../../app.css';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit'
-    import { dev } from '$app/environment';
+  import { dev, browser} from '$app/environment';
 	import { onMount } from 'svelte';
+  import { afterNavigate } from '$app/navigation';
  
 	import { 
     CircuitBoard,
@@ -18,6 +19,16 @@
 	let mouseX = $state(0);
   	let mouseY = $state(0);
 	let date = new Date();
+
+  // afterNavigate runs every time the route changes
+  afterNavigate(() => {
+    if (browser && window.gtag) {
+      window.gtag('config', 'G-KXN2CLVLK9', {
+        page_path: $page.url.pathname,
+        page_title: document.title
+      })
+    }
+  })
 	
    onMount(() => {
         detectServiceWorkerUpdate();

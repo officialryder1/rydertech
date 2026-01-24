@@ -152,7 +152,7 @@
     const a = document.createElement('a');
     a.href = url;
     a.download = filename;
-    aclick(); // Fixed: added parentheses
+    a.click(); // Fixed: added parentheses
     window.URL.revokeObjectURL(url);
   }
 

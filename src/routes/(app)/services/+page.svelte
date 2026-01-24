@@ -1,8 +1,7 @@
 <script>
-    import { onMount } from 'svelte';
     import { 
         Globe, Smartphone, Database, Cloud, Shield, Code,
-        CheckCircle, ArrowRight, Zap, Users, Clock, Star,
+        CheckCircle, ArrowRight, Zap, Users,
         MessageCircle, Mail
     } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';

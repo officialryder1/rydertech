@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { supabase } from '$lib/supabaseClient';
-  import { Star, Quote, Filter, Calendar, Star as StarIcon } from '@lucide/svelte';
+  import { Star, Quote, Calendar, Star as StarIcon } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
 
   let reviews: any[] = [];
@@ -108,20 +108,20 @@
       <div class="flex flex-wrap justify-center gap-4 mb-12">
         <Button 
           variant={filter === 'all' ? 'default' : 'outline'}
-          on:click={() => filter = 'all'}
+          onclick={() => filter = 'all'}
         >
           All Reviews
         </Button>
         <Button 
           variant={filter === '5-star' ? 'default' : 'outline'}
-          on:click={() => filter = '5-star'}
+          onclick={() => filter = '5-star'}
         >
           <StarIcon class="w-4 h-4 mr-2" />
           5-Star Reviews
         </Button>
         <Button 
           variant={filter === 'recent' ? 'default' : 'outline'}
-          on:click={() => filter = 'recent'}
+          onclick={() => filter = 'recent'}
         >
           <Calendar class="w-4 h-4 mr-2" />
           Recent (30 Days)

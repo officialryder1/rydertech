@@ -837,15 +837,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
-  .tool-card-hover {
-    transition: all 0.3s ease;
-  }
-  
-  .tool-card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
   
   /* Pulse animation for the "NEW" badge */
   @keyframes gentle-pulse {
@@ -853,7 +844,4 @@
     50% { opacity: 0.8; }
   }
   
-  .pulse-gentle {
-    animation: gentle-pulse 2s ease-in-out infinite;
-  }
 </style>
