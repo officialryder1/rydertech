@@ -156,6 +156,7 @@
                             src={member.image} 
                             alt={member.name}
                             class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                            loading="lazy"
                         />
                         <CardTitle class="text-lg mb-2">{member.name}</CardTitle>
                         <Badge variant="secondary" class="mb-3">{member.role}</Badge>

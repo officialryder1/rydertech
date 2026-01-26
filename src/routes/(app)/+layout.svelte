@@ -18,7 +18,8 @@
 	let { children } = $props();
 	let scrollY = $state(0);
 	let mouseX = $state(0);
-  	let mouseY = $state(0);
+  let mouseY = $state(0);
+  let lastTick = $state(0)
 	let date = new Date();
 
   // afterNavigate runs every time the route changes
@@ -30,45 +31,32 @@
       })
     }
   })
+
+  const handleMouseMove = (e: MouseEvent) => {
+    const now = Date.now();
+    if (now - lastTick < 16) return; // Throttle to ~60
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    lastTick = now;
+  }
 	
-   onMount(() => {
+  onMount(() => {
         detectServiceWorkerUpdate();
     });
 
 
 	onMount(() => {
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target as HTMLImageElement;
-            img.src = img.dataset.src || '';
-            observer.unobserve(img);
-          }
-        })
-      })
-
-      document.querySelectorAll('img[data-src]').forEach(img => {
-        observer.observe(img);
-      });
-    }
-
 		const handleScroll = () => scrollY = window.scrollY;
-		const handleMouseMove = (e) => {
-		mouseX = e.clientX;
-		mouseY = e.clientY;
-		};
 
-		window.addEventListener('scroll', handleScroll);
-		window.addEventListener('mousemove', handleMouseMove);
+		window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-		return () => {
-		window.removeEventListener('scroll', handleScroll);
-		window.removeEventListener('mousemove', handleMouseMove);
-		};
-
-    
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('mousemove', handleMouseMove);
+    };
 	});
 
   async function detectServiceWorkerUpdate() {
@@ -94,6 +82,8 @@
 	<title>RyderTech - Leading Web Design & Software Agency in Nigeria</title>
 	<meta name="description" content="RyderTech is Nigeria's top web design and software development agency. We create custom websites, mobile apps, and digital solutions for businesses across Nigeria." />
 
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Open Graph -->

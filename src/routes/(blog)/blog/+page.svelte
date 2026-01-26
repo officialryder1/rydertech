@@ -112,6 +112,7 @@
                 src={featuredPost.image} 
                 alt={featuredPost.title}
                 class="w-full h-full object-cover"
+                loading="lazy"
               />
               <div class="absolute top-4 left-4">
                 <Badge class="bg-[var(--secondary)] text-gray-900 border-none">
@@ -306,6 +307,7 @@
                       src={post.image} 
                       alt={post.title}
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading = "lazy"
                     />
                     {#if post.featured}
                       <div class="absolute top-3 left-3">

@@ -132,6 +132,7 @@
                                 src={project.image} 
                                 alt={project.title}
                                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                loading="lazy"
                             />
                             {#if project.featured}
                                 <Badge class="absolute top-3 left-3 bg-primary">Featured</Badge>
