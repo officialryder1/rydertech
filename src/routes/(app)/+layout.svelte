@@ -5,7 +5,9 @@
 	import { onMount } from 'svelte';
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/stores'
- 
+
+  import '@fontsource-variable/inter';
+
 	import { 
     CircuitBoard,
     Zap,
@@ -82,9 +84,7 @@
 	<title>RyderTech - Leading Web Design & Software Agency in Nigeria</title>
 	<meta name="description" content="RyderTech is Nigeria's top web design and software development agency. We create custom websites, mobile apps, and digital solutions for businesses across Nigeria." />
 
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
 
   <!-- Open Graph -->
    <meta property="og:type" content="website" />
@@ -255,6 +255,6 @@
   }
   
   :global(body) {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter Variable', sans-serif;
   }
 </style>
