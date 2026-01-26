@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   
   // Define your theme colors
@@ -124,10 +124,13 @@
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button class="w-full gap-2 group-hover:bg-purple-600">
-            Analyze Copy
-            <ArrowRight class="w-4 h-4" />
-          </Button>
+          <button 
+          disabled
+          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
+        >
+          Notify Me When Ready
+          <Bell class="w-4 h-4 ml-2" />
+        </button>
         </CardContent>
       </Card>
 
@@ -143,10 +146,13 @@
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button class="w-full gap-2 group-hover:bg-emerald-600">
-            Plan Features
-            <ArrowRight class="w-4 h-4" />
-          </Button>
+          <button 
+          disabled
+          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
+        >
+          Notify Me When Ready
+          <Bell class="w-4 h-4 ml-2" />
+        </button>
         </CardContent>
       </Card>
 
@@ -214,7 +220,7 @@
           </p>
           
           <div class="pt-4">
-            <Button variant="outline" size="lg" class="gap-2 group">
+            <Button variant="outline" size="lg" class="gap-2 group" href="/contact">
               Need this built professionally?
               <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
@@ -259,7 +265,7 @@
           this expertise to your project.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" class="gap-2 px-8">
+          <Button size="lg" class="gap-2 px-8" href="/contact">
             <Mail class="w-4 h-4" />
             Contact RyderTech
           </Button>

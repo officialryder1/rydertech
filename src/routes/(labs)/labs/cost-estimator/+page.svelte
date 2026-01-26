@@ -963,14 +963,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Smooth transitions */
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity 300ms ease, transform 300ms ease;
-  }
-  .fade-enter-from, .fade-leave-to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-</style>

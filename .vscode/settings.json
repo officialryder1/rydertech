@@ -12,5 +12,9 @@
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#ff450099",
         "titleBar.inactiveForeground": "#e7e7e799"
-    }
+    },
+    "cSpell.words": [
+        "rydertech",
+        "supabase"
+    ]
 }

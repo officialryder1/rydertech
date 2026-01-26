@@ -1,6 +1,7 @@
 <script>
 
-    let { title, date, author, excerpt, category, readTime, tags=[], image } = $props();
+    let { title, date, author, excerpt, category, readTime, tags=[], image, children } = $props();
+
 </script>
 
 <svelte:head>
@@ -55,7 +56,7 @@
 
     <!-- Blog Content -->
     <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted prose-li:text-muted-foreground">
-      <slot />
+      {@render children()}
     </div>
 
     <!-- Tags -->
@@ -77,7 +78,7 @@
         ← Back to Blog
       </a>
       <button 
-        on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onclick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         class="text-muted-foreground hover:text-foreground flex items-center"
       >
         Back to top ↑
@@ -91,7 +92,7 @@
     line-height: 1.75;
   }
   
-  .prose h2 {
+  /* .prose h2 {
     font-size: 1.875em;
     margin-top: 2em;
     margin-bottom: 1em;
@@ -135,5 +136,5 @@
     padding-left: 1.5em;
     margin: 1.5em 0;
     font-style: italic;
-  }
+  } */
 </style>
