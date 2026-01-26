@@ -265,12 +265,11 @@
 
 <div class="min-h-screen bg-white overflow-hidden">
   <!-- Animated Background -->
-  <div class="fixed inset-0 pointer-events-none geometric-pattern" />
+  <div class="fixed inset-0 pointer-events-none geometric-pattern"></div>
   
   <!-- Floating Shapes -->
-  <div class="fixed top-20 right-20 w-64 h-64 floating-shapes" />
-  <div class="fixed bottom-40 left-10 w-48 h-48 floating-shapes" style="animation-delay: 2s;" />
-
+  <div class="fixed top-20 right-20 w-64 h-64 floating-shapes"></div>
+  <div class="fixed bottom-40 left-10 w-48 h-48 floating-shapes" style="animation-delay: 2s;"></div>
   
     <NewsLetterModel 
         show={showNewsletter}
@@ -409,7 +408,7 @@
               <div class="p-4 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-2xl border border-[var(--primary)]/20 group-hover:border-[var(--primary)]/40 transition-all duration-300 group-hover:scale-110">
                 <stat.icon class="w-6 h-6 text-[var(--primary)]" />
               </div>
-              <div class="absolute -inset-2 bg-[var(--primary)]/5 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300" />
+              <div class="absolute -inset-2 bg-[var(--primary)]/5 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
             </div>
             <div class="text-3xl font-black text-gray-900 mb-2">{stat.number}</div>
             <div class="text-gray-600 font-medium">{stat.label}</div>
@@ -793,9 +792,9 @@
 
   <!-- Creative CTA Section -->
   <section class="py-20 px-4 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-[var(--accent)] to-[var(--primary-dark)]" />
-    <div class="absolute inset-0 bg-black/10" />
-    
+    <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-[var(--accent)] to-[var(--primary-dark)]"></div>
+    <div class="absolute inset-0 bg-black/10"></div>
+
     <div class="container mx-auto max-w-4xl text-center relative z-10">
       <div class="glass-card rounded-3xl p-12 border border-white/20">
         <Cpu class="w-16 h-16 mx-auto mb-6 text-white" />
