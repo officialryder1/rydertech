@@ -30,9 +30,52 @@
   let showNewsletter = $state(false);
   let realTestimonials = $state([])
   let loading = $state(true)
+  let lastTick = $state(0)
 
   onMount(async () => {
+    // 1. data loading
     await loadTestimonials();
+
+    // 2. newsletter logic
+    const hasSubscribed = localStorage.getItem('rydertech_newsletter_subscribed');
+    const modalClosedRecently = localStorage.getItem('rydertech_newsletter_closed');
+    
+    if (!hasSubscribed && !modalClosedRecently) {
+      setTimeout(() => showNewsletter = true, 3000);
+    }
+
+    // 3. Optimized Event Listeners
+    const handleScroll = () => scrollY = window.scrollY;
+    
+    const handleMouseMove = (e) => {
+      const now = Date.now();
+      if (now - lastTick < 16) return; // Cap at ~60fps
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      lastTick = now;
+    };
+
+    const handleMouseLeave = (e) => {
+      if (e.clientY < 0 && !hasSubscribed && !modalClosedRecently) {
+        showNewsletter = true;
+      }
+    };
+
+    // Auto-rotate testimonials
+    const testimonialInterval = setInterval(() => {
+      activeTestimonial = (activeTestimonial + 1) % testimonials.length;
+    }, 5000);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      clearInterval(testimonialInterval);
+    };
   })
 
   async function loadTestimonials() {
@@ -198,32 +241,7 @@
     };
   });
 
-  function setActiveTestimonial(index) {
-    activeTestimonial = index;
-  }
 
-  onMount(() => {
-    // Check if user has already subscribed
-    const hasSubscribed = localStorage.getItem('rydertech_newsletter_subscribed');
-    const modalClosedRecently = localStorage.getItem('rydertech_newsletter_closed');
-    
-    // Show modal after 3 seconds if not subscribed and not recently closed
-    if (!hasSubscribed && !modalClosedRecently) {
-      setTimeout(() => {
-        showNewsletter = true;
-      }, 3000);
-    }
-
-    // Exit intent detection
-    const handleMouseLeave = (e) => {
-      if (e.clientY < 0 && !hasSubscribed && !modalClosedRecently) {
-        showNewsletter = true;
-      }
-    };
-
-    document.addEventListener('mouseleave', handleMouseLeave);
-    return () => document.removeEventListener('mouseleave', handleMouseLeave);
-  });
 
   function handleNewsletterClose() {
     showNewsletter = false;
@@ -285,7 +303,7 @@
         <div class="space-y-8">
           <!-- Badge -->
           <div class="inline-flex items-center space-x-2 bg-[var(--primary)]/10 border border-[var(--primary)]/20 rounded-full px-4 py-2 text-sm text-[var(--primary)] font-semibold">
-            <div class="w-2 h-2 bg-[var(--secondary)] rounded-full animate-pulse" />
+            <div class="w-2 h-2 bg-[var(--secondary)] rounded-full animate-pulse"></div>
             <span>CREATIVE TECH SOLUTIONS</span>
           </div>
           
@@ -523,7 +541,7 @@
   </section>
 
   <!-- RyderTech Labs Showcase -->
-<section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)]/5 via-white to-[var(--secondary)]/5 relative overflow-hidden">
+<section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)]/5 via-white to-[var(--secondary)]/5 relative overflow-hidden" aria-labelledby="rydertech-labs">
   <div class="absolute inset-0 pointer-events-none">
     <div class="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full blur-3xl"></div>
     <div class="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-[var(--secondary)]/10 to-[var(--accent)]/10 rounded-full blur-3xl"></div>
