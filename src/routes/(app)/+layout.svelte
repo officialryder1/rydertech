@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/stores'
-
+  import Navbar from '$lib/components/Navbar.svelte';
   import '@fontsource-variable/inter';
 
 	import { 
@@ -150,44 +150,7 @@ function applyUpdate() {
   <div class="fixed bottom-40 left-10 w-48 h-48 floating-shapes" style="animation-delay: 2s;"></div>
 
   <!-- Navigation -->
-  <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-300" class:py-8={scrollY < 100} class:py-4={scrollY >= 100}>
-    <div class="container mx-auto px-4 flex justify-between items-center">
-      <!-- Creative Logo -->
-      <a href="/" class="flex items-center space-x-3 group cursor-pointer">
-        <div class="relative">
-          <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-            <CircuitBoard class="w-6 h-6 text-white" />
-          </div>
-          <div class="absolute -inset-2 bg-[var(--primary)]/20 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
-        </div>
-        <div>
-          <span class="text-2xl font-black bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">RYDER</span>
-          <span class="text-2xl font-black text-[var(--secondary)]">TECH</span>
-        </div>
-      </a>
-      
-      <!-- Navigation Links -->
-      <div class="hidden md:flex space-x-5 pr-5">
-        {#each ['Services', 'Work', 'About', 'Reviews', 'Contact'] as item}
-          <a 
-            href="/{item.toLowerCase()}" 
-            class="text-gray-700 hover:text-[var(--primary)] font-semibold transition-all duration-300 relative group"
-          >
-            {item}
-            <div class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] group-hover:w-full transition-all duration-300"></div>
-          </a>
-        {/each}
-      </div>
-
-      <!-- Creative CTA Button -->
-      <a href="/contact" class="creative-button px-8 py-3 text-white font-semibold rounded-xl overflow-hidden">
-        <span class="flex items-center">
-          Start Project
-          <Zap class="w-4 h-4 ml-2" />
-        </span>
-      </a>
-    </div>
-  </nav>
+  <Navbar />
 
   <!-- Main Content -->
   <main>
