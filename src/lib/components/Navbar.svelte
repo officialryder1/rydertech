@@ -172,8 +172,8 @@
           
           <div class="text-center text-sm text-gray-500">
             <p>Need help? Call us:</p>
-            <a href="tel:+2348145225985" class="text-[var(--primary)] font-semibold hover:underline">
-              +234 814 522 5985
+            <a href="tel:+2349033147769" class="text-[var(--primary)] font-semibold hover:underline">
+              +234 903 314 7769
             </a>
           </div>
         </div>
