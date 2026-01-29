@@ -153,7 +153,7 @@
 
               <!-- Tags -->
               <div class="flex flex-wrap gap-2 mb-6">
-                {#each featuredPost.tags.slice(0, 3) as tag}
+                {#each (featuredPost.tags || []).slice(0, 3) as tag}
                   <Badge variant="outline" class="text-xs">
                     <Tag class="w-3 h-3 mr-1" />
                     {tag}
@@ -354,7 +354,7 @@
 
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-1 mb-4">
-                      {#each post.tags.slice(0, 2) as tag}
+                      {#each (post.tags || []).slice(0, 2) as tag}
                         <Badge variant="outline" class="text-xs">
                           {tag}
                         </Badge>

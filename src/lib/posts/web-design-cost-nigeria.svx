@@ -8,7 +8,6 @@ tags: ["web design nigeria", "website pricing", "nigerian business", "web develo
 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF2RntBOPnDjOVOZx5sLdgRpkszVJh8srS8g&s"
 views: 100,
 comments: 10
-featured: true,
 schemaType: "Article"
 category: "Web Design"
 readingTime: "5 min read"

@@ -1,13 +1,16 @@
 <script>
+  import Seo from '$lib/components/seo/Seo.svelte';
 
-    let { title, date, author, excerpt, category, readTime, tags=[], image, children } = $props();
+  let { title, date, author, excerpt, category, readTime, tags = [], image, children, seoTitle, keywords, ogTitle, ogDescription, twitterText, slug } = $props();
 
+  const metaTitle = seoTitle ?? `${title} - RyderTech Blog`;
+  const metaDescription = ogDescription ?? excerpt;
+  const canonical = `https://rydertech.ng/blog/${slug ?? ''}`;
+  const og = { title: ogTitle ?? metaTitle, description: metaDescription, type: 'article', url: canonical, image: image ?? 'https://rydertech.ng/icons/og-image.png' };
+  const twitter = { card: 'summary_large_image', site: '@rydertech', title: metaTitle, description: twitterText ?? metaDescription, image: og.image };
 </script>
 
-<svelte:head>
-  <title>{title} - RyderTech Blog</title>
-  <meta name="description" content={excerpt} />
-</svelte:head>
+<Seo title={metaTitle} description={metaDescription} keywords={keywords ?? ''} canonical={canonical} {og} {twitter} />
 
 <article class="min-h-screen bg-background pt-32 pb-20">
   <div class="container mx-auto max-w-4xl px-4">

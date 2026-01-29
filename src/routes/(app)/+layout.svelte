@@ -90,8 +90,6 @@ function applyUpdate() {
 	<title>RyderTech - Leading Web Design & Software Agency in Nigeria</title>
 	<meta name="description" content="RyderTech is Nigeria's top web design and software development agency. We create custom websites, mobile apps, and digital solutions for businesses across Nigeria." />
 
-
-
   <!-- Open Graph -->
    <meta property="og:type" content="website" />
    <meta property="og:url" content="https://rydertech.ng"/>

@@ -1,0 +1,229 @@
+---
+title: "Scaling a Multi-Vendor Marketplace in Nigeria: Technical Lessons from Discova.ng"
+date: 2026-01-29
+author: "Official Ryder"
+excerpt: "Learn how RyderTech scaled Discova.ng with SvelteKit, adaptive image orchestration, edge caching and a resilient payment orchestration layer — practical technical lessons for building fast, reliable marketplaces in Nigeria."
+readTime: "8 min read"
+tags: ["web design nigeria", "scaling business", "E-commerce"]
+image: "/src/lib/assets/scale.png"
+views: 100
+comments: 10
+featured: true
+schemaType: "Article"
+category: "Web Design"
+readingTime: "5 min read"
+
+# SEO fields
+slug: "scaling-multi-vendor-marketplace-nigeria"
+seoTitle: "Scaling Discova.ng — Resilient Multi‑Vendor Marketplace Lessons"
+keywords: "multi-vendor marketplace Nigeria, scale marketplace, marketplace architecture, SvelteKit marketplace, ecommerce Nigeria, adaptive images, edge caching, payment orchestration"
+ogTitle: "Scaling Discova.ng — Resilient Multi‑Vendor Marketplace Lessons"
+ogDescription: "A technical case study from RyderTech on scaling Discova.ng: multi-tenant architecture, image orchestration, edge caching and payment orchestration that improved performance and vendor trust in Nigeria."
+twitterText: "How RyderTech scaled Discova.ng with SvelteKit, edge caching & payment orchestration — actionable engineering lessons for Nigerian marketplaces."
+
+---
+
+<div class="max-w-4xl mx-auto">
+
+## Introduction
+
+- **The Reality Check: ** Building a single-store e-commerce site is easy. Building a marketplace like discovaNg where hundreds of vendors manage inventory, pricing, and shipping simultaneously is a distributed systems challenge
+
+- **The Thesis:** In Nigeria’s unique digital landscape (fluctuating data speeds and mobile-first users), your architecture must be "Resilient by Design.
+
+
+## The Multi-Tenant Architecture
+
+### The Problem
+How do you keep Vendor A’s data separate and secure from Vendor B while sharing the same infrastructure?
+
+### The RyderTech Solution:
+- Technical Detail: Discuss using a shared database with ***tenant_id*** filtering vs separate schemas.
+
+- Key Takeaway: Security is the foundation of vendor trust.
+
+## Optimizing for the "Nigerian Connection": Performance Beyond the Fiber Line
+
+In a market like Nigeria, high-speed fiber is the exception, not the rule. Most discovaNg users are accessing the marketplace via mobile data on 4G or even 3G networks. For a multi-vendor platform, this presents a massive technical challenge: How do you display thousands of high-quality product images without draining the user's data or causing a 10-second hang?
+
+At RydeTech, we solved this for DiscovaNg using a three-pillar performance strategy
+
+1. The SvelteKit Advantage (Minimal Hydration)
+Unlike traditional "heavy" frameworks that ship megabytes of JavaScript to the browser, we utilized SvelteKit. Because Svelte acts as a compiler rather than a runtime library, the discovaNg storefront ships significantly less code.
+
+- The Result: The "Time to Interactive" (TTI) is drastically reduced. Users can start searching for products while the rest of the page is still quietly loading in the background.
+
+2. Adaptive Image Orchestration
+
+E-commerce lives and dies by visual appeal, but unoptimized images are the #1 killer of mobile conversion.
+
+- **Next-Gen Formats:** We implemented an automated pipeline that converts vendor-uploaded JPEGs into WebP and AVIF formats, reducing file sizes by up to 60% without losing quality.
+
+- **Lazy-Loading & Blur-up:** We use a "Blur-up" technique where a tiny, 1KB blurred version of the image loads instantly, followed by the high-res version once it enters the viewport. This keeps the UI feeling fast and "solid" even on slow MTN or Airtel connections.
+
+3. Edge Caching via Local CDNs
+
+To minimize the physical distance data has to travel, we utilized Edge Computing. By caching static assets (CSS, JS, and UI icons) at points of presence (PoPs) closer to Lagos and Abuja, we cut down the "Round Trip Time" (RTT).
+
+- **Why it matters:** When a user in Port Harcourt opens the app, they aren't waiting for a server in North Virginia to respond; they are getting data from a local node.
+
+- **The RydeTech Metric:** In our stress tests, we optimized the discovaNg core vitals to hit a Largest Contentful Paint (LCP) of under 1.8 seconds—well below the 3-second threshold where 53% of mobile users typically abandon a site.
+
+## The "Payment Orchestration" Layer: Engineering Trust in a Low-Trust Environment
+
+In a multi-vendor ecosystem, payments are complex. You aren't just taking money from a customer; you are calculating commissions, holding funds in escrow, and ensuring that Vendor A gets paid while Vendor B’s shipping delay doesn't freeze the entire system.
+
+For discovaNg, RydeTech moved beyond simple "Buy Now" buttons to build a resilient Payment Orchestration Layer. Here’s how we handled the three biggest hurdles in the Nigerian fintech space:
+
+1. The Webhook Fail-Safe (Ensuring 100% Order Accuracy)
+
+The biggest mistake agencies make is relying on the "Success" redirect from a payment gateway. If a user’s data cuts out right after they enter their PIN, the browser never redirects, the site doesn't know they paid, and the customer loses their money without an order being created.
+
+- **The RydeTech Solution:** We implemented a robust ***Webhook Listener*** architecture. We don't wait for the user's browser; we listen for a direct server-to-server signal from ***Paystack/Flutterwave***. Even if the user’s phone dies mid-transaction, the moment the bank clears the funds, our system automatically triggers the order and notifies the vendor.
+
+2. Automated Vendor Split-Payments
+Manually calculating who owes what at the end of every month is a scaling nightmare.
+
+- **The RydeTech Solution:** We integrated Split-Payment API logic directly into the checkout flow. When a customer buys a ₦20,000 item, the system automatically routes ₦18,000 to the vendor’s sub-account and ₦2,000 to the discovaNg treasury in real-time. This eliminates manual accounting errors and ensures vendors are paid faster, increasing their loyalty to the platform.
+
+3. Smart Retries & Error Handling
+"System Busy" or "Bank Network Down" are phrases that kill conversion.
+
+- **The RydeTech Solution:** We designed a UI that handles payment errors gracefully. Instead of a generic "Transaction Failed" message, our system identifies the type of failure. If it’s a temporary bank downtime, we prompt the user to try an alternative method (like Transfer instead of Card) without making them re-fill their entire shopping cart.
+
+Technical Insight: By decoupling the payment intent from the order creation, we reduced "Ghost Orders" (orders created but not paid for) by 85% on the discovaNg platform.
+
+## Conclusion: Don't Just Build, Architect.
+
+- **The Close:** "discovaNg isn't just a website; it’s a scalable business engine. At RyderTech, we don't just write code we build the future of Nigerian retail."
+
+- **The CTA:** "Planning a marketplace? Read our [web-design-cost-nigeria](/blog/web-design-cost-nigeria) or [contact](/contact)."
+
+---
+
+
+<div class="flex items-center justify-between mt-12 pt-6 border-t border-gray-200">
+  <div>
+Published on January 29, 2026 • Last updated: January 21, 2026
+    <p class="text-sm text-gray-500">Category: <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">{category}</span></p>
+    <p class="text-sm text-gray-500 mt-2">Tags: 
+      {#each tags as tag}
+        <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded border border-gray-300">{tag}</span>
+      {/each}
+    </p>
+  </div>
+  <div class="text-right">
+    <p class="text-sm text-gray-500">Written by: <strong>{author}</strong></p>
+    <p class="text-sm text-gray-500">Reading time: {readingTime}</p>
+  </div>
+</div>
+
+<div class="mt-8 p-6 bg-gray-50 rounded-xl">
+  <h3 class="text-lg font-bold text-gray-900 mb-4">Share This Article:</h3>
+  <div class="flex gap-3">
+    <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=https://rydertech.com/blog/web-design-cost-nigeria`} 
+       class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" 
+       target="_blank">Twitter</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://rydertech.com/blog/web-design-cost-nigeria"
+       class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800"
+       target="_blank">LinkedIn</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://rydertech.com/blog/web-design-cost-nigeria"
+       class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+       target="_blank">Facebook</a>
+  </div>
+</div>
+
+</div>
+
+<style>
+  h1{
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  
+  ul {
+    list-style-type: disc;
+    padding-left: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  li {
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+
+  ol {
+    list-style-type: number;
+    padding-left: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: bold
+  }
+  
+  strong {
+    font-weight: 700;
+    color: #111827;
+  }
+  
+  .lead {
+    font-size: 1.125rem;
+    color: #1f2937;
+    font-weight: 500;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th {
+    padding: 0.75rem 0.75rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #111827;
+    text-transform: uppercase;
+  }
+  
+  td {
+    padding: 1rem 0.75rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  a{
+    color: orangered;
+  }
+  
+</style>
