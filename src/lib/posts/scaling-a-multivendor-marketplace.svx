@@ -5,7 +5,7 @@ author: "Official Ryder"
 excerpt: "Learn how RyderTech scaled Discova.ng with SvelteKit, adaptive image orchestration, edge caching and a resilient payment orchestration layer — practical technical lessons for building fast, reliable marketplaces in Nigeria."
 readTime: "8 min read"
 tags: ["web design nigeria", "scaling business", "E-commerce"]
-image: "/src/lib/assets/scale.png"
+image: "/scale.png"
 views: 100
 comments: 10
 featured: true
