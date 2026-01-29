@@ -133,7 +133,8 @@
           {#each navItems as item}
             <a
               href={item.href}
-              class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"}
+              class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
+              
             >
               <span class="text-gray-800 font-medium text-lg group-hover:text-[var(--primary)]">
                 {item.name}
