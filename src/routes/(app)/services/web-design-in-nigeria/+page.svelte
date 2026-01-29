@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Globe, CheckCircle } from '@lucide/svelte';
+  import { Badge } from "$lib/components/ui/badge";
   
   const services = [
     { title: 'Responsive Website Design', description: 'Mobile-friendly websites that work perfectly on all devices' },
@@ -11,6 +12,8 @@
   ];
   
   const cities = ['Lagos', 'Abuja', 'Port Harcourt', 'Ibadan', 'Kano', 'Benin City', 'Aba', 'Onitsha'];
+
+  const niche = "Web Design Nigeria";
 </script>
 
 <svelte:head>
@@ -68,9 +71,12 @@
 
 <div class="min-h-screen bg-white">
   <!-- Hero Section -->
-  <section class="pt-32 pb-20 px-4 bg-gradient-to-br from-blue-50 to-white">
+  <section class="pt-40 pb-20 px-4 bg-gradient-to-br from-blue-50 to-white">
     <div class="container mx-auto max-w-6xl">
       <div class="text-center">
+        <Badge variant="outline" class="mb-4 px-4 py-1 border-primary/30 text-primary">
+          2026 {niche} Specialized Agency
+        </Badge>
         <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-6">
           Professional <span class="text-blue-600">Web Design Agency</span> in Nigeria
         </h1>

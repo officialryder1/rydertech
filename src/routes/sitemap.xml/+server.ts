@@ -4,13 +4,16 @@ export const GET: RequestHandler = async () => {
   const baseUrl = 'https://rydertech.ng';
   const pages = [
     '',
-    '/services/web-design-nigeria',
+    '/services/web-design-in-nigeria',
     '/services/software-development-nigeria',
     '/work',
     '/reviews',
     '/contact',
     '/blog',
-    '/blog/web-design-cost-nigeria'
+    '/blog/web-design-cost-nigeria',
+    '/locations/abuja-web-design',
+    '/locations/lagos-web-design',
+    '/locations/port-harcourt-web-design'
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
