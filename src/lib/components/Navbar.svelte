@@ -45,16 +45,6 @@
     document.body.style.overflow = 'hidden';
   }
 
-  function scrollToSection(href) {
-    if (href.startsWith('/#')) {
-      const id = href.split('#')[1];
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-    closeMobileMenu();
-  }
 </script>
 
 <nav 
@@ -84,7 +74,6 @@
           <a
             href={item.href}
             class="text-gray-700 font-medium hover:text-[var(--primary)] transition-colors duration-200 relative group"
-            on:click|preventDefault={() => scrollToSection(item.href)}
           >
             {item.name}
             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] group-hover:w-full transition-all duration-300"></span>
@@ -144,8 +133,7 @@
           {#each navItems as item}
             <a
               href={item.href}
-              class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
-              on:click|preventDefault={() => scrollToSection(item.href)}
+              class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"}
             >
               <span class="text-gray-800 font-medium text-lg group-hover:text-[var(--primary)]">
                 {item.name}
