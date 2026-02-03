@@ -1,5 +1,6 @@
 <script>
     import FindsNg from '$lib/assets/findsng.png';
+    import KingCourt from '$lib/assets/king-court.png';
     import { ExternalLink, Github, ArrowRight, Filter, Eye } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
@@ -27,11 +28,21 @@
             featured: true
         },
         {
-            title: 'Healthcare Management System',
-            description: 'Comprehensive healthcare platform for patient records, appointments, and telemedicine.',
-            image: '#',
+            title: 'King Court Restaurant Booking System',
+            description: 'Comprehensive restaurant booking and management system with table reservations and order tracking.',
+            image: KingCourt,
             category: 'Custom Software',
-            technologies: ['React', 'Python', 'MongoDB', 'Docker'],
+            technologies: ['Svelte', 'Supabase', 'Git-Action', 'Vercel'],
+            liveUrl: 'https://king-restaurant.vercel.app/',
+            githubUrl: '#',
+            featured: false
+        },
+        {
+            title: 'Fitness Tracking App',
+            description: 'Cross-platform fitness app with workout plans, progress tracking, and social features.',
+            image: "#",
+            category: 'Mobile Development',
+            technologies: ['Flutter', 'Node.js', 'MongoDB', 'Google Fit'],
             liveUrl: '#',
             githubUrl: '#',
             featured: false
@@ -42,16 +53,6 @@
             image: '#',
             category: 'Web Development',
             technologies: ['Vue.js', 'Laravel', 'MySQL', 'AWS'],
-            liveUrl: '#',
-            githubUrl: '#',
-            featured: false
-        },
-        {
-            title: 'Fitness Tracking App',
-            description: 'Cross-platform fitness app with workout plans, progress tracking, and social features.',
-            image: "#",
-            category: 'Mobile Development',
-            technologies: ['Flutter', 'Node.js', 'MongoDB', 'Google Fit'],
             liveUrl: '#',
             githubUrl: '#',
             featured: false
