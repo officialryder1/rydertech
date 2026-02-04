@@ -38,21 +38,21 @@
             featured: false
         },
         {
-            title: 'Fitness Tracking App',
-            description: 'Cross-platform fitness app with workout plans, progress tracking, and social features.',
-            image: "#",
-            category: 'Mobile Development',
-            technologies: ['Flutter', 'Node.js', 'MongoDB', 'Google Fit'],
-            liveUrl: '#',
-            githubUrl: '#',
-            featured: false
-        },
-        {
             title: 'Real Estate Platform',
             description: 'Property listing and management system with virtual tours and AI-powered recommendations.',
             image: '#',
             category: 'Web Development',
             technologies: ['Vue.js', 'Laravel', 'MySQL', 'AWS'],
+            liveUrl: '#',
+            githubUrl: '#',
+            featured: false
+        },
+        {
+            title: 'Fitness Tracking App',
+            description: 'Cross-platform fitness app with workout plans, progress tracking, and social features.',
+            image: "#",
+            category: 'Mobile Development',
+            technologies: ['Flutter', 'Node.js', 'MongoDB', 'Google Fit'],
             liveUrl: '#',
             githubUrl: '#',
             featured: false

@@ -530,7 +530,7 @@
             </ul>
             
             <!-- Action -->
-            <button class="w-full py-2.5 text-[var(--primary)] font-semibold rounded-lg border border-[var(--primary)]/20 hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-200 flex items-center justify-center group">
+            <button class="w-full py-2.5 text-[var(--primary)] font-semibold rounded-lg border border-[var(--primary)]/20 hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-200 flex items-center justify-center group" onclick={window.location.href = "/services"}>
               Explore
               <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
