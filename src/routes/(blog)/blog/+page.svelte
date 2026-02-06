@@ -8,10 +8,26 @@
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
   import { Input } from '$lib/components/ui/input';
-  import { goto } from '$app/navigation'
+  import JobPromoBanner from '$lib/components/JobPromoBanner.svelte';
+  import InlineJobPromo from '$lib/components/InlineJobPromo.svelte';
+  import JobPromoAlert from '$lib/components/JobPromoAlert.svelte';
+
+  import { onMount } from 'svelte';
+
+    // State for controlling popups
+  let showPromoPopup = $state(false);
+
+  onMount(() => {
+    // Show the promo popup after 3 seconds
+    const timer = setTimeout(() => {
+      showPromoPopup = true;
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  })
   
   let { data } = $props()
-  console.log(data)
+
 
   let blogPosts = data?.posts;
 
@@ -77,6 +93,14 @@
 </svelte:head>
 
 <div class="min-h-screen bg-background">
+  <!-- Option 1: Show the alert in top-right corner -->
+   {#if showPromoPopup}
+    <JobPromoAlert 
+      position="top-right" 
+      autoCloseTime={10000} 
+      showCloseButton={true}
+    />
+  {/if}
   <!-- Hero Section -->
   <section class="py-20 px-4 bg-linear-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5">
     <div class="container mx-auto max-w-6xl text-center">
@@ -220,6 +244,8 @@
               {/each}
             </CardContent>
           </Card>
+          <!-- Option 3: Show inline promo between posts -->
+          <InlineJobPromo />
 
           <!-- Popular Tags -->
           <Card>
