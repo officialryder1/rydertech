@@ -1,6 +1,6 @@
 ---
-title: "The Future of Web Development: Svelte vs React in 2024"
-date: 2024-01-15
+title: "The Future of Web Development: Svelte vs React in 2025"
+date: 2025-01-15
 author: "Official Ryder"
 excerpt: "Exploring the performance benefits and developer experience differences between Svelte and React for modern web applications."
 category: "Web Development"

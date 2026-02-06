@@ -76,7 +76,7 @@
   <meta name="description" content="Read the latest insights on web development, cloud computing, AI, and software architecture from the RyderTech team." />
 </svelte:head>
 
-<div class="min-h-screen bg-background pt-32">
+<div class="min-h-screen bg-background">
   <!-- Hero Section -->
   <section class="py-20 px-4 bg-linear-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5">
     <div class="container mx-auto max-w-6xl text-center">
