@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
     import NewsLetterModel from '$lib/components/NewsLetterModel.svelte';
   import { onMount } from 'svelte';
   import { supabase } from '$lib/supabaseClient';
@@ -28,10 +30,12 @@
   } from '@lucide/svelte';
 
   let showNewsletter = $state(false);
+  // @ts-ignore
   let realTestimonials = $state([])
   let loading = $state(true)
   let lastTick = $state(0)
 
+  // @ts-ignore
   onMount(async () => {
     // 1. data loading
     await loadTestimonials();
@@ -47,6 +51,7 @@
     // 3. Optimized Event Listeners
     const handleScroll = () => scrollY = window.scrollY;
     
+    // @ts-ignore
     const handleMouseMove = (e) => {
       const now = Date.now();
       if (now - lastTick < 16) return; // Cap at ~60fps
@@ -55,6 +60,7 @@
       lastTick = now;
     };
 
+    // @ts-ignore
     const handleMouseLeave = (e) => {
       if (e.clientY < 0 && !hasSubscribed && !modalClosedRecently) {
         showNewsletter = true;
@@ -221,6 +227,7 @@
 
   onMount(() => {
     const handleScroll = () => scrollY = window.scrollY;
+    // @ts-ignore
     const handleMouseMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -252,6 +259,7 @@
     }, 7 * 24 * 60 * 60 * 1000); // 7 days
   }
 
+  // @ts-ignore
   async function handleNewsletterSubscribe(email) {
     // Here you would integrate with your actual email service
     console.log('Subscribing email:', email);
@@ -302,8 +310,8 @@
         <!-- Left Content -->
         <div class="space-y-8">
           <!-- Badge -->
-          <div class="inline-flex items-center space-x-2 bg-[var(--primary)]/10 border border-[var(--primary)]/20 rounded-full px-4 py-2 text-sm text-[var(--primary)] font-semibold">
-            <div class="w-2 h-2 bg-[var(--secondary)] rounded-full animate-pulse"></div>
+          <div class="inline-flex items-center space-x-2 bg-(--primary)/10 border border-(--primary)/20 rounded-full px-4 py-2 text-sm text-primary font-semibold">
+            <div class="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
             <span>CREATIVE TECH SOLUTIONS</span>
           </div>
           
@@ -329,7 +337,7 @@
               </span>
             </a>
             
-            <a href="/work" class="px-8 py-4 border-2 border-[var(--primary)]/20 text-[var(--primary)] font-semibold rounded-xl hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-300">
+            <a href="/work" class="px-8 py-4 border-2 border-(--primary)/20 text-primary font-semibold rounded-xl hover:border-(--primary)/40 hover:bg-(--primary)/5 transition-all duration-300">
               <span class="flex items-center">
                 View Our Work
                 <Sparkles class="w-5 h-5 ml-2" />
@@ -346,7 +354,7 @@
             <div class="md:hidden mb-6">
             <div class="text-center mb-4">
                 <h3 class="text-gray-800 font-bold text-sm mb-2">Our Tech Stack</h3>
-                <div class="w-16 h-1 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] rounded-full mx-auto"></div>
+                <div class="w-16 h-1 bg-linear-to-r from-primary to-[var(--secondary)] rounded-full mx-auto"></div>
             </div>
             
             <div class="grid grid-cols-2 gap-3">
@@ -356,8 +364,8 @@
                 { icon: Cloud, label: 'Cloud', tech: 'AWS/Azure' },
                 { icon: Shield, label: 'Security', tech: 'Enterprise' }
                 ] as stack}
-                <div class="text-center p-3 rounded-xl bg-gradient-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5 border border-white/20 hover:scale-105 transition-all duration-300 group">
-                    <div class="w-8 h-8 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div class="text-center p-3 rounded-xl bg-linear-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5 border border-white/20 hover:scale-105 transition-all duration-300 group">
+                    <div class="w-8 h-8 bg-linear-to-r from-[var(--primary)] to-[var(--primary-dark)] rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
                     <stack.icon class="w-4 h-4 text-white" />
                     </div>
                     <div class="text-xs text-gray-600 font-medium">{stack.label}</div>
@@ -370,7 +378,7 @@
             <!-- Desktop: Original Grid -->
             <div class="hidden md:grid grid-cols-2 gap-4">
             {#each [1, 2, 3, 4] as i}
-                <div class="aspect-square rounded-2xl bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 border border-white/20 flex items-center justify-center hover:scale-105 transition-transform duration-300 group">
+                <div class="aspect-square rounded-2xl bg-linear-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 border border-white/20 flex items-center justify-center hover:scale-105 transition-transform duration-300 group">
                 <Cpu class="w-8 h-8 text-[var(--primary)] group-hover:scale-110 transition-transform duration-300" />
                 </div>
             {/each}
@@ -379,7 +387,7 @@
             <!-- Enhanced Bottom Section -->
             <div class="mt-6 text-center">
             <div class="relative inline-block">
-                <div class="w-12 h-12 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 group">
+                <div class="w-12 h-12 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 group">
                 <Code class="w-6 h-6 text-white group-hover:rotate-12 transition-transform duration-300" />
                 </div>
                 <div class="absolute -inset-2 bg-[var(--primary)]/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
@@ -405,10 +413,10 @@
         </div>
 
         <!-- Floating Elements - Responsive -->
-        <div class="absolute -top-3 -right-3 md:-top-4 md:-right-4 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-[var(--secondary)] to-[var(--secondary-light)] rounded-2xl flex items-center justify-center shadow-lg animate-float">
+        <div class="absolute -top-3 -right-3 md:-top-4 md:-right-4 w-16 h-16 md:w-20 md:h-20 bg-linear-to-r from-[var(--secondary)] to-[var(--secondary-light)] rounded-2xl flex items-center justify-center shadow-lg animate-float">
             <Zap class="w-6 h-6 md:w-8 md:h-8 text-white" />
         </div>
-        <div class="absolute -bottom-3 -left-3 md:-bottom-4 md:-left-4 w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-[var(--accent)] to-[var(--primary-light)] rounded-2xl flex items-center justify-center shadow-lg animate-float" style="animation-delay: 1s;">
+        <div class="absolute -bottom-3 -left-3 md:-bottom-4 md:-left-4 w-12 h-12 md:w-16 md:h-16 bg-linear-to-r from-[var(--accent)] to-[var(--primary-light)] rounded-2xl flex items-center justify-center shadow-lg animate-float" style="animation-delay: 1s;">
             <Sparkles class="w-4 h-4 md:w-6 md:h-6 text-white" />
         </div>
         </div>
@@ -417,13 +425,13 @@
   </section>
 
   <!-- Stats Section -->
-  <section class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+  <section class="py-20 bg-linear-to-br from-gray-50 to-white relative overflow-hidden">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
         {#each stats as stat, i}
           <div class="text-center group" style="animation-delay: {i * 0.1}s">
             <div class="relative inline-flex mb-4">
-              <div class="p-4 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-2xl border border-[var(--primary)]/20 group-hover:border-[var(--primary)]/40 transition-all duration-300 group-hover:scale-110">
+              <div class="p-4 bg-linear-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-2xl border border-[var(--primary)]/20 group-hover:border-[var(--primary)]/40 transition-all duration-300 group-hover:scale-110">
                 <stat.icon class="w-6 h-6 text-[var(--primary)]" />
               </div>
               <div class="absolute -inset-2 bg-[var(--primary)]/5 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
@@ -458,7 +466,7 @@
         {#each brands as brand, i}
           <div class="group text-center p-6 rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-105 border-2 border-transparent hover:border-[var(--primary)]/20">
             <!-- Brand Logo -->
-            <div class="w-16 h-16 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div class="w-16 h-16 bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
               <span class="text-white font-black text-lg">{brand.logo}</span>
             </div>
             
@@ -470,7 +478,7 @@
             
             <!-- Hover Indicator -->
             <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="w-8 h-0.5 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] mx-auto rounded-full" />
+              <div class="w-8 h-0.5 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] mx-auto rounded-full" />
             </div>
           </div>
         {/each}
@@ -510,7 +518,7 @@
           <div class="service-card rounded-2xl p-6 shadow-lg hover:shadow-2xl" style="animation-delay: {i * 0.1}s">
             <!-- Icon -->
             <div class="mb-4">
-              <div class="p-3 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-xl w-fit">
+              <div class="p-3 bg-linear-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-xl w-fit">
                 <service.icon class="w-6 h-6 text-[var(--primary)]" />
               </div>
             </div>
@@ -530,7 +538,7 @@
             </ul>
             
             <!-- Action -->
-            <button class="w-full py-2.5 text-[var(--primary)] font-semibold rounded-lg border border-[var(--primary)]/20 hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-200 flex items-center justify-center group" onclick={window.location.href = "/services"}>
+            <button class="w-full py-2.5 text-[var(--primary)] font-semibold rounded-lg border border-[var(--primary)]/20 hover:border-(--primary)/40 hover:bg-[var(--primary)]/5 transition-all duration-200 flex items-center justify-center group" onclick={window.location.href = "/services"}>
               Explore
               <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
@@ -541,15 +549,15 @@
   </section>
 
   <!-- RyderTech Labs Showcase -->
-<section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)]/5 via-white to-[var(--secondary)]/5 relative overflow-hidden" aria-labelledby="rydertech-labs">
+<section class="py-20 px-4 bg-linear-to-br from-[var(--primary)]/5 via-white to-[var(--secondary)]/5 relative overflow-hidden" aria-labelledby="rydertech-labs">
   <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-[var(--secondary)]/10 to-[var(--accent)]/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-20 left-10 w-64 h-64 bg-linear-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-linear-to-r from-[var(--secondary)]/10 to-[var(--accent)]/10 rounded-full blur-3xl"></div>
   </div>
   
   <div class="container mx-auto max-w-6xl relative z-10">
     <div class="text-center mb-12">
-      <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-[var(--primary)]/20 to-[var(--secondary)]/20 border border-[var(--primary)]/30 rounded-full px-4 py-2 text-sm text-[var(--primary-dark)] font-semibold mb-4">
+      <div class="inline-flex items-center space-x-2 bg-linear-to-r from-[var(--primary)]/20 to-[var(--secondary)]/20 border border-[var(--primary)]/30 rounded-full px-4 py-2 text-sm text-[var(--primary-dark)] font-semibold mb-4">
         <Sparkles class="w-4 h-4" />
         <span>FREE TOOLS & RESOURCES</span>
       </div>
@@ -566,7 +574,7 @@
       <!-- Website Cost Estimator Card -->
       <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
         <div class="flex items-start justify-between mb-4">
-          <div class="p-3 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl">
+          <div class="p-3 bg-linear-to-br from-blue-500/10 to-blue-600/10 rounded-xl">
             <Calculator class="w-6 h-6 text-blue-600" />
           </div>
           <Badge variant="outline" class="text-xs font-semibold border-[var(--secondary)]/30 text-[var(--secondary-dark)]">
@@ -598,7 +606,7 @@
         
         <a 
           href="/labs/cost-estimator" 
-          class="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
+          class="w-full py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
         >
           Try Free Tool
           <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
@@ -608,7 +616,7 @@
       <!-- Website Copy Analyzer Card (Coming Soon) -->
       <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
         <div class="flex items-start justify-between mb-4">
-          <div class="p-3 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl">
+          <div class="p-3 bg-linear-to-br from-purple-500/10 to-purple-600/10 rounded-xl">
             <FileText class="w-6 h-6 text-purple-600" />
           </div>
           <Badge variant="outline" class="text-xs font-semibold border-gray-300 text-gray-500">
@@ -654,7 +662,7 @@
       <!-- MVP Feature Planner Card (Coming Soon) -->
       <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
         <div class="flex items-start justify-between mb-4">
-          <div class="p-3 bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 rounded-xl">
+          <div class="p-3 bg-linear-to-br from-emerald-500/10 to-emerald-600/10 rounded-xl">
             <LayoutGrid class="w-6 h-6 text-emerald-600" />
           </div>
           <Badge variant="outline" class="text-xs font-semibold border-gray-300 text-gray-500">
@@ -702,7 +710,7 @@
     <div class="text-center">
       <div class="bg-white rounded-2xl p-8 border-2 border-[var(--primary)]/20 shadow-lg max-w-3xl mx-auto">
         <div class="flex items-center justify-center mb-6">
-          <div class="p-3 bg-gradient-to-r from-[var(--primary)]/20 to-[var(--secondary)]/20 rounded-xl mr-4">
+          <div class="p-3 bg-linear-to-r from-[var(--primary)]/20 to-[var(--secondary)]/20 rounded-xl mr-4">
             <Globe class="w-6 h-6 text-[var(--primary)]" />
           </div>
           <div>
@@ -714,7 +722,7 @@
         <div class="grid sm:grid-cols-2 gap-4 mt-6">
           <a 
             href="/labs" 
-            class="py-3 px-6 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
+            class="py-3 px-6 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
           >
             Explore All Tools
             <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
@@ -738,7 +746,7 @@
 </section>
 
   <!-- Testimonials Section -->
-<section class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+<section class="py-20 bg-linear-to-br from-gray-50 to-white relative overflow-hidden">
   <div class="container mx-auto max-w-6xl px-4">
     <div class="text-center mb-16">
       <div class="inline-flex items-center space-x-2 bg-[var(--secondary)]/10 border border-[var(--secondary)]/20 rounded-full px-4 py-2 text-sm text-[var(--secondary-dark)] font-semibold mb-4">
@@ -768,7 +776,7 @@
         {#each realTestimonials as testimonial}
           <div class="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/20 transition-all duration-300 hover:shadow-lg">
             <div class="flex items-start space-x-3 mb-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div class="w-12 h-12 bg-linear-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
                 <span class="text-[var(--primary)] font-black text-sm">
                   {testimonial.client_name?.split(' ').map(n => n[0]).join('') || 'C'}
                 </span>
@@ -799,7 +807,7 @@
 
       <!-- View All Reviews Button -->
       <div class="text-center mt-12">
-        <a href="/reviews" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+        <a href="/reviews" class="inline-flex items-center px-6 py-3 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
           View All Reviews
           <ArrowRight class="w-4 h-4 ml-2" />
         </a>
@@ -810,7 +818,7 @@
 
   <!-- Creative CTA Section -->
   <section class="py-20 px-4 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-[var(--accent)] to-[var(--primary-dark)]"></div>
+    <div class="absolute inset-0 bg-linear-to-br from-[var(--primary)] via-[var(--accent)] to-[var(--primary-dark)]"></div>
     <div class="absolute inset-0 bg-black/10"></div>
 
     <div class="container mx-auto max-w-4xl text-center relative z-10">

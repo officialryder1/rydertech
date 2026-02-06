@@ -78,11 +78,11 @@
 
 <div class="min-h-screen bg-background pt-32">
   <!-- Hero Section -->
-  <section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5">
+  <section class="py-20 px-4 bg-linear-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5">
     <div class="container mx-auto max-w-6xl text-center">
       <Badge variant="secondary" class="mb-4">Blog & Insights</Badge>
       <h1 class="text-4xl md:text-6xl font-bold mb-6">
-        RyderTech <span class="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">Blog</span>
+        RyderTech <span class="bg-linear-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">Blog</span>
       </h1>
       <p class="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
         Expert insights, tutorials, and thought leadership on software development, 
@@ -248,7 +248,7 @@
           </Card>
 
           <!-- Newsletter CTA -->
-          <Card class="bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
+          <Card class="bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
             <CardContent class="p-6 text-center">
               <BookOpen class="w-12 h-12 mx-auto mb-4 opacity-80" />
               <h3 class="font-bold text-lg mb-2">Stay Updated</h3>
@@ -431,7 +431,7 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
+  <section class="py-20 px-4 bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
     <div class="container mx-auto max-w-4xl text-center">
       <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
       <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">

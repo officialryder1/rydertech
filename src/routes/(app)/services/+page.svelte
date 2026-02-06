@@ -116,7 +116,7 @@
         <div class="container mx-auto max-w-6xl text-center">
             <Badge variant="secondary" class="mb-4">Our Services</Badge>
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Comprehensive <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Development</span> Services
+                Comprehensive <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Development</span> Services
             </h1>
             <p class="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
                 We offer end-to-end software development solutions tailored to your business needs. 

@@ -55,7 +55,7 @@
   
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-secondary/5">
+<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-[var(--secondary)]/5">
   <!-- Hero Section -->
   <section class="container mx-auto px-4 pt-16 pb-8 md:pt-24 md:pb-12">
     <div class="max-w-3xl mx-auto text-center space-y-6">
@@ -71,7 +71,7 @@
     />
       
       <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-        RyderTech <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Labs</span>
+        RyderTech <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Labs</span>
       </h1>
       
       <p class="text-xl md:text-2xl text-muted-foreground font-light max-w-2xl mx-auto">
@@ -228,7 +228,7 @@
         </div>
         
         <div class="md:col-span-2">
-          <div class="bg-gradient-to-br from-primary/5 to-secondary/5 border border-muted/50 rounded-2xl p-8 backdrop-blur-sm">
+          <div class="bg-linear-to-br from-primary/5 to-[var(--secondary)]/5 border border-muted/50 rounded-2xl p-8 backdrop-blur-sm">
             <div class="space-y-4">
               <div class="flex items-center gap-3">
                 <div class="w-3 h-3 rounded-full bg-emerald-500"></div>

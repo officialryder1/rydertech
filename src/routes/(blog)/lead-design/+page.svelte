@@ -281,7 +281,7 @@
   <meta name="description" content="Read the latest insights on web development, cloud computing, AI, and software architecture from the RyderTech team." />
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 pt-32">
+<div class="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 pt-32">
   <!-- Animated Background -->
   <div class="fixed inset-0 pointer-events-none">
     <div class="absolute top-20 right-20 w-72 h-72 bg-[var(--primary)]/5 rounded-full blur-3xl animate-pulse"></div>
@@ -313,7 +313,7 @@
   <!-- Reading Progress -->
   <div class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-50">
     <div 
-      class="h-full bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] transition-all duration-300"
+      class="h-full bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] transition-all duration-300"
       style="width: {readingProgress}%"
     ></div>
   </div>
@@ -327,7 +327,7 @@
       </div>
       
       <h1 class="text-4xl md:text-7xl font-black mb-6 leading-tight">
-        <span class="bg-gradient-to-r from-[var(--primary)] via-[var(--primary-dark)] to-[var(--secondary)] bg-clip-text text-transparent">
+        <span class="bg-linear-to-r from-[var(--primary)] via-[var(--primary-dark)] to-[var(--secondary)] bg-clip-text text-transparent">
           RyderTech
         </span>
         <br />
@@ -379,7 +379,7 @@
   {#if featuredPost}
     <section class="relative py-16 px-4">
       <div class="container mx-auto max-w-6xl">
-        <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-600/20 backdrop-blur-sm">
+        <div class="bg-linear-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-600/20 backdrop-blur-sm">
           <div class="grid lg:grid-cols-2 gap-0">
             <!-- Featured Image with Overlay -->
             <div class="relative h-96 lg:h-full min-h-[400px] group">
@@ -397,7 +397,7 @@
                   Featured
                 </Badge>
                 {#if featuredPost.premium}
-                  <Badge class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 border-none shadow-lg">
+                  <Badge class="bg-linear-to-r from-yellow-400 to-yellow-500 text-gray-900 border-none shadow-lg">
                     <Star class="w-3 h-3 mr-1" />
                     Premium
                   </Badge>
@@ -500,7 +500,7 @@
 
               <!-- Action Buttons -->
               <div class="flex flex-wrap gap-3">
-                <Button size="lg" class="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] hover:shadow-lg transition-all duration-300">
+                <Button size="lg" class="flex-1 min-w-[200px] bg-linear-to-r from-[var(--primary)] to-[var(--primary-dark)] hover:shadow-lg transition-all duration-300">
                   Read Full Article
                   <ArrowRight class="w-4 h-4 ml-2" />
                 </Button>
@@ -534,7 +534,7 @@
     <div class="container mx-auto max-w-6xl">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">
-          <span class="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
+          <span class="bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
             Trending
           </span>
           Topics
@@ -579,9 +579,9 @@
             description: 'Streamline development and operations workflows'
           }
         ] as trend}
-          <Card class="group hover:shadow-2xl transition-all duration-500 hover:scale-105 border-0 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 backdrop-blur-sm">
+          <Card class="group hover:shadow-2xl transition-all duration-500 hover:scale-105 border-0 bg-linear-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 backdrop-blur-sm">
             <CardContent class="p-6 text-center">
-              <div class={`w-16 h-16 bg-gradient-to-r ${trend.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+              <div class={`w-16 h-16 bg-linear-to-r ${trend.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                 <trend.icon class="w-8 h-8 text-white" />
               </div>
               <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-2">{trend.topic}</h3>
@@ -598,12 +598,12 @@
   </section>
 
   <!-- Learning Paths Section -->
-  <section class="py-16 px-4 bg-gradient-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5 dark:from-gray-800 dark:to-gray-700">
+  <section class="py-16 px-4 bg-linear-to-br from-[var(--primary)]/5 to-[var(--secondary)]/5 dark:from-gray-800 dark:to-gray-700">
     <div class="container mx-auto max-w-6xl">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">
           Structured 
-          <span class="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
+          <span class="bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
             Learning Paths
           </span>
         </h2>
@@ -646,11 +646,11 @@
           }
         ] as path}
           <Card class="group hover:shadow-2xl transition-all duration-500 border-0 bg-white dark:bg-gray-800 backdrop-blur-sm overflow-hidden">
-            <div class={`h-2 bg-gradient-to-r ${path.color}`}></div>
+            <div class={`h-2 bg-linear-to-r ${path.color}`}></div>
             <CardContent class="p-6">
               <div class="flex items-start justify-between mb-4">
                 <h3 class="font-bold text-xl text-gray-900 dark:text-white">{path.title}</h3>
-                <Badge class="bg-gradient-to-r {path.color} text-white border-none">
+                <Badge class="bg-linear-to-r {path.color} text-white border-none">
                   {path.level.split(' ')[0]}
                 </Badge>
               </div>
@@ -675,7 +675,7 @@
               <!-- Progress Bar -->
               <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
                 <div 
-                  class={`h-2 rounded-full bg-gradient-to-r ${path.color} transition-all duration-1000`}
+                  class={`h-2 rounded-full bg-linear-to-r ${path.color} transition-all duration-1000`}
                   style="width: {path.progress}%"
                 ></div>
               </div>
@@ -689,7 +689,7 @@
                 {/each}
               </div>
 
-              <Button class="w-full bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-700 dark:to-gray-600 hover:shadow-lg transition-all duration-300">
+              <Button class="w-full bg-linear-to-r from-gray-900 to-gray-700 dark:from-gray-700 dark:to-gray-600 hover:shadow-lg transition-all duration-300">
                 Start Learning Path
                 <Rocket class="w-4 h-4 ml-2" />
               </Button>
@@ -706,7 +706,7 @@
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">
           Community
-          <span class="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
+          <span class="bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
             Spotlight
           </span>
         </h2>
@@ -717,7 +717,7 @@
 
       <div class="grid lg:grid-cols-2 gap-8">
         <!-- Success Story -->
-        <Card class="bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-blue-900/20 border-0 shadow-xl">
+        <Card class="bg-linear-to-br from-white to-blue-50 dark:from-gray-800 dark:to-blue-900/20 border-0 shadow-xl">
           <CardContent class="p-8">
             <div class="flex items-center mb-6">
               <img 
@@ -754,8 +754,8 @@
         </Card>
 
         <!-- Community Project -->
-        <Card class="bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-green-900/20 border-0 shadow-xl overflow-hidden">
-          <div class="h-48 bg-gradient-to-r from-green-400 to-blue-500 relative">
+        <Card class="bg-linear-to-br from-white to-green-50 dark:from-gray-800 dark:to-green-900/20 border-0 shadow-xl overflow-hidden">
+          <div class="h-48 bg-linear-to-r from-green-400 to-blue-500 relative">
             <img 
               src="/api/placeholder/600/400" 
               alt="Open Source Project"
@@ -807,7 +807,7 @@
   </section>
 
   <!-- Weekly Newsletter -->
-  <section class="py-16 px-4 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
+  <section class="py-16 px-4 bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
     <div class="container mx-auto max-w-4xl text-center">
       <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/20">
         <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -867,7 +867,7 @@
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">
           Meet Our
-          <span class="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
+          <span class="bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
             Experts
           </span>
         </h2>
@@ -963,12 +963,12 @@
   </section>
 
   <!-- Resources & Tools -->
-  <section class="py-16 px-4 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-700">
+  <section class="py-16 px-4 bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-700">
     <div class="container mx-auto max-w-6xl">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">
           Free
-          <span class="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
+          <span class="bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
             Resources
           </span>
         </h2>
@@ -1030,7 +1030,7 @@
         ] as resource}
           <Card class="group hover:shadow-2xl transition-all duration-500 hover:scale-105 border-0 bg-white dark:bg-gray-800 backdrop-blur-sm">
             <CardContent class="p-6">
-              <div class={`w-12 h-12 bg-gradient-to-r ${resource.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              <div class={`w-12 h-12 bg-linear-to-r ${resource.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                 <resource.icon class="w-6 h-6 text-white" />
               </div>
               
@@ -1042,7 +1042,7 @@
                 <span>{resource.size}</span>
               </div>
               
-              <Button class="w-full bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-700 dark:to-gray-600">
+              <Button class="w-full bg-linear-to-r from-gray-900 to-gray-700 dark:from-gray-700 dark:to-gray-600">
                 <Download class="w-4 h-4 mr-2" />
                 Download Free
               </Button>

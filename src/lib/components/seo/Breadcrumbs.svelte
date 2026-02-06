@@ -6,7 +6,7 @@
   }>;
 </script>
 
-<nav class="py-4" aria-label="Breadcrumb">
+<nav class="py-4 px-5" aria-label="Breadcrumb">
   <ol class="flex flex-wrap items-center space-x-2 text-sm">
     {#each items as item, index}
       <li class="flex items-center">

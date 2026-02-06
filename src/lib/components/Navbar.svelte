@@ -57,14 +57,14 @@
       <!-- Logo -->
      <a href="/" class="flex items-center space-x-3 group cursor-pointer">
         <div class="relative">
-          <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+          <div class="w-12 h-12 bg-linear-to-br from-primary to-(--primary-dark) rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
             <CircuitBoard class="w-6 h-6 text-white" />
           </div>
-          <div class="absolute -inset-2 bg-[var(--primary)]/20 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
+          <div class="absolute -inset-2 bg-(--primary)/20 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
         </div>
         <div>
-          <span class="text-2xl font-black bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">RYDER</span>
-          <span class="text-2xl font-black text-[var(--secondary)]">TECH</span>
+          <span class="text-2xl font-black bg-linear-to-r from-primary to-(--primary-dark) bg-clip-text text-transparent">RYDER</span>
+          <span class="text-2xl font-black text-secondary">TECH</span>
         </div>
       </a>
 
@@ -73,10 +73,10 @@
         {#each navItems as item}
           <a
             href={item.href}
-            class="text-gray-700 font-medium hover:text-[var(--primary)] transition-colors duration-200 relative group"
+            class="text-gray-700 font-medium hover:text-primary transition-colors duration-200 relative group"
           >
             {item.name}
-            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] group-hover:w-full transition-all duration-300"></span>
+            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-primary to-[var(--secondary)] group-hover:w-full transition-all duration-300"></span>
           </a>
         {/each}
 
@@ -94,7 +94,7 @@
       <!-- Mobile Menu Button -->
       <button
         class="md:hidden p-2 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200 z-50"
-        on:click={() => mobileMenuOpen ? closeMobileMenu() : openMobileMenu()}
+        onclick={() => mobileMenuOpen ? closeMobileMenu() : openMobileMenu()}
         aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
       >
         {#if mobileMenuOpen}
@@ -107,7 +107,9 @@
 
     <!-- Mobile Menu Overlay -->
     {#if mobileMenuOpen}
-      <div class="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40" on:click={closeMobileMenu}></div>
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div class="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onclick={closeMobileMenu}></div>
     {/if}
 
     <!-- Mobile Menu Panel -->
@@ -117,8 +119,8 @@
       <div class="p-8 h-full flex flex-col">
         <!-- Mobile Logo -->
         <div class="mb-10">
-          <a href="/" class="flex items-center space-x-3" on:click={closeMobileMenu}>
-            <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-2xl flex items-center justify-center">
+          <a href="/" class="flex items-center space-x-3" onclick={closeMobileMenu}>
+            <div class="w-12 h-12 bg-linear-to-brrom-[var(--primary)] to-(--primary-dark) rounded-2xl flex items-center justify-center">
               <span class="text-white font-black text-xl">R</span>
             </div>
             <div>
@@ -136,11 +138,11 @@
               class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
               
             >
-              <span class="text-gray-800 font-medium text-lg group-hover:text-[var(--primary)]">
+              <span class="text-gray-800 font-medium text-lg group-hover:text-primary">
                 {item.name}
               </span>
-              <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 flex items-center justify-center group-hover:from-[var(--primary)]/20 group-hover:to-[var(--secondary)]/20">
-                <ArrowRight class="w-4 h-4 text-[var(--primary)]" />
+              <div class="w-8 h-8 rounded-lg bg-linear-to-r from-(--primary)/10 to-(--secondary)/10 flex items-center justify-center group-hover:from-(--primary)/20 group-hover:to-(--secondary)/20">
+                <ArrowRight class="w-4 h-4 text-primary" />
               </div>
             </a>
           {/each}
@@ -151,7 +153,7 @@
           <a
             href="/contact"
             class="creative-button w-full py-4 text-white font-semibold rounded-xl flex items-center justify-center mb-4"
-            on:click={closeMobileMenu}
+            onclick={closeMobileMenu}
           >
             <span class="flex items-center">
               Start Your Project
@@ -161,7 +163,7 @@
           
           <div class="text-center text-sm text-gray-500">
             <p>Need help? Call us:</p>
-            <a href="tel:+2349033147769" class="text-[var(--primary)] font-semibold hover:underline">
+            <a href="tel:+2349033147769" class="text-primary font-semibold hover:underline">
               +234 903 314 7769
             </a>
           </div>

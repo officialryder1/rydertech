@@ -349,7 +349,7 @@
 
 
 
-<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-secondary/5 py-8">
+<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-[var(--secondary)]/5 py-8">
   <div class="container mx-auto px-4 max-w-4xl">
     <!-- Header -->
     <div class="mb-8 md:mb-12">
@@ -703,11 +703,11 @@
                 <!-- Cost Range Display -->
                 <div class="text-center space-y-4">
                   <div class="inline-flex items-baseline justify-center gap-2">
-                    <span class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                    <span class="text-5xl md:text-6xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                       {formatCurrency(currentCostRange.min, selectedCurrency)}
                     </span>
                     <span class="text-2xl text-muted-foreground">–</span>
-                    <span class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                    <span class="text-5xl md:text-6xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                       {formatCurrency(currentCostRange.max, selectedCurrency)}
                     </span>
                   </div>

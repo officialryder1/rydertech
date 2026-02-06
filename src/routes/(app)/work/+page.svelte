@@ -94,7 +94,7 @@
         <div class="container mx-auto max-w-6xl text-center">
             <Badge variant="secondary" class="mb-4">Our Portfolio</Badge>
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Featured <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Projects</span>
+                Featured <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Projects</span>
             </h1>
             <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Discover how we've helped businesses transform their ideas into successful digital products.
@@ -181,7 +181,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 px-4 bg-gradient-to-br from-[var(--primary)] via-[var(--accent)] to-[var(--primary-dark)] text-white">
+    <section class="py-20 px-4 bg-linear-to-br from-[var(--primary)] via-[var(--accent)] to-[var(--primary-dark)] text-white">
         <div class="container mx-auto max-w-4xl text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Have a Project in Mind?</h2>
             <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">

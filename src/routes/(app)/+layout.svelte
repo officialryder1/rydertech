@@ -191,7 +191,7 @@ function applyUpdate() {
       <div class="grid md:grid-cols-4 gap-8">
         <div class="md:col-span-2">
           <div class="flex items-center space-x-3 mb-6">
-            <div class="w-12 h-12 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-2xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-linear-to-br from-[var(--primary)] to-[var(--secondary)] rounded-2xl flex items-center justify-center">
               <CircuitBoard class="w-6 h-6 text-white" />
             </div>
             <div>

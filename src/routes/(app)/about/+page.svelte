@@ -71,7 +71,7 @@
                 <div>
                     <Badge variant="secondary" class="mb-4">Our Story</Badge>
                     <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                        Building <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Digital</span> Futures
+                        Building <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Digital</span> Futures
                     </h1>
                     <p class="text-xl text-muted-foreground mb-8 leading-relaxed">
                         RyderTech was founded with a simple mission: to deliver exceptional software solutions 

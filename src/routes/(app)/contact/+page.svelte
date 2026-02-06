@@ -104,7 +104,7 @@
         <div class="container mx-auto max-w-6xl text-center">
             <Badge variant="secondary" class="mb-4">Get In Touch</Badge>
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Let's <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Build</span> Together
+                Let's <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Build</span> Together
             </h1>
             <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Ready to start your project? Contact us for a free consultation and let's discuss how we can help bring your ideas to life.

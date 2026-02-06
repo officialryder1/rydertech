@@ -71,7 +71,7 @@
 
 <div class="min-h-screen bg-white">
   <!-- Hero Section -->
-  <section class="pt-40 pb-20 px-4 bg-gradient-to-br from-blue-50 to-white">
+  <section class="pt-40 pb-20 px-4 bg-linear-to-br from-blue-50 to-white">
     <div class="container mx-auto max-w-6xl">
       <div class="text-center">
         <Badge variant="outline" class="mb-4 px-4 py-1 border-primary/30 text-primary">
@@ -147,7 +147,7 @@
       <p class="text-xl text-gray-600 mb-8">
         Join hundreds of Nigerian businesses that trust RyderTech for their web design needs.
       </p>
-      <a href="/contact" class="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:shadow-xl transition-all">
+      <a href="/contact" class="inline-block px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:shadow-xl transition-all">
         Start Your Website Project Today
       </a>
     </div>

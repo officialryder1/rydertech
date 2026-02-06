@@ -193,7 +193,7 @@
     <div class="px-6 py-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-lg flex items-center justify-center">
+          <div class="w-8 h-8 bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-lg flex items-center justify-center">
             <Shield class="w-5 h-5 text-white" />
           </div>
           <div>
@@ -321,7 +321,7 @@
                     {#each submissions.slice(0, 5) as submission}
                       <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
                         <div class="flex items-center space-x-3">
-                          <div class="w-10 h-10 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full flex items-center justify-center">
+                          <div class="w-10 h-10 bg-linear-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full flex items-center justify-center">
                             <Users class="w-5 h-5 text-[var(--primary)]" />
                           </div>
                           <div>
@@ -364,7 +364,7 @@
                     {#each newsletters.slice(0, 5) as subscriber}
                       <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
                         <div class="flex items-center space-x-3">
-                          <div class="w-10 h-10 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center">
+                          <div class="w-10 h-10 bg-linear-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center">
                             <Mail class="w-5 h-5 text-green-600" />
                           </div>
                           <div>
@@ -517,7 +517,7 @@
                         <tr class="hover:bg-gray-50 transition-colors">
                           <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                              <div class="w-8 h-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mr-3">
+                              <div class="w-8 h-8 bg-linear-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mr-3">
                                 <Mail class="w-4 h-4 text-green-600" />
                               </div>
                               <div class="font-medium text-gray-900">{subscriber.email}</div>
@@ -550,7 +550,7 @@
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
           <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-scale-in">
             <!-- Modal Header -->
-            <div class="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] p-6 text-white">
+            <div class="bg-linear-to-r from-[var(--primary)] to-[var(--primary-dark)] p-6 text-white">
               <div class="flex items-center justify-between">
                 <div>
                   <h2 class="text-2xl font-bold">Lead Details</h2>
