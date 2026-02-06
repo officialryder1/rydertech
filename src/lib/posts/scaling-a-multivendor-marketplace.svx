@@ -95,9 +95,9 @@ Technical Insight: By decoupling the payment intent from the order creation, we 
 
 ## Conclusion: Don't Just Build, Architect.
 
-- **The Close:** "discovaNg isn't just a website; it’s a scalable business engine. At RyderTech, we don't just write code we build the future of Nigerian retail."
+- discovaNg isn't just a website; it’s a scalable business engine. At RyderTech, we don't just write code we build the future of Nigerian retail.
 
-- **The CTA:** "Planning a marketplace? Read our [web-design-cost-nigeria](/blog/web-design-cost-nigeria) or [contact](/contact)."
+- Planning a marketplace? Read our [web-design-cost-nigeria](/blog/web-design-cost-nigeria) or [contact](/contact).
 
 ---
 
