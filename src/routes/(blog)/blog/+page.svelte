@@ -87,11 +87,6 @@
   }
 </script>
 
-<svelte:head>
-  <title>Blog - RyderTech | Insights & Technology Articles</title>
-  <meta name="description" content="Read the latest insights on web development, cloud computing, AI, and software architecture from the RyderTech team." />
-</svelte:head>
-
 <div class="min-h-screen bg-background">
   <!-- Option 1: Show the alert in top-right corner -->
    {#if showPromoPopup}

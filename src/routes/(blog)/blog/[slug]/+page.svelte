@@ -15,7 +15,7 @@
   }
 </script>
 
-<article class="min-h-screen bg-background pt-32 pb-20">
+<article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg">
   <div class="container mx-auto max-w-4xl px-4">
     <!-- Blog Header -->
     <header class="text-center mb-12">
@@ -258,5 +258,14 @@
 
   .prose li::marker {
     color: var(--primary);
+  }
+
+  :global(p){
+    margin-bottom: 1.25rem;
+  }
+
+  :global(img){
+    margin: 1rem 0;
+	  border-radius: 0.5rem;
   }
 </style>
