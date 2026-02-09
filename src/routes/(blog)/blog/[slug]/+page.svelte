@@ -1,8 +1,10 @@
 <script>
-  let { data } = $props();
+  import { ArrowLeft } from '@lucide/svelte';
+  import SharePost from '$lib/components/SharePost.svelte';
+
+  let { data, url } = $props();
+
   const { post } = data;
-  import { ArrowRight, ArrowLeft } from '@lucide/svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
   
   // Format date once
   const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', { 
@@ -50,6 +52,8 @@
         </div>
       </div>
     </header>
+
+    <SharePost title={post.metadata.title} {url}/>
 
     <!-- Featured Image -->
     {#if post.metadata.image}
