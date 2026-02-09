@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Menu, X, ArrowRight, CircuitBoard } from '@lucide/svelte';
+  import { page } from '$app/stores'
 
   let scrolled = $state(false);
   let mobileMenuOpen = $state(false);
@@ -14,6 +15,7 @@
     { name: 'Review', href: '/reviews' },
     { name: 'Contact', href: '/contact' }
   ];
+
 
   onMount(() => {
     const handleScroll = () => {
@@ -136,6 +138,7 @@
             <a
               href={item.href}
               class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
+              onclick={() => closeMobileMenu()}
               
             >
               <span class="text-gray-800 font-medium text-lg group-hover:text-primary">
