@@ -7,6 +7,7 @@
   import { page } from '$app/stores'
   import Navbar from '$lib/components/Navbar.svelte';
   import '@fontsource-variable/inter';
+  import { fade } from 'svelte/transition';
 
 	import { 
     CircuitBoard,
@@ -153,7 +154,8 @@ function applyUpdate() {
   <Navbar />
 
   <!-- Main Content -->
-  <main>
+  <main transition:fade>
+     <!-- Blog Header -->
     {#if updateAvailable}
       <div class="fixed bottom-6 right-6 z-[100] max-w-sm bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
         <div class="flex items-start space-x-4">

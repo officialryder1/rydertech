@@ -11,6 +11,7 @@
   import { CheckCircle, AlertCircle } from '@lucide/svelte';
   import StarRating from '$lib/components/ui/star-rating.svelte';
   import { toast } from 'svelte-sonner';
+  import { fade } from 'svelte/transition';
 
   let project: any = null;
   let loading = true;
@@ -89,7 +90,7 @@
   }
 </script>
 
-<div class="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-12 px-4">
+<div class="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-12 px-4" transition:fade>
   <div class="max-w-2xl mx-auto">
     {#if loading}
       <div class="text-center py-12">

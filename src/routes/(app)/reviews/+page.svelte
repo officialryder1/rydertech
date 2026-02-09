@@ -3,6 +3,7 @@
   import { supabase } from '$lib/supabaseClient';
   import { Star, Quote, Calendar, Star as StarIcon } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
+  import { fade } from 'svelte/transition';
 
   let reviews: any[] = [];
   let loading = true;
@@ -65,7 +66,7 @@
   <meta name="description" content="Read verified reviews from our satisfied clients. See what businesses say about working with RyderTech." />
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white" transition:fade>
   <!-- Hero -->
   <section class="pt-32 pb-20 px-4">
     <div class="container mx-auto max-w-6xl">

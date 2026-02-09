@@ -13,6 +13,7 @@
   import JobPromoAlert from '$lib/components/JobPromoAlert.svelte';
 
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
 
     // State for controlling popups
   let showPromoPopup = $state(false);
@@ -87,7 +88,7 @@
   }
 </script>
 
-<div class="min-h-screen bg-background">
+<div class="min-h-screen bg-background" transition:fade>
   <!-- Option 1: Show the alert in top-right corner -->
    {#if showPromoPopup}
     <JobPromoAlert 

@@ -20,6 +20,7 @@
     Database,
   } from '@lucide/svelte';
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
 
   // Job categories
   const categories = [
@@ -256,7 +257,7 @@
   });
 </script>
 
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50" transition:fade>
   <!-- Hero Section -->
   <section class="pt-32 pb-20 px-4 bg-gradient-to-br from-[var(--primary)] via-[var(--primary-dark)] to-[var(--secondary)] relative overflow-hidden">
     <!-- Background Pattern -->

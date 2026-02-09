@@ -349,7 +349,7 @@
 
 
 
-<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-[var(--secondary)]/5 py-8">
+<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-[var(--secondary)]/5 py-8" transition:fade>
   <div class="container mx-auto px-4 max-w-4xl">
     <!-- Header -->
     <div class="mb-8 md:mb-12">

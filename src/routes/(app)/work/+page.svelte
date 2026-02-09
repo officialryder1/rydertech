@@ -5,6 +5,7 @@
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
     import { Badge } from '$lib/components/ui/badge';
+    import { fade } from 'svelte/transition';
 
     const projects = [
         {
@@ -88,7 +89,7 @@
     <meta name="description" content="Explore RyderTech's portfolio of successful projects including web applications, mobile apps, and custom software solutions." />
 </svelte:head>
 
-<div class="min-h-screen bg-background pt-32">
+<div class="min-h-screen bg-background pt-32" transition:fade>
     <!-- Hero Section -->
     <section class="py-20 px-4">
         <div class="container mx-auto max-w-6xl text-center">

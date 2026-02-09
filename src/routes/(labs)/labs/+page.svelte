@@ -4,6 +4,7 @@
   import { Button } from "$lib/components/ui/button";
   import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
+  import { fade } from "svelte/transition";
   
   // Define your theme colors
   const theme = {
@@ -55,7 +56,7 @@
   
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-[var(--secondary)]/5">
+<div class="min-h-screen bg-gradient-to-b from-background via-background/95 to-[var(--secondary)]/5" transition:fade>
   <!-- Hero Section -->
   <section class="container mx-auto px-4 pt-16 pb-8 md:pt-24 md:pb-12">
     <div class="max-w-3xl mx-auto text-center space-y-6">

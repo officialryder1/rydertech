@@ -1,8 +1,9 @@
 <script>
   import { ArrowLeft } from '@lucide/svelte';
   import SharePost from '$lib/components/SharePost.svelte';
+  import { fade } from 'svelte/transition';
 
-  let { data, url } = $props();
+  let { data} = $props();
 
   const { post } = data;
   
@@ -19,7 +20,7 @@
   }
 </script>
 
-<article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg">
+<article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg" transition:fade>
   <a href="/blog" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
         <ArrowLeft class="w-4 h-4" />
         Back to Blog
