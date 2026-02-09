@@ -1,6 +1,8 @@
 <script>
   let { data } = $props();
   const { post } = data;
+  import { ArrowRight, ArrowLeft } from '@lucide/svelte';
+  import Button from '$lib/components/ui/button/button.svelte';
   
   // Format date once
   const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', { 
@@ -16,6 +18,10 @@
 </script>
 
 <article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg">
+  <a href="/blog" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
+        <ArrowLeft class="w-4 h-4" />
+        Back to Blog
+  </a>
   <div class="container mx-auto max-w-4xl px-4">
     <!-- Blog Header -->
     <header class="text-center mb-12">
@@ -113,7 +119,7 @@
       </div>
       
       <button 
-        on:click={scrollToTop}
+        onclick={scrollToTop}
         class="text-muted-foreground hover:text-foreground flex items-center transition-colors group"
       >
         <span class="mr-2">Back to top</span>
