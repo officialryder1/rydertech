@@ -125,13 +125,10 @@
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <button 
-          disabled
-          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
-        >
-          Notify Me When Ready
-          <Bell class="w-4 h-4 ml-2" />
-        </button>
+          <Button class="w-full gap-2 group-hover:bg-blue-600" href="/labs/website-rater">
+            Website Rater
+            <ArrowRight class="w-4 h-4" />
+          </Button>
         </CardContent>
       </Card>
 
