@@ -3,7 +3,7 @@
   import SharePost from '$lib/components/SharePost.svelte';
   import { fade } from 'svelte/transition';
 
-  let { data} = $props();
+  let { data, url } = $props();
 
   const { post } = data;
   

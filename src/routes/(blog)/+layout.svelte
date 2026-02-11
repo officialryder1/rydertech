@@ -1,6 +1,5 @@
 <script>
     import '../../app.css';
-    import { fade } from 'svelte/transition';
     let { children } = $props()
 
 </script>
