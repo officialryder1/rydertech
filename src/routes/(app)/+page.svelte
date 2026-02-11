@@ -624,7 +624,7 @@
           </Badge>
         </div>
         
-        <h3 class="text-xl font-black text-gray-900 mb-3">Website Copy Analyzer</h3>
+        <h3 class="text-xl font-black text-gray-900 mb-3">Website Analyzer</h3>
         <p class="text-gray-600 mb-4 leading-relaxed">
           Analyze your homepage copy and get AI-powered feedback on clarity and conversion potential.
         </p>
@@ -650,13 +650,13 @@
           </div>
         </div>
         
-        <button 
-          disabled
-          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
+        <a 
+          href="/labs/website-rater" 
+          class="w-full py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
         >
-          Notify Me When Ready
-          <Bell class="w-4 h-4 ml-2" />
-        </button>
+          Try Free Tool
+          <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+        </a>
       </div>
 
       <!-- MVP Feature Planner Card (Coming Soon) -->
