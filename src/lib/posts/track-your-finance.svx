@@ -32,6 +32,7 @@ If you're juggling expenses in both USD and Naira (like many Nigerians abroad or
 That's exactly why I built Flow.
 
 ## Meet Flow – Your Financial Companion
+
 Flow is a simple, beautiful app that helps you:
 
 - Track every expense in seconds
@@ -51,7 +52,7 @@ You can input expenses in whichever currency you used, and Flow automatically co
 
 ## ⚡ It Takes 10 Seconds
 
-Go to the => [website](https://flow-spense.pages.app) & install the platform on your mobile phone for easy access or browse through the online version
+Go to the => [website](https://flow-spense.pages.dev) & install the platform on your mobile phone for easy access or browse through the online version
 
 Open the app, type the amount, pick a category, done. You're more likely to track expenses when it doesn't feel like homework.
 
@@ -61,7 +62,7 @@ Ever wonder how much you actually spend on "eating out" vs "groceries"? Flow sho
 
 ## 📱 Works on Your Phone (Even Offline)
 
-Click here to go to the Official => [website](https://flow-spense.pages.app)
+Click here to go to the Official => [website](https://flow-spense.pages.dev)
 
 Flow is a Progressive Web App – fancy tech speak for "it works like a real app."
 
@@ -94,7 +95,7 @@ So I built Flow for people like us. No fluff, no complicated features you'll nev
 
 ## Getting Started Takes 2 Minutes
 
-1. Open [FLOW](https://flow-spense.pages.app) on your phone or computer
+1. Open [FLOW](https://flow-spense.pages.dev) on your phone or computer
 2. Add your first expense
 3. That's it. Start seeing where your money really goes.
 
@@ -115,4 +116,4 @@ Have an idea? Just email me at **rydertech.ng@gmail.com** – I read every messa
 
 The first step to financial freedom is knowing where your money goes. Flow makes that step effortless.
 
-[Try Flow Free Today →](https://flow-spense.pages.app)
+[Try Flow Free Today →](https://flow-spense.pages.dev)
