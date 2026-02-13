@@ -69,18 +69,7 @@
     {/if}
 
     <!-- Blog Content -->
-    <div class="prose prose-lg max-w-none 
-                prose-headings:text-foreground 
-                prose-p:text-muted-foreground 
-                prose-a:text-primary hover:prose-a:text-primary/80
-                prose-strong:text-foreground 
-                prose-code:text-foreground prose-code:bg-muted prose-code:px-1 prose-code:rounded
-                prose-pre:bg-muted prose-pre:border prose-pre:border-border
-                prose-li:text-muted-foreground
-                prose-blockquote:border-primary prose-blockquote:bg-primary/5
-                prose-img:rounded-lg prose-img:shadow-md
-                prose-table:border-border prose-th:bg-muted
-                prose-hr:border-border">
+    <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted prose-li:text-muted-foreground">
       <svelte:component this={post.default} />
     </div>
 
@@ -139,32 +128,32 @@
     line-height: 1.75;
   }
   
-  .prose h2 {
+  :global(.prose h2) {
     font-size: 1.875em;
     margin-top: 2em;
     margin-bottom: 1em;
     font-weight: 700;
   }
   
-  .prose h3 {
+  :global(.prose h3) {
     font-size: 1.5em;
     margin-top: 1.6em;
     margin-bottom: 0.8em;
     font-weight: 600;
   }
 
-  .prose h4 {
+  :global(.prose h4) {
     font-size: 1.25em;
     margin-top: 1.4em;
     margin-bottom: 0.6em;
     font-weight: 600;
   }
   
-  .prose p {
+  :global(.prose p) {
     margin-bottom: 1.5em;
   }
   
-  .prose code:not(pre code) {
+  :global(.prose code:not(pre code)) {
     background: var(--muted);
     padding: 0.2em 0.4em;
     border-radius: 0.25rem;
@@ -172,7 +161,7 @@
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   }
   
-  .prose pre {
+  :global(.prose pre) {
     padding: 1.5em;
     border-radius: 0.5rem;
     overflow-x: auto;
@@ -181,26 +170,26 @@
     line-height: 1.5;
   }
 
-  .prose pre code {
+  :global(.prose pre code) {
     background: none;
     padding: 0;
     border-radius: 0;
   }
   
-  .prose ul, .prose ol {
+  :global(.prose ul, .prose ol) {
     margin: 1.5em 0;
     padding-left: 1.5em;
   }
   
-  .prose li {
+  :global(.prose li) {
     margin: 0.5em 0;
   }
 
-  .prose li > p {
+  :global(.prose li > p) {
     margin: 0;
   }
   
-  .prose blockquote {
+  :global(.prose blockquote) {
     border-left: 4px solid var(--primary);
     padding: 1em 1.5em;
     margin: 1.5em 0;
@@ -209,65 +198,69 @@
     border-radius: 0 0.5rem 0.5rem 0;
   }
 
-  .prose blockquote > :first-child {
+  :global(.prose blockquote > :first-child) {
     margin-top: 0;
   }
 
-  .prose blockquote > :last-child {
+  :global(.prose blockquote > :last-child) {
     margin-bottom: 0;
   }
 
-  .prose table {
+  :global(.prose table) {
     width: 100%;
     border-collapse: collapse;
     margin: 1.5em 0;
   }
 
-  .prose th,
-  .prose td {
+  :global(.prose th), :global(.prose td) {
+    border: 1px solid var(--border);
+    padding: 0.75em;
+    text-align: left;
+  }
+  :global(.prose td) {
     border: 1px solid var(--border);
     padding: 0.75em;
     text-align: left;
   }
 
-  .prose th {
+  :global(.prose th) {
     font-weight: 600;
   }
 
-  .prose hr {
+  :global(.prose hr) {
     border: none;
     border-top: 1px solid var(--border);
     margin: 2em 0;
   }
 
   /* Ensure images are responsive */
-  .prose img {
+  :global(.prose img) {
     max-width: 100%;
     height: auto;
   }
 
   /* Better link styling */
-  .prose a {
+  :global(.prose a) {
     text-decoration: none;
     font-weight: 500;
     border-bottom: 1px solid transparent;
     transition: all 0.2s ease;
   }
 
-  .prose a:hover {
+  :global(.prose a:hover) {
     border-bottom-color: var(--primary);
   }
 
   /* Improve list styling */
-  .prose ul {
+  :global(.prose ul) {
     list-style-type: disc;
   }
 
-  .prose ol {
+  :global(.prose ol) {
     list-style-type: decimal;
   }
 
-  .prose li::marker {
+  :global(.prose li::marker) {
     color: var(--primary);
   }
 

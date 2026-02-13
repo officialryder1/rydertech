@@ -1,0 +1,118 @@
+---
+title: "Introducing Flow: The Smart Way to Track Your Money (USD & NGN)"
+date: 2026-02-13
+author: "Official Ryder"
+excerpt: "Tired of Guessing Where Your Money Goes?."
+readTime: "8 min read"
+tags: ["Finance Tracking", "Money", "Growth"]
+image: "/flow.png"
+views: 100
+comments: 10
+featured: true
+schemaType: "Article"
+category: "Web Design"
+readingTime: "5 min read"
+
+# SEO fields
+slug: "scaling-multi-vendor-marketplace-nigeria"
+seoTitle: "Scaling Discova.ng — Resilient Multi‑Vendor Marketplace Lessons"
+keywords: "multi-vendor marketplace Nigeria, scale marketplace, marketplace architecture, SvelteKit marketplace, ecommerce Nigeria, adaptive images, edge caching, payment orchestration"
+ogTitle: "Scaling Discova.ng — Resilient Multi‑Vendor Marketplace Lessons"
+ogDescription: "A technical case study from RyderTech on scaling Discova.ng: multi-tenant architecture, image orchestration, edge caching and payment orchestration that improved performance and vendor trust in Nigeria."
+twitterText: "How RyderTech scaled Discova.ng with SvelteKit, edge caching & payment orchestration — actionable engineering lessons for Nigerian marketplaces."
+
+---
+
+## Tired of Guessing Where Your Money Goes?
+
+We've all been there. You get paid, bills are paid, you spend on daily needs, and somehow... the money disappears. Where did it all go?
+
+If you're juggling expenses in both USD and Naira (like many Nigerians abroad or those dealing with international transactions), tracking your money gets even more complicated.
+
+That's exactly why I built Flow.
+
+## Meet Flow – Your Financial Companion
+Flow is a simple, beautiful app that helps you:
+
+- Track every expense in seconds
+- See exactly where your money goes with visual breakdowns
+- Switch between USD and Naira seamlessly
+- Understand your habits so you can make better choices
+
+And the best part? **It's completely free.**
+
+## Why Flow is Different
+
+#### 🇺🇸 🇳🇬 Dual Currency Support (USD & NGN)
+
+Do you get paid in dollars but spend in naira? Or maybe you're a Nigerian professional working remotely? Flow handles both currencies effortlessly.
+
+You can input expenses in whichever currency you used, and Flow automatically converts and tracks everything in the background. Switch views anytime – your ₦50,000 grocery run will show as dollars when you need it to.
+
+## ⚡ It Takes 10 Seconds
+
+Go to the => [website](https://flow-spense.pages.app) & install the platform on your mobile phone for easy access or browse through the online version
+
+Open the app, type the amount, pick a category, done. You're more likely to track expenses when it doesn't feel like homework.
+
+## 📊 See the Big Picture
+
+Ever wonder how much you actually spend on "eating out" vs "groceries"? Flow shows you beautiful charts that reveal your real spending patterns. Sometimes seeing it visually is all the motivation you need to cut back.
+
+## 📱 Works on Your Phone (Even Offline)
+
+Click here to go to the Official => [website](https://flow-spense.pages.app)
+
+Flow is a Progressive Web App – fancy tech speak for "it works like a real app."
+
+- Add it to your phone's home screen
+- Use it without internet (great for when you're traveling)
+- No app store downloads required
+- Uses almost no storage space
+
+## 🔒 Your Data Stays Yours
+
+All your financial information lives on your device. No cloud, no servers, no company reading your transactions. It's just you and your money
+
+## Who is Flow For?
+
+- ✅ Remote workers getting paid in dollars but living in Nigeria
+- ✅ Students trying to manage allowances
+- ✅ Families tracking household expenses
+- ✅ Small business owners monitoring petty cash
+- ✅ Anyone who's ever asked "where did my money go?"
+
+
+## Real Talk: Why I Built This
+
+I needed a finance tracker that understood my reality and to be accountable for all the income that leaves my hands.
+
+ever wonder how you spend a huge amount of money but don't have
+a proof to show where and how it left your hands. I made up my mind to keep record and proper documentations of my finance.
+
+So I built Flow for people like us. No fluff, no complicated features you'll never use just clean, simple expense tracking that works the way we actually live.
+
+## Getting Started Takes 2 Minutes
+
+1. Open [FLOW](https://flow-spense.pages.app) on your phone or computer
+2. Add your first expense
+3. That's it. Start seeing where your money really goes.
+
+Want the app on your home screen? Just tap "Share" (on iPhone) or "Add to Home Screen" (on Android) from your browser. Now it opens like any other app.
+
+## What's Coming Next
+
+I'm building Flow in the open and would love your input. Coming soon:
+
+- Monthly budgets with alerts when you're close to limit
+- Export your data to Excel/CSV
+- Recurring expenses (rent, subscriptions, etc.)
+- Dark mode (already here, actually!)
+
+Have an idea? Just email me at **rydertech.ng@gmail.com** – I read every message.
+
+## Stop Guessing. Start Knowing
+
+The first step to financial freedom is knowing where your money goes. Flow makes that step effortless.
+
+[Try Flow Free Today →](https://flow-spense.pages.app)
