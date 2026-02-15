@@ -10,7 +10,7 @@ tags: ["Startups", "Business", "Blog"]
 readingTime: "5 min read"
 views: 100
 comments: 10
-featured: true
+featured: false
 schemaType: "Article"
 readTime: "8 min read"
 ---

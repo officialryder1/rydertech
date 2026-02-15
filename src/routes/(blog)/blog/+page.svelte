@@ -32,6 +32,7 @@
 
   let blogPosts = data?.posts;
 
+
   
   const categories = [
     'All',
@@ -40,7 +41,9 @@
     'Artificial Intelligence',
     'UI/UX Design',
     'Security',
-    'Mobile Development'
+    'Mobile Development',
+    'Business',
+    'Others'
   ];
 
   const popularTags = [
@@ -163,7 +166,7 @@
                 </div>
                 <div class="flex items-center space-x-2">
                   <Calendar class="w-4 h-4" />
-                  <span>{formatDate(featuredPost.publishDate)}</span>
+                  <span>{formatDate(featuredPost.date)}</span>
                 </div>
                 <div class="flex items-center space-x-2">
                   <Clock class="w-4 h-4" />
@@ -365,7 +368,7 @@
                         </div>
                         <div class="flex items-center space-x-1">
                           <Calendar class="w-4 h-4" />
-                          <span>{formatDate(post.publishDate)}</span>
+                          <span>{formatDate(post.date)}</span>
                         </div>
                       </div>
                       <div class="flex items-center space-x-1">

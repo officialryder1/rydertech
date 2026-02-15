@@ -39,6 +39,16 @@
             featured: false
         },
         {
+            title: 'FLOW-SPENSE',
+            description: 'A comprehensive personal finance management application with expense tracking, budgeting, and financial insights.',
+            image: "/flow.png",
+            category: 'Mobile Development',
+            technologies: ['SvelteKit', 'Node.js', 'PWA', 'CloudFlare'],
+            liveUrl: 'https://flow-spense.pages.dev/',
+            githubUrl: '#',
+            featured: false
+        },
+        {
             title: 'Real Estate Platform',
             description: 'Property listing and management system with virtual tours and AI-powered recommendations.',
             image: '#',
@@ -48,16 +58,7 @@
             githubUrl: '#',
             featured: false
         },
-        {
-            title: 'Fitness Tracking App',
-            description: 'Cross-platform fitness app with workout plans, progress tracking, and social features.',
-            image: "#",
-            category: 'Mobile Development',
-            technologies: ['Flutter', 'Node.js', 'MongoDB', 'Google Fit'],
-            liveUrl: '#',
-            githubUrl: '#',
-            featured: false
-        },
+        
         {
             title: 'Supply Chain Management',
             description: 'Enterprise supply chain solution with inventory optimization and logistics tracking.',

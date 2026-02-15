@@ -8,7 +8,7 @@ tags: ["web design nigeria", "scaling business", "E-commerce"]
 image: "/scale.png"
 views: 100
 comments: 10
-featured: true
+featured: false
 schemaType: "Article"
 category: "Web Design"
 readingTime: "5 min read"
