@@ -53,6 +53,38 @@
     */
   }
 
+  let cards = [
+    {
+      title: 'Website Cost Estimator',
+      description: 'Get a rough estimate of what it would cost to build your website based on your idea.',
+      icon: Calculator,
+      href: '/labs/cost-estimator',
+      action: 'Estimate Cost'
+    },
+    {
+      title: 'Website Copy Analyzer',
+      description: 'Analyze your homepage copy and get AI-powered feedback on clarity and conversion.',
+      icon: FileText,
+      href: '/labs/website-rater',
+      action: 'Analyze Copy'
+    },
+    {
+      title: 'MVP Feature Planner',
+      description: 'Prioritize features for your app or product MVP with AI-powered recommendations.',
+      icon: LayoutGrid,
+      href: '#',
+      comingSoon: true,
+      action: 'Notify Me When Ready'
+    },
+    {
+      title: 'Finance Tracker',
+      description: 'Track and analyze your personal or business finances with AI-powered insights.',
+      icon: Brain,
+      href: 'https://flow-spense.pages.dev/',
+      action: 'Track Finances'
+    }
+  ];
+
   
 </script>
 
@@ -92,86 +124,30 @@
   </section>
 
   <!-- Tools Grid -->
-  <section class="container mx-auto px-4 py-12 md:py-20" id="#tools">
+  <section class="container mx-auto px-4 py-12 md:py-10" id="#tools">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Tool Card 1 -->
-      <Card class="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-muted/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader class="pb-3">
-          <div class="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-            <Calculator class="w-6 h-6 text-blue-500" />
-          </div>
-          <CardTitle class="text-xl text-foreground">Website Cost Estimator</CardTitle>
-          <CardDescription>
-            Get a rough estimate of what it would cost to build your website based on your idea.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button class="w-full gap-2 group-hover:bg-blue-600" href="/labs/cost-estimator">
-            Estimate Cost
-            <ArrowRight class="w-4 h-4" />
-          </Button>
-        </CardContent>
-      </Card>
-
-      <!-- Tool Card 2 -->
-      <Card class="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-muted/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader class="pb-3">
-          <div class="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-            <FileText class="w-6 h-6 text-purple-500" />
-          </div>
-          <CardTitle class="text-xl text-foreground">Website Copy Analyzer</CardTitle>
-          <CardDescription>
-            Analyze your homepage copy and get AI-powered feedback on clarity and conversion.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button class="w-full gap-2 group-hover:bg-blue-600" href="/labs/website-rater">
-            Website Rater
-            <ArrowRight class="w-4 h-4" />
-          </Button>
-        </CardContent>
-      </Card>
-
-      <!-- Tool Card 3 -->
-      <Card class="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-muted/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader class="pb-3">
-          <div class="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-4">
-            <LayoutGrid class="w-6 h-6 text-emerald-500" />
-          </div>
-          <CardTitle class="text-xl text-foreground">MVP Feature Planner</CardTitle>
-          <CardDescription>
-            Prioritize features for your app or product MVP with AI-powered recommendations.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <button 
-          disabled
-          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
-        >
-          Notify Me When Ready
-          <Bell class="w-4 h-4 ml-2" />
-        </button>
-        </CardContent>
-      </Card>
-
-      <!-- Additional Demo Card -->
-      <Card class="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-muted/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader class="pb-3">
-          <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center mb-4">
-            <Brain class="w-6 h-6 text-amber-500" />
-          </div>
-          <CardTitle class="text-xl text-foreground">User Persona Generator</CardTitle>
-          <CardDescription>
-            Create detailed user personas for your target audience in minutes.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" class="w-full gap-2">
-            Generate Personas
-            <ArrowRight class="w-4 h-4" />
-          </Button>
-        </CardContent>
-      </Card>
+      {#each cards as card}
+        <Card class="hover:shadow-lg transition-shadow group">
+          <CardHeader class="flex items-center gap-4 pb-4">
+            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <svelte:component this={card.icon} class="w-5 h-5 text-primary" />
+            </div>
+            <CardTitle class="text-lg font-semibold text-foreground">{card.title}</CardTitle>
+          </CardHeader>
+          <CardContent class="text-muted
+-foreground">
+            <CardDescription>{card.description}</CardDescription>
+            <Button 
+              variant={card.comingSoon ? "outline" : "default"} 
+              class="mt-4 w-full"
+              href={card.href}
+              disabled={card.comingSoon}
+            >
+              {card.action}
+            </Button>
+          </CardContent>
+        </Card>
+      {/each}
 
       <!-- Coming Soon Card -->
       <Card class="border-dashed border-2 border-muted/30 bg-transparent">
