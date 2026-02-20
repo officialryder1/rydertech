@@ -111,7 +111,7 @@
 		if (navigator.share) {
 			navigator.share({
 				title: `Website Analysis: ${reviewedUrl}`,
-				text: `My website scored ${review.overallScore}/10 on LuxReview!`,
+				text: `My website scored ${review.overallScore}/10 on RyderTECHLabs website rater!`,
 				url: window.location.href
 			});
 		} else {
@@ -157,7 +157,7 @@
 	<header class="border-b border-brand-blue/10 bg-white/80 backdrop-blur-md sticky top-0 z-50">
 		<div class="container mx-auto px-4 h-16 flex items-center justify-between">
 			<div class="flex items-center gap-2">
-        <a href="/labs/website-rater" class="flex items-center gap-2 group" aria-label="RyderTech Labs - website rater">
+        <a href="/labs" class="flex items-center gap-2 group" aria-label="RyderTech Labs - website rater">
           <div class="w-8 h-8 bg-gradient-to-br from-brand-blue to-brand-blue-light rounded-lg flex items-center justify-center">
             <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
           </div>
