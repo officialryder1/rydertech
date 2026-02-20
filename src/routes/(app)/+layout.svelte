@@ -46,7 +46,7 @@
 	
   onMount(() => {
         detectServiceWorkerUpdate();
-    });
+  });
 
 
 	onMount(() => {
