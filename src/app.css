@@ -133,9 +133,7 @@
     --gray-100: #F3F4F6;
     --gray-800: #1F2937;
     --gray-900: #111827;
-    --gold: #d4af37;
-    --blue-light: #3b82f6;
-    --gold-light: #f4d03f,
+
 
     /* Unique gradient combinations */
     --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
