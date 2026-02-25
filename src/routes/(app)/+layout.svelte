@@ -6,7 +6,9 @@
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/stores'
   import Navbar from '$lib/components/Navbar.svelte';
-  import '@fontsource-variable/inter';
+  import '@fontsource/montserrat';
+
+
   import { fade } from 'svelte/transition';
 
 	import { 
@@ -153,6 +155,7 @@ function applyUpdate() {
   <!-- Navigation -->
   <Navbar />
 
+
   <!-- Main Content -->
   <main transition:fade>
      <!-- Blog Header -->
@@ -252,6 +255,6 @@ function applyUpdate() {
   }
   
   :global(body) {
-    font-family: 'Inter Variable', sans-serif;
+    font-family: 'montserrat', 'sysytem-ui';
   }
 </style>

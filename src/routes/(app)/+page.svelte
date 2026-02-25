@@ -317,29 +317,29 @@
           
           <!-- Main Headline -->
           <h1 class="text-5xl md:text-7xl font-black leading-tight">
-             Nigeria's Leading <span class="gradient-text">Web Design</span>
+             Build the <span class="gradient-text">Digital Engine</span>
             <br />
-            <span class="text-gray-900">& Software Agency</span>
+            <span class="text-gray-900">That Drives Your Business Growth</span>
           </h1>
           
           <!-- Description -->
           <p class="text-xl text-gray-600 leading-relaxed">
-            We build <strong>professional websites</strong> and <strong>custom software</strong> for businesses across Nigeria. 
-            Serving clients in <strong>Lagos</strong>, <strong>Abuja</strong>, <strong>Port Harcourt</strong>, and nationwide.
+            We don't just build <strong>websites</strong> we <strong>engineer custom </strong> software and high-performace platforms that turn local businesses into market leaders.<br>
+            Serving clients in <strong>Lagos</strong>, <strong>Abuja</strong>, <strong>Port Harcourt</strong>, and <strong>Worldwide.</strong>
           </p>
           
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-4 pt-8">
             <a href="/contact" class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
               <span class="flex items-center">
-                Start Your Journey
+                Get a Free Estimate
                 <ArrowRight class="w-5 h-5 ml-2" />
               </span>
             </a>
             
             <a href="/work" class="px-8 py-4 border-2 border-(--primary)/20 text-primary font-semibold rounded-xl hover:border-(--primary)/40 hover:bg-(--primary)/5 transition-all duration-300">
               <span class="flex items-center">
-                View Our Work
+                View Our Portfolio
                 <Sparkles class="w-5 h-5 ml-2" />
               </span>
             </a>

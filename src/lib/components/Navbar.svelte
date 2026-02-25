@@ -8,7 +8,6 @@
   let isMobile = $state(false);
 
   const navItems = [
-    { name: 'Home', href: '/' },
     { name: 'Services', href: '/services' },
     { name: 'Work', href: '/work' },
     { name: 'Blog', href: '/blog' },
@@ -71,7 +70,7 @@
       </a>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center space-x-6">
+      <div class="hidden md:flex items-center space-x-5">
         {#each navItems as item}
           <a
             href={item.href}
