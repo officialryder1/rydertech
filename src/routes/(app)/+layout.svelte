@@ -108,7 +108,7 @@ function applyUpdate() {
    <meta property="twitter:image" content="https://rydertech.ng/og-image.jpg" />
 
    <!-- Additional SEO tags -->
-    <meta name="keywords" content="web design Nigeria, software agency Nigeria, website development Lagos, website development abuja, custom software Nigeria, mobile app development Nigeria, e-commerce website Nigeria, digital agency Nigeria" />
+    <meta name="keywords" content="web design Nigeria, digital solution, software agency Nigeria, website development Lagos, website development abuja, custom software Nigeria, mobile app development Nigeria, e-commerce website Nigeria, digital agency Nigeria" />
     <meta name="author" content="RyderTech" />
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />

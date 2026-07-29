@@ -11,7 +11,12 @@
         "titleBar.activeBackground": "#ff4500",
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#ff450099",
-        "titleBar.inactiveForeground": "#e7e7e799"
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "activityBarTop.activeBackground": "#ff6a33",
+        "activityBarTop.background": "#ff6a33",
+        "activityBarTop.foreground": "#15202b",
+        "activityBarTop.inactiveForeground": "#15202b99",
+        "commandCenter.foreground": "#e7e7e7"
     },
     "cSpell.words": [
         "rydertech",
