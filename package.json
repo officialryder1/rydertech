@@ -52,6 +52,8 @@
 		"@supabase/supabase-js": "^2.79.0",
 		"@vercel/analytics": "^1.6.1",
 		"openai": "^6.16.0",
+		"pdf-to-img": "^6.2.0",
+		"pdfkit": "^0.19.1",
 		"svelte-sonner": "^1.0.7",
 		"zod": "^4.3.6"
 	}

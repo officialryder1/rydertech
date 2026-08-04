@@ -2,6 +2,7 @@
 // @ts-nocheck
 
     import NewsLetterModel from '$lib/components/NewsLetterModel.svelte';
+  import LeadMagnetDownload from '$lib/components/LeadMagnetDownload.svelte';
   import { onMount } from 'svelte';
   import { supabase } from '$lib/supabaseClient';
   import { 
@@ -852,6 +853,13 @@
     {/if}
   </div>
 </section>
+
+  <!-- Lead Magnet: Website Cost Guide -->
+  <section class="py-16 px-4 bg-gray-50">
+    <div class="container mx-auto max-w-2xl">
+      <LeadMagnetDownload />
+    </div>
+  </section>
 
   <!-- Creative CTA Section -->
   <section class="py-20 px-4 relative overflow-hidden">

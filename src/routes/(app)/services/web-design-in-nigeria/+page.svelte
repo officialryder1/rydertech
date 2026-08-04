@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Globe, CheckCircle } from '@lucide/svelte';
   import { Badge } from "$lib/components/ui/badge";
+  import LeadMagnetDownload from '$lib/components/LeadMagnetDownload.svelte';
   
   const services = [
     { title: 'Responsive Website Design', description: 'Mobile-friendly websites that work perfectly on all devices' },
@@ -135,6 +136,13 @@
       <p class="text-center text-gray-600 mt-8">
         We provide web design services to businesses in every state across Nigeria
       </p>
+    </div>
+  </section>
+
+  <!-- Lead Magnet: Website Cost Guide -->
+  <section class="py-16 px-4 bg-gray-50">
+    <div class="container mx-auto max-w-2xl">
+      <LeadMagnetDownload />
     </div>
   </section>
 
