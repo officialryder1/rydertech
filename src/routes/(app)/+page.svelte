@@ -29,16 +29,64 @@
     Badge
   } from '@lucide/svelte';
 
-  let showNewsletter = $state(false);
-  // @ts-ignore
-  let realTestimonials = $state([])
-  let loading = $state(true)
-  let lastTick = $state(0)
+  // Hardcoded client testimonials (DB disabled — manual uploads).
+  const realTestimonials = [
+    {
+      client_name: 'Chinwendu Kenneth',
+      projects: { project_name: 'Church Management Platform' },
+      testimonial: 'RyderTech transformed our entire digital infrastructure. Their web development team delivered a platform that increased our operational efficiency by 40%.',
+      rating: 5,
+      created_at: '2025-09-01'
+    },
+    {
+      client_name: 'Caleb Nwakanma',
+      projects: { project_name: 'Fashion Agency' },
+      testimonial: 'Working with RyderTech was a game-changer for our Fashion agency. They built our website from scratch and helped us navigate complex compliance requirements.',
+      rating: 5,
+      created_at: '2025-08-15'
+    },
+    {
+      client_name: 'Divine Favour',
+      projects: { project_name: 'Traveling Agency' },
+      testimonial: 'The travel booking platform developed by RyderTech has revolutionized our business. Our bookings have increased by 60% since launch!',
+      rating: 5,
+      created_at: '2025-07-20'
+    },
+    {
+      client_name: 'Fredrick Reuben',
+      projects: { project_name: 'E-Commerce' },
+      testimonial: 'RyderTech delivered an exceptional e-commerce platform that perfectly aligned with our vision. It significantly boosted our online sales.',
+      rating: 5,
+      created_at: '2025-07-10'
+    },
+    {
+      client_name: 'Ani Emmanuel',
+      projects: { project_name: 'therealmeglobal' },
+      testimonial: 'RyderTech understood our brand and delivered a platform that truly represents who we are. Professional, fast, and reliable from start to finish.',
+      rating: 5,
+      created_at: '2025-06-25'
+    },
+    {
+      client_name: 'Prof Ken Nwakanma',
+      projects: { project_name: 'UAAG' },
+      testimonial: 'Working with RyderTech was seamless. They translated a complex vision into a clean, scalable product and supported us well beyond launch.',
+      rating: 5,
+      created_at: '2025-06-10'
+    },
+    {
+      client_name: 'Nancy Marcos',
+      projects: { project_name: 'Reality Check with Nancy' },
+      testimonial: 'Our new site looks incredible and performs even better. RyderTech nailed the brief and the engagement was a pleasure throughout.',
+      rating: 5,
+      created_at: '2025-05-30'
+    }
+  ];
+  let loading = $state(false);
 
   // @ts-ignore
   onMount(async () => {
     // 1. data loading
-    await loadTestimonials();
+    // Testimonials are now hardcoded above (DB disabled). No fetch needed.
 
     // 2. newsletter logic
     const hasSubscribed = localStorage.getItem('rydertech_newsletter_subscribed');
@@ -85,22 +133,10 @@
   })
 
   async function loadTestimonials() {
-    const { data, error } = await supabase
-      .from('reviews')
-      .select(`
-        *,
-        projects (
-          project_name
-        )
-      `)
-      .eq('approved', true)
-      .order('created_at', { ascending: false })
-      .limit(6);
-
-    if (!error) {
-      realTestimonials = data || [];
-    }
-    loading = false;
+    // Deprecated: Supabase DB is disabled. Testimonials are now hardcoded
+    // in the `realTestimonials` const above. Kept as a no-op to avoid
+    // breaking the onMount call signature if re-enabled later.
+    return;
   }
 
   // Original services from your first request

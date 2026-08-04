@@ -35,6 +35,27 @@
       role: 'Founder & CTO',
       content: 'RyderTech delivered an exceptional e-commerce platform that perfectly aligned with our vision. It significantly boosted our online sales.',
       rating: 5
+    },
+    {
+      name: 'Ani Emmanuel',
+      company: 'therealmeglobal',
+      role: 'CEO',
+      content: 'RyderTech understood our brand and delivered a platform that truly represents who we are. Professional, fast, and reliable from start to finish.',
+      rating: 5
+    },
+    {
+      name: 'Prof Ken Nwakanma',
+      company: 'UAAG',
+      role: 'Founder',
+      content: 'Working with RyderTech was seamless. They translated a complex vision into a clean, scalable product and supported us well beyond launch.',
+      rating: 5
+    },
+    {
+      name: 'Nancy Marcos',
+      company: 'Reality Check with Nancy',
+      role: 'CEO',
+      content: 'Our new site looks incredible and performs even better. RyderTech nailed the brief and the engagement was a pleasure throughout.',
+      rating: 5
     }
   ];
 
