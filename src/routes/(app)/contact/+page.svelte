@@ -2,7 +2,7 @@
     import { supabase } from '$lib/supabaseClient';
     import { 
         Mail, Phone, MapPin, Send, Clock, MessageCircle,
-        ArrowRight, CheckCircle
+        ArrowRight, CheckCircle, Star
     } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
@@ -23,6 +23,30 @@
     let isSubmitting = $state(false);
     let submitted = $state(false);
     let error = $state(null)
+
+    const testimonials = [
+        {
+            name: 'Chinwendu Kenneth',
+            company: 'SOGCA',
+            role: 'Admin',
+            content: 'RyderTech transformed our entire digital infrastructure. Their web development team delivered a platform that increased our operational efficiency by 40%.',
+            rating: 5
+        },
+        {
+            name: 'Divine Favour',
+            company: 'DbTravels',
+            role: 'Founder & CEO',
+            content: 'The travel booking platform developed by RyderTech has revolutionized our business. Our bookings have increased by 60% since launch!',
+            rating: 5
+        },
+        {
+            name: 'Fredrick Reuben',
+            company: 'FindsNg',
+            role: 'Founder & CTO',
+            content: 'RyderTech delivered an exceptional e-commerce platform that perfectly aligned with our vision. It significantly boosted our online sales.',
+            rating: 5
+        }
+    ];
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -350,6 +374,51 @@
                         </CardContent>
                     </Card>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 px-4 bg-linear-to-br from-gray-50 to-white">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <Badge variant="secondary" class="mb-4">Client Love</Badge>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    What Our <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Clients Say</span>
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Businesses across Nigeria trust RyderTech to build the systems that move them forward.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                {#each testimonials as t}
+                    <Card class="hover:shadow-xl transition-shadow duration-300">
+                        <CardContent class="pt-6">
+                            <div class="flex items-center space-x-1 mb-4 text-yellow-400">
+                                {#each Array(t.rating) as _}
+                                    <Star class="w-4 h-4 fill-current" />
+                                {/each}
+                            </div>
+                            <p class="text-muted-foreground mb-6 italic">"{t.content}"</p>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <span class="font-bold text-primary">{t.name.charAt(0)}</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm">{t.name}</p>
+                                    <p class="text-xs text-muted-foreground">{t.role}, {t.company}</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                {/each}
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="/reviews" class="text-primary font-semibold hover:underline">
+                    Read more reviews <ArrowRight class="w-4 h-4 inline" />
+                </a>
             </div>
         </div>
     </section>

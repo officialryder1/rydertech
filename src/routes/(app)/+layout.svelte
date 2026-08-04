@@ -6,6 +6,7 @@
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/stores'
   import Navbar from '$lib/components/Navbar.svelte';
+  import WhatsAppFloat from '$lib/components/WhatsAppFloat.svelte';
   import '@fontsource/montserrat';
 
 
@@ -247,6 +248,9 @@ function applyUpdate() {
       </div>
     </div>
   </footer>
+
+  <!-- Global WhatsApp contact button -->
+  <WhatsAppFloat />
 </div>
 
 <style>
