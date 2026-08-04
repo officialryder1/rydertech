@@ -14,6 +14,30 @@
     fiveStar: 0
   };
 
+  const featuredTestimonials = [
+    {
+      name: 'Chinwendu Kenneth',
+      company: 'SOGCA',
+      role: 'Admin',
+      content: 'RyderTech transformed our entire digital infrastructure. Their web development team delivered a platform that increased our operational efficiency by 40%.',
+      rating: 5
+    },
+    {
+      name: 'Divine Favour',
+      company: 'DbTravels',
+      role: 'Founder & CEO',
+      content: 'The travel booking platform developed by RyderTech has revolutionized our business. Our bookings have increased by 60% since launch!',
+      rating: 5
+    },
+    {
+      name: 'Fredrick Reuben',
+      company: 'FindsNg',
+      role: 'Founder & CTO',
+      content: 'RyderTech delivered an exceptional e-commerce platform that perfectly aligned with our vision. It significantly boosted our online sales.',
+      rating: 5
+    }
+  ];
+
   onMount(async () => {
     await loadReviews();
   });
@@ -98,6 +122,28 @@
             <div class="text-gray-600">5-Star Reviews</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Testimonials Strip -->
+  <section class="pb-4 px-4">
+    <div class="container mx-auto max-w-6xl">
+      <div class="grid md:grid-cols-3 gap-6">
+        {#each featuredTestimonials as t}
+          <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+            <div class="flex items-center mb-3">
+              {#each Array(5) as _, i}
+                <Star class="w-4 h-4 {i < t.rating ? 'fill-[var(--secondary)] text-[var(--secondary)]' : 'fill-gray-200 text-gray-300'}" />
+              {/each}
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed italic mb-4">"{t.content}"</p>
+            <div>
+              <h4 class="font-black text-gray-900 text-sm">{t.name}</h4>
+              <p class="text-xs text-[var(--primary)] font-semibold">{t.role}, {t.company}</p>
+            </div>
+          </div>
+        {/each}
       </div>
     </div>
   </section>
