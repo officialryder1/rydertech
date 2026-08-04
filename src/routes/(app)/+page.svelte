@@ -516,7 +516,7 @@
             
             <!-- Hover Indicator -->
             <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="w-8 h-0.5 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] mx-auto rounded-full" />
+              <div class="w-8 h-0.5 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] mx-auto rounded-full"></div>
             </div>
           </div>
         {/each}
