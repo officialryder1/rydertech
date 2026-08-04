@@ -30,6 +30,7 @@
   } from '@lucide/svelte';
 
   // Hardcoded client testimonials (DB disabled — manual uploads).
+  let showNewsletter = $state(false);
   const realTestimonials = [
     {
       client_name: 'Chinwendu Kenneth',
