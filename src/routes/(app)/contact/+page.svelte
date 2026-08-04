@@ -8,6 +8,8 @@
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
     import { Badge } from '$lib/components/ui/badge';
     import { fade } from 'svelte/transition';
+    import { env } from '$env/dynamic/public';
+    import emailjs from '@emailjs/browser';
 
     let formData = $state({
         name: '',
@@ -25,16 +27,35 @@
     async function handleSubmit(e) {
         e.preventDefault();
         isSubmitting = true;
-        error = null
+        error = null;
 
-        // Simulate form submission
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        submitted = true;
-        isSubmitting = false;
+        const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
+        const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
+        const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+
+        if (!serviceId || !templateId || !publicKey) {
+            error = 'Email service is not configured. Please email us directly at rydertech.ng@gmail.com.';
+            isSubmitting = false;
+            return;
+        }
 
         try {
-            const { data, error: supabaseError } = await supabase
+            await emailjs.send(
+                serviceId,
+                templateId,
+                {
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    company: formData.company,
+                    budget: formData.budget,
+                    timeline: formData.timeline,
+                    message: formData.message
+                },
+                { publicKey }
+            );
+
+            // Best-effort backup copy in Supabase (non-blocking).
+            supabase
                 .from('contact_submissions')
                 .insert([
                     {
@@ -48,49 +69,30 @@
                         status: 'new'
                     }
                 ])
-                .select()
+                .then(({ error: supErr }) => {
+                    if (supErr) console.warn('Supabase backup insert failed:', supErr);
+                });
 
-                if (supabaseError) throw supabaseError;
+            submitted = true;
 
-                submitted = true;
-
-                // Send Email Notification
-                // await sendEmailNotification(formData);
-
+            // Reset form after success
+            setTimeout(() => {
+                submitted = false;
+                formData = {
+                    name: '',
+                    email: '',
+                    company: '',
+                    budget: '',
+                    timeline: '',
+                    message: ''
+                };
+            }, 5000);
         } catch (err) {
-            console.error('Form submission error:', err);
-            error = 'Failed to send message. Please try again.'
+            console.error('EmailJS submission error:', err);
+            error = 'Failed to send message. Please try again or email us directly.';
         } finally {
             isSubmitting = false;
         }
-
-        // async function sendEmailNotification(formData) {
-        //     // integrate with supabase Edge function 
-        //     const {error} = await supabase
-        //         .from('email_notifications')
-        //         .insert([
-        //             {
-        //                 to_email: 'rydertech.ng@gmail.com',
-        //                 subject: `New Contact Form Submission from ${formData.name}`,
-        //                 template: 'contact_form',
-        //                 data: formData,
-        //                 status: 'pending'
-        //             }
-        //         ])
-        // }
-
-        // Reset form after success
-        setTimeout(() => {
-            submitted = false;
-            formData = {
-                name: '',
-                email: '',
-                company: '',
-                budget: '',
-                timeline: '',
-                message: ''
-            };
-        }, 5000);
     }
 </script>
 
@@ -223,6 +225,12 @@
                                             placeholder="Tell us about your project..."
                                         ></textarea>
                                     </div>
+
+                                    {#if error}
+                                        <div class="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+                                            {error}
+                                        </div>
+                                    {/if}
 
                                     <Button 
                                         type="submit" 
