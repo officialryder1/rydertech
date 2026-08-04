@@ -17,9 +17,51 @@
 	];
     let faq1 = false;
 	let faq2 = false;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'LocalBusiness',
+        '@id': 'https://rydertech.ng/#business',
+        name: 'RyderTech',
+        url: 'https://rydertech.ng',
+        logo: 'https://rydertech.ng/logo.png',
+        image: 'https://rydertech.ng/icons/og-image.png',
+        description: 'Professional web design and software development agency serving businesses in Abuja, Nigeria.',
+        telephone: '+234-903-314-7769',
+        email: 'rydertech.ng@gmail.com',
+        priceRange: '₦₦₦',
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'NG',
+          addressRegion: 'Abuja',
+          addressLocality: 'Abuja'
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 9.076478,
+          longitude: 7.398574
+        },
+        areaServed: 'Abuja, Nigeria',
+        sameAs: [
+          'https://twitter.com/official_ryder0',
+          'https://instagram.com/rydertech.ng'
+        ]
+      },
+      {
+        '@type': 'Service',
+        serviceType: 'Web Design',
+        provider: { '@id': 'https://rydertech.ng/#business' },
+        areaServed: 'Abuja, Nigeria',
+        name: 'Abuja Web Design',
+        url: 'https://rydertech.ng/locations/abuja-web-design'
+      }
+    ]
+  };
 </script>
 
-<Seo {title} description={description} keywords={keywords} canonical={canonical} {og} {twitter} />
+<Seo {title} description={description} keywords={keywords} canonical={canonical} {og} {twitter} {jsonLd} />
 
 <div class="container mx-auto px-4 py-30">
 	<Breadcrumbs items={breadcrumbs} />

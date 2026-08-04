@@ -17,6 +17,14 @@
     description: string;
     image: string;
   };
+  // Optional JSON-LD structured data object (e.g. LocalBusiness, Service).
+  // We build the full <script> element as an HTML string and inject it with
+  // {@html} because Svelte does NOT process template directives inside a
+  // <script> tag nested within <svelte:head> — it passes that tag through raw.
+  export let jsonLd: Record<string, unknown> | null = null;
+  const jsonLdHtml = jsonLd
+    ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`
+    : '';
 </script>
 
 <svelte:head>
@@ -62,4 +70,8 @@
   <!-- PWA/Search Console Verification (Add your actual verification code) -->
   <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
   <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
+
+  {#if jsonLd}
+    {@html jsonLdHtml}
+  {/if}
 </svelte:head>

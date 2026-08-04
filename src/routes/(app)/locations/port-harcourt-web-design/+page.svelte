@@ -17,9 +17,51 @@
 
   let faq1 = false;
   let faq2 = false;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'LocalBusiness',
+        '@id': 'https://rydertech.ng/#business',
+        name: 'RyderTech',
+        url: 'https://rydertech.ng',
+        logo: 'https://rydertech.ng/logo.png',
+        image: 'https://rydertech.ng/icons/og-image.png',
+        description: 'Professional web design and software development agency serving businesses in Port Harcourt, Nigeria.',
+        telephone: '+234-903-314-7769',
+        email: 'rydertech.ng@gmail.com',
+        priceRange: '₦₦₦',
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'NG',
+          addressRegion: 'Rivers',
+          addressLocality: 'Port Harcourt'
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 4.815554,
+          longitude: 7.049844
+        },
+        areaServed: 'Port Harcourt, Nigeria',
+        sameAs: [
+          'https://twitter.com/official_ryder0',
+          'https://instagram.com/rydertech.ng'
+        ]
+      },
+      {
+        '@type': 'Service',
+        serviceType: 'Web Design',
+        provider: { '@id': 'https://rydertech.ng/#business' },
+        areaServed: 'Port Harcourt, Nigeria',
+        name: 'Port Harcourt Web Design',
+        url: 'https://rydertech.ng/locations/port-harcourt-web-design'
+      }
+    ]
+  };
 </script>
 
-<Seo {title} description={description} keywords={keywords} canonical={canonical} {og} {twitter} />
+<Seo {title} description={description} keywords={keywords} canonical={canonical} {og} {twitter} {jsonLd} />
 
 <div class="container mx-auto px-4 py-30">
   <Breadcrumbs items={breadcrumbs} />
