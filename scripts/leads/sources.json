@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "url": "https://www.nairaland.com/business",
+      "note": "Nairaland business section — Nigerian forum with many business posts/links"
+    },
+    {
+      "url": "https://www.vconnect.com.ng/businesses",
+      "note": "VConnect Nigerian business directory"
+    },
+    {
+      "url": "https://www.cylex.com.ng/companies/",
+      "note": "Cylex NG company listings"
+    },
+    {
+      "url": "https://businesslist.com.ng/",
+      "note": "BusinessList Nigeria directory"
+    },
+    {
+      "url": "https://www.nigeriagalleria.com/",
+      "note": "Nigeria Galleria business directory"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# seed.csv — paste businesses you want enriched. Format: name,website,city
+# One per line. Lines starting with # are ignored.
+# The tool guesses info@/hello@/...@<domain> and validates the domain has a mail server.
+Flutterwave,flutterwave.com,Lagos
+Paystack,paystack.com,Lagos
+Mono,mono.co,Lagos
+Termii,termii.com,Lagos
+Kudi,kudi.ai,Lagos
+RentSmallSmall,rentsmallsmall.com,Lagos
+TradeDepot,tradedepot.co,Lagos
+Helium Health,heliumhealth.com,Lagos
+Autochek,autochek.africa,Lagos
+54gene,54gene.com,Lagos
+Carbon,getcarbon.co,Lagos
+Okra,okra.xyz,Lagos
+Bamboo,bamboo.ng,Lagos
+Risevest,risevest.com,Lagos
+Cowrywise,cowrywise.com,Lagos
+PiggyVest,piggyvest.com,Lagos
+Bundle,bundle.ai,Lagos
+Lori Systems,lorisystems.com,Lagos
+Kippa,kippa.app,Lagos
+Shuttlers,shuttlers.ng,Lagos
+PressOne,presstone.africa,Lagos
+Edukoya,edukoya.com,Lagos
+PricePally,pricepally.com,Lagos
+OmniRetail,omniretail.africa,Lagos
+Gritsys,gritsystechnologies.com,Abuja
