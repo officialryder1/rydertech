@@ -136,6 +136,7 @@
 <svelte:head>
     <title>Our Services - RyderTech | Web, Mobile, Cloud & AI Development</title>
     <meta name="description" content="RyderTech builds web, mobile, and cloud software — and makes it intelligent with AI: LLM chatbots, computer vision, and ML automation for Nigerian and global businesses." />
+    <meta name="keywords" content="software development Nigeria, web development, mobile apps, cloud MLOps, AI chatbot, computer vision, ML automation, custom software Lagos, Abuja" />
 </svelte:head>
 
 <div class="min-h-screen bg-background pt-32" transition:fade>

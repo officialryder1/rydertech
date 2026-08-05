@@ -52,7 +52,31 @@
 <svelte:head>
   <title>AI & ML Services | RyderTech — Intelligent Software for Nigerian Businesses</title>
   <meta name="description" content="RyderTech builds AI & ML solutions: LLM chatbots, computer vision, ML automation, and AI-ready apps for businesses in Lagos, Abuja, Port Harcourt, and worldwide. Book an AI consult." />
-  <meta name="keywords" content="AI development Nigeria, machine learning Nigeria, LLM chatbot, computer vision, AI automation, AI app development Lagos" />
+  <meta name="keywords" content="AI development Nigeria, machine learning Nigeria, LLM chatbot, computer vision, AI automation, AI app development Lagos, RAG agent, MLOps Nigeria" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "AI & ML Software Development",
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "RyderTech",
+      "url": "https://rydertech.ng",
+      "address": { "@type": "PostalAddress", "addressCountry": "NG", "addressRegion": "Abuja", "addressLocality": "Nigeria" }
+    },
+    "areaServed": ["Lagos", "Abuja", "Port Harcourt", "Nigeria", "Worldwide"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "AI Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "LLM Chatbots & Agents" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Computer Vision" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ML & Intelligent Automation" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI-Ready Data & Cloud" } }
+      ]
+    }
+  }
+  </script>
 </svelte:head>
 
 <div class="min-h-screen bg-white">

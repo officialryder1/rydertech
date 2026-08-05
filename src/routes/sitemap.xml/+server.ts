@@ -3,29 +3,29 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async () => {
   const baseUrl = 'https://rydertech.ng';
   const pages = [
-    '',
-    '/services/web-design-in-nigeria',
-    '/services/software-development-nigeria',
-    '/work',
-    '/reviews',
-    '/contact',
-    '/blog',
-    '/blog/web-design-cost-nigeria',
-    '/locations/abuja-web-design',
-    '/locations/lagos-web-design',
-    '/locations/port-harcourt-web-design'
+    { path: '', priority: '1.0', freq: 'daily' },
+    { path: '/services', priority: '0.9', freq: 'weekly' },
+    { path: '/services/ai', priority: '0.9', freq: 'weekly' },
+    { path: '/services/web-design-in-nigeria', priority: '0.8', freq: 'monthly' },
+    { path: '/about', priority: '0.6', freq: 'monthly' },
+    { path: '/work', priority: '0.7', freq: 'monthly' },
+    { path: '/reviews', priority: '0.7', freq: 'weekly' },
+    { path: '/contact', priority: '0.8', freq: 'monthly' },
+    { path: '/blog', priority: '0.7', freq: 'weekly' },
+    { path: '/locations', priority: '0.7', freq: 'monthly' },
+    { path: '/locations/abuja-web-design', priority: '0.8', freq: 'monthly' },
+    { path: '/locations/lagos-web-design', priority: '0.8', freq: 'monthly' },
+    { path: '/locations/port-harcourt-web-design', priority: '0.8', freq: 'monthly' }
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${pages.map(page => `
-  <url>
-    <loc>${baseUrl}${page}</loc>
+  ${pages.map(p => `  <url>
+    <loc>${baseUrl}${p.path}</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>${page === '' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${page === '' ? '1.0' : '0.8'}</priority>
-  </url>
-  `).join('')}
+    <changefreq>${p.freq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`).join('\n')}
 </urlset>`;
 
   return new Response(sitemap, {
