@@ -91,25 +91,25 @@ function applyUpdate() {
 </script>
 
 <svelte:head>
-	<title>RyderTech - Leading Web Design & Software Agency in Nigeria</title>
-	<meta name="description" content="RyderTech is Nigeria's top web design and software development agency. We create custom websites, mobile apps, and digital solutions for businesses across Nigeria." />
+	<title>RyderTech - Web, Mobile & AI Software Studio in Nigeria</title>
+	<meta name="description" content="RyderTech is a Nigerian software studio building web, mobile, and cloud platforms — and making them intelligent with AI: LLM chatbots, computer vision, and ML automation." />
 
   <!-- Open Graph -->
    <meta property="og:type" content="website" />
    <meta property="og:url" content="https://rydertech.ng"/>
-   <meta property="og:title" content="RyderTech - Web Design & Software Agency in Nigeria" />
-   <meta property="og:description" content="Nigeria's premier web design and software development agency creating digital solutions for businesses." />
+   <meta property="og:title" content="RyderTech - Web, Mobile & AI Software Studio in Nigeria" />
+   <meta property="og:description" content="Nigerian software studio building web, mobile, and cloud platforms with AI: LLM chatbots, computer vision, and ML automation." />
     <meta property="og:image" content="https://rydertech.ng/og-image.jpg" />
 
   <!-- Twitter Card -->
    <meta property="twitter:card" content="summary_large_image" />
    <meta property="twitter:url" content="https://rydertech.ng" />
-   <meta property="twitter:title" content="RyderTech - Web Design & Software Agency in Nigeria" />
-   <meta property="twitter:description" content="Nigeria's premier web design and software development agency creating digital solutions for businesses." />
+   <meta property="twitter:title" content="RyderTech - Web, Mobile & AI Software Studio in Nigeria" />
+   <meta property="twitter:description" content="Nigerian software studio building web, mobile, and cloud platforms with AI: LLM chatbots, computer vision, and ML automation." />
    <meta property="twitter:image" content="https://rydertech.ng/og-image.jpg" />
 
    <!-- Additional SEO tags -->
-    <meta name="keywords" content="web design Nigeria, digital solution, software agency Nigeria, website development Lagos, website development abuja, custom software Nigeria, mobile app development Nigeria, e-commerce website Nigeria, digital agency Nigeria" />
+    <meta name="keywords" content="AI development Nigeria, software agency Nigeria, web development Lagos, mobile app development Nigeria, LLM chatbot Nigeria, computer vision Nigeria, ML automation, custom software Nigeria, e-commerce Nigeria, digital agency Nigeria" />
     <meta name="author" content="RyderTech" />
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
@@ -120,7 +120,7 @@ function applyUpdate() {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "RyderTech",
-        "description": "Leading web design and software development agency in Nigeria",
+        "description": "Nigerian software studio building web, mobile, and cloud platforms with AI: LLM chatbots, computer vision, and ML automation",
         "url": "https://rydertech.ng",
         "logo": "https://rydertech.ng/logo.png",
         "address": {
@@ -202,11 +202,11 @@ function applyUpdate() {
             </div>
             <div>
               <div class="text-2xl font-black">RYDER<span class="text-[var(--secondary)]">TECH</span></div>
-              <div class="text-gray-400 text-sm">Creative Software Agency</div>
+              <div class="text-gray-400 text-sm">Software &amp; AI Studio</div>
             </div>
           </div>
           <p class="text-gray-400 max-w-md text-lg leading-relaxed">
-            We build digital experiences that blend creative design with cutting-edge technology to help businesses stand out and succeed.
+            We build the platforms that run your business — web, mobile, and cloud — and make them intelligent with AI, from chatbots to computer vision.
           </p>
         </div>
         
@@ -244,7 +244,7 @@ function applyUpdate() {
       </div>
       
       <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-        <p>&copy; {date.getFullYear()} RyderTech. Crafting digital excellence with creative technology.</p>
+        <p>&copy; {date.getFullYear()} RyderTech. Building intelligent software with web, mobile, and AI.</p>
       </div>
     </div>
   </footer>

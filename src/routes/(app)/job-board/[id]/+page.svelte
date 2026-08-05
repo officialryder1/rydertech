@@ -64,7 +64,7 @@
       'Team building events and retreats'
     ],
     
-    aboutCompany: 'RyderTech is Nigeria\'s leading web design and software agency, helping businesses transform their digital presence. We work with clients across Africa to build innovative solutions.',
+    aboutCompany: 'RyderTech is a Nigerian software & AI studio, helping businesses transform their digital presence. We work with clients across Africa to build intelligent solutions — from web and mobile platforms to LLM chatbots and computer vision.',
     
     companySize: '11-50 employees',
     website: 'https://rydertech.com',

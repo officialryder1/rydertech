@@ -3,7 +3,7 @@
   import Breadcrumbs from '$lib/components/seo/Breadcrumbs.svelte';
 
   const title = 'Port Harcourt Web Design — RyderTech Labs';
-  const description = 'Web design services for Port Harcourt businesses: responsive sites, local SEO, and e-commerce solutions.';
+  const description = 'Web design and AI software services for Port Harcourt businesses: responsive sites, local SEO, e-commerce, and automation solutions.';
   const canonical = 'https://rydertech.ng/locations/port-harcourt-web-design';
   const keywords = 'Port Harcourt web design, Port Harcourt website design, web design Port Harcourt';
   const og = { title, description, type: 'website', url: canonical, image: 'https://rydertech.ng/icons/og-image.png' };

@@ -14,12 +14,12 @@
   
   const cities = ['Lagos', 'Abuja', 'Port Harcourt', 'Ibadan', 'Kano', 'Benin City', 'Aba', 'Onitsha'];
 
-  const niche = "Web Design Nigeria";
+  const niche = "Web & AI Software Nigeria";
 </script>
 
 <svelte:head>
-  <title>Web Design Agency Nigeria | Professional Website Development Services</title>
-  <meta name="description" content="RyderTech is Nigeria's leading web design agency. We create professional, responsive websites for businesses across Lagos, Abuja, and all Nigerian cities. Get a free quote today!" />
+  <title>Web Design & AI Software Nigeria | RyderTech Studio</title>
+  <meta name="description" content="RyderTech is a Nigerian web & AI software studio. We build professional, responsive websites and add intelligence — LLM chatbots, automation, and computer vision — for businesses across Lagos, Abuja, and all Nigerian cities." />
   <meta name="keywords" content="web design Nigeria, website development Nigeria, Nigerian web agency, Lagos web design, Abuja website developers, e-commerce Nigeria" />
   
   <script type="application/ld+json">
@@ -79,7 +79,7 @@
           2026 {niche} Specialized Agency
         </Badge>
         <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-6">
-          Professional <span class="text-blue-600">Web Design Agency</span> in Nigeria
+          Professional <span class="text-blue-600">Web &amp; AI Software Studio</span> in Nigeria
         </h1>
         <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
           We create stunning, responsive websites for Nigerian businesses that convert visitors into customers. Serving clients across Lagos, Abuja, Port Harcourt, and all Nigerian cities.

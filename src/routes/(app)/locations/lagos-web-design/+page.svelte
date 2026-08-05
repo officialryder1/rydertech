@@ -3,7 +3,7 @@
   import Breadcrumbs from '$lib/components/seo/Breadcrumbs.svelte';
 
   const title = 'Lagos Web Design — RyderTech Labs';
-  const description = 'Professional web design in Lagos: responsive websites, e-commerce, SEO, and conversion-focused design for businesses in Lagos.';
+  const description = 'Professional web design and AI software in Lagos: responsive websites, e-commerce, SEO, and AI assistants for businesses in Lagos.';
   const canonical = 'https://rydertech.ng/locations/lagos-web-design';
   const keywords = 'Lagos web design, Lagos website design, web design Lagos, Nigeria web design';
   const og = { title, description, type: 'website', url: canonical, image: 'https://rydertech.ng/icons/og-image.png' };

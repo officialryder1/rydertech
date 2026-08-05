@@ -3,9 +3,9 @@
   import Breadcrumbs from '$lib/components/seo/Breadcrumbs.svelte';
 
   const title = 'Locations — RyderTech Labs';
-  const description = 'Find RyderTech services across Nigerian cities: Abuja, Lagos, Port Harcourt and more.';
+  const description = 'Find RyderTech web & AI software services across Nigerian cities: Abuja, Lagos, Port Harcourt and more.';
   const canonical = 'https://rydertech.ng/locations';
-  const keywords = 'locations, Abuja, Lagos, Port Harcourt, web design Nigeria';
+  const keywords = 'locations, Abuja, Lagos, Port Harcourt, web design Nigeria, AI software Nigeria';
   const og = { title, description, type: 'website', url: canonical, image: 'https://rydertech.ng/icons/og-image.png' };
   const twitter = { card: 'summary_large_image', site: '@rydertech', title, description, image: og.image };
 
@@ -22,23 +22,23 @@
 
   <header class="mb-8">
     <h1 class="text-3xl font-extrabold">Locations</h1>
-    <p class="mt-2 text-muted-foreground">We offer web design and digital services across Nigeria. Choose your city to learn more.</p>
+    <p class="mt-2 text-muted-foreground">We build web, mobile, and AI software for businesses across Nigeria. Choose your city to learn more.</p>
   </header>
 
   <section class="grid gap-6 md:grid-cols-3">
     <a href="/locations/abuja-web-design" class="p-6 border rounded hover:shadow">
-      <h3 class="font-semibold">Abuja Web Design</h3>
-      <p class="text-sm text-muted-foreground mt-2">Local websites, SEO and e-commerce for Abuja businesses.</p>
+      <h3 class="font-semibold">Abuja Web & AI Software</h3>
+      <p class="text-sm text-muted-foreground mt-2">Local websites, SEO, e-commerce and AI assistants for Abuja businesses.</p>
     </a>
 
     <a href="/locations/lagos-web-design" class="p-6 border rounded hover:shadow">
-      <h3 class="font-semibold">Lagos Web Design</h3>
-      <p class="text-sm text-muted-foreground mt-2">Fast, mobile-first sites optimised for Lagos audiences.</p>
+      <h3 class="font-semibold">Lagos Web & AI Software</h3>
+      <p class="text-sm text-muted-foreground mt-2">Fast, mobile-first sites and AI features optimised for Lagos audiences.</p>
     </a>
 
     <a href="/locations/port-harcourt-web-design" class="p-6 border rounded hover:shadow">
-      <h3 class="font-semibold">Port Harcourt Web Design</h3>
-      <p class="text-sm text-muted-foreground mt-2">Reliable websites and local SEO for Port Harcourt businesses.</p>
+      <h3 class="font-semibold">Port Harcourt Web & AI Software</h3>
+      <p class="text-sm text-muted-foreground mt-2">Reliable websites, local SEO and automation for Port Harcourt businesses.</p>
     </a>
   </section>
 </div>

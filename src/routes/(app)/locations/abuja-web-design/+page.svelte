@@ -4,7 +4,7 @@
 	import Breadcrumbs from '$lib/components/seo/Breadcrumbs.svelte';
 
 	const title = 'Abuja Web Design — RyderTech Labs';
-	const description = 'Professional web design in Abuja: responsive websites, e-commerce, SEO, and conversion-focused design for businesses in Nigeria.';
+	const description = 'Professional web design and AI software in Abuja: responsive websites, e-commerce, SEO, and AI assistants for businesses in Nigeria.';
 	const canonical = 'https://rydertech.ng/locations/abuja-web-design';
 	const keywords = 'Abuja web design, Abuja website design, web design Abuja, Nigeria web design, Abuja web developers';
 	const og = { title, description, type: 'website', url: canonical, image: 'https://rydertech.ng/icons/og-image.png' };

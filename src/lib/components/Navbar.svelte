@@ -9,6 +9,7 @@
 
   const navItems = [
     { name: 'Services', href: '/services' },
+    { name: 'AI Services', href: '/services/ai' },
     { name: 'Work', href: '/work' },
     { name: 'Blog', href: '/blog' },
     { name: 'Review', href: '/reviews' },
@@ -126,7 +127,7 @@
             </div>
             <div>
               <span class="text-2xl font-black text-gray-900">RyderTech</span>
-              <p class="text-sm text-gray-500">Nigeria's Leading Web Agency</p>
+              <p class="text-sm text-gray-500">Software &amp; AI Studio</p>
             </div>
           </a>
         </div>
