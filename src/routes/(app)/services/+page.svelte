@@ -2,7 +2,7 @@
     import { 
         Globe, Smartphone, Database, Cloud, Shield, Code,
         CheckCircle, ArrowRight, Zap, Users,
-        MessageCircle, Mail
+        MessageCircle, Mail, Cpu, Sparkles
     } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
@@ -13,8 +13,8 @@
         {
             icon: Globe,
             title: 'Web Development',
-            description: 'Custom web applications built with modern technologies like SvelteKit, React, and Node.js.',
-            features: ['Responsive Design', 'SEO Optimized', 'Fast Performance', 'Modern Frameworks'],
+            description: 'Custom web applications built with SvelteKit, React, and Node.js — with AI features like smart search, recommendations, and LLM assistants baked in.',
+            features: ['Responsive Design', 'SEO Optimized', 'AI-Ready UI/UX', 'Modern Frameworks'],
             price: 'From $500 / ₦500,000',
             timeline: '4-8 weeks',
             projects: '50+ completed'
@@ -22,35 +22,35 @@
         {
             icon: Smartphone,
             title: 'Mobile Apps',
-            description: 'Cross-platform mobile applications for iOS and Android using React Native and Flutter.',
-            features: ['Native Performance', 'Offline Capability', 'App Store Ready', 'Push Notifications'],
+            description: 'Cross-platform iOS/Android apps with on-device and cloud AI — chat, vision, and personalization that keep users engaged.',
+            features: ['Native Performance', 'Offline Capability', 'On-device AI', 'Push Notifications'],
             price: 'From $700 / ₦1,000,000',
             timeline: '6-12 weeks',
             projects: '30+ completed'
         },
         {
             icon: Database,
-            title: 'Backend Systems',
-            description: 'Scalable server architecture, APIs, and database solutions for your business needs.',
-            features: ['RESTful APIs', 'Microservices', 'Database Design', 'API Documentation'],
+            title: 'Backend & APIs',
+            description: 'Scalable server architecture and APIs — including vector stores and model-serving endpoints that power your AI features.',
+            features: ['RESTful APIs', 'Microservices', 'Vector DBs', 'API Documentation'],
             price: 'From $600 / ₦700,000',
             timeline: '4-10 weeks',
             projects: '40+ completed'
         },
         {
             icon: Cloud,
-            title: 'Cloud Solutions',
-            description: 'Deployment, migration, and management of cloud infrastructure on AWS, Azure, and Google Cloud.',
-            features: ['Cloud Migration', 'DevOps', 'Serverless Architecture', 'Auto Scaling'],
-            price: 'From 1,000 / ₦1,200,000',
+            title: 'Cloud & MLOps',
+            description: 'Deployment, migration, and managed cloud on AWS/Azure/GCP — plus MLOps pipelines and serverless inference for your models.',
+            features: ['Cloud Migration', 'DevOps', 'MLOps Pipelines', 'Auto Scaling'],
+            price: 'From $1,000 / ₦1,200,000',
             timeline: '2-6 weeks',
             projects: '35+ completed'
         },
         {
             icon: Shield,
             title: 'Security & Compliance',
-            description: 'Enterprise-grade security solutions and compliance frameworks for your applications.',
-            features: ['Security Audits', 'GDPR Compliance', 'Data Protection', 'Penetration Testing'],
+            description: 'Enterprise-grade security and compliance — extended to AI systems with model risk, data governance, and safe-deployment reviews.',
+            features: ['Security Audits', 'GDPR Compliance', 'Data Protection', 'AI Risk Review'],
             price: 'From $1,000 / ₦1,500,000',
             timeline: '2-4 weeks',
             projects: '25+ completed'
@@ -58,11 +58,38 @@
         {
             icon: Code,
             title: 'Custom Software',
-            description: 'Tailored software solutions designed to solve your unique business challenges.',
-            features: ['Custom Workflows', 'Integration', 'Maintenance', 'Technical Support'],
+            description: 'Tailored software that solves your unique challenges — from internal tools to full AI products, built end-to-end.',
+            features: ['Custom Workflows', 'AI Integration', 'Maintenance', 'Technical Support'],
             price: 'Custom Quote',
             timeline: 'Varies',
             projects: '60+ completed'
+        },
+        {
+            icon: Cpu,
+            title: 'LLM Chatbots & Agents',
+            description: 'Conversational assistants and autonomous agents for support, bookings, and tasks — grounded in your business data, on WhatsApp or web.',
+            features: ['Customer Support Bots', 'Autonomous Agents', 'RAG Knowledge Base', 'WhatsApp / Web'],
+            price: 'From $800 / ₦900,000',
+            timeline: '2-5 weeks',
+            projects: '15+ completed'
+        },
+        {
+            icon: Zap,
+            title: 'ML & Intelligent Automation',
+            description: 'Machine-learning models and process automation that cut manual work — forecasting, classification, and document processing.',
+            features: ['Predictive Models', 'Workflow Automation', 'Document Intelligence', 'PoC to Production'],
+            price: 'From $900 / ₦1,000,000',
+            timeline: '3-8 weeks',
+            projects: '12+ completed'
+        },
+        {
+            icon: Sparkles,
+            title: 'Computer Vision',
+            description: 'Image and video AI for detection, recognition, and inspection — from retail analytics to quality control.',
+            features: ['Object Detection', 'OCR / Face Recognition', 'Visual Inspection', 'Camera Analytics'],
+            price: 'From $1,000 / ₦1,200,000',
+            timeline: '3-8 weeks',
+            projects: '10+ completed'
         }
     ];
 
@@ -107,8 +134,8 @@
 </script>
 
 <svelte:head>
-    <title>Our Services - RyderTech | Web, Mobile & Cloud Development</title>
-    <meta name="description" content="Explore RyderTech's comprehensive software development services including web development, mobile apps, cloud solutions, and custom software." />
+    <title>Our Services - RyderTech | Web, Mobile, Cloud & AI Development</title>
+    <meta name="description" content="RyderTech builds web, mobile, and cloud software — and makes it intelligent with AI: LLM chatbots, computer vision, and ML automation for Nigerian and global businesses." />
 </svelte:head>
 
 <div class="min-h-screen bg-background pt-32" transition:fade>
@@ -117,11 +144,10 @@
         <div class="container mx-auto max-w-6xl text-center">
             <Badge variant="secondary" class="mb-4">Our Services</Badge>
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Comprehensive <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Development</span> Services
+                Software & <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">AI Solutions</span>
             </h1>
             <p class="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-                We offer end-to-end software development solutions tailored to your business needs. 
-                From concept to deployment, we're with you every step of the way.
+                We build the platforms that run your business — and make them intelligent. From web and mobile apps to LLM chatbots, computer vision, and ML automation, all under one roof. 
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="/contact">
@@ -130,9 +156,10 @@
                         <ArrowRight class="w-5 h-5 ml-2" />
                     </Button>
                 </a>
-                <a href="/work">
+                <a href="/services/ai">
                     <Button variant="outline" size="lg" class="text-lg px-8">
-                        View Our Work
+                        Explore AI Services
+                        <Sparkles class="w-5 h-5 ml-2" />
                     </Button>
                 </a>
             </div>

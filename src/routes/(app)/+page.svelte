@@ -141,48 +141,48 @@
     return;
   }
 
-  // AI-focused services
+  // Blended services: foundational build + AI layer
   const services = [
     {
-      icon: Cpu,
-      title: 'AI App Development',
-      description: 'Custom AI-powered web and mobile apps — LLM features, recommendation engines, and intelligent workflows built into your product.',
-      features: ['LLM / GenAI Features', 'RAG Knowledge Bases', 'AI-Ready UI/UX'],
+      icon: Globe,
+      title: 'Web & AI Apps',
+      description: 'Custom web apps built with modern frameworks — with AI features like smart search, recommendations, and LLM assistants baked in.',
+      features: ['Responsive Design', 'AI-Ready UI/UX', 'LLM Features', 'SEO Optimized'],
       color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: Smartphone,
+      title: 'Mobile Apps',
+      description: 'Cross-platform iOS/Android apps with on-device and cloud AI — chat, vision, and personalization that keep users engaged.',
+      features: ['Native Performance', 'On-device AI', 'Offline Capable', 'App Store Ready'],
+      color: 'from-purple-500 to-pink-500'
+    },
+    {
+      icon: Database,
+      title: 'Backend, Cloud & MLOps',
+      description: 'Scalable APIs, vector stores, and cloud infrastructure — plus MLOps pipelines that serve your models reliably.',
+      features: ['RESTful APIs', 'Vector DBs', 'MLOps Pipelines', 'Serverless Inference'],
+      color: 'from-green-500 to-emerald-500'
     },
     {
       icon: MessageCircle,
       title: 'LLM Chatbots & Agents',
-      description: 'Conversational assistants and autonomous agents that handle support, bookings, and tasks — grounded in your business data.',
-      features: ['Customer Support Bots', 'Autonomous Agents', 'WhatsApp / Web Integration'],
-      color: 'from-purple-500 to-pink-500'
+      description: 'Conversational assistants and autonomous agents for support, bookings, and tasks — grounded in your business data, on WhatsApp or web.',
+      features: ['Customer Support Bots', 'Autonomous Agents', 'RAG Knowledge Base', 'WhatsApp / Web'],
+      color: 'from-orange-500 to-red-500'
     },
     {
       icon: Zap,
       title: 'ML & Intelligent Automation',
       description: 'Machine-learning models and process automation that cut manual work — forecasting, classification, and document processing.',
-      features: ['Predictive Models', 'Workflow Automation', 'Document Intelligence'],
-      color: 'from-green-500 to-emerald-500'
+      features: ['Predictive Models', 'Workflow Automation', 'Document Intelligence', 'PoC to Production'],
+      color: 'from-indigo-500 to-blue-500'
     },
     {
       icon: Sparkles,
       title: 'Computer Vision',
       description: 'Image and video AI for detection, recognition, and inspection — from retail analytics to quality control.',
-      features: ['Object Detection', 'Face / OCR Recognition', 'Visual Inspection'],
-      color: 'from-orange-500 to-red-500'
-    },
-    {
-      icon: Database,
-      title: 'AI-Ready Data & Cloud',
-      description: 'Vector databases, MLOps pipelines, and cloud infrastructure that make your AI systems fast, scalable, and reliable.',
-      features: ['Vector DBs', 'MLOps Pipelines', 'Serverless Inference'],
-      color: 'from-indigo-500 to-blue-500'
-    },
-    {
-      icon: Code,
-      title: 'Custom AI Software',
-      description: 'End-to-end AI solutions tailored to your operations — from prototype to production with ongoing optimization.',
-      features: ['PoC to Production', 'Model Fine-Tuning', 'Maintenance & Monitoring'],
+      features: ['Object Detection', 'OCR / Face Recognition', 'Visual Inspection', 'Camera Analytics'],
       color: 'from-amber-500 to-yellow-500'
     }
   ];
@@ -547,7 +547,7 @@
           Intelligent <span class="gradient-text">AI Solutions</span>
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          From LLM chatbots to computer vision and ML automation — we build AI systems that ship real business value, not demos.
+          We build the platforms that run your business — web, mobile, and cloud — and make them intelligent with AI: LLM chatbots, computer vision, and ML automation, all under one roof.
         </p>
       </div>
 
