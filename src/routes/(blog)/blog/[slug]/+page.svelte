@@ -21,6 +21,7 @@
 </script>
 
 <article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg" transition:fade>
+
   <a href="/blog" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
         <ArrowLeft class="w-4 h-4" />
         Back to Blog

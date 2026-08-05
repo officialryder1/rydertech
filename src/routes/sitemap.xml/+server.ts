@@ -12,6 +12,7 @@ export const GET: RequestHandler = async () => {
     { path: '/reviews', priority: '0.7', freq: 'weekly' },
     { path: '/contact', priority: '0.8', freq: 'monthly' },
     { path: '/blog', priority: '0.7', freq: 'weekly' },
+    { path: '/blog/ai-chatbot-nigeria', priority: '0.8', freq: 'monthly' },
     { path: '/locations', priority: '0.7', freq: 'monthly' },
     { path: '/locations/abuja-web-design', priority: '0.8', freq: 'monthly' },
     { path: '/locations/lagos-web-design', priority: '0.8', freq: 'monthly' },
