@@ -141,48 +141,48 @@
     return;
   }
 
-  // Original services from your first request
+  // AI-focused services
   const services = [
     {
-      icon: Globe,
-      title: 'Web Development',
-      description: 'Custom web applications built with modern technologies like SvelteKit, React, and Node.js.',
-      features: ['Responsive Design', 'SEO Optimized', 'Fast Performance'],
+      icon: Cpu,
+      title: 'AI App Development',
+      description: 'Custom AI-powered web and mobile apps — LLM features, recommendation engines, and intelligent workflows built into your product.',
+      features: ['LLM / GenAI Features', 'RAG Knowledge Bases', 'AI-Ready UI/UX'],
       color: 'from-blue-500 to-cyan-500'
     },
     {
-      icon: Smartphone,
-      title: 'Mobile Apps',
-      description: 'Cross-platform mobile applications for iOS and Android using React Native and Flutter.',
-      features: ['Native Performance', 'Offline Capability', 'App Store Ready'],
+      icon: MessageCircle,
+      title: 'LLM Chatbots & Agents',
+      description: 'Conversational assistants and autonomous agents that handle support, bookings, and tasks — grounded in your business data.',
+      features: ['Customer Support Bots', 'Autonomous Agents', 'WhatsApp / Web Integration'],
       color: 'from-purple-500 to-pink-500'
     },
     {
-      icon: Database,
-      title: 'Backend Systems',
-      description: 'Scalable server architecture, APIs, and database solutions for your business needs.',
-      features: ['RESTful APIs', 'Microservices', 'Database Design'],
+      icon: Zap,
+      title: 'ML & Intelligent Automation',
+      description: 'Machine-learning models and process automation that cut manual work — forecasting, classification, and document processing.',
+      features: ['Predictive Models', 'Workflow Automation', 'Document Intelligence'],
       color: 'from-green-500 to-emerald-500'
     },
     {
-      icon: Cloud,
-      title: 'Cloud Solutions',
-      description: 'Deployment, migration, and management of cloud infrastructure on AWS, Azure, and Google Cloud.',
-      features: ['Cloud Migration', 'DevOps', 'Serverless Architecture'],
+      icon: Sparkles,
+      title: 'Computer Vision',
+      description: 'Image and video AI for detection, recognition, and inspection — from retail analytics to quality control.',
+      features: ['Object Detection', 'Face / OCR Recognition', 'Visual Inspection'],
       color: 'from-orange-500 to-red-500'
     },
     {
-      icon: Shield,
-      title: 'Security & Compliance',
-      description: 'Enterprise-grade security solutions and compliance frameworks for your applications.',
-      features: ['Security Audits', 'GDPR Compliance', 'Data Protection'],
+      icon: Database,
+      title: 'AI-Ready Data & Cloud',
+      description: 'Vector databases, MLOps pipelines, and cloud infrastructure that make your AI systems fast, scalable, and reliable.',
+      features: ['Vector DBs', 'MLOps Pipelines', 'Serverless Inference'],
       color: 'from-indigo-500 to-blue-500'
     },
     {
       icon: Code,
-      title: 'Custom Software',
-      description: 'Tailored software solutions designed to solve your unique business challenges.',
-      features: ['Custom Workflows', 'Integration', 'Maintenance'],
+      title: 'Custom AI Software',
+      description: 'End-to-end AI solutions tailored to your operations — from prototype to production with ongoing optimization.',
+      features: ['PoC to Production', 'Model Fine-Tuning', 'Maintenance & Monitoring'],
       color: 'from-amber-500 to-yellow-500'
     }
   ];
@@ -350,34 +350,34 @@
           <!-- Badge -->
           <div class="inline-flex items-center space-x-2 bg-(--primary)/10 border border-(--primary)/20 rounded-full px-4 py-2 text-sm text-primary font-semibold">
             <div class="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
-            <span>CREATIVE TECH SOLUTIONS</span>
+            <span>AI & ML SOFTWARE STUDIO</span>
           </div>
           
           <!-- Main Headline -->
           <h1 class="text-5xl md:text-7xl font-black leading-tight">
-             Build the <span class="gradient-text">Digital Engine</span>
+             Build the <span class="gradient-text">AI-Powered Engine</span>
             <br />
             <span class="text-gray-900">That Drives Your Business Growth</span>
           </h1>
           
           <!-- Description -->
           <p class="text-xl text-gray-600 leading-relaxed">
-            We don't just build <strong>websites</strong> we <strong>engineer custom </strong> software and high-performace platforms that turn local businesses into market leaders.<br>
+            We engineer custom <strong>AI & ML solutions</strong> — intelligent apps, LLM chatbots, automation agents, and computer-vision systems — alongside the web and mobile platforms that put them to work.<br />
             Serving clients in <strong>Lagos</strong>, <strong>Abuja</strong>, <strong>Port Harcourt</strong>, and <strong>Worldwide.</strong>
           </p>
           
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-4 pt-8">
-            <a href="/contact" class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
+            <a href="/services/ai" class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
               <span class="flex items-center">
-                Get a Free Estimate
+                Explore AI Services
                 <ArrowRight class="w-5 h-5 ml-2" />
               </span>
             </a>
             
-            <a href="/work" class="px-8 py-4 border-2 border-(--primary)/20 text-primary font-semibold rounded-xl hover:border-(--primary)/40 hover:bg-(--primary)/5 transition-all duration-300">
+            <a href="/contact" class="px-8 py-4 border-2 border-(--primary)/20 text-primary font-semibold rounded-xl hover:border-(--primary)/40 hover:bg-(--primary)/5 transition-all duration-300">
               <span class="flex items-center">
-                View Our Portfolio
+                Book an AI Consult
                 <Sparkles class="w-5 h-5 ml-2" />
               </span>
             </a>
@@ -540,14 +540,14 @@
     <div class="container mx-auto max-w-6xl">
       <div class="text-center mb-16">
         <div class="inline-flex items-center space-x-2 bg-[var(--secondary)]/10 border border-[var(--secondary)]/20 rounded-full px-4 py-2 text-sm text-[var(--secondary-dark)] font-semibold mb-4">
-          <Code class="w-4 h-4" />
-          <span>OUR SERVICES</span>
+          <Cpu class="w-4 h-4" />
+          <span>AI & ML SERVICES</span>
         </div>
         <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-          Creative <span class="gradient-text">Digital Solutions</span>
+          Intelligent <span class="gradient-text">AI Solutions</span>
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          We combine technical expertise with creative thinking to deliver solutions that stand out in the digital landscape.
+          From LLM chatbots to computer vision and ML automation — we build AI systems that ship real business value, not demos.
         </p>
       </div>
 
@@ -582,6 +582,45 @@
             </button>
           </div>
         {/each}
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Use Cases Section -->
+  <section class="py-20 px-4 bg-gradient-to-br from-slate-950 to-slate-800 text-white relative overflow-hidden">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center space-x-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm text-white/90 font-semibold mb-4">
+          <Sparkles class="w-4 h-4" />
+          <span>WHERE AI PAYS OFF</span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black mb-4">Real AI Use Cases for Your Business</h2>
+        <p class="text-lg text-white/70 max-w-2xl mx-auto">
+          Practical, production-ready AI we build for Nigerian and global teams — measured by time saved and revenue unlocked.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {#each [
+          { title: 'AI Customer Support', text: 'WhatsApp & web chatbots that answer FAQs, take orders, and book appointments 24/7 — in English and Pidgin.' },
+          { title: 'Document Intelligence', text: 'Auto-extract and classify invoices, forms, and contracts. Cut manual data entry by up to 80%.' },
+          { title: 'Demand Forecasting', text: 'ML models that predict sales and stock needs so you stop over- or under-ordering.' },
+          { title: 'Smart Recommendations', text: 'Personalized product and content suggestions that lift conversion on your store or app.' },
+          { title: 'Visual Inspection', text: 'Computer vision that spots defects and counts inventory from camera feeds — no manual checks.' },
+          { title: 'Process Automation', text: 'Autonomous agents that move data between your tools and run repetitive workflows end-to-end.' }
+        ] as uc}
+          <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300">
+            <h3 class="text-lg font-bold mb-2 text-white">{uc.title}</h3>
+            <p class="text-sm text-white/70 leading-relaxed">{uc.text}</p>
+          </div>
+        {/each}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/services/ai" class="inline-flex items-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-xl hover:bg-white/90 transition">
+          See All AI Services
+          <ArrowRight class="w-4 h-4 ml-2" />
+        </a>
       </div>
     </div>
   </section>
