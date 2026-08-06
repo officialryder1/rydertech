@@ -7,6 +7,7 @@
   import { page } from '$app/stores'
   import Navbar from '$lib/components/Navbar.svelte';
   import WhatsAppFloat from '$lib/components/WhatsAppFloat.svelte';
+  import AIDemoWidget from '$lib/components/AIDemoWidget.svelte';
   import '@fontsource/montserrat';
 
 
@@ -251,6 +252,8 @@ function applyUpdate() {
 
   <!-- Global WhatsApp contact button -->
   <WhatsAppFloat />
+  <!-- Live AI demo assistant -->
+  <AIDemoWidget />
 </div>
 
 <style>
