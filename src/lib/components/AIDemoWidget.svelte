@@ -61,7 +61,7 @@
 <button
   aria-label="Open AI assistant"
   onclick={() => (open = !open)}
-  class="fixed bottom-5 left-5 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:scale-105"
+  class="fixed bottom-24 right-5 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:scale-105"
 >
   {#if open}
     <X class="h-6 w-6" />
@@ -73,7 +73,7 @@
 <!-- Chat panel -->
 {#if open}
   <div
-    class="fixed bottom-24 left-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
+    class="fixed bottom-[22rem] right-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
   >
     <!-- Header -->
     <div class="flex items-center gap-2 bg-primary px-4 py-3 text-white">
