@@ -73,7 +73,7 @@
 <!-- Chat panel -->
 {#if open}
   <div
-    class="fixed bottom-[22rem] right-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
+    class="fixed z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl right-5 bottom-[22rem] max-sm:left-2 max-sm:right-2 max-sm:bottom-20 max-sm:w-auto max-sm:max-w-none max-sm:h-[75vh]"
   >
     <!-- Header -->
     <div class="flex items-center gap-2 bg-primary px-4 py-3 text-white">
