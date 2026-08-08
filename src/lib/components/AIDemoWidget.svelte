@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { Brain, Send, X, MessageCircle, ArrowUpRight } from '@lucide/svelte';
+  import { env } from '$env/dynamic/public';
+  import emailjs from '@emailjs/browser';
+  import { Brain, Send, X, ArrowUpRight, Mail } from '@lucide/svelte';
 
   type Msg = { role: 'user' | 'assistant'; content: string };
 
@@ -15,6 +16,13 @@
   let input = $state('');
   let sending = $state(false);
   let error = $state<string | null>(null);
+
+  // Lead capture state
+  let leadMode = $state(false); // true once we ask for email
+  let leadCaptured = $state(false);
+  let email = $state('');
+  let submittingLead = $state(false);
+  let leadError = $state<string | null>(null);
 
   async function send() {
     const text = input.trim();
@@ -34,6 +42,19 @@
         error = data.error || 'Something went wrong.';
       } else {
         messages = [...messages, { role: 'assistant', content: data.reply }];
+        // After 3+ user turns, offer to capture the lead if not already done.
+        const userTurns = messages.filter((m) => m.role === 'user').length;
+        if (userTurns >= 3 && !leadCaptured && !leadMode) {
+          leadMode = true;
+          messages = [
+            ...messages,
+            {
+              role: 'assistant',
+              content:
+                "Glad to help! Want a custom quote or a follow-up by email? Drop your email and RyderTech will reach out."
+            }
+          ];
+        }
       }
     } catch {
       error = 'Network error. Please try again or contact us.';
@@ -46,6 +67,50 @@
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       send();
+    }
+  }
+
+  async function submitLead() {
+    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+      leadError = 'Please enter a valid email.';
+      return;
+    }
+    submittingLead = true;
+    leadError = null;
+    try {
+      const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+      if (serviceId && templateId && publicKey) {
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: 'AI Widget Lead',
+            from_email: email,
+            company: '',
+            budget: '',
+            timeline: '',
+            message:
+              'New lead captured from the on-site AI assistant (Ryder). Visitor chatted about RyderTech services.',
+            lead_type: 'ai_widget'
+          },
+          { publicKey }
+        );
+      }
+      leadCaptured = true;
+      messages = [
+        ...messages,
+        {
+          role: 'assistant',
+          content:
+            "Thanks! RyderTech will follow up at " + email + ". You can also reach us anytime via 'Talk to a human'."
+        }
+      ];
+    } catch (e) {
+      leadError = 'Could not save your email. Please use "Talk to a human" instead.';
+    } finally {
+      submittingLead = false;
     }
   }
 
@@ -112,6 +177,34 @@
         <div class="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600">{error}</div>
       {/if}
     </div>
+
+    <!-- Lead capture -->
+    {#if leadMode && !leadCaptured}
+      <div class="border-t border-gray-200 bg-white p-3">
+        <div class="mb-2 flex items-center gap-2 text-xs text-gray-500">
+          <Mail class="h-3.5 w-3.5" /> Get a follow-up by email
+        </div>
+        <div class="flex items-end gap-2">
+          <input
+            type="email"
+            bind:value={email}
+            placeholder="you@business.com"
+            disabled={submittingLead}
+            class="flex-1 rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+          <button
+            onclick={submitLead}
+            disabled={submittingLead || !email.trim()}
+            class="flex h-9 items-center rounded-xl bg-primary px-3 text-sm text-white transition hover:opacity-95 disabled:opacity-40"
+          >
+            Send
+          </button>
+        </div>
+        {#if leadError}
+          <p class="mt-1 text-xs text-red-600">{leadError}</p>
+        {/if}
+      </div>
+    {/if}
 
     <!-- Input -->
     <div class="border-t border-gray-200 bg-white p-3">
