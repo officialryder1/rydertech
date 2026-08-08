@@ -269,7 +269,7 @@
 							<span class="transition group-open:rotate-180">▼</span>
 						</summary>
 						<p class="mt-2 text-slate-600 text-sm">
-							Yes! LuxReview offers free AI-powered website analysis. Get instant feedback on your site's strengths and areas for improvement.
+							Yes! RyderTech offers free AI-powered website analysis. Get instant feedback on your site's strengths and areas for improvement.
 						</p>
 					</details>
 					<details class="group bg-white rounded-lg border border-slate-200 p-4">

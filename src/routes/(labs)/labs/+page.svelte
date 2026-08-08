@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell, Timer } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade } from "svelte/transition";
   
@@ -67,6 +67,13 @@
       icon: FileText,
       href: '/labs/website-rater',
       action: 'Analyze Copy'
+    },
+    {
+      title: 'Ops Drain Calculator',
+      description: 'Calculate what your manual processes cost per year, and how fast automation pays for itself.',
+      icon: Timer,
+      href: '/labs/ops-drain',
+      action: 'Calculate My Drain'
     },
     {
       title: 'MVP Feature Planner',

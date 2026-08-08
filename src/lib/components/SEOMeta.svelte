@@ -38,7 +38,7 @@
 	<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 	
 	<!-- Additional SEO -->
-	<meta name="author" content="LuxReview" />
+	<meta name="author" content="RyderTech" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </svelte:head>
