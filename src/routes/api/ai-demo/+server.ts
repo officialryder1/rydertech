@@ -56,7 +56,7 @@ export const POST: RequestHandler = async ({ request }) => {
         systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents,
         generationConfig: {
-          maxOutputTokens: 300,
+          maxOutputTokens: 1500,
           temperature: 0.7,
           topP: 0.9
         },
