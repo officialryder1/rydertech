@@ -178,7 +178,7 @@
 		title: 'Ops Drain Calculator — What Manual Processes Really Cost You | RyderTech',
 		description:
 			'Calculate the annual cost of your manual business processes, the hours automation recovers, and the payback period on an automation build. Free, instant, no signup to calculate.',
-		canonical: 'https://rydertech.dev/labs/ops-drain'
+		canonical: 'https://rydertech.ng/labs/ops-drain'
 	}}
 />
 
