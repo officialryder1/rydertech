@@ -26,3 +26,31 @@ Edukoya,edukoya.com,Lagos
 PricePally,pricepally.com,Lagos
 OmniRetail,omniretail.africa,Lagos
 Gritsys,gritsystechnologies.com,Abuja
+# --- ICP segment: event organizers & venues (Event Access Risk Scanner) ---
+Eventful Nigeria,eventfulnigeria.com,Lagos
+BluCard Events,blucardevents.com,Lagos
+De Hall Events,dehalls.com,Lagos
+Ground Zero Entertainment,groundzero.ng,Lagos
+Tafetta Events,tafetta.com,Lagos
+# --- ICP segment: SMEs / retail with public sites (RevLeak Auditor) ---
+Jumia,jumia.com,Lagos
+Konga,konga.com,Lagos
+Tastee Fried Chicken,tasteefriedchicken.com,Lagos
+Chicken Republic,eatnaked.com,Lagos
+Domino's Pizza Nigeria,dominos.ng,Lagos
+HealthPlus,healthplusnigeria.com,Lagos
+Slot Limited,slotlimited.com,Lagos
+Yudala,yudala.com,Lagos
+# --- ICP segment: ops-heavy businesses (Ops Drain Calculator) ---
+Printivo,printivo.com,Lagos
+GIG Logistics,giglogistics.com,Lagos
+RedStar Express,redstarplc.com,Lagos
+Pamtech,pamtech.com.ng,Port Harcourt
+Custodian Insurance,custodianinsurance.com,Lagos
+AIICO Insurance,aiicoplc.com,Lagos
+# --- ICP segment: SaaS/agencies likely to need rebuild/perf (RevLeak + Ops) ---
+HotelOga,hoteloga.com,Lagos
+Seamfix,seamfix.com,Lagos
+Terragon,terragon.com,Lagos
+Esusu,esusu.africa,Lagos
+ExactGhana,exact.com.gh,Accra

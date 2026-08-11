@@ -27,7 +27,10 @@
     LayoutGrid,
     Bell,
     Mail,
-    Badge
+    Badge,
+    Timer,
+    ScanLine,
+    Gauge
   } from '@lucide/svelte';
 
   // Hardcoded client testimonials (DB disabled — manual uploads).
@@ -648,11 +651,11 @@
 
     <!-- Labs Tools Grid -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-      <!-- Website Cost Estimator Card -->
+      <!-- Ops Drain Calculator Card -->
       <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
         <div class="flex items-start justify-between mb-4">
-          <div class="p-3 bg-linear-to-br from-blue-500/10 to-blue-600/10 rounded-xl">
-            <Calculator class="w-6 h-6 text-blue-600" />
+          <div class="p-3 bg-linear-to-br from-amber-500/10 to-orange-600/10 rounded-xl">
+            <Timer class="w-6 h-6 text-amber-600" />
           </div>
           <Badge variant="outline" class="text-xs font-semibold border-[var(--secondary)]/30 text-[var(--secondary-dark)]">
             <Sparkles class="w-3 h-3 mr-1" />
@@ -660,126 +663,115 @@
           </Badge>
         </div>
         
-        <h3 class="text-xl font-black text-gray-900 mb-3">Website Cost Estimator</h3>
+        <h3 class="text-xl font-black text-gray-900 mb-3">Ops Drain Calculator</h3>
         <p class="text-gray-600 mb-4 leading-relaxed">
-          Get a rough estimate of what it would cost to build your website based on your idea. 
-          Get estimates in NGN or USD with real-time exchange rates.
+          Calculate what your manual processes cost per year — and how fast automation pays for itself. Built for ops and finance leads.
         </p>
         
         <div class="space-y-3 mb-6">
           <div class="flex items-center text-sm">
             <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-            <span class="text-gray-600">Free to use, no signup required</span>
+            <span class="text-gray-600">Annual cost & automation payback</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Scoped build plan delivered by email</span>
           </div>
           <div class="flex items-center text-sm">
             <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
             <span class="text-gray-600">NGN & USD currency support</span>
           </div>
+        </div>
+        
+        <a 
+          href="/labs/ops-drain" 
+          class="w-full py-3 bg-linear-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
+        >
+          Calculate My Drain
+          <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+        </a>
+      </div>
+
+      <!-- Event Access Risk Scanner Card -->
+      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-linear-to-br from-rose-500/10 to-pink-600/10 rounded-xl">
+            <ScanLine class="w-6 h-6 text-rose-600" />
+          </div>
+          <Badge variant="outline" class="text-xs font-semibold border-[var(--secondary)]/30 text-[var(--secondary-dark)]">
+            <Sparkles class="w-3 h-3 mr-1" />
+            NEW
+          </Badge>
+        </div>
+        
+        <h3 class="text-xl font-black text-gray-900 mb-3">Event Access Risk Scanner</h3>
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          See how long your event gate backs up, how many guests slip in free, and what it costs — with a live Veripasshub QR demo.
+        </p>
+        
+        <div class="space-y-3 mb-6">
           <div class="flex items-center text-sm">
             <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-            <span class="text-gray-600">Based on 50+ real projects</span>
+            <span class="text-gray-600">Gate bottleneck & gatecrash exposure</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Live scannable invite QR demo</span>
+          </div>
+          <div class="flex items-center text-sm">
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Veripasshub upgrade plan by email</span>
           </div>
         </div>
         
         <a 
-          href="/labs/cost-estimator" 
-          class="w-full py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
+          href="/labs/event-access-risk" 
+          class="w-full py-3 bg-linear-to-r from-rose-500 to-pink-600 text-white font-semibold rounded-xl hover:from-rose-600 hover:to-pink-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
         >
-          Try Free Tool
+          Scan My Risk
           <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
         </a>
       </div>
 
-      <!-- Website Copy Analyzer Card (Coming Soon) -->
-      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-purple-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      <!-- RevLeak Auditor Card -->
+      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-[var(--primary)]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
         <div class="flex items-start justify-between mb-4">
-          <div class="p-3 bg-linear-to-br from-purple-500/10 to-purple-600/10 rounded-xl">
-            <FileText class="w-6 h-6 text-purple-600" />
+          <div class="p-3 bg-linear-to-br from-emerald-500/10 to-teal-600/10 rounded-xl">
+            <Gauge class="w-6 h-6 text-emerald-600" />
           </div>
-          <Badge variant="outline" class="text-xs font-semibold border-gray-300 text-gray-500">
-            COMING SOON
+          <Badge variant="outline" class="text-xs font-semibold border-[var(--secondary)]/30 text-[var(--secondary-dark)]">
+            <Sparkles class="w-3 h-3 mr-1" />
+            NEW
           </Badge>
         </div>
         
-        <h3 class="text-xl font-black text-gray-900 mb-3">Website Analyzer</h3>
+        <h3 class="text-xl font-black text-gray-900 mb-3">RevLeak Auditor</h3>
         <p class="text-gray-600 mb-4 leading-relaxed">
-          Analyze your homepage copy and get AI-powered feedback on clarity and conversion potential.
+          Calculate how much revenue your slow website leaks every month from lost conversions — and what a speed fix is worth.
         </p>
         
         <div class="space-y-3 mb-6">
           <div class="flex items-center text-sm">
-            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
-            </div>
-            <span class="text-gray-500">AI-powered feedback</span>
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Revenue leaked per month & year</span>
           </div>
           <div class="flex items-center text-sm">
-            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
-            </div>
-            <span class="text-gray-500">SEO optimization tips</span>
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Conversion-decay model from load time</span>
           </div>
           <div class="flex items-center text-sm">
-            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
-            </div>
-            <span class="text-gray-500">Conversion rate insights</span>
+            <CheckCircle class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+            <span class="text-gray-600">Speed-fix blueprint by email</span>
           </div>
         </div>
         
         <a 
-          href="/labs/website-rater" 
-          class="w-full py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
+          href="/labs/revleak" 
+          class="w-full py-3 bg-linear-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 flex items-center justify-center group-hover:shadow-lg"
         >
-          Try Free Tool
+          Audit My Leak
           <ArrowRight class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
         </a>
-      </div>
-
-      <!-- MVP Feature Planner Card (Coming Soon) -->
-      <div class="group bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-        <div class="flex items-start justify-between mb-4">
-          <div class="p-3 bg-linear-to-br from-emerald-500/10 to-emerald-600/10 rounded-xl">
-            <LayoutGrid class="w-6 h-6 text-emerald-600" />
-          </div>
-          <Badge variant="outline" class="text-xs font-semibold border-gray-300 text-gray-500">
-            COMING SOON
-          </Badge>
-        </div>
-        
-        <h3 class="text-xl font-black text-gray-900 mb-3">MVP Feature Planner</h3>
-        <p class="text-gray-600 mb-4 leading-relaxed">
-          Prioritize features for your app or product MVP with AI-powered recommendations.
-        </p>
-        
-        <div class="space-y-3 mb-6">
-          <div class="flex items-center text-sm">
-            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
-            </div>
-            <span class="text-gray-500">AI-powered prioritization</span>
-          </div>
-          <div class="flex items-center text-sm">
-            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
-            </div>
-            <span class="text-gray-500">Timeline estimation</span>
-          </div>
-          <div class="flex items-center text-sm">
-            <div class="w-4 h-4 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full bg-gray-400"></div>
-            </div>
-            <span class="text-gray-500">Resource planning</span>
-          </div>
-        </div>
-        
-        <button 
-          disabled
-          class="w-full py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl cursor-not-allowed flex items-center justify-center"
-        >
-          Notify Me When Ready
-          <Bell class="w-4 h-4 ml-2" />
-        </button>
       </div>
     </div>
 

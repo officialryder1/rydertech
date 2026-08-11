@@ -408,6 +408,7 @@
 								{/each}
 							</ul>
 							<Button href="/contact" class="mt-5 w-full">Book a scoping call</Button>
+							<a href="/services/ai" class="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground">Or see how we automate it →</a>
 						{/if}
 					</CardContent>
 				</Card>

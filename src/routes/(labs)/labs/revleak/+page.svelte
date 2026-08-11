@@ -336,6 +336,7 @@
 								{/each}
 							</ul>
 							<Button href="/contact" class="mt-5 w-full">Book a performance audit</Button>
+							<a href="/services/web-design-in-nigeria" class="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground">Or see our web rebuild work →</a>
 						{/if}
 					</CardContent>
 				</Card>
