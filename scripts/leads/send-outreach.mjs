@@ -87,7 +87,7 @@ function sendTimes(count, dateKey) {
 
 function loadState() {
   try {
-    return JSON.parse(require('node:fs').readFileSync(STATE_FILE, 'utf8'));
+    return JSON.parse(readFileSync(STATE_FILE, 'utf8'));
   } catch {
     return { sent: [] };
   }
