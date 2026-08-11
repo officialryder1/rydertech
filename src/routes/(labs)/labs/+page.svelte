@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell, Timer } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell, Timer, ScanLine } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade } from "svelte/transition";
   
@@ -74,6 +74,13 @@
       icon: Timer,
       href: '/labs/ops-drain',
       action: 'Calculate My Drain'
+    },
+    {
+      title: 'Event Access Risk Scanner',
+      description: 'See how long your event gate backs up, how many guests slip in free, and what it costs — with a live QR demo.',
+      icon: ScanLine,
+      href: '/labs/event-access-risk',
+      action: 'Scan My Risk'
     },
     {
       title: 'MVP Feature Planner',
