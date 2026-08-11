@@ -15,6 +15,7 @@ export const GET: RequestHandler = async () => {
     { path: '/labs', priority: '0.8', freq: 'weekly' },
     { path: '/labs/ops-drain', priority: '0.9', freq: 'monthly' },
     { path: '/labs/event-access-risk', priority: '0.9', freq: 'monthly' },
+    { path: '/labs/revleak', priority: '0.9', freq: 'monthly' },
     { path: '/labs/cost-estimator', priority: '0.9', freq: 'monthly' },
     { path: '/labs/website-rater', priority: '0.9', freq: 'monthly' },
     { path: '/blog/ai-chatbot-nigeria', priority: '0.8', freq: 'monthly' },

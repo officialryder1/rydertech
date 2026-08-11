@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell, Timer, ScanLine } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Bell, Timer, ScanLine, Gauge } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade } from "svelte/transition";
   
@@ -81,6 +81,13 @@
       icon: ScanLine,
       href: '/labs/event-access-risk',
       action: 'Scan My Risk'
+    },
+    {
+      title: 'RevLeak Auditor',
+      description: 'Calculate how much revenue your slow website leaks every month from lost conversions.',
+      icon: Gauge,
+      href: '/labs/revleak',
+      action: 'Audit My Leak'
     },
     {
       title: 'MVP Feature Planner',
