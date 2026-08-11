@@ -31,7 +31,7 @@ function csvEscape(v) {
 }
 
 function toCsv(rows) {
-  const header = ['name', 'website', 'primaryEmail', 'allEmails', 'city', 'mxValid', 'source'];
+  const header = ['name', 'website', 'primaryEmail', 'allEmails', 'city', 'mxValid', 'segment', 'source'];
   const lines = [header.join(',')];
   for (const r of rows) {
     lines.push(
@@ -42,6 +42,7 @@ function toCsv(rows) {
         (r.emails || []).join(' '),
         r.city || '',
         r.mxValid ? 'yes' : 'no',
+        r.segment || 'general',
         r.source
       ]
         .map(csvEscape)
@@ -53,13 +54,19 @@ function toCsv(rows) {
 
 function parseSeedCsv(text) {
   const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+  let currentSegment = 'general';
   const out = [];
   for (const line of lines) {
-    if (line.startsWith('#')) continue;
+    if (line.startsWith('#')) {
+      // A segment comment like `# --- ICP segment: events ---` sets the segment for following rows.
+      const m = line.match(/ICP segment:\s*([a-z0-9 _-]+)/i);
+      if (m) currentSegment = m[1].trim().toLowerCase().replace(/\s+/g, '_');
+      continue;
+    }
     const [name, website, city] = line.split(',').map((c) => c.trim());
     if (!website) continue;
     let domain = website.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
-    out.push({ name: name || domain, website: domain, city: city || '', source: 'seed.csv' });
+    out.push({ name: name || domain, website: domain, city: city || '', segment: currentSegment, source: 'seed.csv' });
   }
   return out;
 }
