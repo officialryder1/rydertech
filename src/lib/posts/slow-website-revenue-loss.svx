@@ -1,0 +1,77 @@
+---
+title: "How Much Revenue Your Slow Website Is Quietly Losing (And the 2-Second Rule)"
+description: "A slow website doesn't just annoy visitors — it bleeds revenue. Learn the conversion-decay rule, how to calculate your real monthly leak, and what a fix is worth for a Nigerian business."
+date: 2026-08-20
+author: "RyderTech"
+slug: "slow-website-revenue-loss"
+category: "Web Performance"
+readTime: "8 min read"
+excerpt: "Every second past 2 seconds of load time quietly drains conversions. Here's how to calculate exactly what your slow site costs you each month — and what fixing it is worth."
+tags: ["web-performance", "conversion-rate", "nigeria", "core-web-vitals", "revenue"]
+image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"
+views: 0
+comments: 0
+---
+
+Most business owners think site speed is a vanity metric — something developers fuss about. It isn't. Speed is revenue, and a slow site is a leak you can measure in naira.
+
+Every month, a fraction of your visitors decide not to buy, not because your product is wrong, but because the page took too long to load. That lost revenue shows up nowhere on your P&L. It just looks like "we had a slow month."
+
+This guide shows you the rule of thumb we use, how to calculate your real number, and what a fix is actually worth.
+
+## The 2-second rule
+
+Google's "good" threshold for a fast-loading page sits around **2 seconds**. Past that, conversion starts to decay. Not linearly, not gently — and the effect compounds with traffic.
+
+The pattern we see across client sites in Lagos, Abuja, and Port Harcourt:
+
+- **Under 2s** — conversions hold. Visitors don't feel friction.
+- **3–4s** — you lose roughly a fifth of the conversions you'd otherwise have made.
+- **5s+** — a quarter or more of potential customers are gone before the page finishes loading.
+
+You never see these people. They don't fill out a "why didn't you buy" form. They just leave.
+
+## Why slow sites are common in Nigeria
+
+A few structural reasons make this worse for local businesses:
+
+- **Heavy, uncompressed images** — a 4MB hero photo on every page.
+- **Too many third-party scripts** — chat widgets, analytics, marketing tags all fighting for the main thread.
+- **No CDN or edge caching** — every asset travels from a single origin server, far from the visitor.
+- **Render-blocking CSS/JS** — the page waits on code that isn't needed for first paint.
+
+None of these are hard to fix. They're just rarely prioritized until someone puts a number on the loss.
+
+## Calculate your leak
+
+Here's the simple model. Take your:
+
+- **Monthly visitors** to the page where people convert
+- **Current conversion rate** (% that buy)
+- **Average order value**
+- **Load time in seconds**
+
+For every second past 2s, a meaningful slice of conversions evaporates. A site loading in 5 seconds with 20,000 monthly visitors at a 2.5% conversion rate and ₦25,000 average order value is leaking **tens of millions of naira a year** — before you count repeat customers you never earned.
+
+Rather than guess, run the numbers on your own traffic. Our [RevLeak Auditor](/labs/revleak) does this calculation instantly and shows your annual leak, the orders lost per month, and what a fix recovers.
+
+## What a fix is worth
+
+The business case is simple: the recovery from a speed fix is the leak you stop. If your site leaks ₦5M a year to slow load, a performance rebuild that costs a fraction of that pays for itself fast — and keeps paying, every month, indefinitely.
+
+A proper fix covers:
+
+1. **A real Core Web Vitals audit** — measured on actual devices, not lab averages.
+2. **Asset pipeline rebuild** — image compression, modern formats (WebP/AVIF), code-splitting.
+3. **Edge delivery** — CDN + caching so first paint lands in under a second.
+4. **Render-path cleanup** — removing render-blocking scripts and deferring third parties.
+5. **A re-test** — proving the recovered revenue, not just claiming it.
+
+## Don't let the leak run quietly
+
+Speed isn't a developer nicety. It's the difference between a site that converts and one that quietly taxes every sale.
+
+- Run your own numbers in the [RevLeak Auditor](/labs/revleak).
+- If the leak is bigger than you expected, [book a performance audit](/contact) and we'll scope the fix against what it recovers.
+
+Related reading: [Web design cost in Nigeria](/blog/web-design-cost-nigeria) and [how AI chatbots cut support costs](/blog/ai-chatbot-nigeria).
