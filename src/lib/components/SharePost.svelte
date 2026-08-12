@@ -30,14 +30,9 @@
             WhatsApp
         </a>
 
-        <!-- Twitter/X -->
+        <!-- X (Twitter) -->
         <a href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener" class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600">
-            Twitter
-        </a>
-
-        <!-- LinkedIn -->
-        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`} target="_blank" rel="noopener" class="px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded hover:bg-blue-800">
-            LinkedIn
+            X
         </a>
 
         <!-- Facebook -->

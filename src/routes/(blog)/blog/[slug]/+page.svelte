@@ -101,11 +101,8 @@
       <div class="flex items-center gap-4 text-sm text-muted-foreground">
         <span>Share:</span>
         <div class="flex gap-2">
-          <button class="hover:text-foreground transition-colors" title="Share on Twitter">
+          <button class="hover:text-foreground transition-colors" title="Share on X">
             🐦
-          </button>
-          <button class="hover:text-foreground transition-colors" title="Share on LinkedIn">
-            💼
           </button>
           <button class="hover:text-foreground transition-colors" title="Copy link">
             🔗

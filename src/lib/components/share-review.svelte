@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Twitter, Linkedin, Link, Mail, Facebook } from '@lucide/svelte';
+  import { Twitter, Link, Mail, Facebook } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { toast } from 'svelte-sonner';
 
@@ -10,11 +10,6 @@
   function shareOnTwitter() {
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}&hashtags=${hashtags}`;
     window.open(shareUrl, '_blank', 'width=550,height=420');
-  }
-
-  function shareOnLinkedIn() {
-    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-    window.open(shareUrl, '_blank');
   }
 
   function shareOnFacebook() {
@@ -37,11 +32,7 @@
 <div class="flex flex-wrap gap-2">
   <Button variant="outline" size="sm" on:click={shareOnTwitter}>
     <Twitter class="h-4 w-4 mr-2" />
-    Twitter
-  </Button>
-  <Button variant="outline" size="sm" on:click={shareOnLinkedIn}>
-    <Linkedin class="h-4 w-4 mr-2" />
-    LinkedIn
+    X
   </Button>
   <Button variant="outline" size="sm" on:click={shareOnFacebook}>
     <Facebook class="h-4 w-4 mr-2" />

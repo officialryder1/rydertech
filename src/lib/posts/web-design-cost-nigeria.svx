@@ -489,10 +489,7 @@ Investing in a professional website is **crucial for Nigerian businesses** in to
   <div class="flex gap-3">
     <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=https://rydertech.com/blog/web-design-cost-nigeria`} 
        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" 
-       target="_blank">Twitter</a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://rydertech.com/blog/web-design-cost-nigeria"
-       class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800"
-       target="_blank">LinkedIn</a>
+       target="_blank">X</a>
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://rydertech.com/blog/web-design-cost-nigeria"
        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
        target="_blank">Facebook</a>

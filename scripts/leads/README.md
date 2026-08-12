@@ -23,7 +23,7 @@ node scripts/leads/run.mjs --no-scrape # seed.csv only (recommended)
 ```
 
 ## Building your seed list
-Paste businesses from anywhere you already browse: LinkedIn, a trade
+Paste businesses from anywhere you already browse: X, a trade
 association, a directory you can open in a browser, event attendee lists.
 One per line in `seed.csv`:
 ```
