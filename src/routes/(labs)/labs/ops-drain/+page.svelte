@@ -24,6 +24,8 @@
 		recommendStack,
 		type TaskInput
 	} from '$lib/opsDrain';
+	import { reportFromOpsDrain, buildShareUrl } from '$lib/shareReport';
+	import { goto } from '$app/navigation';
 
 	// Defaults model a realistic mid-size firm with genuine process drain.
 	// Calibration matters: if defaults yield a negative verdict the tool argues
@@ -50,6 +52,11 @@
 	const stack = $derived(recommendStack(result.tasks));
 	const worthIt = $derived(result.paybackMonths !== null && result.paybackMonths <= 18);
 	const money = (n: number) => formatMoney(n, currency);
+
+	function getReport() {
+		const payload = reportFromOpsDrain(result, currency);
+		goto(buildShareUrl(payload));
+	}
 
 	function validEmail(v: string) {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -408,6 +415,9 @@
 								{/each}
 							</ul>
 							<Button href="/contact" class="mt-5 w-full">Book a scoping call</Button>
+							<Button variant="outline" class="mt-2 w-full gap-2" onclick={getReport}>
+								<Calculator class="h-4 w-4" /> Get shareable audit report
+							</Button>
 							<a href="/services/ai" class="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground">Or see how we automate it →</a>
 						{/if}
 					</CardContent>
