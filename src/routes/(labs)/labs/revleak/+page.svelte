@@ -342,7 +342,7 @@
 									</li>
 								{/each}
 							</ul>
-							<Button href="/contact" class="mt-5 w-full">Book a performance audit</Button>
+							<Button href="/contact?tool=revleak" class="mt-5 w-full">Book a performance audit</Button>
 							<Button variant="outline" class="mt-2 w-full gap-2" onclick={getReport}>
 								<Gauge class="h-4 w-4" /> Get shareable audit report
 							</Button>

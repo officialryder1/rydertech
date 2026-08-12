@@ -427,7 +427,7 @@
 									</li>
 								{/each}
 							</ul>
-							<Button href="/contact" class="mt-5 w-full">Book a scoping call</Button>
+							<Button href="/contact?tool=event-access-risk" class="mt-5 w-full">Book a scoping call</Button>
 							<Button variant="outline" class="mt-2 w-full gap-2" onclick={getReport}>
 								<ScanLine class="h-4 w-4" /> Get shareable audit report
 							</Button>

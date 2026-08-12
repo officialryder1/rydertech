@@ -1,15 +1,38 @@
 <script>
+    import { page } from '$app/stores';
     import { supabase } from '$lib/supabaseClient';
-    import { 
-        Mail, Phone, MapPin, Send, Clock, MessageCircle,
+    import {
+        Mail, Phone, MapPin, Send, Clock, MessageCircle, CalendarDays,
         ArrowRight, CheckCircle, Star
     } from '@lucide/svelte';
+
+    // WhatsApp brand icon (not in this lucide version — inline SVG, same as WhatsAppFloat).
+    const WhatsAppIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="h-5 w-5 fill-current" aria-hidden="true"><path d="M16.02 3.2c-7.08 0-12.82 5.74-12.82 12.82 0 2.26.6 4.46 1.73 6.4L3.2 28.8l6.5-1.7a12.78 12.78 0 0 0 6.32 1.62h.01c7.07 0 12.81-5.74 12.81-12.82 0-3.42-1.33-6.64-3.75-9.06A12.74 12.74 0 0 0 16.02 3.2zm0 23.28h-.01a10.69 10.69 0 0 1-5.45-1.49l-.39-.23-3.86 1.01 1.03-3.76-.25-.39a10.65 10.65 0 0 1-1.63-5.66c0-5.92 4.82-10.74 10.75-10.74 2.87 0 5.57 1.12 7.6 3.15a10.68 10.68 0 0 1 3.15 7.6c0 5.92-4.82 10.74-10.74 10.74zm5.89-8.02c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.26-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.86-1.6-1.92-1.79-2.24-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.57.16-.19.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.55-.73-.56-.19-.01-.4-.01-.62-.01a1.19 1.19 0 0 0-.86.4c-.3.32-1.13 1.1-1.13 2.69 0 1.58 1.16 3.11 1.32 3.33.16.21 2.27 3.47 5.5 4.86.77.33 1.37.53 1.84.68.77.25 1.48.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.39.19-1.53-.08-.13-.29-.21-.61-.37z"/></svg>`;
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
     import { Badge } from '$lib/components/ui/badge';
     import { fade } from 'svelte/transition';
     import { env } from '$env/dynamic/public';
     import emailjs from '@emailjs/browser';
+
+    // Which tool the lead came from (tools link with ?tool=ops-drain etc.)
+    const toolLabels = {
+        'ops-drain': 'Ops Drain Calculator',
+        'revleak': 'RevLeak Auditor',
+        'event-access-risk': 'Event Access Risk Scanner'
+    };
+    const tool = $derived($page.url.searchParams.get('tool') ?? '');
+    const toolLabel = $derived(toolLabels[tool] ?? 'free tools');
+
+    // WhatsApp is the reliable instant channel (confirmed working).
+    const waPhone = '2349033147769';
+    const waMessage = $derived(
+        `Hi Victor — I just tried your ${toolLabel} and want to talk about the fix. Can we do a quick 15-min scoping call?`
+    );
+    const waUrl = $derived(`https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`);
+
+    // Calendar CTA auto-activates when owner sets PUBLIC_BOOKING_URL (e.g. Calendly).
+    const bookingUrl = env.PUBLIC_BOOKING_URL;
 
     let formData = $state({
         name: '',
@@ -79,7 +102,7 @@
         const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
 
         if (!serviceId || !templateId || !publicKey) {
-            error = 'Email service is not configured. Please email us directly at rydertech.ng@gmail.com.';
+            error = 'Email service is not configured. Please chat us on WhatsApp or email rydertech.ng@gmail.com directly.';
             isSubmitting = false;
             return;
         }
@@ -94,7 +117,8 @@
                     company: formData.company,
                     budget: formData.budget,
                     timeline: formData.timeline,
-                    message: formData.message
+                    message: formData.message,
+                    lead_source: tool ? `contact?tool=${tool}` : 'contact'
                 },
                 { publicKey }
             );
@@ -110,6 +134,7 @@
                         budget: formData.budget,
                         timeline: formData.timeline,
                         message: formData.message,
+                        lead_source: tool ? `contact?tool=${tool}` : 'contact',
                         submitted_at: new Date().toISOString(),
                         status: 'new'
                     }
@@ -134,7 +159,7 @@
             }, 5000);
         } catch (err) {
             console.error('EmailJS submission error:', err);
-            error = 'Failed to send message. Please try again or email us directly.';
+            error = 'Failed to send message. Please try WhatsApp or email us directly at rydertech.ng@gmail.com.';
         } finally {
             isSubmitting = false;
         }
@@ -142,35 +167,68 @@
 </script>
 
 <svelte:head>
-    <title>Contact Us - RyderTech | Get In Touch</title>
-    <meta name="description" content="Get in touch with RyderTech for your software development needs. Let's discuss your project and create something amazing together." />
+    <title>Book a Free Scoping Call - RyderTech</title>
+    <meta name="description" content="Book a free 15-minute scoping call with RyderTech. Turn your ops drag, slow site, or event risk into a concrete build plan — WhatsApp reply in under 2 hours." />
 </svelte:head>
 
 <div class="min-h-screen bg-background pt-32" transition:fade>
     <!-- Hero Section -->
-    <section class="py-20 px-4">
+    <section class="py-16 px-4">
         <div class="container mx-auto max-w-6xl text-center">
-            <Badge variant="secondary" class="mb-4">Get In Touch</Badge>
+            <Badge variant="secondary" class="mb-4">Free 15-Minute Scoping Call</Badge>
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Let's <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Build</span> Together
+                Let's Turn That Into a <span class="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Plan</span>
             </h1>
             <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Ready to start your project? Contact us for a free consultation and let's discuss how we can help bring your ideas to life.
+                {#if tool}
+                    You ran the {toolLabel}. Book a call and we'll map the exact fix — no deck, just the numbers and a build quote.
+                {:else}
+                    Tell us where the drag is — manual processes, a slow site, or an event gate — and we'll scope the fix on a free 15-minute call.
+                {/if}
             </p>
         </div>
     </section>
 
+    <!-- Instant Book Band -->
+    <section class="px-4 -mt-4">
+        <div class="container mx-auto max-w-4xl">
+            <Card class="border-primary/20 bg-primary/5">
+                <CardContent class="py-6">
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href={waUrl} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
+                            <Button size="lg" class="w-full gap-2 bg-[#25D366] hover:bg-[#1ebe5b] text-white">
+                                {@html WhatsAppIcon}
+                                Chat on WhatsApp
+                            </Button>
+                        </a>
+                        {#if bookingUrl}
+                            <a href={bookingUrl} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
+                                <Button size="lg" variant="outline" class="w-full gap-2">
+                                    <CalendarDays class="h-5 w-5" />
+                                    Schedule on Calendar
+                                </Button>
+                            </a>
+                        {/if}
+                    </div>
+                    <p class="text-center text-sm text-muted-foreground mt-3">
+                        Average first reply: <strong>under 2 hours</strong> on WhatsApp · or pick a slot on the calendar.
+                    </p>
+                </CardContent>
+            </Card>
+        </div>
+    </section>
+
     <!-- Contact Section -->
-    <section class="py-20 px-4">
+    <section class="py-16 px-4">
         <div class="container mx-auto max-w-6xl">
             <div class="grid lg:grid-cols-2 gap-12">
                 <!-- Contact Form -->
                 <div>
                     <Card>
                         <CardHeader>
-                            <CardTitle class="text-2xl">Send us a Message</CardTitle>
+                            <CardTitle class="text-2xl">Or Send Project Details</CardTitle>
                             <CardDescription>
-                                Fill out the form below and we'll get back to you within 24 hours.
+                                Prefer email? Fill this out and we'll get back within 24 hours — or WhatsApp us for an instant reply.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -179,11 +237,18 @@
                                     <CheckCircle class="w-16 h-16 text-green-500 mx-auto mb-4" />
                                     <h3 class="text-xl font-bold mb-2">Message Sent!</h3>
                                     <p class="text-muted-foreground mb-4">
-                                        Thank you for your message. We'll get back to you soon.
+                                        Thanks — we'll reply within 24 hours. For a faster answer, WhatsApp Victor directly.
                                     </p>
-                                    <Button on:click={() => submitted = false}>
-                                        Send Another Message
-                                    </Button>
+                                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                                        <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                                            <Button class="gap-2 bg-[#25D366] hover:bg-[#1ebe5b] text-white">
+                                            {@html WhatsAppIcon} WhatsApp instead
+                                            </Button>
+                                        </a>
+                                        <Button variant="outline" on:click={() => submitted = false}>
+                                            Send Another
+                                        </Button>
+                                    </div>
                                 </div>
                             {:else}
                                 <form onsubmit={handleSubmit} class="space-y-6">
@@ -211,7 +276,7 @@
                                             />
                                         </div>
                                     </div>
-                                    
+
                                     <div class="grid md:grid-cols-2 gap-4">
                                         <div>
                                             <label for="company" class="block text-sm font-medium mb-2">Company</label>
@@ -224,22 +289,18 @@
                                             />
                                         </div>
                                         <div>
-                                            <label for="budget" class="block text-sm font-medium mb-2">Budget</label>
+                                            <label for="budget" class="block text-sm font-medium mb-2">Budget (₦)</label>
                                             <select
                                                 id="budget"
                                                 bind:value={formData.budget}
                                                 class="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                             >
                                                 <option value="">Select budget range</option>
-                                                <option 
-                                                value="100h-500h">$100 - $500</option>
-                                                <option 
-                                                value="500h-1000k">$500 - $1000</option>
-                                                <option 
-                                                value="1k-10k">$1,000 - $10,000</option>
-                                                <option value="10k-25k">$10,000 - $25,000</option>
-                                                <option value="25k-50k">$25,000 - $50,000</option>
-                                                <option value="50k+">$50,000+</option>
+                                                <option value="150k-500k">₦150k - ₦500k</option>
+                                                <option value="500k-1.5m">₦500k - ₦1.5M</option>
+                                                <option value="1.5m-5m">₦1.5M - ₦5M</option>
+                                                <option value="5m-15m">₦5M - ₦15M</option>
+                                                <option value="15m+">₦15M+</option>
                                             </select>
                                         </div>
                                     </div>
@@ -252,10 +313,11 @@
                                             class="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                         >
                                             <option value="">Select timeline</option>
+                                            <option value="asap">ASAP (this month)</option>
                                             <option value="1-3 months">1-3 months</option>
                                             <option value="3-6 months">3-6 months</option>
                                             <option value="6-12 months">6-12 months</option>
-                                            <option value="12+ months">12+ months</option>
+                                            <option value="exploring">Just exploring</option>
                                         </select>
                                     </div>
 
@@ -277,9 +339,9 @@
                                         </div>
                                     {/if}
 
-                                    <Button 
-                                        type="submit" 
-                                        class="w-full" 
+                                    <Button
+                                        type="submit"
+                                        class="w-full"
                                         size="lg"
                                         disabled={isSubmitting}
                                     >
@@ -306,11 +368,22 @@
                         <CardContent class="space-y-4">
                             <div class="flex items-center space-x-4">
                                 <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                    {@html WhatsAppIcon}
+                                </div>
+                                <div>
+                                    <p class="font-semibold">WhatsApp</p>
+                                    <a href={waUrl} target="_blank" rel="noopener" class="text-muted-foreground hover:text-primary">
+                                        +234 903 314 7769
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
                                     <Mail class="w-6 h-6 text-primary" />
                                 </div>
                                 <div>
                                     <p class="font-semibold">Email</p>
-                                    <a href="mailto:hello@rydertech.com" class="text-muted-foreground hover:text-primary">
+                                    <a href="mailto:rydertech.ng@gmail.com" class="text-muted-foreground hover:text-primary">
                                         rydertech.ng@gmail.com
                                     </a>
                                 </div>
@@ -320,9 +393,9 @@
                                     <Phone class="w-6 h-6 text-primary" />
                                 </div>
                                 <div>
-                                    <p class="font-semibold">Phone</p>
-                                    <a href="tel:+15551234567" class="text-muted-foreground hover:text-primary">
-                                        +234 903 3147 769
+                                    <p class="font-semibold">Call</p>
+                                    <a href="tel:+2349033147769" class="text-muted-foreground hover:text-primary">
+                                        +234 903 314 7769
                                     </a>
                                 </div>
                             </div>
@@ -332,7 +405,7 @@
                                 </div>
                                 <div>
                                     <p class="font-semibold">Office</p>
-                                    <p class="text-muted-foreground"> Jabi, Abuja</p>
+                                    <p class="text-muted-foreground">Jabi, Abuja</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
@@ -341,7 +414,7 @@
                                 </div>
                                 <div>
                                     <p class="font-semibold">Response Time</p>
-                                    <p class="text-muted-foreground">Within 24 hours</p>
+                                    <p class="text-muted-foreground">Under 2 hours on WhatsApp</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -353,10 +426,10 @@
                         </CardHeader>
                         <CardContent class="space-y-3">
                             {#each [
-                                'Free initial consultation',
-                                'Detailed project proposal',
-                                'Transparent pricing',
-                                'Regular progress updates',
+                                'Free 15-min scoping call',
+                                'Fixed-price quote in 24h',
+                                'Transparent, no hidden fees',
+                                'Nigerian payments (Paystack/Flutterwave)',
                                 'Post-launch support'
                             ] as benefit}
                                 <div class="flex items-center space-x-3">
@@ -369,16 +442,10 @@
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Quick Connect</CardTitle>
+                            <CardTitle>Quick Links</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div class="space-y-3">
-                                <a href="https://calendly.com/rydertech/consultation" target="_blank" class="w-full">
-                                    <Button variant="outline" class="w-full justify-start">
-                                        <MessageCircle class="w-4 h-4 mr-2" />
-                                        Schedule a Call
-                                    </Button>
-                                </a>
                                 <a href="/services" class="w-full">
                                     <Button variant="outline" class="w-full justify-start">
                                         <ArrowRight class="w-4 h-4 mr-2" />
@@ -389,6 +456,12 @@
                                     <Button variant="outline" class="w-full justify-start">
                                         <ArrowRight class="w-4 h-4 mr-2" />
                                         See Our Work
+                                    </Button>
+                                </a>
+                                <a href="/labs" class="w-full">
+                                    <Button variant="outline" class="w-full justify-start">
+                                        <ArrowRight class="w-4 h-4 mr-2" />
+                                        Try the Free Tools
                                     </Button>
                                 </a>
                             </div>
