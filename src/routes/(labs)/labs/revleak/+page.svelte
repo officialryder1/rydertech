@@ -9,6 +9,8 @@
 	import emailjs from '@emailjs/browser';
 	import { formatMoney } from '$lib/opsDrain';
 	import { computeRevLeak, type EngineInput } from '$lib/revLeak';
+	import { reportFromRevLeak, buildShareUrl } from '$lib/shareReport';
+	import { goto } from '$app/navigation';
 	import {
 		Gauge,
 		TrendingDown,
@@ -51,6 +53,11 @@
 	const money = (n: number) => formatMoney(n, currency);
 	const critical = $derived(result.severity === 'critical' || result.severity === 'high');
 
+	function getReport() {
+		const payload = reportFromRevLeak(result, currency);
+		goto(buildShareUrl(payload));
+	}
+
 	function switchCurrency(next: 'NGN' | 'USD') {
 		if (next === currency) return;
 		currency = next;
@@ -62,7 +69,7 @@
 	}
 
 	function validEmail(v: string) {
-		return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 	}
 
 	function summaryText() {
@@ -336,6 +343,9 @@
 								{/each}
 							</ul>
 							<Button href="/contact" class="mt-5 w-full">Book a performance audit</Button>
+							<Button variant="outline" class="mt-2 w-full gap-2" onclick={getReport}>
+								<Gauge class="h-4 w-4" /> Get shareable audit report
+							</Button>
 							<a href="/services/web-design-in-nigeria" class="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground">Or see our web rebuild work →</a>
 						{/if}
 					</CardContent>

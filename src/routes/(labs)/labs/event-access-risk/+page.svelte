@@ -14,6 +14,8 @@
 		type EngineInput,
 		type CheckInMethod
 	} from '$lib/eventAccessRisk';
+	import { reportFromEventRisk, buildShareUrl } from '$lib/shareReport';
+	import { goto } from '$app/navigation';
 	import {
 		ScanLine,
 		Clock,
@@ -77,6 +79,11 @@
 	const money = (n: number) => formatMoney(n, currency);
 	const critical = $derived(result.severity === 'critical' || result.severity === 'high');
 
+	function getReport() {
+		const payload = reportFromEventRisk(result, currency);
+		goto(buildShareUrl(payload));
+	}
+
 	function switchCurrency(next: 'NGN' | 'USD') {
 		if (next === currency) return;
 		currency = next;
@@ -90,7 +97,7 @@
 	}
 
 	function validEmail(v: string) {
-		return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 	}
 
 	function summaryText() {
@@ -421,6 +428,9 @@
 								{/each}
 							</ul>
 							<Button href="/contact" class="mt-5 w-full">Book a scoping call</Button>
+							<Button variant="outline" class="mt-2 w-full gap-2" onclick={getReport}>
+								<ScanLine class="h-4 w-4" /> Get shareable audit report
+							</Button>
 							<a href="/services/ai" class="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground">Or see our custom-portal work →</a>
 						{/if}
 					</CardContent>
