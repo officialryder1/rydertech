@@ -1,6 +1,30 @@
 <script>
 // @ts-nocheck
 
+  // AEO: direct-answer content — these Q&A pairs are also emitted as FAQPage JSON-LD
+  const faqs = [
+    {
+      q: 'What does RyderTech build?',
+      a: 'RyderTech is a Nigerian software studio that builds custom web apps, mobile apps, and cloud platforms, then makes them intelligent with AI — LLM chatbots, computer vision, and ML workflow automation.'
+    },
+    {
+      q: 'Do you build AI chatbots and automation for small businesses?',
+      a: 'Yes. We deploy AI chatbots, WhatsApp assistants, and back-office automation for Nigerian and African SMBs — from lead qualification to invoicing and support triage — usually with a measurable payback in months.'
+    },
+    {
+      q: 'How much does a website or app cost in Nigeria?',
+      a: 'A simple business website starts around ₦300,000, while a custom web app or mobile app typically ranges from ₦1.5M to ₦8M depending on scope. Use our free Website Cost Estimator to get a tailored range.'
+    },
+    {
+      q: 'Where is RyderTech based and who do you serve?',
+      a: 'We are based in Abuja and serve clients across Lagos, Port Harcourt, and nationwide Nigeria, plus remote clients across Africa. We work in English and West-African business contexts.'
+    },
+    {
+      q: 'Can you help my business show up on Google and AI search?',
+      a: 'Yes. Beyond building your site, we handle local SEO and Answer Engine Optimization (AEO) — structured data, FAQ content, and Google Business Profile setup — so customers find you on Google and AI assistants like ChatGPT name you first.'
+    }
+  ];
+
     import NewsLetterModel from '$lib/components/NewsLetterModel.svelte';
   import LeadMagnetDownload from '$lib/components/LeadMagnetDownload.svelte';
   import { onMount } from 'svelte';
@@ -925,7 +949,46 @@
     </div>
   </section>
 
+  <!-- AEO: direct-answer FAQ (cited by AI Overviews / ChatGPT) -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto max-w-3xl px-4">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900">Frequently Asked Questions</h2>
+        <p class="text-gray-500 mt-2">The questions businesses ask us — and the answers AI assistants quote.</p>
+      </div>
+      <div class="space-y-4">
+        {#each faqs as faq}
+          <details class="group rounded-2xl border border-gray-200 bg-white p-5 [&_summary]:cursor-pointer [&_summary]:font-semibold [&_summary]:text-gray-900">
+            <summary class="flex items-center justify-between">
+              {faq.q}
+              <span class="text-[var(--primary)] transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <p class="mt-3 text-gray-600 leading-relaxed">{faq.a}</p>
+          </details>
+        {/each}
+      </div>
+    </div>
+  </section>
+
 </div>
+
+<svelte:head>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {#each faqs as faq}
+      {
+        "@type": "Question",
+        "name": "{faq.q}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{faq.a}" }
+      }{#if faq !== faqs[faqs.length - 1]},{/if}
+      {/each}
+    ]
+  }
+  </script>
+</svelte:head>
 
 <style>
   :global(html) {

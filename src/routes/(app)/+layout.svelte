@@ -120,16 +120,40 @@ function applyUpdate() {
     {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
+        "@id": "https://rydertech.ng/#organization",
         "name": "RyderTech",
+        "alternateName": "RyderTech Software & AI Studio",
         "description": "Nigerian software studio building web, mobile, and cloud platforms with AI: LLM chatbots, computer vision, and ML automation",
         "url": "https://rydertech.ng",
         "logo": "https://rydertech.ng/logo.png",
+        "image": "https://rydertech.ng/og-image.jpg",
+        "priceRange": "$$",
         "address": {
             "@type": "PostalAddress",
             "addressCountry": "NG",
             "addressRegion": "Abuja",
             "addressLocality": "Abuja"
         },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "9.0765",
+            "longitude": "7.3986"
+        },
+        "areaServed": [
+            { "@type": "City", "name": "Lagos" },
+            { "@type": "City", "name": "Abuja" },
+            { "@type": "City", "name": "Port Harcourt" },
+            { "@type": "Country", "name": "Nigeria" }
+        ],
+        "knowsAbout": [
+            "Web Development",
+            "Mobile App Development",
+            "AI Automation",
+            "LLM Chatbots",
+            "Computer Vision",
+            "Machine Learning",
+            "Local SEO"
+        ],
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+234-903-314-7769",
