@@ -118,13 +118,20 @@ function main() {
   if (args[0] === '--add') {
     const email = args[1];
     const tool = args[2] || 'general';
+    const extra = args[3] ? JSON.parse(args[3]) : {}; // { lead_score, lead_tier }
     let lead = state.leads.find((l) => l.email === email);
     if (!lead) {
-      lead = { email, tool, capturedAt: todayKey(), touches: [] };
+      lead = { email, tool, capturedAt: todayKey(), touches: [], lead_score: extra.lead_score ?? null, lead_tier: extra.lead_tier ?? null };
       state.leads.push(lead);
       save(state);
-      console.log(`ADDED ${email} (${tool})`);
+      console.log(`ADDED ${email} (${tool}) score=${lead.lead_score ?? 'n/a'} tier=${lead.lead_tier ?? 'n/a'}`);
     } else {
+      // Merge score if incoming and previously missing
+      if (lead.lead_score == null && extra.lead_score != null) {
+        lead.lead_score = extra.lead_score;
+        lead.lead_tier = extra.lead_tier;
+        save(state);
+      }
       console.log(`EXISTS ${email}`);
     }
     return;

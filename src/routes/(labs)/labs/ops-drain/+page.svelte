@@ -25,6 +25,7 @@
 		type TaskInput
 	} from '$lib/opsDrain';
 	import { reportFromOpsDrain, buildShareUrl } from '$lib/shareReport';
+	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
 
 	// Defaults model a realistic mid-size firm with genuine process drain.
@@ -129,7 +130,17 @@
 			unlocked = true;
 			try {
 				localStorage.setItem('rydertech_ops_drain_email', email);
+				localStorage.setItem('rydertech_lead_captured', '1');
 			} catch {}
+
+			const lead = scoreLead({
+				tool: 'ops_drain',
+				impactValue: result.recoverableAnnualCost,
+				revenueAtRisk: result.recoverableAnnualCost,
+				healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20))
+			});
+			const leadScoreVal = lead.points;
+			const leadTier = lead.tier;
 
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
 			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -145,8 +156,10 @@
 						company,
 						budget: money(buildCost),
 						timeline: result.paybackMonths === null ? 'n/a' : `${result.paybackMonths} month payback`,
-						message: `New Ops Drain Calculator result (source: /labs/ops-drain).\n\n${summaryText()}`,
-						lead_type: 'lead_magnet_ops_drain'
+						message: `New Ops Drain Calculator result (source: /labs/ops-drain). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+						lead_type: 'lead_magnet_ops_drain',
+						lead_score: leadScoreVal,
+						lead_tier: leadTier
 					},
 					{ publicKey }
 				);
@@ -159,7 +172,7 @@
 				await supabase
 					.from('newsletter_subscriptions')
 					.insert([
-						{ email, source: 'lead_magnet_ops_drain', subscribed_at: new Date().toISOString() }
+						{ email, source: 'lead_magnet_ops_drain', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier }
 					])
 					.select();
 			} catch {

@@ -10,6 +10,7 @@
 	import { formatMoney } from '$lib/opsDrain';
 	import { computeRevLeak, type EngineInput } from '$lib/revLeak';
 	import { reportFromRevLeak, buildShareUrl } from '$lib/shareReport';
+	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
 	import {
 		Gauge,
@@ -103,7 +104,17 @@
 			unlocked = true;
 			try {
 				localStorage.setItem('rydertech_revleak_email', email);
+				localStorage.setItem('rydertech_lead_captured', '1');
 			} catch {}
+
+			const lead = scoreLead({
+				tool: 'revleak',
+				impactValue: result.annualLeak,
+				revenueAtRisk: result.annualLeak,
+				healthScore: result.severity === 'critical' ? 0 : result.severity === 'high' ? 25 : result.severity === 'moderate' ? 60 : 90
+			});
+			const leadScoreVal = lead.points;
+			const leadTier = lead.tier;
 
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
 			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -119,8 +130,10 @@
 						company,
 						budget: money(result.annualLeak),
 						timeline: `${result.lostConversionPct}% conversion recovered`,
-						message: `New RevLeak Auditor result (source: /labs/revleak).\n\n${summaryText()}`,
-						lead_type: 'lead_magnet_revleak'
+						message: `New RevLeak Auditor result (source: /labs/revleak). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+						lead_type: 'lead_magnet_revleak',
+						lead_score: leadScoreVal,
+						lead_tier: leadTier
 					},
 					{ publicKey }
 				);
@@ -132,7 +145,7 @@
 				await supabase
 					.from('newsletter_subscriptions')
 					.insert([
-						{ email, source: 'lead_magnet_revleak', subscribed_at: new Date().toISOString() }
+						{ email, source: 'lead_magnet_revleak', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier }
 					])
 					.select();
 			} catch {

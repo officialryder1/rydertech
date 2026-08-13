@@ -69,6 +69,7 @@
 			
 			if (!data.success) throw new Error(data.error);
 			review = data.review;
+			try { localStorage.setItem('rydertech_lead_captured', '1'); } catch {}
 
       // Update URL with query param for shareability
 			const newUrl = new URL(window.location.href);

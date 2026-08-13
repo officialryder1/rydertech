@@ -314,6 +314,7 @@
     
     showResults = true;
     currentStep = totalSteps;
+    try { localStorage.setItem('rydertech_lead_captured', '1'); } catch {}
   }
 
   function submitEmail() {

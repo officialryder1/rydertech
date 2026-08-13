@@ -15,6 +15,7 @@
 		type CheckInMethod
 	} from '$lib/eventAccessRisk';
 	import { reportFromEventRisk, buildShareUrl } from '$lib/shareReport';
+	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
 	import {
 		ScanLine,
@@ -130,7 +131,17 @@
 			unlocked = true;
 			try {
 				localStorage.setItem('rydertech_event_risk_email', email);
+				localStorage.setItem('rydertech_lead_captured', '1');
 			} catch {}
+
+			const lead = scoreLead({
+				tool: 'event_risk',
+				impactValue: result.revenueAtRisk,
+				revenueAtRisk: result.revenueAtRisk,
+				healthScore: result.severity === 'critical' ? 0 : result.severity === 'high' ? 25 : result.severity === 'moderate' ? 60 : 90
+			});
+			const leadScoreVal = lead.points;
+			const leadTier = lead.tier;
 
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
 			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -146,8 +157,10 @@
 						company,
 						budget: money(result.staffingDelta),
 						timeline: `${result.gateTimeSavedMin} min faster gate`,
-						message: `New Event Access Risk Scanner result (source: /labs/event-access-risk).\n\n${summaryText()}`,
-						lead_type: 'lead_magnet_event_risk'
+						message: `New Event Access Risk Scanner result (source: /labs/event-access-risk). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+						lead_type: 'lead_magnet_event_risk',
+						lead_score: leadScoreVal,
+						lead_tier: leadTier
 					},
 					{ publicKey }
 				);
@@ -159,7 +172,7 @@
 				await supabase
 					.from('newsletter_subscriptions')
 					.insert([
-						{ email, source: 'lead_magnet_event_risk', subscribed_at: new Date().toISOString() }
+						{ email, source: 'lead_magnet_event_risk', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier }
 					])
 					.select();
 			} catch {

@@ -14,6 +14,7 @@
 		type Currency
 	} from '$lib/localVisibility';
 	import { reportFromLocalVisibility, buildShareUrl } from '$lib/shareReport';
+	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
 	import {
 		Search,
@@ -133,7 +134,17 @@
 			unlocked = true;
 			try {
 				localStorage.setItem('rydertech_visibility_email', email);
+				localStorage.setItem('rydertech_lead_captured', '1');
 			} catch {}
+
+			const lead = scoreLead({
+				tool: 'visibility',
+				impactValue: result.revenueAtRisk,
+				revenueAtRisk: result.revenueAtRisk,
+				healthScore: result.score
+			});
+			const leadScoreVal = lead.points;
+			const leadTier = lead.tier;
 
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
 			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -149,8 +160,10 @@
 						company: company || businessName,
 						budget: money(result.revenueAtRisk),
 						timeline: `${result.score}/100 visibility`,
-						message: `New Local Visibility Audit result (source: /labs/visibility).\n\n${summaryText()}`,
-						lead_type: 'lead_magnet_visibility'
+						message: `New Local Visibility Audit result (source: /labs/visibility). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+						lead_type: 'lead_magnet_visibility',
+						lead_score: leadScoreVal,
+						lead_tier: leadTier
 					},
 					{ publicKey }
 				);
@@ -161,9 +174,7 @@
 			try {
 				await supabase
 					.from('newsletter_subscriptions')
-					.insert([
-						{ email, source: 'lead_magnet_visibility', subscribed_at: new Date().toISOString() }
-					])
+					.insert([{ email, source: 'lead_magnet_visibility', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier }])
 					.select();
 			} catch {
 				console.info('Visibility lead backup skipped (DB unavailable):', email);
