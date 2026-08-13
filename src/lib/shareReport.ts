@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo';
 
 export interface ReportRow {
   label: string;
@@ -76,6 +76,7 @@ import type { EngineResult as EventRiskResult } from './eventAccessRisk';
 import { formatMoney } from './opsDrain';
 import type { EngineResult as OpsDrainResult } from './opsDrain';
 import type { EngineResult as LocalVisibilityResult } from './localVisibility';
+import type { EngineResult as AeoResult } from './aeoReadiness';
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
@@ -176,5 +177,32 @@ export function reportFromLocalVisibility(
     currency,
     generatedAt: todayIso(),
     sourceUrl: 'https://rydertech.ng/labs/visibility'
+  };
+}
+
+export function reportFromAeo(
+  r: AeoResult,
+  currency: 'NGN' | 'USD',
+  businessName: string
+): ReportPayload {
+  const money = (n: number) => formatMoney(n, currency);
+  const readLabel = r.readiness.charAt(0).toUpperCase() + r.readiness.slice(1);
+  return {
+    tool: 'aeo',
+    title: 'AI Search Readiness Audit',
+    heroLabel: 'AI-search readiness score',
+    heroValue: `${r.score}/100`,
+    heroTone: r.score < 55 ? 'bad' : 'neutral',
+    verdict: r.verdict,
+    rows: [
+      { label: 'Readiness', value: readLabel, tone: r.score < 30 ? 'bad' : r.score < 55 ? 'bad' : 'neutral' },
+      { label: 'Est. answer surfaces / mo', value: r.estMonthlyAnswers.toLocaleString(), tone: 'neutral' },
+      { label: 'Citations missed / mo', value: r.estMissed.toLocaleString(), tone: 'bad' },
+      { label: 'Revenue left on table / yr', value: money(r.revenueAtRisk), tone: 'bad' }
+    ],
+    recommendations: r.enhancements.slice(0, 4),
+    currency,
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/aeo-readiness'
   };
 }

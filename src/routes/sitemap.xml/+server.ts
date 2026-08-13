@@ -19,6 +19,7 @@ export const GET: RequestHandler = async () => {
     { path: '/labs/cost-estimator', priority: '0.9', freq: 'monthly' },
     { path: '/labs/website-rater', priority: '0.9', freq: 'monthly' },
     { path: '/labs/visibility', priority: '0.9', freq: 'monthly' },
+    { path: '/labs/aeo-readiness', priority: '0.9', freq: 'monthly' },
     { path: '/blog/ai-chatbot-nigeria', priority: '0.8', freq: 'monthly' },
     { path: '/blog/computer-vision-nigeria', priority: '0.8', freq: 'monthly' },
     { path: '/blog/whatsapp-ai-assistant-nigeria', priority: '0.8', freq: 'monthly' },

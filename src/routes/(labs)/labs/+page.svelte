@@ -69,6 +69,15 @@
       accent: "from-sky-500/20 to-blue-500/20"
     },
     {
+      title: "AI Search Readiness Audit",
+      description: "Score how likely AI answer engines (Google AI Overviews, ChatGPT) are to cite you instead of a competitor.",
+      icon: Sparkles,
+      href: "/labs/aeo-readiness",
+      action: "Check My AEO",
+      tag: "AEO / GEO",
+      accent: "from-violet-500/20 to-fuchsia-500/20"
+    },
+    {
       title: "RevLeak Auditor",
       description: "Calculate how much revenue your slow website leaks every month from lost conversions.",
       icon: Gauge,

@@ -33,7 +33,8 @@
     revleak: 'Revenue Leak Auditor',
     'event-risk': 'Event Access Risk Scanner',
     'ops-drain': 'Ops Drain Calculator',
-    visibility: 'Local Visibility Audit'
+    visibility: 'Local Visibility Audit',
+    aeo: 'AI Search Readiness Audit'
   };
 </script>
 
