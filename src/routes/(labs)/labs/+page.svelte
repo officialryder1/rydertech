@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade, fly } from "svelte/transition";
 
@@ -58,6 +58,15 @@
       action: "Scan My Risk",
       tag: "Live Demo",
       accent: "from-amber-500/20 to-orange-500/20"
+    },
+    {
+      title: "Local Visibility Audit",
+      description: "Score how findable your business is on Google — and see what missing customers and revenue it's costing you.",
+      icon: Search,
+      href: "/labs/visibility",
+      action: "Audit My Visibility",
+      tag: "Local SEO",
+      accent: "from-sky-500/20 to-blue-500/20"
     },
     {
       title: "RevLeak Auditor",

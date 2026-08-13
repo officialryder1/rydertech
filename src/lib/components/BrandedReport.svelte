@@ -32,7 +32,8 @@
   const toolLabel: Record<string, string> = {
     revleak: 'Revenue Leak Auditor',
     'event-risk': 'Event Access Risk Scanner',
-    'ops-drain': 'Ops Drain Calculator'
+    'ops-drain': 'Ops Drain Calculator',
+    visibility: 'Local Visibility Audit'
   };
 </script>
 

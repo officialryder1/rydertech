@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility';
 
 export interface ReportRow {
   label: string;
@@ -75,6 +75,7 @@ import type { EngineResult as RevLeakResult } from './revLeak';
 import type { EngineResult as EventRiskResult } from './eventAccessRisk';
 import { formatMoney } from './opsDrain';
 import type { EngineResult as OpsDrainResult } from './opsDrain';
+import type { EngineResult as LocalVisibilityResult } from './localVisibility';
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
@@ -148,5 +149,32 @@ export function reportFromOpsDrain(r: OpsDrainResult, currency: 'NGN' | 'USD'): 
     currency,
     generatedAt: todayIso(),
     sourceUrl: 'https://rydertech.ng/labs/ops-drain'
+  };
+}
+
+export function reportFromLocalVisibility(
+  r: LocalVisibilityResult,
+  currency: 'NGN' | 'USD',
+  businessName: string
+): ReportPayload {
+  const money = (n: number) => formatMoney(n, currency);
+  const findLabel = r.findability.charAt(0).toUpperCase() + r.findability.slice(1);
+  return {
+    tool: 'visibility',
+    title: 'Local Visibility Audit',
+    heroLabel: 'Local visibility score',
+    heroValue: `${r.score}/100`,
+    heroTone: r.score < 55 ? 'bad' : 'neutral',
+    verdict: r.verdict || `${businessName || 'Your business'} — see the gaps below.`,
+    rows: [
+      { label: 'Findability', value: findLabel, tone: r.score < 30 ? 'bad' : r.score < 55 ? 'bad' : 'neutral' },
+      { label: 'Est. local searches / mo', value: r.estMonthlySearches.toLocaleString(), tone: 'neutral' },
+      { label: 'Customers lost / mo', value: r.estMissed.toLocaleString(), tone: 'bad' },
+      { label: 'Revenue left on table / yr', value: money(r.revenueAtRisk), tone: 'bad' }
+    ],
+    recommendations: r.enhancements.slice(0, 4),
+    currency,
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/visibility'
   };
 }
