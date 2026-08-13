@@ -108,7 +108,10 @@ async function main() {
   const state = loadState();
   const sentSet = new Set(state.sent.map((s) => s.email));
 
-  let batch = dailyBatch(leads, dateKey).filter((l) => !sentSet.has(l.primaryEmail));
+  // Filter out already-sent leads BEFORE slicing the daily cap, otherwise the
+  // top-priority segment's already-sent rows get sliced off and the batch is
+  // silently empty forever (e.g. after the first 5 event_organizers were sent).
+  let batch = dailyBatch(leads.filter((l) => !sentSet.has(l.primaryEmail)), dateKey);
   const times = sendTimes(batch.length, dateKey);
 
   console.log(`\n=== Outreach batch for ${dateKey} (cap ${DAILY_CAP}, dry-run: ${!doSend}) ===`);
