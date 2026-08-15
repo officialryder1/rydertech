@@ -256,9 +256,9 @@ function applyUpdate() {
         <div>
           <h3 class="font-black text-lg mb-4">Explore</h3>
           <div class="space-y-2 text-gray-400">
-            {#each ['Our Work', 'Services', 'About', 'Reviews', 'Blog', 'Careers'] as item}
+            {#each ['Services', 'Labs', 'Work', 'About', 'Locations', 'Reviews', 'Blog', 'Contact'] as item}
               <a 
-                href="/{item.toLowerCase().replace(' ', '-')}" 
+                href={item === 'Labs' ? '/labs' : item === 'Locations' ? '/locations' : item === 'Work' ? '/work' : `/${item.toLowerCase()}`}
                 class="hover:text-white transition-colors cursor-pointer block"
               >
                 {item}

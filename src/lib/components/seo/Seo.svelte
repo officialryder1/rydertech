@@ -42,8 +42,8 @@
   <meta property="og:description" content={og.description} />
   <meta property="og:image" content={og.image} />
   <meta property="og:locale" content="en_NG" />
-  <meta property="og:site_name" content="RyderTech Labs" />
-  
+  <meta property="og:site_name" content="RyderTech" />
+
   <!-- Twitter -->
   <meta property="twitter:card" content={twitter.card} />
   <meta property="twitter:url" content={og.url} />
@@ -54,8 +54,8 @@
   
   <!-- Additional SEO Meta Tags -->
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <meta name="author" content="RyderTech Labs" />
-  <meta name="copyright" content="RyderTech Labs" />
+  <meta name="author" content="RyderTech" />
+  <meta name="copyright" content="RyderTech" />
   <meta name="geo.region" content="NG-LA" />
   <meta name="geo.placename" content="Lagos, Nigeria" />
   <meta name="geo.position" content="6.524379;3.379206" />
