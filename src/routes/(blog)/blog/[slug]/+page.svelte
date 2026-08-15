@@ -6,7 +6,11 @@
   let { data, url } = $props();
 
   const { post } = data;
-  
+
+  // Build an absolute canonical URL. `url` is not provided by the load function,
+  // so derive it from the post slug against the canonical origin.
+  const canonicalUrl = url ?? `https://rydertech.ng/blog/${post.metadata.slug}`;
+
   // Format date once
   const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', { 
     year: 'numeric', 
@@ -23,11 +27,11 @@
 <svelte:head>
   <title>{post.metadata.title} | RyderTech</title>
   <meta name="description" content={post.metadata.excerpt} />
-  <link rel="canonical" href={url} />
+  <link rel="canonical" href={canonicalUrl} />
   <meta property="og:type" content="article" />
   <meta property="og:title" content={post.metadata.title} />
   <meta property="og:description" content={post.metadata.excerpt} />
-  <meta property="og:url" content={url} />
+  <meta property="og:url" content={canonicalUrl} />
   {#if post.metadata.image}
     <meta property="og:image" content={post.metadata.image} />
   {/if}

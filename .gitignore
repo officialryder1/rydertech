@@ -35,3 +35,6 @@ scripts/leads/tracker.mjs
 _b.txt
 _build.sh
 scripts/render_pdf.cjs
+
+# Hermes temp dirs (agent scratch — never commit)
+.hermes-tmp*
