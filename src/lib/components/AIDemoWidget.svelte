@@ -71,7 +71,7 @@
   }
 
   async function submitLead() {
-    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       leadError = 'Please enter a valid email.';
       return;
     }

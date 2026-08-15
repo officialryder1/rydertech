@@ -16,7 +16,7 @@
   let error = $state<string | null>(null);
 
   function validEmail(v: string) {
-    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
   async function handleSubmit(e: Event) {

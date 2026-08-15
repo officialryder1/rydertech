@@ -102,7 +102,7 @@
 	}
 
 	function validEmail(v: string) {
-		return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 	}
 
 	function summaryText() {
