@@ -20,6 +20,26 @@
   }
 </script>
 
+<svelte:head>
+  <title>{post.metadata.title} | RyderTech</title>
+  <meta name="description" content={post.metadata.excerpt} />
+  <link rel="canonical" href={url} />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={post.metadata.title} />
+  <meta property="og:description" content={post.metadata.excerpt} />
+  <meta property="og:url" content={url} />
+  {#if post.metadata.image}
+    <meta property="og:image" content={post.metadata.image} />
+  {/if}
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content={post.metadata.title} />
+  <meta property="twitter:description" content={post.metadata.excerpt} />
+  {#if post.metadata.image}
+    <meta property="twitter:image" content={post.metadata.image} />
+  {/if}
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+</svelte:head>
+
 <article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg" transition:fade>
 
   <a href="/blog" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">

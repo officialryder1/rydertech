@@ -973,6 +973,7 @@
 </div>
 
 <svelte:head>
+  <link rel="canonical" href="https://rydertech.ng" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

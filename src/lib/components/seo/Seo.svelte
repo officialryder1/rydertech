@@ -63,13 +63,9 @@
   
   <!-- Mobile Specific -->
   <meta name="theme-color" content="#3b82f6" />
-  <meta name="apple-mobile-web-app-title" content="Cost Estimator" />
+  <meta name="apple-mobile-web-app-title" content="RyderTech" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  
-  <!-- PWA/Search Console Verification (Add your actual verification code) -->
-  <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
-  <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
 
   {#if jsonLd}
     {@html jsonLdHtml}
