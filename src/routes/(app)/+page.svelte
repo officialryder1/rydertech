@@ -25,6 +25,24 @@
     }
   ];
 
+  // Serialize FAQPage JSON-LD once. Escape '<' so the JSON can never break out of
+  // the <script> tag context. Injected via {@html} below — Svelte does NOT
+  // evaluate {#each} inside a raw <script> tag, which previously leaked
+  // template syntax into the rendered structured data.
+  const faqJson = JSON.stringify(
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a }
+      }))
+    },
+    null,
+    2
+  ).replace(/</g, '\\u003c');
+
     import NewsLetterModel from '$lib/components/NewsLetterModel.svelte';
   import LeadMagnetDownload from '$lib/components/LeadMagnetDownload.svelte';
   import { onMount } from 'svelte';
@@ -974,21 +992,7 @@
 
 <svelte:head>
   <link rel="canonical" href="https://rydertech.ng" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {#each faqs as faq}
-      {
-        "@type": "Question",
-        "name": "{faq.q}",
-        "acceptedAnswer": { "@type": "Answer", "text": "{faq.a}" }
-      }{#if faq !== faqs[faqs.length - 1]},{/if}
-      {/each}
-    ]
-  }
-  </script>
+  {@html `<script type="application/ld+json">${faqJson}</script>`}
 </svelte:head>
 
 <style>
