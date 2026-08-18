@@ -2,14 +2,15 @@
   import { ArrowLeft } from '@lucide/svelte';
   import SharePost from '$lib/components/SharePost.svelte';
   import { fade } from 'svelte/transition';
+  import { page } from '$app/stores';
 
-  let { data, url } = $props();
+  let { data } = $props();
 
   const { post } = data;
 
-  // Build an absolute canonical URL. `url` is not provided by the load function,
-  // so derive it from the post slug against the canonical origin.
-  const canonicalUrl = url ?? `https://rydertech.ng/blog/${post.metadata.slug}`;
+  // Build an absolute canonical URL from the live request URL (falls back to
+  // the canonical origin + slug when rendered without a request context).
+  const canonicalUrl = $page.url.href ?? `https://rydertech.ng/blog/${post.metadata.slug}`;
 
   // Format date once
   const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', { 
@@ -42,6 +43,28 @@
     <meta property="twitter:image" content={post.metadata.image} />
   {/if}
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- Article structured data: enables Google article rich results (headline, image, author, date) -->
+  {@html `<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.metadata.title,
+    description: post.metadata.excerpt,
+    datePublished: post.metadata.date,
+    dateModified: post.metadata.date,
+    author: { '@type': 'Organization', name: post.metadata.author || 'RyderTech' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'RyderTech',
+      logo: { '@type': 'ImageObject', url: 'https://rydertech.ng/og-image.jpg' }
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+    keywords: (post.metadata.tags || []).join(', '),
+    articleSection: post.metadata.category,
+    ...(post.metadata.image
+      ? { image: [post.metadata.image, 'https://rydertech.ng/og-image.jpg'] }
+      : { image: 'https://rydertech.ng/og-image.jpg' })
+  })}</script>`}
 </svelte:head>
 
 <article class="max-w-3xl mx-auto px-4 py-10 prose prose-sm sm:prose-base lg:prose-lg" transition:fade>
@@ -79,7 +102,7 @@
       </div>
     </header>
 
-    <SharePost title={post.metadata.title} {url}/>
+    <SharePost title={post.metadata.title} url={$page.url.href} />
 
     <!-- Featured Image -->
     {#if post.metadata.image}

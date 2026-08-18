@@ -1,21 +1,44 @@
 import { error } from '@sveltejs/kit';
+import type { Component } from 'svelte';
 
-export async function load({ params }) {
-    const posts = import.meta.glob('$lib/posts/*.svx');
-    if(!posts) {
-        error(404, 'No posts found');
-    }
+export interface PostMetadata {
+	title: string;
+	description?: string;
+	date: string | Date;
+	author?: string;
+	slug: string;
+	category: string;
+	readTime: string;
+	excerpt: string;
+	tags?: string[];
+	image?: string;
+	views?: number;
+	comments?: number;
+}
 
-    for (const[path, resolver] of Object.entries(posts)) {
-        const slug = path.split('/').pop()?.replace('.svx', '')
+export interface Post {
+	metadata: PostMetadata;
+	default: Component;
+}
 
-        if (slug === params.slug) {
-            const post = await resolver();
+export async function load({ params }): Promise<{ post: Post; slug: string }> {
+	const posts = import.meta.glob('$lib/posts/*.svx') as Record<string, () => Promise<Post>>;
+	if (!posts) {
+		error(404, 'No posts found');
+	}
 
-            return {
-                post,
-                slug
-            }
-        }
-    }
+	for (const [path, resolver] of Object.entries(posts)) {
+		const slug = path.split('/').pop()?.replace('.svx', '');
+
+		if (slug === params.slug) {
+			const post = await resolver();
+
+			return {
+				post,
+				slug
+			};
+		}
+	}
+
+	error(404, 'Post not found');
 }
