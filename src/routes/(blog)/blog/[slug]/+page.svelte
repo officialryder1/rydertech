@@ -2,15 +2,15 @@
   import { ArrowLeft } from '@lucide/svelte';
   import SharePost from '$lib/components/SharePost.svelte';
   import { fade } from 'svelte/transition';
-  import { page } from '$app/stores';
 
   let { data } = $props();
 
   const { post } = data;
 
-  // Build an absolute canonical URL from the live request URL (falls back to
-  // the canonical origin + slug when rendered without a request context).
-  const canonicalUrl = $page.url.href ?? `https://rydertech.ng/blog/${post.metadata.slug}`;
+  // Static canonical: the page is prerendered, so $page.url resolves to the
+  // SvelteKit build placeholder ("http://sveltekit-prerender/..."). Always use
+  // the real canonical origin + slug for <link canonical>, OG, and JSON-LD.
+  const canonicalUrl = `https://rydertech.ng/blog/${post.metadata.slug}`;
 
   // Format date once
   const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', { 
@@ -102,7 +102,7 @@
       </div>
     </header>
 
-    <SharePost title={post.metadata.title} url={$page.url.href} />
+    <SharePost title={post.metadata.title} url={canonicalUrl} />
 
     <!-- Featured Image -->
     {#if post.metadata.image}
