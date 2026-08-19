@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { ShoppingCart, Loader2, CheckCircle } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { formatNgn } from '$lib/courses';
@@ -9,49 +10,57 @@
   let loading = $state(false);
   let errorMsg = $state<string | null>(null);
   let done = $state(false);
+  let paystackReady = $state(false);
 
-  async function loadPaystack(): Promise<any> {
-    if ((window as any).PaystackPop) return (window as any).PaystackPop;
-    return new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://js.paystack.co/static/js/inline.js';
-      s.onload = () => resolve((window as any).PaystackPop);
-      s.onerror = () => reject(new Error('Could not load Paystack'));
-      document.head.appendChild(s);
-    });
-  }
-
-  async function pay() {
-    errorMsg = null;
-    loading = true;
-    try {
-      if (!env.PUBLIC_PAYSTACK_PUBLIC_KEY) {
-        throw new Error('Paystack is not configured yet. Contact support.');
-      }
-      const PaystackPop = await loadPaystack();
-      const handler = PaystackPop.setup({
-        key: env.PUBLIC_PAYSTACK_PUBLIC_KEY,
-        email: data.email ?? '',
-        amount: data.course.priceNgn * 100, // kobo
-        currency: 'NGN',
-        ref: `ryd_${data.course.slug}_${Date.now()}`,
-        metadata: { course_slug: data.course.slug, email: data.email },
-        label: `RyderTech — ${data.course.title}`,
-        onClose: () => {
-          loading = false;
-        },
-        callback: (resp: any) => {
-          // Webhook records the purchase; redirect to the player.
-          loading = false;
-          done = true;
-          window.location.href = `/learn/${data.course.slug}?payref=${encodeURIComponent(resp.reference)}`;
-        }
-      });
-      handler.openIframe();
-    } catch (e: any) {
-      errorMsg = e?.message ?? 'Payment failed to start.';
-      loading = false;
+  // Eagerly load the Paystack inline script on mount so openIframe() runs
+  // synchronously inside the click gesture (popup blockers kill async opens).
+  onMount(() => {
+    if ((window as any).PaystackPop) {
+      paystackReady = true;
+      return;
     }
+    const s = document.createElement('script');
+    s.src = 'https://js.paystack.co/static/js/inline.js';
+    s.onload = () => (paystackReady = true);
+    s.onerror = () => (errorMsg = 'Could not load Paystack. Check your connection and retry.');
+    document.head.appendChild(s);
+  });
+
+  function pay() {
+    errorMsg = null;
+    if (!env.PUBLIC_PAYSTACK_PUBLIC_KEY) {
+      errorMsg = 'Paystack is not configured yet. Contact support.';
+      return;
+    }
+    const PaystackPop = (window as any).PaystackPop;
+    if (!PaystackPop) {
+      errorMsg = 'Paystack is still loading — please wait a moment and retry.';
+      return;
+    }
+    loading = true;
+    const handler = PaystackPop.setup({
+      key: env.PUBLIC_PAYSTACK_PUBLIC_KEY,
+      email: data.email ?? '',
+      amount: data.course.priceNgn * 100, // kobo
+      currency: 'NGN',
+      ref: `ryd_${data.course.slug}_${Date.now()}`,
+      metadata: { course_slug: data.course.slug, email: data.email },
+      label: `RyderTech — ${data.course.title}`,
+      onClose: () => {
+        loading = false;
+      },
+      onError: (err: any) => {
+        loading = false;
+        errorMsg = typeof err === 'string' ? err : (err?.message ?? 'Payment could not open. Try again.');
+      },
+      callback: (resp: any) => {
+        loading = false;
+        done = true;
+        window.location.href = `/learn/${data.course.slug}?payref=${encodeURIComponent(resp.reference)}`;
+      }
+    });
+    // Synchronous within the user click — avoids popup-blocker rejection.
+    handler.openIframe();
   }
 </script>
 
