@@ -95,10 +95,10 @@
               <CardContent class="space-y-4">
                 <div class="text-3xl font-bold text-primary">{formatNgn(course.priceNgn)}</div>
                 <p class="text-sm text-muted-foreground">{course.format} · lifetime access</p>
-                <a href={course.checkoutUrl} target="_blank" rel="noopener noreferrer" class="w-full">
+                <a href={`/checkout/${course.slug}`} class="w-full">
                   <Button class="w-full text-white text-lg">
                     <ShoppingCart class="w-5 h-5 mr-2" />
-                    Enroll on Gumroad
+                    Enroll
                   </Button>
                 </a>
                 <p class="text-xs text-center text-gray-500">
@@ -152,7 +152,7 @@
         Enroll today and start building. Questions? Talk to the team that teaches it.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href={course.checkoutUrl} target="_blank" rel="noopener noreferrer">
+        <a href={`/checkout/${course.slug}`}>
           <Button variant="secondary" size="lg" class="text-lg">
             <ShoppingCart class="w-5 h-5 mr-2" />
             Enroll Now
