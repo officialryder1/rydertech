@@ -26,9 +26,12 @@ create table if not exists public.purchases (
 );
 create index if not exists purchases_user_idx on public.purchases(user_id);
 alter table public.purchases enable row level security;
--- Users read only their own purchases. Inserts happen via the service-role
--- webhook (RLS bypass), never from the anon client.
+-- Users read only their own purchases.
 create policy "own purchases select" on public.purchases for select using (auth.uid() = user_id);
+-- Allow the authenticated user to insert their OWN purchase row (idempotent upsert
+-- keyed on reference). Previously inserts were service-role only; this guards against
+-- any future session-client enrollment path silently failing under RLS.
+create policy "own purchases insert" on public.purchases for insert with check (auth.uid() = user_id);
 
 -- 3. Course videos (YouTube unlisted IDs). Gated to purchasers.
 create table if not exists public.course_videos (

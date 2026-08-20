@@ -102,7 +102,7 @@
                   </Button>
                 </a>
                 <p class="text-xs text-center text-gray-500">
-                  Secure checkout via Gumroad. Content delivered after purchase.
+                  Secure checkout via Paystack. Funds to a Nigerian bank account · lifetime access unlocked instantly.
                 </p>
               </CardContent>
             </Card>

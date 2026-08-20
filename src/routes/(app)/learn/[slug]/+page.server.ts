@@ -1,13 +1,14 @@
 import { error, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
-import { createSupabaseServerClient } from '$lib/supabase/server';
+import { createSupabaseAdminClient } from '$lib/supabase/server';
 import { courseBySlug } from '$lib/courses';
 import type { PageServerLoad } from './$types';
 
 // If a paid user lands on /learn with ?verify=<ref> but has no purchase row yet,
 // enroll them from the verified Paystack transaction. Guarantees access even if
-// the webhook was delayed or never fired.
-async function selfEnroll(supabase: any, user: any, reference: string, courseSlug: string) {
+// the webhook was delayed or never fired. Writes via ADMIN client (purchases has
+// no INSERT RLS policy).
+async function selfEnroll(admin: any, user: any, reference: string, courseSlug: string) {
   if (!env.PAYSTACK_SECRET_KEY || !reference) return false;
   const res = await fetch(`https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`, {
     headers: { Authorization: `Bearer ${env.PAYSTACK_SECRET_KEY}` }
@@ -16,7 +17,7 @@ async function selfEnroll(supabase: any, user: any, reference: string, courseSlu
   const tx = j?.data;
   if (j?.status !== true || tx?.status !== 'success') return false;
   if ((tx.metadata?.course_slug ?? '') !== courseSlug) return false;
-  const { error: insErr } = await supabase.from('purchases').upsert(
+  const { error: insErr } = await admin.from('purchases').upsert(
     {
       user_id: user.id,
       course_slug: courseSlug,
@@ -45,7 +46,10 @@ export const load: PageServerLoad = async ({ params, url, locals }) => {
 
   // Self-enroll on first paid visit (recovery path).
   const verifyRef = url.searchParams.get('verify');
-  if (verifyRef) await selfEnroll(supabase, user, verifyRef, params.slug);
+  if (verifyRef) {
+    const admin = createSupabaseAdminClient();
+    await selfEnroll(admin, user, verifyRef, params.slug);
+  }
 
   const { data: purchase } = await supabase
     .from('purchases')
