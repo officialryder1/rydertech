@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { ShoppingCart, Loader2, CheckCircle } from '@lucide/svelte';
+  import { ShoppingCart, Loader2 } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { formatNgn } from '$lib/courses';
   import { env } from '$env/dynamic/public';
@@ -9,22 +8,6 @@
 
   let loading = $state(false);
   let errorMsg = $state<string | null>(null);
-  let done = $state(false);
-  let paystackReady = $state(false);
-
-  // Eagerly load the Paystack inline script on mount so openIframe() runs
-  // synchronously inside the click gesture (popup blockers kill async opens).
-  onMount(() => {
-    if ((window as any).PaystackPop) {
-      paystackReady = true;
-      return;
-    }
-    const s = document.createElement('script');
-    s.src = 'https://js.paystack.co/static/js/inline.js';
-    s.onload = () => (paystackReady = true);
-    s.onerror = () => (errorMsg = 'Could not load Paystack. Check your connection and retry.');
-    document.head.appendChild(s);
-  });
 
   function pay() {
     errorMsg = null;
@@ -32,35 +15,31 @@
       errorMsg = 'Paystack is not configured yet. Contact support.';
       return;
     }
-    const PaystackPop = (window as any).PaystackPop;
-    if (!PaystackPop) {
-      errorMsg = 'Paystack is still loading — please wait a moment and retry.';
+    if (!data.email) {
+      errorMsg = 'No email on your account. Contact support.';
       return;
     }
     loading = true;
-    const handler = PaystackPop.setup({
-      key: env.PUBLIC_PAYSTACK_PUBLIC_KEY,
-      email: data.email ?? '',
-      amount: data.course.priceNgn * 100, // kobo
-      currency: 'NGN',
-      ref: `ryd_${data.course.slug}_${Date.now()}`,
-      metadata: { course_slug: data.course.slug, email: data.email },
-      label: `RyderTech — ${data.course.title}`,
-      onClose: () => {
+    const reference = `ryd_${data.course.slug}_${Date.now()}`;
+    fetch('/api/paystack/initialize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: data.email, courseSlug: data.course.slug, reference })
+    })
+      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+      .then(({ ok, j }) => {
+        if (!ok || !j.authorization_url) {
+          loading = false;
+          errorMsg = j.error ?? 'Could not start payment. Try again.';
+          return;
+        }
+        // Hosted redirect — immune to popup blockers, surfaces real errors.
+        window.location.href = j.authorization_url;
+      })
+      .catch(() => {
         loading = false;
-      },
-      onError: (err: any) => {
-        loading = false;
-        errorMsg = typeof err === 'string' ? err : (err?.message ?? 'Payment could not open. Try again.');
-      },
-      callback: (resp: any) => {
-        loading = false;
-        done = true;
-        window.location.href = `/learn/${data.course.slug}?payref=${encodeURIComponent(resp.reference)}`;
-      }
-    });
-    // Synchronous within the user click — avoids popup-blocker rejection.
-    handler.openIframe();
+        errorMsg = 'Network error starting payment. Check your connection.';
+      });
   }
 </script>
 
@@ -97,9 +76,6 @@
 
       {#if errorMsg}
         <p class="text-sm text-red-600">{errorMsg}</p>
-      {/if}
-      {#if done}
-        <p class="text-sm text-green-600 flex items-center gap-2"><CheckCircle class="w-4 h-4" /> Payment successful — opening your course…</p>
       {/if}
       <p class="text-xs text-center text-gray-500">Powered by Paystack · funds to a Nigerian bank account</p>
     </div>
