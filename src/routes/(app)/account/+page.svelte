@@ -3,6 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { supabase } from '$lib/supabaseClient';
+  import { courseBySlug } from '$lib/courses';
   import type { Course } from '$lib/courses';
 
   let { data }: { data: { email: string | null; myCourses: (Course & { priceNgn: number })[] } } = $props();
@@ -40,11 +41,12 @@
     {:else}
       <div class="grid md:grid-cols-2 gap-6">
         {#each data.myCourses as course}
+          {@const Icon = courseBySlug(course.slug)?.icon}
           <Card class="group hover:shadow-lg transition-all">
             <CardHeader>
               <div class="flex items-center gap-3 mb-2">
                 <div class="p-3 bg-primary/10 rounded-lg">
-                  <course.icon class="w-6 h-6 text-primary" />
+                  {#if Icon}<Icon class="w-6 h-6 text-primary" />{/if}
                 </div>
                 <CardTitle class="text-lg">{course.title}</CardTitle>
               </div>

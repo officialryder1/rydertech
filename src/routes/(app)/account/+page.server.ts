@@ -23,13 +23,15 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
   return {
     email: user.email,
+    // NOTE: do NOT include `icon` — it's a Svelte component (function) and is
+    // not serializable across the server->client boundary (causes a 500).
+    // The client resolves the icon from courseBySlug(c.slug) instead.
     myCourses: myCourses.map((c) => ({
       slug: c.slug,
       title: c.title,
       tagline: c.tagline,
       priceNgn: c.priceNgn,
-      outcome: c.outcome,
-      icon: c.icon
+      outcome: c.outcome
     }))
   };
 };
