@@ -673,8 +673,8 @@
   <!-- RyderTech Labs Showcase -->
 <section class="py-20 px-4 bg-linear-to-br from-[var(--primary)]/5 via-white to-[var(--secondary)]/5 relative overflow-hidden" aria-labelledby="rydertech-labs">
   <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute top-20 left-10 w-64 h-64 bg-linear-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-linear-to-r from-[var(--secondary)]/10 to-[var(--accent)]/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-20 left-10 w-64 h-64 bg-linear-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full blur-3xl max-sm:hidden"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-linear-to-r from-[var(--secondary)]/10 to-[var(--accent)]/10 rounded-full blur-3xl max-sm:hidden"></div>
   </div>
   
   <div class="container mx-auto max-w-6xl relative z-10">

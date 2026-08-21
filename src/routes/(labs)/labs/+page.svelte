@@ -132,10 +132,10 @@
     <div class="absolute inset-0 -z-10">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.12),transparent_55%)]"></div>
       <div
-        class="absolute -top-40 -right-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl animate-pulse"
+        class="absolute -top-40 -right-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl animate-pulse max-sm:hidden"
       ></div>
       <div
-        class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-violet-500/15 blur-3xl animate-pulse"
+        class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-violet-500/15 blur-3xl animate-pulse max-sm:hidden"
         style="animation-delay: 1.5s"
       ></div>
     </div>
