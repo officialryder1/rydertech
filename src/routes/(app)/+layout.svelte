@@ -125,7 +125,7 @@ function applyUpdate() {
         "alternateName": "RyderTech Software & AI Studio",
         "description": "Nigerian software studio building web, mobile, and cloud platforms with AI: LLM chatbots, computer vision, and ML automation",
         "url": "https://rydertech.ng",
-        "logo": "https://rydertech.ng/logo.png",
+        "logo": "https://rydertech.ng/logo.svg",
         "image": "https://rydertech.ng/og-image.jpg",
         "priceRange": "$$",
         "address": {
@@ -222,11 +222,9 @@ function applyUpdate() {
       <div class="grid md:grid-cols-4 gap-8">
         <div class="md:col-span-2">
           <div class="flex items-center space-x-3 mb-6">
-            <div class="w-12 h-12 bg-linear-to-br from-[var(--primary)] to-[var(--secondary)] rounded-2xl flex items-center justify-center">
-              <CircuitBoard class="w-6 h-6 text-white" />
-            </div>
+            <img src="/logo-icon.svg" alt="RyderTech" class="w-10 h-10" width="40" height="40" />
             <div>
-              <div class="text-2xl font-black">RYDER<span class="text-[var(--secondary)]">TECH</span></div>
+              <div class="text-2xl font-black">RYDER<span class="text-[#D4AF37]">TECH</span></div>
               <div class="text-gray-400 text-sm">Software &amp; AI Studio</div>
             </div>
           </div>

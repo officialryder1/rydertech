@@ -59,17 +59,9 @@
     <div class="flex items-center justify-between">
       <!-- Logo -->
      <a href="/" class="flex items-center space-x-3 group cursor-pointer">
-        <div class="relative">
-          <div class="w-12 h-12 bg-linear-to-br from-primary to-(--primary-dark) rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-            <CircuitBoard class="w-6 h-6 text-white" />
-          </div>
-          <div class="absolute -inset-2 bg-(--primary)/20 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
-        </div>
-        <div>
-          <span class="text-2xl font-black bg-linear-to-r from-primary to-(--primary-dark) bg-clip-text text-transparent">RYDER</span>
-          <span class="text-2xl font-black text-secondary">TECH</span>
-        </div>
-      </a>
+       <img src="/logo-icon.svg" alt="RyderTech" class="w-9 h-9 md:w-10 md:h-10 transition-transform duration-300 group-hover:scale-105" width="40" height="40" />
+       <span class="text-2xl font-black bg-linear-to-r from-[#1E3A8A] to-[#1E3A8A] bg-clip-text text-transparent">RYDER<span class="text-[#D4AF37]">TECH</span></span>
+     </a>
 
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-5">
