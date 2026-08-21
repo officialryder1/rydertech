@@ -29,6 +29,71 @@
       "segment": "event_organizers",
       "date": "2026-08-11",
       "sendAt": "17:20"
+    },
+    {
+      "email": "info@eatnaked.com",
+      "segment": "smes",
+      "date": "2026-08-15",
+      "sendAt": "11:20",
+      "messageId": "1a005d445463224d"
+    },
+    {
+      "email": "info@healthplusnigeria.com",
+      "segment": "smes",
+      "date": "2026-08-15",
+      "sendAt": "11:20",
+      "messageId": "1a005d497c8948cd"
+    },
+    {
+      "email": "info@slotlimited.com",
+      "segment": "smes",
+      "date": "2026-08-15",
+      "sendAt": "12:56",
+      "messageId": "1a005d4a69ad9ebc"
+    },
+    {
+      "email": "info@yudala.com",
+      "segment": "smes",
+      "date": "2026-08-15",
+      "sendAt": "15:52",
+      "messageId": "1a005d4b09a61a40"
+    },
+    {
+      "email": "info@dominos.ng",
+      "segment": "smes",
+      "date": "2026-08-15",
+      "sendAt": "17:44",
+      "messageId": "1a005d4ba4db093a"
+    },
+    {
+      "email": "info@konga.com",
+      "segment": "smes",
+      "date": "2026-08-21",
+      "sendAt": "08:00"
+    },
+    {
+      "email": "info@jumia.com",
+      "segment": "smes",
+      "date": "2026-08-21",
+      "sendAt": "08:48"
+    },
+    {
+      "email": "info@giglogistics.com",
+      "segment": "ops-heavy_businesses",
+      "date": "2026-08-21",
+      "sendAt": "08:48"
+    },
+    {
+      "email": "info@custodianinsurance.com",
+      "segment": "ops-heavy_businesses",
+      "date": "2026-08-21",
+      "sendAt": "11:52"
+    },
+    {
+      "email": "info@pamtech.com.ng",
+      "segment": "ops-heavy_businesses",
+      "date": "2026-08-21",
+      "sendAt": "13:13"
     }
   ]
 }

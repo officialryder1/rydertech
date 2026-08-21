@@ -24,6 +24,10 @@ create table if not exists public.purchases (
   paid_at timestamptz,
   created_at timestamptz default now()
 );
+-- UNIQUE on reference is REQUIRED: enrollment paths use upsert(onConflict:'reference').
+-- Without it the upsert throws "no unique or exclusion constraint matching the ON
+-- CONFLICT specification" and the purchase row is never written -> user stuck "not enrolled".
+alter table public.purchases add constraint purchases_reference_unique unique (reference);
 create index if not exists purchases_user_idx on public.purchases(user_id);
 alter table public.purchases enable row level security;
 -- Users read only their own purchases.

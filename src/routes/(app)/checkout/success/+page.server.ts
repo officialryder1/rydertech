@@ -22,19 +22,21 @@ async function enrollFromReference(reference: string, user: any) {
   const courseSlug: string = tx.metadata?.course_slug ?? '';
   if (!courseBySlug(courseSlug)) return false;
   const admin = createSupabaseAdminClient();
-  const { error: insErr } = await admin.from('purchases').upsert(
-    {
-      user_id: user.id,
-      course_slug: courseSlug,
-      amount_ngn: Math.round((tx.amount ?? 0) / 100),
-      provider: 'paystack',
-      reference,
-      status: 'paid',
-      paid_at: new Date().toISOString()
-    },
-    { onConflict: 'reference' }
-  );
-  return !insErr;
+  const row = {
+    user_id: user.id,
+    course_slug: courseSlug,
+    amount_ngn: Math.round((tx.amount ?? 0) / 100),
+    provider: 'paystack',
+    reference,
+    status: 'paid',
+    paid_at: new Date().toISOString()
+  };
+  const { error: insErr } = await admin.from('purchases').upsert(row, { onConflict: 'reference' });
+  if (insErr) {
+    const { error: insErr2 } = await admin.from('purchases').insert(row);
+    if (insErr2) return false;
+  }
+  return true;
 }
 
 export const load: PageServerLoad = async ({ url, locals }) => {

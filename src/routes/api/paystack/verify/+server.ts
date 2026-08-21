@@ -34,19 +34,23 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   if (!course) return json({ paid: false, error: 'Unknown course.' });
 
   const admin = createSupabaseAdminClient();
-  const { error: insErr } = await admin.from('purchases').upsert(
-    {
-      user_id: user.id,
-      course_slug: courseSlug,
-      amount_ngn: Math.round((tx.amount ?? 0) / 100),
-      provider: 'paystack',
-      reference,
-      status: 'paid',
-      paid_at: new Date().toISOString()
-    },
-    { onConflict: 'reference' }
-  );
-  if (insErr) return json({ paid: false, error: insErr.message });
+  const row = {
+    user_id: user.id,
+    course_slug: courseSlug,
+    amount_ngn: Math.round((tx.amount ?? 0) / 100),
+    provider: 'paystack',
+    reference,
+    status: 'paid',
+    paid_at: new Date().toISOString()
+  };
+  // upsert keyed on reference (unique constraint) for idempotency.
+  // Fall back to plain insert if the unique constraint is somehow missing,
+  // so enrollment NEVER silently fails.
+  const { error: insErr } = await admin.from('purchases').upsert(row, { onConflict: 'reference' });
+  if (insErr) {
+    const { error: insErr2 } = await admin.from('purchases').insert(row);
+    if (insErr2) return json({ paid: false, error: insErr2.message });
+  }
 
   return json({ paid: true });
 };

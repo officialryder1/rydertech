@@ -58,22 +58,20 @@ export const POST: RequestHandler = async ({ request }) => {
     return json({ error: 'user not found' }, { status: 404 });
   }
 
-  // Idempotent insert
-  const { error: insErr } = await supabase.from('purchases').upsert(
-    {
-      user_id: user.id,
-      course_slug: courseSlug,
-      amount_ngn: Math.round(amountKobo / 100),
-      provider: 'paystack',
-      reference,
-      status: 'paid',
-      paid_at: new Date().toISOString()
-    },
-    { onConflict: 'reference' }
-  );
-
+  // Idempotent insert (upsert on reference; falls back to plain insert)
+  const row = {
+    user_id: user.id,
+    course_slug: courseSlug,
+    amount_ngn: Math.round(amountKobo / 100),
+    provider: 'paystack',
+    reference,
+    status: 'paid',
+    paid_at: new Date().toISOString()
+  };
+  const { error: insErr } = await supabase.from('purchases').upsert(row, { onConflict: 'reference' });
   if (insErr) {
-    return json({ error: insErr.message }, { status: 500 });
+    const { error: insErr2 } = await supabase.from('purchases').insert(row);
+    if (insErr2) return json({ error: insErr2.message }, { status: 500 });
   }
 
   return json({ ok: true });

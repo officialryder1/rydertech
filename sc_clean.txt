@@ -1,0 +1,1150 @@
+npm notice run rydertech@0.0.1 npx
+npm notice run svelte-check --tsconfig ./tsconfig.json
+Loading svelte-check in workspace: c:\Users\HP\Documents\web development\personal project\rydertech
+Getting Svelte diagnostics...
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\+layout.ts:11:26
+Error: Object is possibly 'undefined'. 
+        posts: Object.entries(posts).map(([path, post]) => {
+            const slug = path
+                .split('/')
+                .pop()
+                .replace('.svx', '');
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\+layout.ts:17:20
+Error: 'post' is of type 'unknown'. 
+            return {
+                ...post.metadata,
+                slug,
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:70:5
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" on:click={closeModal}></div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:70:5
+Warn: `<div>` with a click handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" on:click={closeModal}></div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:107:15
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Full Name *
+              </label>
+              <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:124:15
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Email Address *
+              </label>
+              <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:141:15
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number *
+              </label>
+              <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:158:15
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                How did you hear about us?
+              </label>
+              <select
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:176:15
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Website/Social Media (Optional)
+              </label>
+              <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:36:31
+Error: Parameter 'e' implicitly has an 'any' type. (js)
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:115:46
+Error: Property 'fullName' does not exist on type '{}'. (js)
+                placeholder="John Doe"
+                class:border-red-500={errors.fullName}
+              />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:117:27
+Error: Property 'fullName' does not exist on type '{}'. (js)
+              />
+              {#if errors.fullName}
+                <p class="mt-1 text-sm text-red-600">{errors.fullName}</p>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:118:62
+Error: Property 'fullName' does not exist on type '{}'. (js)
+              {#if errors.fullName}
+                <p class="mt-1 text-sm text-red-600">{errors.fullName}</p>
+              {/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:132:46
+Error: Property 'email' does not exist on type '{}'. (js)
+                placeholder="john@example.com"
+                class:border-red-500={errors.email}
+              />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:134:27
+Error: Property 'email' does not exist on type '{}'. (js)
+              />
+              {#if errors.email}
+                <p class="mt-1 text-sm text-red-600">{errors.email}</p>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:135:62
+Error: Property 'email' does not exist on type '{}'. (js)
+              {#if errors.email}
+                <p class="mt-1 text-sm text-red-600">{errors.email}</p>
+              {/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:149:46
+Error: Property 'phone' does not exist on type '{}'. (js)
+                placeholder="+234 800 000 0000"
+                class:border-red-500={errors.phone}
+              />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:151:27
+Error: Property 'phone' does not exist on type '{}'. (js)
+              />
+              {#if errors.phone}
+                <p class="mt-1 text-sm text-red-600">{errors.phone}</p>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:152:62
+Error: Property 'phone' does not exist on type '{}'. (js)
+              {#if errors.phone}
+                <p class="mt-1 text-sm text-red-600">{errors.phone}</p>
+              {/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:200:27
+Error: Property 'agreeTerms' does not exist on type '{}'. (js)
+              </label>
+              {#if errors.agreeTerms}
+                <p class="mt-1 text-sm text-red-600">{errors.agreeTerms}</p>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliateJoinModal.svelte:201:62
+Error: Property 'agreeTerms' does not exist on type '{}'. (js)
+              {#if errors.agreeTerms}
+                <p class="mt-1 text-sm text-red-600">{errors.agreeTerms}</p>
+              {/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliatePopup.svelte:67:5
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+    <!-- Backdrop -->
+    <div 
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+      onclick={handleClose}
+    ></div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliatePopup.svelte:67:5
+Warn: `<div>` with a click handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+    <!-- Backdrop -->
+    <div 
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+      onclick={handleClose}
+    ></div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliatePopup.svelte:16:7
+Error: Variable 'timerInterval' implicitly has type 'any' in some locations where its type cannot be determined. (js)
+  // Countdown timer
+  let timerInterval;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\AffiliatePopup.svelte:38:11
+Error: Variable 'timerInterval' implicitly has an 'any' type. (js)
+    return () => {
+      if (timerInterval) clearInterval(timerInterval);
+    };
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\JobPromoAlert.svelte:36:3
+Warn: `<div>` with a mouseenter or mouseleave handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+{#if isVisible}
+  <div 
+    class="fixed z-[9999] {positionClasses[position]} transition-all duration-300 ease-out"
+    class:opacity-0={isAnimating}
+    class:scale-95={isAnimating}
+    onmouseenter={() => isHovered = true}
+    onmouseleave={() => isHovered = false}
+  >
+    <!-- Main Card -->
+    <div class="w-80 md:w-96 bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-200 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+      <!-- Header with Gradient -->
+      <div class="relative h-2 bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)]"></div>
+      
+      <!-- Content -->
+      <div class="p-5">
+        <!-- Header -->
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center space-x-3">
+            <div class="p-2 bg-gradient-to-br from-green-100 to-green-50 rounded-lg border border-green-200">
+              <DollarSign class="w-5 h-5 text-green-600" />
+            </div>
+            <div>
+              <div class="inline-flex items-center px-2 py-1 bg-green-100 rounded-full">
+                <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                <span class="text-xs font-bold text-green-700">SPECIAL OFFER</span>
+              </div>
+              <h3 class="text-lg font-black text-gray-900 mt-1">Post a Job for $1</h3>
+            </div>
+          </div>
+          
+          {#if showCloseButton}
+            <button 
+              onclick={closeAlert}
+              class="p-3 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Close promotion"
+            >
+              <X class="w-4 h-4 text-gray-500" />
+            </button>
+          {/if}
+        </div>
+        
+        <!-- Description -->
+        <p class="text-gray-600 text-sm leading-relaxed mb-5">
+          Looking for top tech talent in Nigeria? Post your job listing on RyderTech and reach thousands of qualified developers, designers, and tech professionals.
+        </p>
+        
+        <!-- Features -->
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3">
+              <Briefcase class="w-4 h-4 text-blue-600" />
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900 text-sm">Top Nigerian Talent</p>
+              <p class="text-gray-500 text-xs">Reach 5,000+ tech professionals</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center mr-3">
+              <TrendingUp class="w-4 h-4 text-purple-600" />
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900 text-sm">30-Day Listing</p>
+              <p class="text-gray-500 text-xs">Your job stays active for a full month</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center mr-3">
+              <Clock class="w-4 h-4 text-amber-600" />
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900 text-sm">Limited Time Offer</p>
+              <p class="text-gray-500 text-xs">Only 50 spots available at $1</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- CTA Button -->
+        <a 
+          href="/post-a-job?promo=$1"
+          class="block w-full py-3.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl text-center hover:from-green-600 hover:to-green-700 transition-all duration-300 hover:shadow-lg mb-3"
+        >
+          Post Job for $1
+          <span class="text-xs font-normal opacity-90 block mt-1">Limited time only</span>
+        </a>
+        
+        <!-- Fine Print -->
+        <p class="text-xs text-gray-400 text-center">
+          Regular price: $49. Offer ends soon. No hidden fees.
+        </p>
+      </div>
+    </div>
+    
+    <!-- Corner Decoration -->
+    <div class="absolute -top-2 -right-2 w-12 h-12 bg-gradient-to-br from-[var(--secondary)] to-[var(--primary)] rounded-lg -rotate-12 flex items-center justify-center shadow-lg">
+      <span class="text-white text-xs font-black">$1</span>
+    </div>
+  </div>
+{/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\JobPromoAlert.svelte:37:28
+Error: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ 'top-right': string; 'top-left': string; 'bottom-right': string; 'bottom-left': string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ 'top-right': string; 'top-left': string; 'bottom-right': string; 'bottom-left': string; }'. (js)
+  <div 
+    class="fixed z-[9999] {positionClasses[position]} transition-all duration-300 ease-out"
+    class:opacity-0={isAnimating}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\JobPromoBanner.svelte:8:7
+Warn: This reference only captures the initial value of `isVisible`. Did you mean to reference it inside a closure instead?
+https://svelte.dev/e/state_referenced_locally (svelte)
+  // Countdown timer
+  if (isVisible) {
+    const interval = setInterval(() => {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\LeadRetargetBanner.svelte:56:66
+Error: Cannot find name 'fade'. (ts)
+{#if visible}
+	<div class="fixed inset-x-0 bottom-0 z-50 px-4 pb-4" transition:fade={{ duration: 250 }}>
+		<div
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\SEOMeta.svelte:43:8
+Error: Type '"Content-Type"' is not assignable to type '"accept-ch" | "content-security-policy" | "content-type" | "default-style" | "refresh" | "x-ua-compatible" | null | undefined'. Did you mean '"content-type"'? (ts)
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</svelte:head>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\share-review.svelte:33:42
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (ts)
+<div class="flex flex-wrap gap-2">
+  <Button variant="outline" size="sm" on:click={shareOnTwitter}>
+    <Twitter class="h-4 w-4 mr-2" />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\share-review.svelte:37:42
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (ts)
+  </Button>
+  <Button variant="outline" size="sm" on:click={shareOnFacebook}>
+    <Facebook class="h-4 w-4 mr-2" />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\share-review.svelte:41:42
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (ts)
+  </Button>
+  <Button variant="outline" size="sm" on:click={shareViaEmail}>
+    <Mail class="h-4 w-4 mr-2" />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\lib\components\share-review.svelte:45:42
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (ts)
+  </Button>
+  <Button variant="outline" size="sm" on:click={copyLink}>
+    <Link class="h-4 w-4 mr-2" />
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:16:7
+Error: Variable 'submissions' implicitly has an 'any[]' type. (js)
+  // State
+  let submissions = $state([]);
+  let newsletters = $state([]);
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:17:7
+Error: Variable 'newsletters' implicitly has an 'any[]' type. (js)
+  let submissions = $state([]);
+  let newsletters = $state([]);
+  let stats = $state({});
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:102:41
+Error: Parameter 'id' implicitly has an 'any' type. (js)
+
+  async function updateSubmissionStatus(id, status) {
+    const { error } = await supabase
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:102:45
+Error: Parameter 'status' implicitly has an 'any' type. (js)
+
+  async function updateSubmissionStatus(id, status) {
+    const { error } = await supabase
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:121:27
+Error: Parameter 'status' implicitly has an 'any' type. (js)
+
+  function getStatusColor(status) {
+    const colors = {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:128:12
+Error: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ new: string; contacted: string; replied: string; closed: string; }'. (js)
+    };
+    return colors[status] || colors.new;
+  }
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:131:23
+Error: Parameter 'type' implicitly has an 'any' type. (js)
+
+  function exportData(type) {
+    // Simple export functionality
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:138:25
+Error: Parameter 'data' implicitly has an 'any' type. (js)
+
+  function convertToCSV(data) {
+    if (!data.length) return '';
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:141:27
+Error: Parameter 'row' implicitly has an 'any' type. (js)
+    const headers = Object.keys(data[0]).join(',');
+    const rows = data.map(row => 
+      Object.values(row).map(field =>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:149:24
+Error: Parameter 'csv' implicitly has an 'any' type. (js)
+
+  function downloadCSV(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv' });
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:149:29
+Error: Parameter 'filename' implicitly has an 'any' type. (js)
+
+  function downloadCSV(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv' });
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:159:28
+Error: Parameter 'submission' implicitly has an 'any' type. (js)
+
+  function viewLeadDetails(submission) {
+    selectedLead = submission;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:169:24
+Error: Parameter 'budget' implicitly has an 'any' type. (js)
+
+  function getPriority(budget) {
+    if (!budget) return 'low';
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:176:29
+Error: Parameter 'priority' implicitly has an 'any' type. (js)
+
+  function getPriorityColor(priority) {
+    const colors = {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:182:12
+Error: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ high: string; medium: string; low: string; }'. (js)
+    };
+    return colors[priority] || colors.low;
+  }
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:259:32
+Error: Property 'totalSubmissions' does not exist on type '{}'. (js)
+                  label: 'Total Leads', 
+                  value: stats.totalSubmissions, 
+                  change: '+12%',
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:266:32
+Error: Property 'totalSubscribers' does not exist on type '{}'. (js)
+                  label: 'Newsletter Subscribers', 
+                  value: stats.totalSubscribers, 
+                  change: '+8%',
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:273:32
+Error: Property 'pendingSubmissions' does not exist on type '{}'. (js)
+                  label: 'Pending Leads', 
+                  value: stats.pendingSubmissions, 
+                  change: '-5%',
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:280:35
+Error: Property 'conversionRate' does not exist on type '{}'. (js)
+                  label: 'Conversion Rate', 
+                  value: `${stats.conversionRate}%`, 
+                  change: '+3%',
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:582:63
+Error: Property 'name' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Name:</span>
+                      <span class="font-medium">{selectedLead.name}</span>
+                    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:586:53
+Error: Property 'email' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Email:</span>
+                      <a href="mailto:{selectedLead.email}" class="font-medium text-[var(--primary)] hover:underline">
+                        {selectedLead.email}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:587:39
+Error: Property 'email' does not exist on type 'never'. (js)
+                      <a href="mailto:{selectedLead.email}" class="font-medium text-[var(--primary)] hover:underline">
+                        {selectedLead.email}
+                      </a>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:592:63
+Error: Property 'company' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Company:</span>
+                      <span class="font-medium">{selectedLead.company || 'Not provided'}</span>
+                    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:597:48
+Error: Property 'submitted_at' does not exist on type 'never'. (js)
+                      <span class="font-medium">
+                        {new Date(selectedLead.submitted_at).toLocaleDateString()} at {' '}
+                        {new Date(selectedLead.submitted_at).toLocaleTimeString()}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:598:48
+Error: Property 'submitted_at' does not exist on type 'never'. (js)
+                        {new Date(selectedLead.submitted_at).toLocaleDateString()} at {' '}
+                        {new Date(selectedLead.submitted_at).toLocaleTimeString()}
+                      </span>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:615:62
+Error: Property 'budget' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Budget:</span>
+                      <Badge variant="outline">{selectedLead.budget || 'Not specified'}</Badge>
+                    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:619:62
+Error: Property 'timeline' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Timeline:</span>
+                      <Badge variant="outline">{selectedLead.timeline || 'Not specified'}</Badge>
+                    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:623:79
+Error: Property 'budget' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Priority:</span>
+                      <Badge class={getPriorityColor(getPriority(selectedLead.budget))}>
+                        {getPriority(selectedLead.budget)}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:624:51
+Error: Property 'budget' does not exist on type 'never'. (js)
+                      <Badge class={getPriorityColor(getPriority(selectedLead.budget))}>
+                        {getPriority(selectedLead.budget)}
+                      </Badge>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:629:65
+Error: Property 'status' does not exist on type 'never'. (js)
+                      <span class="text-gray-600">Status:</span>
+                      <Badge class={getStatusColor(selectedLead.status)}>
+                        {selectedLead.status}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:630:39
+Error: Property 'status' does not exist on type 'never'. (js)
+                      <Badge class={getStatusColor(selectedLead.status)}>
+                        {selectedLead.status}
+                      </Badge>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:648:37
+Error: Property 'message' does not exist on type 'never'. (js)
+                    <p class="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                      {selectedLead.message || 'No message provided.'}
+                    </p>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:657:57
+Error: 'selectedLead' is possibly 'null'. (js)
+                <Button 
+                  onclick={() => updateSubmissionStatus(selectedLead.id, 'contacted')}
+                  disabled={selectedLead.status === 'contacted'}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:658:42
+Error: Property 'status' does not exist on type 'never'. (js)
+                  onclick={() => updateSubmissionStatus(selectedLead.id, 'contacted')}
+                  disabled={selectedLead.status === 'contacted'}
+                  class="flex-1 min-w-[200px]"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:662:33
+Error: Property 'status' does not exist on type 'never'. (js)
+                  <CheckCircle class="w-4 h-4 mr-2" />
+                  {selectedLead.status === 'contacted' ? 'Already Contacted' : 'Mark as Contacted'}
+                </Button>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:667:56
+Error: 'selectedLead' is possibly 'null'. (js)
+                  variant="outline" 
+                  onclick={() => window.open(`mailto:${selectedLead.email}?subject=Regarding your inquiry&body=Hi ${selectedLead.name},`, '_blank')}
+                  class="flex-1 min-w-[200px]"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:667:117
+Error: 'selectedLead' is possibly 'null'. (js)
+                  variant="outline" 
+                  onclick={() => window.open(`mailto:${selectedLead.email}?subject=Regarding your inquiry&body=Hi ${selectedLead.name},`, '_blank')}
+                  class="flex-1 min-w-[200px]"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(admin)\a\admin\+page.svelte:676:57
+Error: 'selectedLead' is possibly 'null'. (js)
+                  variant="outline" 
+                  onclick={() => updateSubmissionStatus(selectedLead.id, 'closed')} 
+                  class="flex-1 min-w-[200px]"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(affiliate)\+layout.svelte:9:9
+Warn: `showAffiliatePopup` is updated, but is not declared with `$state(...)`. Changing its value will not correctly trigger updates
+https://svelte.dev/e/non_reactive_update (svelte)
+
+    let showAffiliatePopup = false;
+    let showJoinModal = false;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(affiliate)\affiliate\+page.svelte:127:13
+Error: Object literal may only specify known properties, and '"on"' does not exist in type 'HTMLProps<"button", HTMLAttributes<any>>'. (js)
+          <button
+            on click={() => showJoinModal = true}
+            class="px-8 py-4 bg-white text-[var(--primary)] font-bold rounded-xl hover:bg-gray-100 transition-colors text-lg"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(affiliate)\affiliate\+page.svelte:378:17
+Error: Object literal may only specify known properties, and '"on"' does not exist in type 'HTMLProps<"button", HTMLAttributes<any>>'. (js)
+              <button
+                on click={copyReferralLink}
+                class="px-4 py-2 bg-[var(--primary)] text-white rounded-xl hover:bg-[var(--primary-dark)] transition-colors"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(affiliate)\affiliate\+page.svelte:391:13
+Error: Object literal may only specify known properties, and '"on"' does not exist in type 'HTMLProps<"button", HTMLAttributes<any>>'. (js)
+          <button
+            on click={() => showJoinModal = true}
+            class="w-full py-4 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-bold rounded-xl hover:shadow-lg transition-all"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(affiliate)\affiliate\+page.svelte:489:11
+Error: Object literal may only specify known properties, and '"on"' does not exist in type 'HTMLProps<"button", HTMLAttributes<any>>'. (js)
+        <button
+          on click={() => showJoinModal = true}
+          class="px-8 py-4 bg-white text-[var(--primary)] font-bold rounded-xl hover:bg-gray-100 transition-colors text-lg"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\+layout.svelte:34:27
+Error: Property 'gtag' does not exist on type 'Window & typeof globalThis'. (ts)
+  afterNavigate(() => {
+    if (browser && window.gtag) {
+      window.gtag('config', 'G-KXN2CLVLK9', {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\+layout.svelte:35:14
+Error: Property 'gtag' does not exist on type 'Window & typeof globalThis'. (ts)
+    if (browser && window.gtag) {
+      window.gtag('config', 'G-KXN2CLVLK9', {
+        page_path: $page.url.pathname,
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\+layout.svelte:78:27
+Error: 'registration' is possibly 'null'. (ts)
+    registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker?.addEventListener('statechange', () => {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\+page.svelte:1005:5
+Warn: Also define the standard property 'line-clamp' for compatibility (css)
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\contact\+page.svelte:25:32
+Error: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ 'ops-drain': string; revleak: string; 'event-access-risk': string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ 'ops-drain': string; revleak: string; 'event-access-risk': string; }'. (js)
+    const tool = $derived($page.url.searchParams.get('tool') ?? '');
+    const toolLabel = $derived(toolLabels[tool] ?? 'free tools');
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\contact\+page.svelte:95:33
+Error: Parameter 'e' implicitly has an 'any' type. (js)
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\contact\+page.svelte:105:13
+Error: Type '"Email service is not configured. Please chat us on WhatsApp or email rydertech.ng@gmail.com directly."' is not assignable to type 'null'. (js)
+        if (!serviceId || !templateId || !publicKey) {
+            error = 'Email service is not configured. Please chat us on WhatsApp or email rydertech.ng@gmail.com directly.';
+            isSubmitting = false;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\contact\+page.svelte:162:13
+Error: Type '"Failed to send message. Please try WhatsApp or email us directly at rydertech.ng@gmail.com."' is not assignable to type 'null'. (js)
+            console.error('EmailJS submission error:', err);
+            error = 'Failed to send message. Please try WhatsApp or email us directly at rydertech.ng@gmail.com.';
+        } finally {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\contact\+page.svelte:248:70
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (js)
+                                        </a>
+                                        <Button variant="outline" on:click={() => submitted = false}>
+                                            Send Another
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:363:13
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Job Type</label>
+            <div class="space-y-2">
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:388:13
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Location</label>
+            <div class="space-y-2">
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:413:13
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Quick Actions</label>
+            <div class="space-y-3">
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:879:5
+Warn: Also define the standard property 'line-clamp' for compatibility (css)
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:185:7
+Error: Variable 'savedJobs' implicitly has an 'any[]' type. (js)
+  let showFilters = $state(false);
+  let savedJobs = $state([]);
+  let filteredJobs = $state([...jobs]);
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:236:26
+Error: Parameter 'jobId' implicitly has an 'any' type. (js)
+  // Toggle save job
+  function toggleSaveJob(jobId) {
+    if (savedJobs.includes(jobId)) {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\+page.svelte:865:28
+Error: Object is possibly 'null'. (js)
+          <button
+            onclick={() => document.querySelector('#subscribe-email').scrollIntoView({ behavior: 'smooth' })}
+            class="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl hover:border-white/60 hover:bg-white/10 transition-colors"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:218:19
+Warn: Using `on:click` to listen to the click event is deprecated. Use the event attribute `onclick` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+                <button
+                  on:click={toggleSave}
+                  class="px-4 py-2.5 border border-gray-300 rounded-xl hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 transition-colors flex items-center justify-center"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:225:19
+Warn: Using `on:click` to listen to the click event is deprecated. Use the event attribute `onclick` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+                <button
+                  on:click={shareJob}
+                  class="px-4 py-2.5 border border-gray-300 rounded-xl hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 transition-colors flex items-center justify-center"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:445:5
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+  {#if showShareModal}
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" on:click={() => showShareModal = false}>
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full" on:click|stopPropagation>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Share Job</h3>
+        <p class="text-gray-600 mb-6">Copy the link to share this job with others:</p>
+        
+        <div class="flex gap-2 mb-6">
+          <input
+            type="text"
+            readonly
+            value={window.location.href}
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-xl bg-gray-50"
+          />
+          <button
+            on:click={() => {
+              navigator.clipboard.writeText(window.location.href);
+              showShareModal = false;
+            }}
+            class="px-4 py-2 bg-[var(--primary)] text-white rounded-xl hover:bg-[var(--primary-dark)] transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        
+        <button
+          on:click={() => showShareModal = false}
+          class="w-full py-2.5 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  {/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:445:5
+Warn: `<div>` with a click handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+  {#if showShareModal}
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" on:click={() => showShareModal = false}>
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full" on:click|stopPropagation>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Share Job</h3>
+        <p class="text-gray-600 mb-6">Copy the link to share this job with others:</p>
+        
+        <div class="flex gap-2 mb-6">
+          <input
+            type="text"
+            readonly
+            value={window.location.href}
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-xl bg-gray-50"
+          />
+          <button
+            on:click={() => {
+              navigator.clipboard.writeText(window.location.href);
+              showShareModal = false;
+            }}
+            class="px-4 py-2 bg-[var(--primary)] text-white rounded-xl hover:bg-[var(--primary-dark)] transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        
+        <button
+          on:click={() => showShareModal = false}
+          class="w-full py-2.5 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  {/if}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:445:86
+Warn: Using `on:click` to listen to the click event is deprecated. Use the event attribute `onclick` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+  {#if showShareModal}
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" on:click={() => showShareModal = false}>
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full" on:click|stopPropagation>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:446:7
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" on:click={() => showShareModal = false}>
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full" on:click|stopPropagation>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Share Job</h3>
+        <p class="text-gray-600 mb-6">Copy the link to share this job with others:</p>
+        
+        <div class="flex gap-2 mb-6">
+          <input
+            type="text"
+            readonly
+            value={window.location.href}
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-xl bg-gray-50"
+          />
+          <button
+            on:click={() => {
+              navigator.clipboard.writeText(window.location.href);
+              showShareModal = false;
+            }}
+            class="px-4 py-2 bg-[var(--primary)] text-white rounded-xl hover:bg-[var(--primary-dark)] transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        
+        <button
+          on:click={() => showShareModal = false}
+          class="w-full py-2.5 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:446:7
+Warn: `<div>` with a click handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" on:click={() => showShareModal = false}>
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full" on:click|stopPropagation>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Share Job</h3>
+        <p class="text-gray-600 mb-6">Copy the link to share this job with others:</p>
+        
+        <div class="flex gap-2 mb-6">
+          <input
+            type="text"
+            readonly
+            value={window.location.href}
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-xl bg-gray-50"
+          />
+          <button
+            on:click={() => {
+              navigator.clipboard.writeText(window.location.href);
+              showShareModal = false;
+            }}
+            class="px-4 py-2 bg-[var(--primary)] text-white rounded-xl hover:bg-[var(--primary-dark)] transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        
+        <button
+          on:click={() => showShareModal = false}
+          class="w-full py-2.5 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:446:61
+Warn: Using `on:click` to listen to the click event is deprecated. Use the event attribute `onclick` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" on:click={() => showShareModal = false}>
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full" on:click|stopPropagation>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Share Job</h3>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:458:13
+Warn: Using `on:click` to listen to the click event is deprecated. Use the event attribute `onclick` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+          <button
+            on:click={() => {
+              navigator.clipboard.writeText(window.location.href);
+              showShareModal = false;
+            }}
+            class="px-4 py-2 bg-[var(--primary)] text-white rounded-xl hover:bg-[var(--primary-dark)] transition-colors"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:469:11
+Warn: Using `on:click` to listen to the click event is deprecated. Use the event attribute `onclick` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+        <button
+          on:click={() => showShareModal = false}
+          class="w-full py-2.5 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\job-board\[id]\+page.svelte:122:41
+Error: Parameter 'id' implicitly has an 'any' type. (js)
+    if (isSaved) {
+      const newSaved = savedJobs.filter(id => id !== job.id);
+      localStorage.setItem('rydertech_saved_jobs', JSON.stringify(newSaved));
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:102:17
+Warn: Using `on:submit` to listen to the submit event is deprecated. Use the event attribute `onsubmit` instead
+https://svelte.dev/e/event_directive_deprecated (svelte)
+          <!-- Form -->
+          <form on:submit={handleSubmit} class="space-y-6">
+            <div class="bg-white rounded-2xl p-6 border border-gray-200">
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:108:19
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Company Name *
+                  </label>
+                  <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:121:19
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Job Title *
+                  </label>
+                  <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:135:17
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+              <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Job Description *
+                </label>
+                <textarea
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:149:19
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Location
+                  </label>
+                  <select
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:166:19
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Job Type
+                  </label>
+                  <select
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:181:19
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Contact Email *
+                  </label>
+                  <input
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\post-a-job\+page.svelte:27:31
+Error: Parameter 'e' implicitly has an 'any' type. (js)
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(app)\work\+page.svelte:78:29
+Error: Parameter 'category' implicitly has an 'any' type. (js)
+
+    function filterProjects(category) {
+        activeCategory = category;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\blog\+page.svelte:481:5
+Warn: Also define the standard property 'line-clamp' for compatibility (css)
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\blog\+page.svelte:488:5
+Warn: Also define the standard property 'line-clamp' for compatibility (css)
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\blog\+page.svelte:73:24
+Error: Parameter 'tag' implicitly has an 'any' type. (js)
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query)) ||
+        post.author.toLowerCase().includes(query)
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\blog\+page.svelte:85:23
+Error: Parameter 'dateString' implicitly has an 'any' type. (js)
+
+  function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('en-US', {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\blog\[slug]\+page.svelte:121:7
+Warn: `<svelte:component>` is deprecated in runes mode — components are dynamic by default
+https://svelte.dev/e/svelte_component_deprecated (svelte)
+    <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted prose-li:text-muted-foreground">
+      <svelte:component this={post.default} />
+    </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:1070:3
+Warn: Unused CSS selector "html"
+https://svelte.dev/e/css_unused_selector (svelte)
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:228:23
+Error: Parameter 'postId' implicitly has an 'any' type. (js)
+
+  function toggleSave(postId) {
+    if (savedPosts.has(postId)) {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:236:23
+Error: Parameter 'postId' implicitly has an 'any' type. (js)
+
+  function toggleLike(postId) {
+    if (likedPosts.has(postId)) {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:244:24
+Error: Parameter 'postId' implicitly has an 'any' type. (js)
+
+  function toggleAudio(postId) {
+    audioPlaying = audioPlaying === postId ? null : postId;
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:266:23
+Error: Parameter 'dateString' implicitly has an 'any' type. (js)
+
+  function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('en-US', {
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:274:31
+Error: Parameter 'level' implicitly has an 'any' type. (js)
+
+  function getDifficultyColor(level) {
+    return difficultyLevels.find(d => d.level === level)?.color || 'bg-gray-100 text-gray-800';
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:296:10
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (js)
+      class="w-12 h-12 rounded-full shadow-lg bg-white dark:bg-gray-800 hover:scale-110 transition-transform"
+      on:click={toggleDarkMode}
+    >
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:307:10
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (js)
+      class="w-12 h-12 rounded-full shadow-lg bg-[var(--primary)] text-white hover:scale-110 transition-transform"
+      on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    >
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:416:24
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (js)
+                    class="rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:scale-110 transition-transform shadow-lg"
+                    on:click={() => toggleAudio(featuredPost.id)}
+                  >
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:486:22
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (js)
+                  class={`flex items-center space-x-2 ${likedPosts.has(featuredPost.id) ? 'text-red-500' : ''}`}
+                  on:click={() => toggleLike(featuredPost.id)}
+                >
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(blog)\lead-design\+page.svelte:511:22
+Error: Argument of type '"click"' is not assignable to parameter of type 'never'. (js)
+                  class="w-12 h-12 rounded-xl border-2"
+                  on:click={() => toggleSave(featuredPost.id)}
+                >
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\+page.svelte:210:17
+Warn: `<svelte:component>` is deprecated in runes mode — components are dynamic by default
+https://svelte.dev/e/svelte_component_deprecated (svelte)
+              >
+                <svelte:component this={card.icon} class="w-5 h-5 text-primary" />
+              </div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:123:14
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      id: 'under-500', 
+      label: selectedCurrency === 'USD' ? 'Below $500' : 'Below ₦750,000', 
+      description: selectedCurrency === 'USD' ? 'Basic landing page range' : 'Basic landing page range'
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:124:20
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      label: selectedCurrency === 'USD' ? 'Below $500' : 'Below ₦750,000', 
+      description: selectedCurrency === 'USD' ? 'Basic landing page range' : 'Basic landing page range' 
+    },
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:128:14
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      id: '500-1500', 
+      label: selectedCurrency === 'USD' ? '$500 – $1,500' : '₦750,000 – ₦4,500,000', 
+      description: selectedCurrency === 'USD' ? 'Standard business website range' : 'Standard business website range'
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:129:20
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      label: selectedCurrency === 'USD' ? '$500 – $1,500' : '₦750,000 – ₦4,500,000', 
+      description: selectedCurrency === 'USD' ? 'Standard business website range' : 'Standard business website range' 
+    },
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:133:14
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      id: '1500-7000', 
+      label: selectedCurrency === 'USD' ? '$1,500 – $7,000' : '₦4,500,000 – ₦10,500,000', 
+      description: selectedCurrency === 'USD' ? 'Feature-rich website range' : 'Feature-rich website range'
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:134:20
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      label: selectedCurrency === 'USD' ? '$1,500 – $7,000' : '₦4,500,000 – ₦10,500,000', 
+      description: selectedCurrency === 'USD' ? 'Feature-rich website range' : 'Feature-rich website range' 
+    },
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:138:14
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      id: '7000-plus', 
+      label: selectedCurrency === 'USD' ? '$7,000+' : '₦10,500,000+', 
+      description: selectedCurrency === 'USD' ? 'Complex web application range' : 'Complex web application range'
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\cost-estimator\+page.svelte:139:20
+Error: This comparison appears to be unintentional because the types '"NGN"' and '"USD"' have no overlap. (ts)
+      label: selectedCurrency === 'USD' ? '$7,000+' : '₦10,500,000+', 
+      description: selectedCurrency === 'USD' ? 'Complex web application range' : 'Complex web application range' 
+    }
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\website-rater\+page.svelte:247:8
+Warn: `<svelte:component>` is deprecated in runes mode — components are dynamic by default
+https://svelte.dev/e/svelte_component_deprecated (svelte)
+						<div class="w-12 h-12 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+							<svelte:component this={feature.icon} class="w-6 h-6 text-primary" />
+						</div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\website-rater\+page.svelte:352:41
+Error: 'category' is of type 'unknown'. (ts)
+						{@const Icon = categoryIcons[key] || Star}
+						<Card class="border-2 {getScoreBg(category.score)} transition-all hover:shadow-md">
+							<CardHeader class="pb-3">
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\website-rater\+page.svelte:357:48
+Error: 'category' is of type 'unknown'. (ts)
+										<div class="p-2 rounded-lg bg-white/50">
+											<Icon class="w-5 h-5 {getScoreColor(category.score)}" />
+										</div>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\website-rater\+page.svelte:361:42
+Error: 'category' is of type 'unknown'. (ts)
+									</div>
+									<Badge variant={getScoreVariant(category.score)} class="text-lg px-3 py-1">
+										{category.score}
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\website-rater\+page.svelte:362:12
+Error: 'category' is of type 'unknown'. (ts)
+									<Badge variant={getScoreVariant(category.score)} class="text-lg px-3 py-1">
+										{category.score}
+									</Badge>
+
+c:\Users\HP\Documents\web development\personal project\rydertech\src\routes\(labs)\labs\website-rater\+page.svelte:367:60
+Error: 'category' is of type 'unknown'. (ts)
+							<CardContent>
+								<p class="text-sm text-slate-600 leading-relaxed">{category.feedback}</p>
+							</CardContent>
+
+====================================
+svelte-check found 104 errors and 40 warnings in 24 files
