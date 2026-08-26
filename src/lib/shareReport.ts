@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan';
 
 export interface ReportRow {
   label: string;
@@ -77,6 +77,8 @@ import { formatMoney } from './opsDrain';
 import type { EngineResult as OpsDrainResult } from './opsDrain';
 import type { EngineResult as LocalVisibilityResult } from './localVisibility';
 import type { EngineResult as AeoResult } from './aeoReadiness';
+import type { SummaryResult } from './clauseScan';
+import { severityLabel } from './clauseScan';
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
@@ -205,4 +207,48 @@ export function reportFromAeo(
     generatedAt: todayIso(),
     sourceUrl: 'https://rydertech.ng/labs/aeo-readiness'
   };
+}
+
+export function reportFromClauseScan(r: SummaryResult): ReportPayload {
+  const worst = r.topRisks[0];
+  const heroTone = r.severity === 'critical' || r.severity === 'high' ? 'bad' : 'neutral';
+  return {
+    tool: 'clausescan',
+    title: 'Contract Risk Scan',
+    heroLabel: 'Contract risk score',
+    heroValue: `${r.riskScore}/100`,
+    heroTone,
+    verdict: r.verdict || severityCopyLocal(r.severity),
+    rows: [
+      { label: 'Risk band', value: severityLabel(r.severity), tone: heroTone === 'bad' ? 'bad' : 'neutral' },
+      { label: 'Clauses assessed', value: `${r.clauseCount}`, tone: 'neutral' },
+      {
+        label: 'Top risk',
+        value: worst ? `${worst.clause} (${severityLabel(worst.severity)})` : '—',
+        tone: worst && (worst.severity === 'critical' || worst.severity === 'high') ? 'bad' : 'neutral'
+      },
+      { label: 'What it means', value: worst ? worst.risk : 'Balanced contract', tone: heroTone === 'bad' ? 'bad' : 'good' }
+    ],
+    recommendations: [
+      'Full ClauseScan report flags every risk + gives you redline wording.',
+      'Have a lawyer review the critical/high clauses before you sign.',
+      'Negotiate mutual liability & termination — not one-sided.',
+      'Book a scope call and RyderTech can automate your contract intake.'
+    ],
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/clausescan'
+  };
+}
+
+function severityCopyLocal(s: SummaryResult['severity']): string {
+  switch (s) {
+    case 'critical':
+      return 'Critical exposure — some clauses could cost you dearly.';
+    case 'high':
+      return 'High risk — renegotiate the flagged clauses before signing.';
+    case 'moderate':
+      return 'Moderate risk — a few one-sided terms worth pushing back on.';
+    default:
+      return 'Low risk — mostly balanced, with minor items to note.';
+  }
 }

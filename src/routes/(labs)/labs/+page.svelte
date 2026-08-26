@@ -87,6 +87,15 @@
       accent: "from-rose-500/20 to-pink-500/20"
     },
     {
+      title: "ClauseScan — Contract Risk",
+      description: "Paste a contract for an instant AI risk score and the worst clauses in plain English. Full redline report ₦2,500.",
+      icon: ScanLine,
+      href: "/labs/clausescan",
+      action: "Scan My Contract",
+      tag: "Legal AI",
+      accent: "from-amber-500/20 to-red-500/20"
+    },
+    {
       title: "Finance Tracker",
       description: "Track and analyze your personal or business finances with AI-powered insights.",
       icon: Brain,
