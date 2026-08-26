@@ -116,9 +116,13 @@
     }
   ];
 
+  // Dynamic tool count: every live card (not "coming soon") is a usable free tool.
+  // Adding a new card to the `cards` array above auto-updates this stat.
+  const freeToolCount = cards.filter((c) => !c.comingSoon).length;
+
   const stats = [
     { value: "50+", label: "Products shipped" },
-    { value: "7", label: "Free AI tools" },
+    { value: String(freeToolCount), label: "Free AI tools" },
     { value: "0", label: "Signups required" },
     { value: "24/7", label: "Always available" }
   ];
