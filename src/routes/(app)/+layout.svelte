@@ -50,6 +50,8 @@
 	
   onMount(() => {
         detectServiceWorkerUpdate();
+        // Enable JS-gated enhancements (scroll-reveal hidden state) only when JS runs.
+        if (browser) document.documentElement.classList.add('js');
   });
 
 
