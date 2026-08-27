@@ -7,6 +7,7 @@
     import { Badge } from '$lib/components/ui/badge';
     import { fade, fly } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
+    import { browser } from '$app/environment';
 
     // --- Case-study data (real builds; NDA builds shown as private/client work) ---
     const caseStudies = [
@@ -158,34 +159,35 @@
         'Enterprise Software': Building2
     };
 
-    // Scroll-reveal action
+    // Scroll-reveal action — uses INLINE styles (not a CSS class) so the element
+    // can never get stuck hidden. Once revealed we set opacity:1 and never reset it;
+    // inline styles also beat any stylesheet rule, so there's no specificity race.
     function reveal(node) {
+        if (!browser) return;
+        node.style.opacity = '0';
+        node.style.transform = 'translateY(28px)';
+        node.style.transition =
+            'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
         let shown = false;
+        const show = () => {
+            if (shown) return;
+            shown = true;
+            node.style.opacity = '1';
+            node.style.transform = 'none';
+            io.disconnect();
+            clearTimeout(fb);
+        };
         const io = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((e) => {
-                    if (e.isIntersecting && !shown) {
-                        shown = true;
-                        node.classList.add('is-visible');
-                        io.disconnect();
-                    }
-                });
-            },
+            (entries) => entries.forEach((e) => { if (e.isIntersecting) show(); }),
             { threshold: 0.12 }
         );
         io.observe(node);
-        // Fallback: never leave a card invisible if intersection never fires
-        // (e.g. above-the-fold on load, or observer unsupported).
-        const fallback = setTimeout(() => {
-            if (!shown) {
-                shown = true;
-                node.classList.add('is-visible');
-            }
-        }, 1200);
+        // Fallback: reveal even if intersection never fires (above-the-fold, etc.)
+        const fb = setTimeout(show, 1200);
         return {
             destroy() {
                 io.disconnect();
-                clearTimeout(fallback);
+                clearTimeout(fb);
             }
         };
     }
@@ -269,7 +271,7 @@
 
                 <Card class="overflow-hidden border-0 shadow-2xl reveal-card">
                     <div class="grid lg:grid-cols-2">
-                        <div class="relative min-h-[18rem] lg:min-h-full bg-[var(--gradient-hero)]">
+                        <div class="relative min-h-[18rem] lg:min-h-full bg-gradient-to-br from-[#1E40AF] via-[#06B6D4] to-[#1E3A8A]">
                             <img src={featured.image} alt={featured.title} class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
                             <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                             <Badge class="absolute top-4 left-4 bg-[var(--secondary)] text-black font-bold">Client favourite</Badge>
@@ -333,7 +335,7 @@
                 {#each visible as project (project.slug)}
                     <div use:reveal class="reveal-card flex flex-col h-full">
                     <Card class="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
-                        <div class="relative h-52 overflow-hidden bg-[var(--gradient-hero)]">
+                        <div class="relative h-52 overflow-hidden bg-gradient-to-br from-[#1E40AF] via-[#06B6D4] to-[#1E3A8A]">
                             {#if project.image}
                                 <img
                                     src={project.image}
@@ -343,7 +345,7 @@
                                 />
                             {:else}
                                 {@const Icon = categoryIcon[project.category] ?? Building2}
-                                <div class="w-full h-full flex items-center justify-center bg-[var(--gradient-primary)]">
+                                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1E40AF] to-[#1E3A8A]">
                                     <Icon class="w-14 h-14 text-white/80" />
                                 </div>
                             {/if}
@@ -406,7 +408,7 @@
     </section>
 
     <!-- Testimonial spotlight -->
-    <section class="px-4 py-14 bg-[var(--gradient-primary)] text-white">
+    <section class="px-4 py-14 bg-gradient-to-br from-[#1E40AF] to-[#1E3A8A] text-white">
         <div class="container mx-auto max-w-4xl text-center" in:fly={{ y: 24, duration: 500, easing: cubicOut }}>
             <Quote class="w-10 h-10 mx-auto mb-6 text-[var(--secondary)]" />
             <p class="text-2xl md:text-3xl font-semibold leading-snug">
@@ -419,7 +421,7 @@
 
     <!-- Final CTA -->
     <section class="relative px-4 py-24 overflow-hidden">
-        <div class="absolute inset-0 bg-[var(--gradient-hero)] opacity-95"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-[#1E40AF] via-[#06B6D4] to-[#1E3A8A] opacity-95"></div>
         <div class="absolute -top-20 right-10 w-72 h-72 rounded-full bg-[var(--secondary)]/20 blur-3xl pointer-events-none"></div>
         <div class="container mx-auto max-w-4xl text-center relative z-10 text-white" in:fade={{ duration: 500 }}>
             <h2 class="text-3xl md:text-5xl font-black mb-5">Your project could be our next case study.</h2>

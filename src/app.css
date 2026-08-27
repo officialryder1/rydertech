@@ -346,20 +346,6 @@
   }
 }
 
-/* Scroll-reveal cards — progressive enhancement:
-   hidden ONLY when JS is active (.js on <html>); no-JS users see full content.
-   The `reveal` action reveals on intersection, with a timeout fallback so a card
-   is never left invisible. */
-.js .reveal-card {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js .reveal-card.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .form-success {
   animation: slideUp 0.5s ease-out;
 }
