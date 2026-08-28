@@ -39,7 +39,7 @@
 
     // Honest leadership: real founder anchored; disciplines shown as functions (no invented people).
     const leadership = [
-        { initials: 'VO', name: 'Victor Onourah', role: 'Founder & CEO', bio: '6+ years building software and the companies behind it. Sets the bar for craft and client outcomes.' }
+        { initials: 'VK', name: 'Victor Kenneth N', role: 'Founder & CEO', bio: '6+ years building software and the companies behind it. Sets the bar for craft and client outcomes.' }
     ];
     const disciplines = [
         { initials: 'ENG', name: 'Engineering', note: 'Web, mobile & cloud' },
