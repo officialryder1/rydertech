@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc';
 
 export interface ReportRow {
   label: string;
@@ -78,6 +78,7 @@ import type { EngineResult as OpsDrainResult } from './opsDrain';
 import type { EngineResult as LocalVisibilityResult } from './localVisibility';
 import type { EngineResult as AeoResult } from './aeoReadiness';
 import type { SummaryResult } from './clauseScan';
+import type { EngineResult as GatewayCalcResult } from './gatewayCalc';
 import { severityLabel } from './clauseScan';
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
@@ -251,4 +252,26 @@ function severityCopyLocal(s: SummaryResult['severity']): string {
     default:
       return 'Low risk — mostly balanced, with minor items to note.';
   }
+}
+
+export function reportFromGatewayCalc(r: GatewayCalcResult, currency: 'NGN' | 'USD'): ReportPayload {
+  const money = (n: number) => formatMoney(n, currency);
+  return {
+    tool: 'gateway-calc',
+    title: 'Payment Gateway Fee Audit',
+    heroLabel: 'Max potential annual savings',
+    heroValue: money(r.maxAnnualSavings),
+    heroTone: r.maxAnnualSavings > 50000 ? 'good' : 'neutral',
+    verdict: r.verdict,
+    rows: [
+      { label: 'Monthly Volume', value: money(r.monthlyVolume), tone: 'neutral' },
+      { label: 'Cheapest Gateway', value: r.cheapestGateway.name, tone: 'good' },
+      { label: 'Cheapest Annual Fee', value: money(r.cheapestGateway.annualFee), tone: 'good' },
+      { label: 'Fastest Payout', value: r.fastestGateway.name, tone: 'neutral' }
+    ],
+    recommendations: r.recommendations.slice(0, 4),
+    currency,
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/gateway-calc'
+  };
 }
