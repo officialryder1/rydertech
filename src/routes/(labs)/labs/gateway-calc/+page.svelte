@@ -11,10 +11,8 @@
 		Calculator,
 		ArrowLeft,
 		CheckCircle2,
-		ShieldCheck,
 		Zap,
 		CreditCard,
-		Building2,
 		ArrowUpRight
 	} from '@lucide/svelte';
 
@@ -64,12 +62,12 @@
 		isSubmitting = true;
 		error = null;
 
-		const score = scoreLead({
-			email,
-			company,
-			tool: 'gateway-calc',
-			metric: result.maxAnnualSavings
+		const lead = scoreLead({
+			tool: 'ops_drain',
+			impactValue: result.maxAnnualSavings,
+			revenueAtRisk: result.maxAnnualSavings
 		});
+		const score = lead.points;
 
 		try {
 			// 1. EmailJS send
@@ -114,7 +112,6 @@
 			unlocked = true;
 		} catch (err: any) {
 			console.error('Lead submit error:', err);
-			// Even if EmailJS fails, unlock the tool so the user is never blocked
 			unlocked = true;
 		} finally {
 			isSubmitting = false;
