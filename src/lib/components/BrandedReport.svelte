@@ -34,7 +34,9 @@
     'event-risk': 'Event Access Risk Scanner',
     'ops-drain': 'Ops Drain Calculator',
     visibility: 'Local Visibility Audit',
-    aeo: 'AI Search Readiness Audit'
+    aeo: 'AI Search Readiness Audit',
+    clausescan: 'ClauseScan — Contract Risk',
+    'gateway-calc': 'Payment Gateway Fee Calculator'
   };
 </script>
 
