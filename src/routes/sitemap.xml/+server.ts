@@ -13,7 +13,6 @@ export const GET: RequestHandler = async () => {
     { path: '/contact', priority: '0.8', freq: 'monthly' },
     { path: '/blog', priority: '0.7', freq: 'weekly' },
     { path: '/labs', priority: '0.8', freq: 'weekly' },
-    { path: '/labs/gateway-calc', priority: '0.9', freq: 'monthly' },
     { path: '/labs/ops-drain', priority: '0.9', freq: 'monthly' },
     { path: '/labs/event-access-risk', priority: '0.9', freq: 'monthly' },
     { path: '/labs/revleak', priority: '0.9', freq: 'monthly' },
