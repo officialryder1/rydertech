@@ -56,10 +56,10 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="RyderTech" />
   <meta name="copyright" content="RyderTech" />
-  <meta name="geo.region" content="NG-LA" />
-  <meta name="geo.placename" content="Lagos, Nigeria" />
-  <meta name="geo.position" content="6.524379;3.379206" />
-  <meta name="ICBM" content="6.524379, 3.379206" />
+  <meta name="geo.region" content="NG" />
+  <meta name="geo.placename" content="Abuja, Nigeria" />
+  <meta name="geo.position" content="9.0765;7.3986" />
+  <meta name="ICBM" content="9.0765, 7.3986" />
   
   <!-- Mobile Specific -->
   <meta name="theme-color" content="#3b82f6" />

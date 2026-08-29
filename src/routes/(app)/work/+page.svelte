@@ -201,16 +201,14 @@
     <meta property="og:description" content="Marketplaces, fintech apps, booking systems, and AI platforms we've shipped. See what we built — and what it did for our clients." />
     <meta property="og:url" content="https://rydertech.ng/work" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">
-    {
+    {@html `<script type="application/ld+json">${JSON.stringify({
         "@context": "https://schema.org",
         "@type": "CollectionPage",
         "name": "RyderTech Work & Case Studies",
         "url": "https://rydertech.ng/work",
         "isPartOf": { "@type": "WebSite", "name": "RyderTech", "url": "https://rydertech.ng" },
         "about": { "@type": "ProfessionalService", "name": "RyderTech", "url": "https://rydertech.ng" }
-    }
-    </script>
+    })}</script>`}
 </svelte:head>
 
 <div class="min-h-screen bg-white overflow-hidden">

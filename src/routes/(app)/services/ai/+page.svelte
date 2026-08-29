@@ -53,8 +53,7 @@
   <title>AI & ML Services | RyderTech — Intelligent Software for Nigerian Businesses</title>
   <meta name="description" content="RyderTech builds AI & ML solutions: LLM chatbots, computer vision, ML automation, and AI-ready apps for businesses in Lagos, Abuja, Port Harcourt, and worldwide. Book an AI consult." />
   <meta name="keywords" content="AI development Nigeria, machine learning Nigeria, LLM chatbot, computer vision, AI automation, AI app development Lagos, RAG agent, MLOps Nigeria" />
-  <script type="application/ld+json">
-  {
+  {@html `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Service",
     "serviceType": "AI & ML Software Development",
@@ -75,8 +74,7 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI-Ready Data & Cloud" } }
       ]
     }
-  }
-  </script>
+  })}</script>`}
 </svelte:head>
 
 <div class="min-h-screen bg-white">

@@ -22,8 +22,7 @@
   <meta name="description" content="RyderTech is a Nigerian web & AI software studio. We build professional, responsive websites and add intelligence — LLM chatbots, automation, and computer vision — for businesses across Lagos, Abuja, and all Nigerian cities." />
   <meta name="keywords" content="web design Nigeria, website development Nigeria, Nigerian web agency, Lagos web design, Abuja website developers, e-commerce Nigeria" />
   
-  <script type="application/ld+json">
-  {
+  {@html `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Service",
     "serviceType": "Web Design & Development",
@@ -66,8 +65,7 @@
         }
       ]
     }
-  }
-  </script>
+  })}</script>`}
 </svelte:head>
 
 <div class="min-h-screen bg-white">

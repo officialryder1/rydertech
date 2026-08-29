@@ -4,6 +4,21 @@
     url: string;
     current?: boolean;
   }>;
+
+  // Build the BreadcrumbList JSON-LD as a complete string and inject via {@html}.
+  // Svelte does NOT evaluate {#each} control flow inside a literal <script> in
+  // <svelte:head>, which previously leaked raw template syntax into the rendered
+  // structured data (invalid JSON-LD). Serializing here avoids that entirely.
+  const breadcrumbJson = `<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `https://rydertech.ng${item.url}`
+    }))
+  })}<\/script>`;
 </script>
 
 <nav class="py-4 px-5" aria-label="Breadcrumb">
@@ -30,21 +45,5 @@
 </nav>
 
 <svelte:head>
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {@const items}
-        {#each items as item, index}
-          {
-            "@type": "ListItem",
-            "position": {index + 1},
-            "name": "{item.name}",
-            "item": "https://rydertech.ng{item.url}"
-          }{@const isLast = index === items.length - 1}{#if !isLast},{/if}
-        {/each}
-      ]
-    }
-  </script>
+  {@html breadcrumbJson}
 </svelte:head>

@@ -15,9 +15,7 @@
 
 <!-- Structured Data -->
 <svelte:head>
-  <script type="application/ld+json">
-    {JSON.stringify(data.seo.structuredData)}
-  </script>
+  {@html `<script type="application/ld+json">${JSON.stringify(data.seo.structuredData)}</script>`}
 </svelte:head>
 
 <!-- Breadcrumb Navigation -->
