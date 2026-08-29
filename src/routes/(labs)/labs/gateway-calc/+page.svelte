@@ -4,9 +4,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Badge } from '$lib/components/ui/badge';
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
-	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
 	import {
 		Calculator,
 		ArrowLeft,
@@ -18,14 +16,14 @@
 
 	import { calculateGateways, type GatewayInput } from '$lib/gatewayCalc';
 	import { reportFromGatewayCalc, buildShareUrl } from '$lib/shareReport';
-	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 
-	let monthlyVolume = $state(10_000_000); // 10M NGN
-	let avgTicket = $state(25_000); // 25k NGN
-	let transferPct = $state(60); // 60% bank transfers
-	let cardPct = $state(35); // 35% local cards
-	let intCardPct = $state(5); // 5% int cards
+	let monthlyVolume = $state(10_000_000);
+	let avgTicket = $state(25_000);
+	let transferPct = $state(60);
+	let cardPct = $state(35);
+	let intCardPct = $state(5);
 
 	let email = $state('');
 	let company = $state('');
@@ -59,18 +57,14 @@
 			error = 'Please enter a valid email address.';
 			return;
 		}
+		if (!browser) return;
 		isSubmitting = true;
 		error = null;
 
-		const lead = scoreLead({
-			tool: 'ops_drain',
-			impactValue: result.maxAnnualSavings,
-			revenueAtRisk: result.maxAnnualSavings
-		});
-		const score = lead.points;
-
 		try {
-			// 1. EmailJS send
+			const { default: emailjs } = await import('@emailjs/browser');
+			const { supabase } = await import('$lib/supabaseClient');
+
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
 			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
 			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
@@ -92,7 +86,6 @@
 				);
 			}
 
-			// 2. Supabase lead sink backup
 			try {
 				await supabase.from('newsletter_subscriptions').insert({
 					email,
@@ -101,8 +94,7 @@
 						company,
 						monthlyVolume: result.monthlyVolume,
 						cheapest: result.cheapestGateway.name,
-						savings: result.maxAnnualSavings,
-						score
+						savings: result.maxAnnualSavings
 					}
 				});
 			} catch (dbErr) {
@@ -120,15 +112,22 @@
 </script>
 
 <SEOMeta
-	title="Nigerian Payment Gateway Fee & Payout Calculator | RyderTech Labs"
-	description="Compare processing fees, settlement speeds, and transaction costs across Paystack, Monnify, Flutterwave, and Interswitch for Nigerian businesses."
-	keywords="Paystack fees calculator, Monnify vs Paystack, Flutterwave fees Nigeria, payment gateway comparison Nigeria"
-	path="/labs/gateway-calc"
+	data={{
+		title: 'Nigerian Payment Gateway Fee & Payout Calculator | RyderTech Labs',
+		description:
+			'Compare processing fees, settlement speeds, and transaction costs across Paystack, Monnify, Flutterwave, and Interswitch for Nigerian businesses.',
+		keywords: [
+			'Paystack fees calculator',
+			'Monnify vs Paystack',
+			'Flutterwave fees Nigeria',
+			'payment gateway comparison Nigeria'
+		],
+		canonical: 'https://rydertech.ng/labs/gateway-calc'
+	}}
 />
 
 <div class="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
 	<div class="max-w-5xl mx-auto space-y-8">
-		<!-- Top Bar -->
 		<div class="flex items-center justify-between">
 			<a
 				href="/labs"
@@ -142,7 +141,6 @@
 			</Badge>
 		</div>
 
-		<!-- Header -->
 		<div class="text-center space-y-4">
 			<div class="inline-flex p-3 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400">
 				<CreditCard class="w-8 h-8" />
@@ -155,9 +153,7 @@
 			</p>
 		</div>
 
-		<!-- Main Grid -->
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-			<!-- Inputs Column -->
 			<Card class="lg:col-span-5 bg-slate-900/60 border-slate-800 backdrop-blur">
 				<CardHeader>
 					<CardTitle class="text-white flex items-center gap-2">
@@ -169,7 +165,6 @@
 					</CardDescription>
 				</CardHeader>
 				<CardContent class="space-y-6">
-					<!-- Monthly Volume -->
 					<div class="space-y-2">
 						<label for="monthlyVolume" class="text-sm font-medium text-slate-300 flex justify-between">
 							<span>Monthly Processing Volume</span>
@@ -191,7 +186,6 @@
 						</div>
 					</div>
 
-					<!-- Average Ticket Size -->
 					<div class="space-y-2">
 						<label for="avgTicket" class="text-sm font-medium text-slate-300 flex justify-between">
 							<span>Average Transaction Ticket</span>
@@ -213,11 +207,9 @@
 						</div>
 					</div>
 
-					<!-- Payment Method Mix -->
 					<div class="space-y-4 pt-4 border-t border-slate-800">
 						<h3 class="text-sm font-semibold text-slate-200">Payment Channel Mix</h3>
 						
-						<!-- Bank Transfers -->
 						<div class="space-y-1">
 							<label for="transferPct" class="text-xs text-slate-400 flex justify-between">
 								<span>Bank Transfers / Virtual Accounts</span>
@@ -234,7 +226,6 @@
 							/>
 						</div>
 
-						<!-- Local Cards -->
 						<div class="space-y-1">
 							<label for="cardPct" class="text-xs text-slate-400 flex justify-between">
 								<span>Local Debit / Credit Cards (Verve/Mastercard/Visa)</span>
@@ -251,7 +242,6 @@
 							/>
 						</div>
 
-						<!-- International Cards -->
 						<div class="space-y-1">
 							<label for="intCardPct" class="text-xs text-slate-400 flex justify-between">
 								<span>International Cards (USD/Foreign)</span>
@@ -271,9 +261,7 @@
 				</CardContent>
 			</Card>
 
-			<!-- Results Column -->
 			<div class="lg:col-span-7 space-y-6">
-				<!-- Hero Recommendation Card -->
 				<Card class="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border-emerald-500/30">
 					<CardHeader class="pb-3">
 						<div class="flex items-center justify-between">
@@ -305,7 +293,6 @@
 							</div>
 						</div>
 
-						<!-- Detailed Comparison Table -->
 						<div class="space-y-3 pt-2">
 							<h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">All Gateways Compared (Annual Fee)</h4>
 							<div class="space-y-2">
@@ -329,7 +316,6 @@
 							</div>
 						</div>
 
-						<!-- Unlock or Share Section -->
 						{#if !unlocked}
 							<div class="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-4">
 								<div class="flex items-start gap-3">
@@ -376,7 +362,6 @@
 									<span class="font-semibold text-white">Audit Unlocked Successfully!</span>
 								</div>
 
-								<!-- Recommendations -->
 								<div class="space-y-3">
 									<h4 class="text-sm font-semibold text-slate-200">RyderTech Engineering Recommendations</h4>
 									<ul class="space-y-2">

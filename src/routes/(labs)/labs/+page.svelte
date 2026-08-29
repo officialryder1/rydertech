@@ -24,6 +24,15 @@
 
   let cards = [
     {
+      title: "Nigerian Payment Gateway Fee Calculator",
+      description: "Compare processing fees, settlement speeds, and transaction costs across Paystack, Monnify, Flutterwave, and Interswitch.",
+      icon: Calculator,
+      href: "/labs/gateway-calc",
+      action: "Calculate Gateway Fees",
+      tag: "Fintech",
+      accent: "from-emerald-500/20 to-teal-500/20"
+    },
+    {
       title: "Website Cost Estimator",
       description: "Get a rough estimate of what it would cost to build your website based on your idea.",
       icon: Calculator,
