@@ -13,6 +13,18 @@
     name="description"
     content="Speak with Ryder, RyderTech's AI assistant. Tap the mic and talk — it replies aloud. A free voice-enabled AI demo."
   />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rydertech.ng/labs/voice-agent" />
+  <meta property="og:title" content="Voice Agent — Talk to Ryder | RyderTech Labs" />
+  <meta property="og:description" content="Speak with Ryder, RyderTech's AI assistant. Tap the mic and talk — it replies aloud. A free voice-enabled AI demo." />
+  <meta property="og:image" content="https://rydertech.ng/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://rydertech.ng/labs/voice-agent" />
+  <meta name="twitter:title" content="Voice Agent — Talk to Ryder | RyderTech Labs" />
+  <meta name="twitter:description" content="Speak with Ryder, RyderTech's AI assistant. Tap the mic and talk — it replies aloud. A free voice-enabled AI demo." />
+  <meta name="twitter:image" content="https://rydertech.ng/og-image.jpg" />
+  <link rel="canonical" href="https://rydertech.ng/labs/voice-agent" />
+  {@html `<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Voice Agent — Talk to Ryder","url":"https://rydertech.ng/labs/voice-agent","description":"Speak with Ryder, RyderTech's AI assistant. Tap the mic and talk — it replies aloud. A free voice-enabled AI demo.","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5","reviewCount":"1"},"author":{"@type":"Organization","name":"RyderTech","url":"https://rydertech.ng"},"publisher":{"@type":"Organization","name":"RyderTech","url":"https://rydertech.ng"}}</script>`}
 </svelte:head>
 
 <div class="min-h-screen bg-background">
