@@ -22,6 +22,7 @@ export const GET: RequestHandler = async () => {
     { path: '/labs/visibility', priority: '0.9', freq: 'monthly' },
     { path: '/labs/aeo-readiness', priority: '0.9', freq: 'monthly' },
     { path: '/labs/clausescan', priority: '0.9', freq: 'monthly' },
+    { path: '/labs/voice-agent', priority: '0.9', freq: 'monthly' },
     { path: '/courses', priority: '0.8', freq: 'weekly' },
     { path: '/courses/ai-automation-mastery', priority: '0.8', freq: 'monthly' },
     { path: '/courses/ai-video-generation-ads', priority: '0.8', freq: 'monthly' },

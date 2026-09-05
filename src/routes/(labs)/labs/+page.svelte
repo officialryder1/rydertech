@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin, Mic } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade, fly } from "svelte/transition";
 
@@ -67,6 +67,15 @@
       action: "Scan My Risk",
       tag: "Live Demo",
       accent: "from-amber-500/20 to-orange-500/20"
+    },
+    {
+      title: "Voice Agent — AI Assistant",
+      description: "Speak with Ryder, our AI assistant. Tap the mic and talk — it replies aloud. Try our voice-enabled AI demo for free.",
+      icon: Mic,
+      href: "/labs/voice-agent",
+      action: "Talk to Ryder",
+      tag: "Live Demo",
+      accent: "from-primary/20 to-violet-500/20"
     },
     {
       title: "Local Visibility Audit",
