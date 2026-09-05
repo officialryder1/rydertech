@@ -11,7 +11,7 @@
 
   function pay() {
     errorMsg = null;
-    if (!env.PUBLIC_PAYSTACK_PUBLIC_KEY) {
+    if (!env.PAYSTACK_PUBLIC_KEY) {
       errorMsg = 'Paystack is not configured yet. Contact support.';
       return;
     }

@@ -185,7 +185,7 @@
 		}
 
 		// Start Paystack payment.
-		if (!env.PUBLIC_PAYSTACK_PUBLIC_KEY) {
+		if (!env.PAYSTACK_PUBLIC_KEY) {
 			payError = 'Paystack is not configured yet. Contact support.';
 			return;
 		}
