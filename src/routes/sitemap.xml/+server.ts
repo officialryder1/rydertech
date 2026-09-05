@@ -33,6 +33,7 @@ export const GET: RequestHandler = async () => {
     { path: '/blog/ml-automation-smes-nigeria', priority: '0.8', freq: 'monthly' },
     { path: '/blog/slow-website-revenue-loss', priority: '0.8', freq: 'monthly' },
     { path: '/blog/web-development-agency-abuja', priority: '0.8', freq: 'monthly' },
+    { path: '/blog/gpt-6-astra-what-it-means-for-your-business', priority: '0.8', freq: 'monthly' },
     { path: '/locations', priority: '0.7', freq: 'monthly' },
     { path: '/locations/abuja-web-design', priority: '0.8', freq: 'monthly' },
     { path: '/locations/lagos-web-design', priority: '0.8', freq: 'monthly' },
