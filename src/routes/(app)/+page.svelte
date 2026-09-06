@@ -536,7 +536,7 @@
           <span>TRUSTED PARTNERS</span>
         </div>
         <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-          Brands We <span class="gradient-text">Manage</span>
+          Trusted by <span class="gradient-text">Innovative Brands</span>
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
           We're proud to collaborate with innovative companies across various industries, 
@@ -544,28 +544,23 @@
         </p>
       </div>
 
-      <!-- Brands Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {#each brands as brand, i}
-          <div class="group text-center p-6 rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-105 border-2 border-transparent hover:border-[var(--primary)]/20">
-            <!-- Brand Logo -->
-            <div class="w-16 h-16 bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-              <span class="text-white font-black text-lg">{brand.logo}</span>
-            </div>
-            
-            <!-- Brand Name -->
-            <h3 class="font-black text-gray-900 text-lg mb-2">{brand.name}</h3>
-            
-            <!-- Brand Description -->
-            <p class="text-gray-600 text-sm">{brand.description}</p>
-            
-            <!-- Hover Indicator -->
-            <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="w-8 h-0.5 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] mx-auto rounded-full"></div>
-            </div>
+  <!-- Brands marquee: professional horizontal scroll of client initials -->
+  <div class="overflow-hidden">
+    <!-- Duplicate the list so the scroll is seamless -->
+    <div class="flex items-center gap-16 md:gap-24 py-5 animate-brands-scroll hover:animate-brands-scroll-paused">
+      {#each [...brands, ...brands] as brand}
+        <div class="flex shrink-0 items-center gap-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white shadow-lg">
+            <span class="font-black text-base">{brand.logo}</span>
           </div>
-        {/each}
-      </div>
+          <div class="flex flex-col">
+            <span class="font-black text-gray-900 text-base leading-tight">{brand.name}</span>
+            <span class="text-xs text-gray-500 leading-tight">{brand.description}</span>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
 
       <!-- Callout -->
       <div class="text-center mt-12">

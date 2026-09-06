@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker';
 
 export interface ReportRow {
   label: string;
@@ -273,5 +273,29 @@ export function reportFromGatewayCalc(r: GatewayCalcResult, currency: 'NGN' | 'U
     currency,
     generatedAt: todayIso(),
     sourceUrl: 'https://rydertech.ng/labs/gateway-calc'
+  };
+}
+
+// ---- GPT-6 Checker ----
+import type { Gpt6Result } from './gpt6Checker';
+
+export function reportFromGpt6(r: Gpt6Result, businessName: string): ReportPayload {
+  const levelEmoji = r.score >= 80 ? '🟢' : r.score >= 60 ? '🟡' : r.score >= 35 ? '🟠' : '🔴';
+  return {
+    tool: 'gpt6-checker',
+    title: 'GPT-6 Readiness Audit',
+    heroLabel: 'Readiness score',
+    heroValue: `${r.score}/100`,
+    heroTone: r.score >= 70 ? 'good' : r.score >= 40 ? 'neutral' : 'bad',
+    verdict: `${levelEmoji} ${businessName || 'Your business'} — ${r.verdict}`,
+    rows: [
+      { label: 'Readiness level', value: r.levelLabel, tone: r.score >= 70 ? 'good' : r.score >= 40 ? 'neutral' : 'bad' },
+      { label: 'Efficiency gain', value: r.efficiencyGain, tone: 'good' },
+      { label: 'Cost reduction', value: r.costReduction, tone: 'good' },
+      { label: 'Adoption timeline', value: r.adoptionTimeline, tone: 'neutral' }
+    ],
+    recommendations: r.nextSteps.slice(0, 4),
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/gpt-6-checker'
   };
 }

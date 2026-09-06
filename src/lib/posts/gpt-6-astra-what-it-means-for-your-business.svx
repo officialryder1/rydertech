@@ -112,4 +112,4 @@ The businesses that benefit won't be the ones waiting for GPT-7. They'll be the 
 
 ---
 
-*Want to see how AI can transform your business operations? [Explore our AI services](/services/ai) or [rate your website's AI readiness](/labs/website-rater) with our free tool.*
+*Want to see how AI can transform your business operations? [Explore our AI services](/services/ai), [check your GPT-6 readiness](/labs/gpt-6-checker) with our free 60-second audit, or [rate your website's AI readiness](/labs/website-rater) with another free tool.*

@@ -168,6 +168,12 @@
     to { transform: translateX(0); opacity: 1; }
   }
 
+  /* Seamless horizontal client-logo marquee */
+  @keyframes brands-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   /* Base styles */
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -348,4 +354,15 @@
 
 .form-success {
   animation: slideUp 0.5s ease-out;
+}
+
+/* Seamless marquee utilities */
+.animate-brands-scroll {
+  animation: brands-scroll 24s linear infinite;
+}
+.animate-brands-scroll-paused {
+  animation-play-state: paused;
+}
+.hover\:animate-brands-scroll-paused:hover {
+  animation-play-state: paused;
 }

@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin, Mic } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin, Mic, Bot } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade, fly } from "svelte/transition";
 
@@ -103,6 +103,15 @@
       action: "Audit My Leak",
       tag: "Revenue",
       accent: "from-rose-500/20 to-pink-500/20"
+    },
+    {
+      title: "GPT-6 Readiness Checker",
+      description: "Score how ready your business is for GPT-6 AI agents that can operate computers, write code, and run QA autonomously.",
+      icon: Bot,
+      href: "/labs/gpt-6-checker",
+      action: "Check My Readiness",
+      tag: "AI Agents",
+      accent: "from-cyan-500/20 to-blue-500/20"
     },
     {
       title: "ClauseScan — Contract Risk",
