@@ -11,6 +11,8 @@ tags: ["gpt-6", "openai", "ai-agents", "llm", "artificial-intelligence", "busine
 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1000&auto=format&fit=crop"
 views: 0
 comments: 0
+featured: true
+schemaType: "Article"
 ---
 
 OpenAI just released GPT-6 Astra, and the launch was unlike any previous model drop. The company's president Greg Brockman said it marks the "start of the AGI era." Internal safety thresholds were triggered. Advanced cybersecurity capabilities are shipping gated behind a special program.

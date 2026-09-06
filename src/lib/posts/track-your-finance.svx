@@ -8,7 +8,7 @@ tags: ["Finance Tracking", "Money", "Growth"]
 image: "/flow.png"
 views: 100
 comments: 10
-featured: true
+featured: false
 schemaType: "Article"
 category: "Web Design"
 readingTime: "5 min read"
