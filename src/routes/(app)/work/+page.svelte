@@ -1,7 +1,7 @@
 <script>
     import FindsNg from '$lib/assets/findsng.png';
     import KingCourt from '$lib/assets/king-court.png';
-    import { ExternalLink, ArrowRight, Sparkles, Quote, Globe, Building2, Check } from '@lucide/svelte';
+    import { ExternalLink, ArrowRight, Sparkles, Quote, Globe, Building2, Check, Bot } from '@lucide/svelte';
     import { Button } from '$lib/components/ui/button';
     import { Card, CardContent } from '$lib/components/ui/card';
     import { Badge } from '$lib/components/ui/badge';
@@ -19,7 +19,6 @@
             tagline: 'Multi-vendor marketplace engine',
             summary: 'A high-scale marketplace where hundreds of vendors sell from one storefront — vendor dashboards, commissions, and a frictionless checkout.',
             image: FindsNg,
-            featured: true,
             metrics: [
                 { value: 'Multi-tenant', label: 'Vendor architecture' },
                 { value: 'Stripe', label: 'Payments & payouts' },
@@ -98,6 +97,24 @@
             liveUrl: 'https://maison-estate-ten.vercel.app/'
         },
         {
+            slug: 'odera',
+            title: 'Odera',
+            filter: 'Web Apps',
+            category: 'Web & AI',
+            tagline: 'AI Business & Contract Risk Consultant',
+            summary: 'An intelligent consultant that analyzes contracts, business ideas, and decisions to identify risks, hidden assumptions, and weaknesses before they cost money.',
+            image: '/odera-screenshot.png',
+            featured: true,
+            metrics: [
+                { value: '8+', label: 'Analysis types' },
+                { value: '25+', label: 'Risk categories' },
+                { value: '100%', label: 'Critical review' }
+            ],
+            results: ['AI-powered risk identification', 'Evidence-driven recommendations', 'Multi-jurisdiction support'],
+            tech: ['SvelteKit', 'Supabase', 'Gemini AI'],
+            liveUrl: null
+        },
+        {
             slug: 'realestate',
             title: 'Real Estate Platform',
             filter: 'Web Apps',
@@ -112,7 +129,8 @@
                 { value: 'Enterprise', label: 'Scale' }
             ],
             results: ['Smart property matching', 'Immersive virtual walkthroughs', 'Agent lead routing'],
-            tech: ['Vue.js', 'Laravel', 'MySQL', 'AWS']
+            tech: ['Vue.js', 'Laravel', 'MySQL', 'AWS'],
+            liveUrl: null
         },
         {
             slug: 'supplychain',
@@ -129,20 +147,27 @@
                 { value: 'Azure', label: 'Cloud' }
             ],
             results: ['Demand-based stocking', 'Multi-warehouse visibility', 'Route & ETA tracking'],
-            tech: ['Angular', 'Java', 'Oracle', 'Azure']
+            tech: ['Angular', 'Java', 'Oracle', 'Azure'],
+            liveUrl: null
         }
     ];
 
     const featured = caseStudies.find((p) => p.featured);
     const rest = caseStudies.filter((p) => !p.featured);
 
-    const filters = ['All', 'Web Apps', 'Mobile Apps', 'Custom Software'];
+    const filters = ['All', 'Web Apps', 'Mobile Apps', 'Custom Software', 'AI'];
     let activeFilter = $state('All');
     let visible = $state(rest);
 
     function applyFilter(f) {
         activeFilter = f;
-        visible = f === 'All' ? rest : rest.filter((p) => p.filter === f);
+        if (f === 'All') {
+            visible = rest;
+        } else if (f === 'AI') {
+            visible = rest.filter((p) => p.category?.includes('AI'));
+        } else {
+            visible = rest.filter((p) => p.filter === f);
+        }
     }
 
     // Credibility band
