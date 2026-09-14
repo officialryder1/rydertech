@@ -410,9 +410,16 @@
             We engineer custom <strong>AI & ML solutions</strong> — intelligent apps, LLM chatbots, automation agents, and computer-vision systems — alongside the web and mobile platforms that put them to work.<br />
             Serving clients in <strong>Lagos</strong>, <strong>Abuja</strong>, <strong>Port Harcourt</strong>, and <strong>Worldwide.</strong>
           </p>
-          
+
+          <!-- AEO subheadline: direct-answer hook for "AI website cost estimator Nigeria" -->
+          <p class="mt-4 max-w-3xl text-lg text-gray-700">
+            Building an AI-powered website in Nigeria? Use our free
+            <a href="/labs/cost-estimator" class="font-semibold text-(--secondary)">Website Cost Estimator</a> to get
+            a tailored budget range in seconds — for web apps, AI chatbots, and automation tools across Lagos, Abuja,
+            and Port Harcourt.
+          </p>
+
           <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row gap-4 pt-8">
             <a href="/services/ai" class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
               <span class="flex items-center">
                 Explore AI Services

@@ -95,7 +95,7 @@ function applyUpdate() {
 
 <svelte:head>
 	<title>RyderTech — Web, Mobile & AI Software Agency in Abuja, Nigeria</title>
-	<meta name="description" content="RyderTech is an Abuja-based web development & software agency building fast, AI-powered web, mobile, and cloud platforms — and making them intelligent with AI: LLM chatbots, computer vision, and ML automation." />
+	<meta name="description" content="RyderTech is an Abuja-based web development & software agency building fast, AI-powered web, mobile, and cloud platforms — and making them intelligent with AI: LLM chatbots, computer vision, and ML automation. Need an AI website cost estimate in Nigeria? Use our free AI Website Cost Calculator for Lagos, Abuja & Port Harcourt businesses." />
 
   <!-- Open Graph -->
    <meta property="og:type" content="website" />
