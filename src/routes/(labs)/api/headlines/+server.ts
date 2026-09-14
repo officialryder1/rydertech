@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { generateHeadlines, type HeadlineConfig } from '$lib/headlineStudio';
+import { generateHeadlines } from '$lib/headlineStudio.server';
+import type { HeadlineConfig } from '$lib/headlineStudio';
 import { z } from 'zod';
 
 const schema = z.object({
