@@ -1,8 +1,8 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { env } from '$env/dynamic/private';
-import type { RepurposedPost, RepurposeInput } from '$lib/types';
+import { GOOGLE_GEMINI_API_KEY } from '$env/static/private';
+import type { RepurposedPost, RepurposeInput } from '../types';
 
-const genAI = new GoogleGenerativeAI(env.GOOGLE_GEMINI_API_KEY ?? '');
+const genAI = new GoogleGenerativeAI(GOOGLE_GEMINI_API_KEY ?? '');
 
 // Platform-specific constraints
 const PLATFORM_CONSTRAINTS = {
