@@ -75,3 +75,12 @@ Speed isn't a developer nicety. It's the difference between a site that converts
 - If the leak is bigger than you expected, [book a performance audit](/contact) and we'll scope the fix against what it recovers.
 
 Related reading: [Web design cost in Nigeria](/blog/web-design-cost-nigeria) and [how AI chatbots cut support costs](/blog/ai-chatbot-nigeria).
+
+---
+
+## More free AI tools from RyderTech Labs
+
+- [AI Headline Studio](/labs/headline-studio) — generate viral headline variants across 10 proven copywriting formulas. Perfect for crafting the hook of your next article.
+- [AI Content Repurposer](/labs/content-repurposer) — turn this blog post into LinkedIn posts, Twitter threads, newsletter blurbs, and more.
+- [Website Cost Estimator](/labs/cost-estimator) — figure out what your next web project will actually cost.
+- [Ops Drain Calculator](/labs/ops-drain) — calculate how much manual work is costing your team each year.
