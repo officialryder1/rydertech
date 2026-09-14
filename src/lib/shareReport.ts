@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer';
 
 export interface ReportRow {
   label: string;
@@ -299,3 +299,76 @@ export function reportFromGpt6(r: Gpt6Result, businessName: string): ReportPaylo
     sourceUrl: 'https://rydertech.ng/labs/gpt-6-checker'
   };
 }
+
+// ---- Headline Studio ----
+import type { HeadlineResult } from './headlineStudio';
+
+export function reportFromHeadlineStudio(r: HeadlineResult, topic: string): ReportPayload {
+  const topScore = r.topPicks[0]?.clickbaitScore ?? 0;
+  return {
+    tool: 'headline-studio',
+    title: 'Headline Studio Report',
+    heroLabel: 'Best headline score',
+    heroValue: `${topScore}/100`,
+    heroTone: topScore >= 70 ? 'good' : topScore >= 40 ? 'neutral' : 'bad',
+    verdict: topScore >= 70
+      ? `Strong headlines — your topic "${topic}" is primed for clicks.`
+      : `Headline opportunity — tweak the formula and test variants.`,
+    rows: [
+      { label: 'Total headlines generated', value: `${r.headlines.length}`, tone: 'neutral' },
+      { label: 'Average score', value: `${Math.round(r.headlines.reduce((a, h) => a + h.clickbaitScore, 0) / r.headlines.length)}/100`, tone: 'neutral' },
+      { label: 'Best headline', value: r.topPicks[0]?.text.slice(0, 80) || '—', tone: 'good' },
+      { label: 'Top style', value: r.topPicks[0] ? STYLE_LABELS_SHORT[r.topPicks[0].style] : '—', tone: 'neutral' }
+    ],
+    recommendations: [
+      'Test your top 3 headlines A/B-style and measure CTR on each platform.',
+      'Use curiosity + numbers for the highest-scoring formula on your audience.',
+      'Repurpose the winning formula across email, social, and ads.',
+      'Try the AI Content Repurposer to expand your piece across 6 platforms.'
+    ],
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/headline-studio'
+  };
+}
+
+// ---- Content Repurposer ----
+import type { RepurposedPost } from '$lib/content-repurposer/types';
+
+export function reportFromContentRepurposer(posts: RepurposedPost[], sourceContent: string): ReportPayload {
+  const platformList = [...new Set(posts.map(p => p.platform))];
+  return {
+    tool: 'content-repurposer',
+    title: 'Content Repurposer Report',
+    heroLabel: 'Platforms covered',
+    heroValue: `${platformList.length}`,
+    heroTone: platformList.length >= 4 ? 'good' : 'neutral',
+    verdict: `Generated ${posts.length} platform-native posts from your source content.`,
+    rows: [
+      { label: 'Source length', value: `${sourceContent.length} chars`, tone: 'neutral' },
+      { label: 'Posts generated', value: `${posts.length}`, tone: 'good' },
+      { label: 'Platforms', value: platformList.join(', '), tone: 'neutral' },
+      { label: 'Avg post length', value: `${Math.round(posts.reduce((a, p) => a + p.estimatedCharacterCount, 0) / posts.length)} chars`, tone: 'neutral' }
+    ],
+    recommendations: [
+      'Publish the LinkedIn and Twitter posts within 48h of your original content.',
+      'Tailor each post with platform-native hashtags and mentions.',
+      'Use the AI Headline Studio to craft hooks for your next piece.',
+      'Track engagement per platform and double down on the winners.'
+    ],
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/content-repurposer'
+  };
+}
+
+const STYLE_LABELS_SHORT: Record<string, string> = {
+  curiosity: 'Curiosity',
+  'how-to': 'How-To',
+  question: 'Question',
+  listicle: 'Listicle',
+  breaking: 'Breaking',
+  command: 'Command',
+  'problem-agitate': 'PAS',
+  'benefit-driven': 'Benefit-Driven',
+  'social-proof': 'Social Proof',
+  'fear-scarcity': 'Fear/Scarcity'
+};

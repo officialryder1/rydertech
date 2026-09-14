@@ -105,6 +105,24 @@
       accent: "from-rose-500/20 to-pink-500/20"
     },
     {
+      title: "AI Headline Studio",
+      description: "Generate 8-12 viral headline variants for any topic using proven copywriting formulas — Curiosity, How-To, Listicle, Question, and more.",
+      icon: Sparkles,
+      href: "/labs/headline-studio",
+      action: "Generate Headlines",
+      tag: "AI Copywriting",
+      accent: "from-fuchsia-500/20 to-pink-500/20"
+    },
+    {
+      title: "AI Content Repurposer",
+      description: "Turn one blog post or transcript into platform-native LinkedIn posts, Twitter threads, newsletter blurbs, and TikTok scripts.",
+      icon: FileText,
+      href: "/labs/content-repurposer",
+      action: "Repurpose Content",
+      tag: "AI Content",
+      accent: "from-indigo-500/20 to-blue-500/20"
+    },
+    {
       title: "GPT-6 Readiness Checker",
       description: "Score how ready your business is for GPT-6 AI agents that can operate computers, write code, and run QA autonomously.",
       icon: Bot,

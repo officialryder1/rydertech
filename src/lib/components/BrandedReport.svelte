@@ -30,14 +30,17 @@
   };
 
   const toolLabel: Record<string, string> = {
-    revleak: 'Revenue Leak Auditor',
-    'event-risk': 'Event Access Risk Scanner',
-    'ops-drain': 'Ops Drain Calculator',
-    visibility: 'Local Visibility Audit',
-    aeo: 'AI Search Readiness Audit',
-    clausescan: 'ClauseScan — Contract Risk',
-    'gateway-calc': 'Payment Gateway Fee Calculator'
-  };
+   revleak: 'Revenue Leak Auditor',
+   'event-risk': 'Event Access Risk Scanner',
+   'ops-drain': 'Ops Drain Calculator',
+   visibility: 'Local Visibility Audit',
+   aeo: 'AI Search Readiness Audit',
+   clausescan: 'ClauseScan — Contract Risk',
+   'gateway-calc': 'Payment Gateway Fee Calculator',
+   'gpt6-checker': 'GPT-6 Readiness Checker',
+   'headline-studio': 'AI Headline Studio',
+   'content-repurposer': 'AI Content Repurposer'
+ };
 </script>
 
 <article class="report" style="--brand:#1E40AF;--brand-dark:#1E3A8A;--gold:#D4AF37;--gold-dark:#B8860B;">
