@@ -175,7 +175,6 @@
       </button>
     </div>
   </div>
-  </div>
 
   <!-- Sticky Labs Banner: shows after 7s on page, auto-hides -->
   <LabsStickyBanner postMetadata={post.metadata} />

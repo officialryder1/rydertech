@@ -420,6 +420,7 @@
           </p>
 
           <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-8">
             <a href="/services/ai" class="creative-button px-8 py-4 text-white font-semibold text-lg rounded-xl">
               <span class="flex items-center">
                 Explore AI Services
