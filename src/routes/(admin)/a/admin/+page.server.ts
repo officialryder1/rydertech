@@ -7,6 +7,51 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || 'kennethvic07@gmail.com,rydert
   .split(',')
   .map(e => e.trim());
 
+// --- AI Lead Scoring ---
+// Weights: budget 60%, tool referral 25%, company presence 15%
+const HIGH_VALUE_TOOLS = new Set(['revleak', 'ops-drain', 'event-access-risk', 'gateway-calc']);
+const MODERATE_TOOLS = new Set(['cost-estimator', 'website-rater', 'gpt-6-checker']);
+const LOW_VALUE_TOOLS = new Set(['headline-studio', 'content-repurposer']);
+
+function scoreBudget(budget?: string | null): number {
+  if (!budget) return 10;
+  const b = budget.toLowerCase();
+  if (b.includes('15m+')) return 60;
+  if (b.includes('5m') && b.includes('15m')) return 50;
+  if (b.includes('1.5m') && b.includes('5m')) return 40;
+  if (b.includes('500k') && b.includes('1.5m')) return 30;
+  if (b.includes('150k') && b.includes('500k')) return 20;
+  return 10;
+}
+
+function scoreToolReferral(leadSource?: string): number {
+  if (!leadSource) return 5;
+  const toolMatch = leadSource.match(/tool=([a-z0-9-]+)/);
+  if (!toolMatch) {
+    if (leadSource.includes('blog')) return 10;
+    return 5;
+  }
+  const tool = toolMatch[1];
+  if (HIGH_VALUE_TOOLS.has(tool)) return 25;
+  if (MODERATE_TOOLS.has(tool)) return 15;
+  if (LOW_VALUE_TOOLS.has(tool)) return 10;
+  return 5;
+}
+
+function scoreCompany(company?: string | null): number {
+  if (!company || company.trim() === '') return 5;
+  return 15;
+}
+
+function scoreLead(submission: { budget?: string; company?: string; lead_source?: string }): { lead_score: number; lead_segment: 'hot' | 'warm' | 'cold' } {
+  const total = Math.min(100, scoreBudget(submission.budget) + scoreToolReferral(submission.lead_source) + scoreCompany(submission.company));
+  let segment: 'hot' | 'warm' | 'cold';
+  if (total >= 70) segment = 'hot';
+  else if (total >= 40) segment = 'warm';
+  else segment = 'cold';
+  return { lead_score: total, lead_segment: segment };
+}
+
 export const load: PageServerLoad = async ({ locals }) => {
   const user = locals.user;
 
@@ -37,7 +82,14 @@ export const load: PageServerLoad = async ({ locals }) => {
   const last7days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   const last30days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-  const submissions = contactSubmissions || [];
+  const submissions = (contactSubmissions || []).map(sub => ({
+    ...sub,
+    ...scoreLead(sub),
+  })).sort((a, b) => {
+    // Sort by lead_score desc, then by submitted_at desc
+    if (b.lead_score !== a.lead_score) return b.lead_score - a.lead_score;
+    return new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime();
+  });
   const newsletters = newsletterSubs || [];
   const magnets = leadMagnets || [];
 

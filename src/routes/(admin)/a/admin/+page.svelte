@@ -12,6 +12,7 @@
   let searchQuery = $state('');
   let selectedLead = $state(null);
   let showLeadModal = $state(false);
+  let leadFilter = $state('all');
 
   // Derived from server data
   const submissions = data.submissions;
@@ -19,6 +20,39 @@
   const magnets = data.magnets;
   const stats = data.stats;
   const user = data.user;
+
+  // Lead segment helpers
+  const segmentColors = {
+    hot: 'bg-red-100 text-red-800 border-red-200',
+    warm: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    cold: 'bg-gray-100 text-gray-800 border-gray-200'
+  };
+
+  const segmentIcons = {
+    hot: '🔥',
+    warm: '⏳',
+    cold: '📋'
+  };
+
+  function getFilteredSubmissions() {
+    let result = submissions;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(sub =>
+        sub.name?.toLowerCase().includes(q) ||
+        sub.email?.toLowerCase().includes(q) ||
+        sub.company?.toLowerCase().includes(q)
+      );
+    }
+    if (leadFilter !== 'all') {
+      result = result.filter(sub => sub.lead_segment === leadFilter);
+    }
+    return result;
+  }
+
+  function getSegmentCount(segment) {
+    return submissions.filter(s => s.lead_segment === segment).length;
+  }
 
   // Real percentage change vs previous period
   function getChange(current, previous) {
@@ -29,16 +63,6 @@
   const subChange = getChange(stats.weeklySubmissions, stats.monthlySubmissions - stats.weeklySubmissions);
   const newsChange = getChange(stats.weeklySubscribers, stats.monthlySubscribers - stats.weeklySubscribers);
   const magChange = getChange(stats.weeklyMagnets, stats.monthlyMagnets - stats.weeklyMagnets);
-
-  function getFilteredSubmissions() {
-    if (!searchQuery) return submissions;
-    const q = searchQuery.toLowerCase();
-    return submissions.filter(sub =>
-      sub.name?.toLowerCase().includes(q) ||
-      sub.email?.toLowerCase().includes(q) ||
-      sub.company?.toLowerCase().includes(q)
-    );
-  }
 
   function getStatusColor(status) {
     const colors = {
@@ -231,6 +255,27 @@
 
             <Card>
               <CardHeader>
+                <CardTitle>Lead Quality Score</CardTitle>
+                <CardDescription>AI-scored segmentation of your leads</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div class="space-y-3">
+                  {#each [
+                    { label: 'Hot', count: getSegmentCount('hot'), icon: '🔥', color: 'red' },
+                    { label: 'Warm', count: getSegmentCount('warm'), icon: '⏳', color: 'yellow' },
+                    { label: 'Cold', count: getSegmentCount('cold'), icon: '📋', color: 'gray' }
+                  ] as item}
+                    <div class="flex items-center justify-between">
+                      <span class="text-sm text-gray-600 flex items-center gap-2">{item.icon} {item.label}</span>
+                      <Badge class="bg-{item.color}-100 text-{item.color}-800">{item.count}</Badge>
+                    </div>
+                  {/each}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle>This Week</CardTitle>
                 <CardDescription>New captures in the last 7 days</CardDescription>
               </CardHeader>
@@ -373,6 +418,42 @@
             </div>
           </div>
 
+          <!-- Segment Filter Tabs -->
+          <div class="flex items-center gap-2">
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'all'
+                  ? 'bg-[var(--primary)] text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+              onclick={() => leadFilter = 'all'}
+            >All ({getSegmentCount('hot') + getSegmentCount('warm') + getSegmentCount('cold')})</button>
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'hot'
+                  ? 'bg-red-500 text-white'
+                  : 'text-red-600 hover:bg-red-50'
+              }`}
+              onclick={() => leadFilter = 'hot'}
+            >🔥 Hot ({getSegmentCount('hot')})</button>
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'warm'
+                  ? 'bg-yellow-500 text-white'
+                  : 'text-yellow-600 hover:bg-yellow-50'
+              }`}
+              onclick={() => leadFilter = 'warm'}
+            >⏳ Warm ({getSegmentCount('warm')})</button>
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'cold'
+                  ? 'bg-gray-500 text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+              onclick={() => leadFilter = 'cold'}
+            >📋 Cold ({getSegmentCount('cold')})</button>
+          </div>
+
           <Card>
             <CardContent class="p-0">
               <div class="overflow-x-auto">
@@ -381,6 +462,8 @@
                     <tr>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Lead Score</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Segment</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Budget</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -400,8 +483,21 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           {submission.company || '—'}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {submission.budget || 'Not specified'}
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                          <div class="flex items-center justify-center">
+                            <div class={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold ${
+                              submission.lead_score >= 70 ? 'bg-red-100 text-red-700' :
+                              submission.lead_score >= 40 ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-gray-100 text-gray-700'
+                            }`}>
+                              {submission.lead_score}
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <Badge class={segmentColors[submission.lead_segment] || segmentColors.cold}>
+                            {segmentIcons[submission.lead_segment] || '📋'} {submission.lead_segment}
+                          </Badge>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <Badge class={getPriorityColor(getPriority(submission.budget))}>
