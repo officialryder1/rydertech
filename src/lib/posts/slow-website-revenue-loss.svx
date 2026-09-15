@@ -11,8 +11,8 @@ tags: ["web-performance", "conversion-rate", "nigeria", "core-web-vitals", "reve
 image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"
 views: 0
 comments: 0
+labs_tool: "revleak"
 ---
-
 Most business owners think site speed is a vanity metric — something developers fuss about. It isn't. Speed is revenue, and a slow site is a leak you can measure in naira.
 
 Every month, a fraction of your visitors decide not to buy, not because your product is wrong, but because the page took too long to load. That lost revenue shows up nowhere on your P&L. It just looks like "we had a slow month."

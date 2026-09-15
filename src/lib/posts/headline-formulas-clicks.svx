@@ -3,8 +3,8 @@ title: 'The 10 Headline Formulas That Actually Get Clicks — And How to Generat
 description: 'Stop staring at blank screens. These proven headline formulas drive engagement — and an AI tool that writes them for you.'
 author: 'Victor | RyderTech'
 published: '2026-09-14'
+labs_tool: "headline-studio"
 ---
-
 # The 10 Headline Formulas That Actually Get Clicks
 
 Here's the brutal truth about content marketing: **your headline isn't just the first thing people read — it's the only thing most people will read.**

@@ -1,7 +1,10 @@
 <script>
   import { ArrowLeft } from '@lucide/svelte';
   import SharePost from '$lib/components/SharePost.svelte';
-  import { fade } from 'svelte/transition';
+    import LabsPostCTA from '$lib/components/LabsPostCTA.svelte';
+    import LabsStickyBanner from '$lib/components/LabsStickyBanner.svelte';
+    import RelatedPosts from '$lib/components/RelatedPosts.svelte';
+    import { fade } from 'svelte/transition';
 
   let { data } = $props();
 
@@ -135,6 +138,12 @@
       </div>
     {/if}
 
+    <!-- Labs CTA: post-level tool recommendation -->
+    <LabsPostCTA postMetadata={post.metadata} />
+
+    <!-- Related Posts Section -->
+    <RelatedPosts currentSlug={post.metadata.slug} tags={post.metadata.tags || []} />
+
     <!-- Navigation -->
     <div class="mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-border">
       <a 
@@ -166,6 +175,10 @@
       </button>
     </div>
   </div>
+  </div>
+
+  <!-- Sticky Labs Banner: shows after 7s on page, auto-hides -->
+  <LabsStickyBanner postMetadata={post.metadata} />
 </article>
 
 <style>

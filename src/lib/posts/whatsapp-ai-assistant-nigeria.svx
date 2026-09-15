@@ -11,8 +11,8 @@ tags: ["whatsapp", "ai-assistant", "llm", "nigeria", "chatbot"]
 image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop"
 views: 0
 comments: 0
+labs_tool: "gpt-6-checker"
 ---
-
 With ~100 million Nigerian users, WhatsApp isn't a channel — it's *the* channel. A **WhatsApp AI assistant** meets customers where they already are, at 9pm, on cheap Android phones. Here's how to actually build one in 2026.
 
 ## What you can build

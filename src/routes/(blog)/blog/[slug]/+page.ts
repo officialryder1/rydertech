@@ -14,6 +14,7 @@ export interface PostMetadata {
 	image?: string;
 	views?: number;
 	comments?: number;
+	labs_tool?: string;
 }
 
 export interface Post {

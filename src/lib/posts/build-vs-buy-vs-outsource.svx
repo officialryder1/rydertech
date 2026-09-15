@@ -13,8 +13,8 @@ comments: 10
 featured: false
 schemaType: "Article"
 readTime: "8 min read"
+labs_tool: "cost-estimator"
 ---
-
 ## Build vs. Buy vs. Outsource: Your Framework for the Multi-Million Decision
 
 It starts with a brilliant idea. A new feature that will wow customers, an internal tool to boost productivity, or a full-blown product to open a new market. Then comes the critical, and often paralyzing, question:

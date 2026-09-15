@@ -13,8 +13,8 @@ views: 0
 comments: 0
 featured: true
 schemaType: "Article"
+labs_tool: "gpt-6-checker"
 ---
-
 OpenAI just released GPT-6 Astra, and the launch was unlike any previous model drop. The company's president Greg Brockman said it marks the "start of the AGI era." Internal safety thresholds were triggered. Advanced cybersecurity capabilities are shipping gated behind a special program.
 
 This isn't a incremental bump. Astra saturates math benchmarks, scores 100% on exploit testing, and can operate a computer end-to-end — filling forms, updating CRMs, building websites, and running QA checks without human intervention.

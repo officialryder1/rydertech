@@ -11,9 +11,8 @@ comments: 10
 schemaType: "Article"
 category: "Web Design"
 readingTime: "5 min read"
-
+labs_tool: "cost-estimator"
 ---
-
 <script context="module">
   import { CheckCircle, Globe, TrendingUp, Zap } from '@lucide/svelte';
 </script>

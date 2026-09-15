@@ -9,8 +9,8 @@ tags: ["Svelte", "React", "Performance", "JavaScript", "Frontend"]
 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSev0BVNf_hMVzOWCm7qKwmhQNymHDEGHh5KQ&s"
 views: 1247,
 comments: 23
+labs_tool: "website-rater"
 ---
-
 # Introduction
 
 In the rapidly evolving landscape of web development, the choice between Svelte and React has become increasingly relevant. Both frameworks offer unique approaches to building modern web applications, but they differ significantly in their philosophy and implementation.
