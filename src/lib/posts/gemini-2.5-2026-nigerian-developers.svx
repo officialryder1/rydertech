@@ -8,7 +8,7 @@ category: "AI & ML"
 readTime: "6 min read"
 excerpt: "Gemini 3.8 Flash is the new latest stable model, with 3.5/3.1 Flash-Lite for cheap high-volume calls and native text-to-speech + real-time audio APIs. Here's what Nigerian builders should actually use right now — and what to avoid paying for."
 tags: ["gemini", "google-ai", "3.8-flash", "3.5-flash", "tts", "api", "nigeria", "developers"]
-image: "https://images.unsplash.com/photo-15193899507605-663f07d5bf40?auto=format&fit=crop"
+image: "https://v3b.fal.media/files/b/0aaa86e2/Wkh70yCCQkcbRr2JBJCOK_zBc5Cd0B.png"
 views: 0
 comments: 0
 labs_tool: "ai-website-rater"
