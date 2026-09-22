@@ -307,6 +307,7 @@
   let mouseX = 0;
   let mouseY = 0;
   let activeTestimonial = 0;
+  let { posts } = $props();
 
   onMount(() => {
     const handleScroll = () => scrollY = window.scrollY;
@@ -858,6 +859,61 @@
     </div>
   </div>
 </section>
+
+  <!-- Blog Section -->
+{#if posts && posts.length > 0}
+<section id="blog" class="py-20 bg-white relative overflow-hidden scroll-mt-24">
+  <div class="container mx-auto max-w-6xl px-4">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center space-x-2 bg-[var(--secondary)]/10 border border-[var(--secondary)]/20 rounded-full px-4 py-2 text-sm text-[var(--secondary-dark)] font-semibold mb-4">
+        <FileText class="w-4 h-4" />
+        <span>FROM THE BLOG</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+        Latest <span class="gradient-text">Tech Insights</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Research-backed takes on the trends reshaping software, AI, and infrastructure in 2026 — and how they affect your business.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      {#each posts as post}
+        <a href={post.path} class="group block">
+          <div class="bg-white rounded-2xl border-2 border-gray-100 hover:border-[var(--primary)]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden">
+            {#if post.image}
+              <div class="aspect-video overflow-hidden">
+                <img src={post.image} alt={post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              </div>
+            {/if}
+            <div class="p-6 flex flex-col h-[calc(100%-160px)]">
+              <div class="inline-flex items-center space-x-2 bg-[var(--primary)]/10 border border-[var(--primary)]/20 rounded-full px-3 py-1 text-xs font-semibold text-[var(--primary)] mb-3 w-fit">
+                <span>{post.category}</span>
+              </div>
+              <h3 class="text-xl font-black text-gray-900 mb-3 group-hover:text-[var(--primary)] transition-colors line-clamp-2">{post.title}</h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-grow line-clamp-3">{post.excerpt || post.description}</p>
+              <div class="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
+                <div class="flex items-center text-sm text-gray-500">
+                  <Users class="w-4 h-4 mr-1" />
+                  <span>{post.author}</span>
+                </div>
+                <ArrowRight class="w-4 h-4 text-[var(--primary)] group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </div>
+        </a>
+      {/each}
+    </div>
+
+    <div class="text-center">
+      <a href="/blog" class="inline-flex items-center px-6 py-3 bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+        Read All Articles
+        <ArrowRight class="w-4 h-4 ml-2" />
+      </a>
+    </div>
+  </div>
+</section>
+{/if}
 
   <!-- Testimonials Section -->
 <section id="testimonials" class="py-20 bg-linear-to-br from-gray-50 to-white relative overflow-hidden scroll-mt-24">
