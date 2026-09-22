@@ -68,7 +68,7 @@
         <div class="container mx-auto max-w-6xl relative z-10" in:fade={{ duration: 500 }}>
             <div class="inline-flex items-center space-x-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm text-white/90 font-semibold mb-6">
                 <div class="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse"></div>
-                <span>ABOUT RYDERTECH</span>
+                <span>About RyderTech</span>
             </div>
 
             <h1 class="text-5xl md:text-7xl font-black leading-tight">

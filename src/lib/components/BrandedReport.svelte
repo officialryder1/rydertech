@@ -51,7 +51,7 @@
         <path d="M9 21l4-8 4 5 3-6 3 9" fill="none" stroke="#D4AF37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <div class="brand-text">
-        <span class="brand-name">RYDERTECH</span>
+        <span class="brand-name">RyderTech</span>
         <span class="brand-sub">{toolLabel[report.tool] ?? 'Audit'}</span>
       </div>
     </div>

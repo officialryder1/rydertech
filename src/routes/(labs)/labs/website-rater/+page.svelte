@@ -112,7 +112,7 @@
 		if (navigator.share) {
 			navigator.share({
 				title: `Website Analysis: ${reviewedUrl}`,
-				text: `My website scored ${review.overallScore}/10 on RyderTECHLabs website rater!`,
+				text: `My website scored ${review.overallScore}/10 on RyderTech website rater!`,
 				url: window.location.href
 			});
 		} else {
@@ -429,6 +429,6 @@
 
 	<!-- Footer -->
 	<footer class="border-t border-slate-200 mt-20 py-8 text-center text-slate-500 text-sm">
-		<p>Powered by Google Gemini AI • Built with 💖 by rydertech</p>
+		<p>Powered by Google Gemini AI • Built with 💖 by RyderTech</p>
 	</footer>
 </div>
