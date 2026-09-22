@@ -51,8 +51,10 @@ The CSA's March 2026 report explicitly states: **Forrester assessed practical qu
 
 **Harvest now, decrypt later**: Adversaries are already intercepting and storing encrypted traffic — VPN sessions, API calls, customer databases, SSH keys — because they know that once a quantum computer exists, all of today's "secure" communications will be instantly readable[^2].
 
-![Diagram showing harvest-now-decrypt-later attack](/labs/images/harvest-decrypt-later.png)
-*The harvest-now/decrypt-later attack: data stolen today, decrypted when quantum computers arrive.*
+<div class="my-8 p-6 bg-card rounded-xl border border-border">
+  <p class="text-center text-sm text-muted-foreground mb-2">The harvest-now/decrypt-later attack:</p>
+  <p class="text-center text-muted-foreground">Encrypted data stolen today → stored in adversary archives → decrypted when Q-Day arrives → all "secure" communications fully exposed</p>
+</div>
 
 This means **every piece of sensitive data you transmit today is already at risk**. A customer database encrypted with RSA-2048 in 2026 will be readable by anyone with a quantum computer in 2030 — including state actors who intercepted it in 2026 and waited.
 
