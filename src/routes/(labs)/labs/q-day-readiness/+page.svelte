@@ -30,8 +30,6 @@
 	} from '$lib/qDayReadiness';
 	import { reportFromQDay, buildShareUrl } from '$lib/shareReport';
 	import { scoreLead } from '$lib/leadScore';
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 
 	// Defaults model a mid-size firm with notable quantum exposure
 	const DEFAULTS: QDayInput = {
@@ -153,10 +151,12 @@
 </script>
 
 <SEOMeta
-	title="Q-Day Readiness Score — Quantum Crypto Risk Assessment"
-	description="Is your data at risk from the quantum threat? Take the Q-Day Readiness Score: assess your post-quantum cryptography exposure, estimate revenue at risk, and get a migration action plan."
-	canonical="https://rydertech.ng/labs/q-day-readiness"
-	image="https://rydertech.ng/icons/og-image.png"
+	data={{
+		title: 'Q-Day Readiness Score — Quantum Crypto Risk Assessment | RyderTech',
+		description: 'Is your data at risk from the quantum threat? Take the Q-Day Readiness Score: assess your post-quantum cryptography exposure, estimate revenue at risk, and get a migration action plan.',
+		canonical: 'https://rydertech.ng/labs/q-day-readiness',
+		image: 'https://rydertech.ng/icons/og-image.png'
+	}}
 />
 
 <div class="min-h-screen bg-gray-50 py-12">

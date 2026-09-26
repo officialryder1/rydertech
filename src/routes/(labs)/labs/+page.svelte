@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin, Mic, Bot } from "@lucide/svelte";
+  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin, Mic, Bot, Shield } from "@lucide/svelte";
   import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
   import { fade, fly } from "svelte/transition";
 
