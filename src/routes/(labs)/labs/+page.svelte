@@ -150,6 +150,16 @@
       accent: "from-indigo-500/20 to-blue-500/20"
     },
     {
+      title: "Q-Day Readiness Score",
+      description: "Assess your post-quantum cryptography risk in 60 seconds. Get a risk score, revenue-at-risk estimate, and migration plan.",
+      icon: Shield,
+      href: "/labs/q-day-readiness",
+      action: "Assess My Risk",
+      tag: "Security",
+      accent: "from-cyan-500/20 to-blue-500/20",
+      new: true
+    },
+    {
       title: "MVP Feature Planner",
       description: "Prioritize features for your app or product MVP with AI-powered recommendations.",
       icon: LayoutGrid,
@@ -270,6 +280,11 @@
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-2">
                   <CardTitle class="text-base font-semibold text-foreground leading-tight">{card.title}</CardTitle>
+                  {#if card.new}
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] text-white">
+                      NEW
+                    </span>
+                  {/if}
                 </div>
                 <span
                   class="inline-block mt-1.5 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-muted text-muted-foreground"

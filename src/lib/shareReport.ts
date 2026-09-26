@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness';
 
 export interface ReportRow {
   label: string;
@@ -75,6 +75,7 @@ import type { EngineResult as RevLeakResult } from './revLeak';
 import type { EngineResult as EventRiskResult } from './eventAccessRisk';
 import { formatMoney } from './opsDrain';
 import type { EngineResult as OpsDrainResult } from './opsDrain';
+import type { QDayResult } from './qDayReadiness';
 import type { EngineResult as LocalVisibilityResult } from './localVisibility';
 import type { EngineResult as AeoResult } from './aeoReadiness';
 import type { SummaryResult } from './clauseScan';
@@ -372,3 +373,32 @@ const STYLE_LABELS_SHORT: Record<string, string> = {
   'social-proof': 'Social Proof',
   'fear-scarcity': 'Fear/Scarcity'
 };
+
+export function reportFromQDay(r: QDayResult, email: string): ReportPayload {
+  const riskLabel = r.score >= 80 ? 'Critical' : r.score >= 65 ? 'High' : r.score >= 40 ? 'Moderate' : 'Low';
+  const isBad = r.riskLevel === 'critical' || r.riskLevel === 'high';
+  return {
+    tool: 'q-day-readiness',
+    title: 'Q-Day Readiness Audit Report',
+    heroLabel: 'Quantum-readiness score',
+    heroValue: `${r.score}/100 (${riskLabel})`,
+    heroTone: isBad ? 'bad' : 'neutral',
+    verdict: `Your organisation faces ${riskLabel.toLowerCase()}-risk exposure. Post-quantum computers capable of breaking current cryptography are projected to arrive within ${r.timeUntilExposed}.`,
+    rows: [
+      { label: 'Risk level', value: r.riskLevel, tone: isBad ? 'bad' : 'good' },
+      { label: 'Time until exposed', value: r.timeUntilExposed, tone: isBad ? 'bad' : 'neutral' },
+      { label: 'Quantum timeline', value: r.quantumTimeline, tone: isBad ? 'bad' : 'neutral' },
+      ...(r.revenueAtRiskUSD > 0
+        ? [{ label: 'Revenue at risk (USD)', value: `$${r.revenueAtRiskUSD.toLocaleString()}`, tone: 'bad' as const }]
+        : []),
+      { label: 'Risk factors identified', value: `${r.factors.length}`, tone: 'neutral' },
+      { label: 'Action items', value: `${r.recommendations.length}`, tone: 'neutral' },
+      { label: 'Report generated for', value: email || 'anonymous visitor', tone: 'neutral' }
+    ],
+    recommendations: r.recommendations.slice(0, 4).map(rec =>
+      `[${rec.priority.toUpperCase()}] ${rec.title}: ${rec.description} (Effort: ${rec.estimatedEffort})`
+    ),
+    generatedAt: todayIso(),
+    sourceUrl: 'https://rydertech.ng/labs/q-day-readiness'
+  };
+}
