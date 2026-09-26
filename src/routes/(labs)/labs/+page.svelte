@@ -1,424 +1,345 @@
 <!-- +page.svelte -->
 <script lang="ts">
-  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
-  import { Button } from "$lib/components/ui/button";
-  import { ArrowRight, Sparkles, Calculator, FileText, LayoutGrid, Brain, CheckCircle, Mail, Timer, ScanLine, Gauge, Zap, ArrowUpRight, Star, Search, MapPin, Mic, Bot, Shield } from "@lucide/svelte";
-  import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
-  import { fade, fly } from "svelte/transition";
+	import { Button } from "$lib/components/ui/button";
+	import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
+	import { fade } from "svelte/transition";
+	import {
+		Calculator,
+		FileText,
+		Timer,
+		ScanLine,
+		Search,
+		Gauge,
+		Sparkles,
+		Bot,
+		Brain,
+		Shield,
+		LayoutGrid,
+		ArrowRight,
+		Mail
+	} from "@lucide/svelte";
 
-  let showNewsletter = $state(false);
+	let showNewsletter = $state(false);
 
-  function handleNewsletterClose() {
-    showNewsletter = false;
-    localStorage.setItem("rydertech_newsletter_closed", "true");
-    setTimeout(() => {
-      localStorage.removeItem("rydertech_newsletter_closed");
-    }, 7 * 24 * 60 * 60 * 1000);
-  }
+	function handleNewsletterClose() {
+		showNewsletter = false;
+		localStorage.setItem("rydertech_newsletter_closed", "true");
+		setTimeout(() => {
+			localStorage.removeItem("rydertech_newsletter_closed");
+		}, 7 * 24 * 60 * 60 * 1000);
+	}
 
-  async function handleNewsletterSubscribe(email: string) {
-    console.log("Subscribing email:", email);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    localStorage.setItem("rydertech_newsletter_subscribed", "true");
-  }
+	async function handleNewsletterSubscribe(email: string) {
+		console.log("Subscribing email:", email);
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		localStorage.setItem("rydertech_newsletter_subscribed", "true");
+	}
 
-  let cards = [
-    {
-      title: "Nigerian Payment Gateway Fee Calculator",
-      description: "Compare processing fees, settlement speeds, and transaction costs across Paystack, Monnify, Flutterwave, and Interswitch.",
-      icon: Calculator,
-      href: "/labs/gateway-calc",
-      action: "Calculate Gateway Fees",
-      tag: "Fintech",
-      accent: "from-emerald-500/20 to-teal-500/20"
-    },
-    {
-      title: "Website Cost Estimator",
-      description: "Get a rough estimate of what it would cost to build your website based on your idea.",
-      icon: Calculator,
-      href: "/labs/cost-estimator",
-      action: "Estimate Cost",
-      tag: "Planning",
-      accent: "from-blue-500/20 to-cyan-500/20"
-    },
-    {
-      title: "Website Copy Analyzer",
-      description: "Analyze your homepage copy and get AI-powered feedback on clarity and conversion.",
-      icon: FileText,
-      href: "/labs/website-rater",
-      action: "Analyze Copy",
-      tag: "AI Review",
-      accent: "from-violet-500/20 to-purple-500/20"
-    },
-    {
-      title: "Ops Drain Calculator",
-      description: "Calculate what your manual processes cost per year, and how fast automation pays for itself.",
-      icon: Timer,
-      href: "/labs/ops-drain",
-      action: "Calculate My Drain",
-      tag: "Automation",
-      accent: "from-emerald-500/20 to-green-500/20"
-    },
-    {
-      title: "Event Access Risk Scanner",
-      description: "See how long your event gate backs up, how many guests slip in free, and what it costs — with a live QR demo.",
-      icon: ScanLine,
-      href: "/labs/event-access-risk",
-      action: "Scan My Risk",
-      tag: "Live Demo",
-      accent: "from-amber-500/20 to-orange-500/20"
-    },
-    {
-      title: "Voice Agent — AI Assistant",
-      description: "Speak with Ryder, our AI assistant. Tap the mic and talk — it replies aloud. Try our voice-enabled AI demo for free.",
-      icon: Mic,
-      href: "/labs/voice-agent",
-      action: "Talk to Ryder",
-      tag: "Live Demo",
-      accent: "from-primary/20 to-violet-500/20"
-    },
-    {
-      title: "Local Visibility Audit",
-      description: "Score how findable your business is on Google — and see what missing customers and revenue it's costing you.",
-      icon: Search,
-      href: "/labs/visibility",
-      action: "Audit My Visibility",
-      tag: "Local SEO",
-      accent: "from-sky-500/20 to-blue-500/20"
-    },
-    {
-      title: "AI Search Readiness Audit",
-      description: "Score how likely AI answer engines (Google AI Overviews, ChatGPT) are to cite you instead of a competitor.",
-      icon: Sparkles,
-      href: "/labs/aeo-readiness",
-      action: "Check My AEO",
-      tag: "AEO / GEO",
-      accent: "from-violet-500/20 to-fuchsia-500/20"
-    },
-    {
-      title: "RevLeak Auditor",
-      description: "Calculate how much revenue your slow website leaks every month from lost conversions.",
-      icon: Gauge,
-      href: "/labs/revleak",
-      action: "Audit My Leak",
-      tag: "Revenue",
-      accent: "from-rose-500/20 to-pink-500/20"
-    },
-    {
-      title: "AI Headline Studio",
-      description: "Generate 8-12 viral headline variants for any topic using proven copywriting formulas — Curiosity, How-To, Listicle, Question, and more.",
-      icon: Sparkles,
-      href: "/labs/headline-studio",
-      action: "Generate Headlines",
-      tag: "AI Copywriting",
-      accent: "from-fuchsia-500/20 to-pink-500/20"
-    },
-    {
-      title: "AI Content Repurposer",
-      description: "Turn one blog post or transcript into platform-native LinkedIn posts, Twitter threads, newsletter blurbs, and TikTok scripts.",
-      icon: FileText,
-      href: "/labs/content-repurposer",
-      action: "Repurpose Content",
-      tag: "AI Content",
-      accent: "from-indigo-500/20 to-blue-500/20"
-    },
-    {
-      title: "GPT-6 Readiness Checker",
-      description: "Score how ready your business is for GPT-6 AI agents that can operate computers, write code, and run QA autonomously.",
-      icon: Bot,
-      href: "/labs/gpt-6-checker",
-      action: "Check My Readiness",
-      tag: "AI Agents",
-      accent: "from-cyan-500/20 to-blue-500/20"
-    },
-    {
-      title: "ClauseScan — Contract Risk",
-      description: "Paste a contract for an instant AI risk score and the worst clauses in plain English. Full redline report ₦2,500.",
-      icon: ScanLine,
-      href: "/labs/clausescan",
-      action: "Scan My Contract",
-      tag: "Legal AI",
-      accent: "from-amber-500/20 to-red-500/20"
-    },
-    {
-      title: "Finance Tracker",
-      description: "Track and analyze your personal or business finances with AI-powered insights.",
-      icon: Brain,
-      href: "https://flow-spense.pages.dev/",
-      action: "Track Finances",
-      tag: "External",
-      accent: "from-indigo-500/20 to-blue-500/20"
-    },
-    {
-      title: "Q-Day Readiness Score",
-      description: "Assess your post-quantum cryptography risk in 60 seconds. Get a risk score, revenue-at-risk estimate, and migration plan.",
-      icon: Shield,
-      href: "/labs/q-day-readiness",
-      action: "Assess My Risk",
-      tag: "Security",
-      accent: "from-cyan-500/20 to-blue-500/20",
-      new: true
-    },
-    {
-      title: "MVP Feature Planner",
-      description: "Prioritize features for your app or product MVP with AI-powered recommendations.",
-      icon: LayoutGrid,
-      href: "#",
-      comingSoon: true,
-      action: "Notify Me When Ready",
-      tag: "Soon",
-      accent: "from-slate-500/20 to-gray-500/20"
-    }
-  ];
+	type ToolCard = {
+		title: string;
+		description: string;
+		icon: any;
+		href: string;
+		action: string;
+		category: string;
+		new?: boolean;
+		comingSoon?: boolean;
+	};
 
-  // Dynamic tool count: every live card (not "coming soon") is a usable free tool.
-  // Adding a new card to the `cards` array above auto-updates this stat.
-  const freeToolCount = cards.filter((c) => !c.comingSoon).length;
+	const tools: ToolCard[] = [
+		// Security & Compliance
+		{
+			title: "Q-Day Readiness Score",
+			description: "Assess your post-quantum cryptography risk. Get a score, revenue-at-risk estimate, and migration plan.",
+			icon: Shield,
+			href: "/labs/q-day-readiness",
+			action: "Assess My Risk",
+			category: "Security",
+			new: true
+		},
+		{
+			title: "Event Access Risk Scanner",
+			description: "See how long your event gate backs up, how many guests slip in free, and what it costs — with a live QR demo.",
+			icon: ScanLine,
+			href: "/labs/event-access-risk",
+			action: "Scan My Risk",
+			category: "Security"
+		},
+		{
+			title: "ClauseScan — Contract Risk",
+			description: "Paste a contract for an instant AI risk score and the worst clauses in plain English.",
+			icon: ScanLine,
+			href: "/labs/clausescan",
+			action: "Scan My Contract",
+			category: "Legal AI"
+		},
+		// Revenue & Growth
+		{
+			title: "RevLeak Auditor",
+			description: "Calculate how much revenue your slow website leaks every month from lost conversions.",
+			icon: Gauge,
+			href: "/labs/revleak",
+			action: "Audit My Leak",
+			category: "Revenue"
+		},
+		{
+			title: "Local Visibility Audit",
+			description: "Score how findable your business is on Google — and what missing customers cost you.",
+			icon: Search,
+			href: "/labs/visibility",
+			action: "Audit My Visibility",
+			category: "Local SEO"
+		},
+		{
+			title: "AI Search Readiness Audit",
+			description: "Score how likely AI answer engines are to cite you instead of a competitor.",
+			icon: Sparkles,
+			href: "/labs/aeo-readiness",
+			action: "Check My AEO",
+			category: "AEO / GEO"
+		},
+		{
+			title: "Nigerian Payment Gateway Calculator",
+			description: "Compare processing fees, settlement speeds, and costs across Paystack, Monnify, Flutterwave.",
+			icon: Calculator,
+			href: "/labs/gateway-calc",
+			action: "Calculate Fees",
+			category: "Fintech"
+		},
+		{
+			title: "Finance Tracker",
+			description: "Track and analyze your personal or business finances with AI-powered insights.",
+			icon: Brain,
+			href: "https://flow-spense.pages.dev/",
+			action: "Track Finances",
+			category: "External"
+		},
+		// Planning & Analysis
+		{
+			title: "Website Cost Estimator",
+			description: "Get a rough estimate of what it would cost to build your website based on your idea.",
+			icon: Calculator,
+			href: "/labs/cost-estimator",
+			action: "Estimate Cost",
+			category: "Planning"
+		},
+		{
+			title: "Website Copy Analyzer",
+			description: "Analyze your homepage copy and get AI-powered feedback on clarity and conversion.",
+			icon: FileText,
+			href: "/labs/website-rater",
+			action: "Analyze Copy",
+			category: "AI Review"
+		},
+		{
+			title: "Ops Drain Calculator",
+			description: "Calculate what your manual processes cost per year and how fast automation pays.",
+			icon: Timer,
+			href: "/labs/ops-drain",
+			action: "Calculate Drain",
+			category: "Automation"
+		},
+		// AI Tools
+		{
+			title: "AI Headline Studio",
+			description: "Generate viral headline variants using proven copywriting formulas.",
+			icon: Sparkles,
+			href: "/labs/headline-studio",
+			action: "Generate Headlines",
+			category: "AI Copywriting"
+		},
+		{
+			title: "AI Content Repurposer",
+			description: "Turn one blog post into LinkedIn posts, Twitter threads, newsletters, and TikTok scripts.",
+			icon: FileText,
+			href: "/labs/content-repurposer",
+			action: "Repurpose Content",
+			category: "AI Content"
+		},
+		{
+			title: "GPT-6 Readiness Checker",
+			description: "Score how ready your business is for autonomous AI agents.",
+			icon: Bot,
+			href: "/labs/gpt-6-checker",
+			action: "Check Readiness",
+			category: "AI Agents"
+		},
+		// Coming soon
+		{
+			title: "MVP Feature Planner",
+			description: "Prioritize features for your app or product MVP with AI-powered recommendations.",
+			icon: LayoutGrid,
+			href: "#",
+			action: "Notify Me",
+			category: "Planning",
+			comingSoon: true
+		}
+	];
 
-  const stats = [
-    { value: "50+", label: "Products shipped" },
-    { value: String(freeToolCount), label: "Free AI tools" },
-    { value: "0", label: "Signups required" },
-    { value: "24/7", label: "Always available" }
-  ];
+	// Group tools by category
+	const categories = [
+		{ id: "security", name: "Security & Compliance", catFilter: ["Security"] },
+		{ id: "revenue", name: "Revenue & Growth", catFilter: ["Revenue", "Local SEO", "AEO / GEO", "Fintech", "External"] },
+		{ id: "planning", name: "Planning & Analysis", catFilter: ["Planning", "AI Review", "Automation"] },
+		{ id: "ai", name: "AI Tools", catFilter: ["AI Copywriting", "AI Content", "AI Agents", "Legal AI"] }
+	];
+
+	const groupedTools = $state(
+		categories.map((cat) => ({
+			id: cat.id,
+			name: cat.name,
+			tools: tools.filter((t) => cat.catFilter.includes(t.category))
+		}))
+	);
+
+	const freeToolCount = tools.filter((c) => !c.comingSoon).length;
 </script>
 
 <svelte:head>
-  <title>RyderTech Labs — Free AI Tools for Founders</title>
-  <meta
-    name="description"
-    content="Free AI-powered tools by RyderTech to help founders plan, validate, and build better digital products. Cost estimators, analyzers, and calculators."
-  />
+	<title>RyderTech Labs — Free AI Tools for Founders</title>
+	<meta
+		name="description"
+		content="Free AI-powered tools by RyderTech to help founders plan, validate, and build better digital products. Cost estimators, analyzers, and calculators."
+	/>
 </svelte:head>
 
 <NewsLetterModel show={showNewsletter} onClose={handleNewsletterClose} onSubscribe={handleNewsletterSubscribe} />
 
 <div class="min-h-screen bg-background" transition:fade>
-  <!-- Hero -->
-  <section class="relative overflow-hidden">
-    <!-- Animated gradient backdrop -->
-    <div class="absolute inset-0 -z-10">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.12),transparent_55%)]"></div>
-      <div
-        class="absolute -top-40 -right-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl animate-pulse max-sm:hidden"
-      ></div>
-      <div
-        class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-violet-500/15 blur-3xl animate-pulse max-sm:hidden"
-        style="animation-delay: 1.5s"
-      ></div>
-    </div>
+	<!-- Hero -->
+	<section class="border-b border-border">
+		<div class="mx-auto max-w-5xl px-6 py-20 md:py-28">
+			<nav class="mb-12 flex items-center gap-4 text-xs font-medium text-muted-foreground">
+				<span class="text-muted-foreground">RyderTech</span>
+				<span>/</span>
+				<span class="text-foreground">Labs</span>
+			</nav>
 
-    <div class="container mx-auto px-4 pt-20 pb-12 md:pt-28 md:pb-16">
-      <div class="max-w-3xl mx-auto text-center space-y-6">
-        <div
-          in:fly={{ y: 12, duration: 500 }}
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20"
-        >
-          <Sparkles class="w-4 h-4 text-primary" />
-          <span class="text-sm font-medium text-primary tracking-wide">EXPERIMENTAL LABS</span>
-        </div>
+			<h1 class="text-[2.75rem] leading-tight font-semibold tracking-tight text-foreground md:text-[3.5rem] lg:text-[4rem]">
+				Free AI tools to help founders <br />plan, validate, and build faster.
+			</h1>
 
-        <h1 in:fly={{ y: 16, duration: 600 }} class="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-          RyderTech <span class="bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">Labs</span>
-        </h1>
+			<p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+				Every tool is production-grade, built by our engineers using the same
+				standards we bring to client work. No signup. No credit card. Just real answers.
+			</p>
 
-        <p in:fly={{ y: 16, duration: 700 }} class="text-xl md:text-2xl text-muted-foreground font-light max-w-2xl mx-auto">
-          Free AI tools to help founders plan, validate, and build better digital products.
-        </p>
+			<div class="mt-10 flex gap-4">
+				<Button size="lg" class="gap-2" href="#tools">
+					Explore Tools
+					<ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+				</Button>
+			</div>
+		</div>
+	</section>
 
-        <p in:fly={{ y: 16, duration: 800 }} class="text-muted-foreground/80 max-w-2xl mx-auto">
-          Interactive tools built by our engineers using cutting-edge AI. Experiment, calculate, and validate — completely free. No signup required.
-        </p>
+	<!-- Stats -->
+	<section class="border-b border-border">
+		<div class="mx-auto max-w-5xl px-6 py-12">
+			<div class="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-4">
+				<div class="text-center md:text-left">
+					<div class="text-3xl font-medium text-foreground">50+</div>
+					<div class="text-sm text-muted-foreground">Products shipped</div>
+				</div>
+				<div class="text-center md:text-left">
+					<div class="text-3xl font-medium text-foreground">{freeToolCount}</div>
+					<div class="text-sm text-muted-foreground">Free AI tools</div>
+				</div>
+				<div class="text-center md:text-left">
+					<div class="text-3xl font-medium text-foreground">0</div>
+					<div class="text-sm text-muted-foreground">Signups required</div>
+				</div>
+				<div class="text-center md:text-left">
+					<div class="text-3xl font-medium text-foreground">24/7</div>
+					<div class="text-sm text-muted-foreground">Always available</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-        <div in:fly={{ y: 16, duration: 900 }} class="pt-2">
-          <Button size="lg" class="gap-2 group shadow-lg shadow-primary/20" href="#tools">
-            Explore Tools
-            <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Button>
-        </div>
-      </div>
+	<!-- Tools by Category -->
+	<section id="tools" class="py-16">
+		<div class="mx-auto max-w-5xl px-6">
+			{#each groupedTools as group}
+				<div class="mb-16 last:mb-0">
+					<h2 class="mb-8 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+						{group.name}
+					</h2>
+					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+						{#each group.tools as tool}
+							<a
+								href={tool.href}
+								class="group relative flex flex-col gap-4 rounded-lg border border-border bg-card p-6 text-decoration-none no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm"
+							>
+								<div class="flex items-start justify-between">
+									<div
+										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/5 group-hover:bg-primary/10"
+									>
+										<svelte:component this={tool.icon} class="h-5 w-5 text-primary" />
+									</div>
+									{#if tool.new}
+										<span
+											class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-primary text-primary-foreground"
+										>
+											NEW
+										</span>
+									{/if}
+								</div>
+								<div class="flex flex-col gap-1">
+									<h3 class="font-medium text-foreground">{tool.title}</h3>
+									<p class="text-sm text-muted-foreground">{tool.description}</p>
+								</div>
+								<div
+									class="mt-auto pt-4 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100"
+								>
+									{tool.action}
+								</div>
+							</a>
+						{/each}
 
-      <!-- Stat strip -->
-      <div
-        in:fly={{ y: 20, duration: 900 }}
-        class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
-      >
-        {#each stats as s}
-          <div class="text-center rounded-2xl border border-border/60 bg-card/60 backdrop-blur px-4 py-5">
-            <div class="text-2xl md:text-3xl font-bold text-foreground">{s.value}</div>
-            <div class="text-xs text-muted-foreground mt-1">{s.label}</div>
-          </div>
-        {/each}
-      </div>
-    </div>
-  </section>
+						<!-- Coming soon card -->
+						{#if group.name === 'Planning & Analysis'}
+							<div class="flex flex-col gap-4 rounded-lg border border-dashed border-border bg-card p-6">
+								<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+									<LayoutGrid class="h-5 w-5 text-muted-foreground" />
+								</div>
+								<div class="flex flex-col gap-1">
+									<h3 class="font-medium text-muted-foreground">More Tools Coming</h3>
+									<p class="text-sm text-muted-foreground/60">
+										We're constantly building new tools to help founders and product teams.
+									</p>
+								</div>
+								<Button variant="ghost" class="mt-auto self-start text-muted-foreground" disabled>
+									Subscribe for Updates
+								</Button>
+							</div>
+						{/if}
+					</div>
+				</div>
+			{/each}
+		</div>
+	</section>
 
-  <!-- Tools Grid -->
-  <section class="container mx-auto px-4 py-12 md:py-16" id="tools">
-    <div class="text-center mb-10">
-      <h2 class="text-2xl md:text-3xl font-bold text-foreground">Tools you can use right now</h2>
-      <p class="text-muted-foreground mt-2">Pick one and get instant, AI-powered answers.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each cards as card, i}
-        <div in:fly={{ y: 18, duration: 500, delay: i * 60 }} class="h-full">
-          <Card
-            class="group relative h-full overflow-hidden border-border/60 bg-card/60 backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40"
-          >
-            <!-- hover glow -->
-            <div
-              class="absolute -inset-px rounded-xl bg-gradient-to-br {card.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-            ></div>
-
-            <CardHeader class="flex items-start gap-4 pb-3">
-              <div
-                class="shrink-0 w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center transition-colors group-hover:bg-primary/20"
-              >
-                <svelte:component this={card.icon} class="w-5 h-5 text-primary" />
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between gap-2">
-                  <CardTitle class="text-base font-semibold text-foreground leading-tight">{card.title}</CardTitle>
-                  {#if card.new}
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-linear-to-r from-[var(--primary)] to-[var(--secondary)] text-white">
-                      NEW
-                    </span>
-                  {/if}
-                </div>
-                <span
-                  class="inline-block mt-1.5 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
-                >
-                  {card.tag}
-                </span>
-              </div>
-            </CardHeader>
-
-            <CardContent class="text-muted-foreground flex flex-col flex-1">
-              <CardDescription class="flex-1">{card.description}</CardDescription>
-              <Button
-                variant={card.comingSoon ? "outline" : "default"}
-                class="mt-4 w-full gap-1.5 group/btn"
-                href={card.href}
-                disabled={card.comingSoon}
-              >
-                {card.action}
-                {#if !card.comingSoon}
-                  <ArrowUpRight class="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                {/if}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      {/each}
-
-      <!-- Coming Soon Card -->
-      <div in:fly={{ y: 18, duration: 500, delay: cards.length * 60 }} class="h-full">
-        <Card class="h-full border-dashed border-2 border-muted/30 bg-transparent flex flex-col justify-center">
-          <CardHeader class="pb-3">
-            <div class="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-4">
-              <Sparkles class="w-6 h-6 text-muted-foreground/50" />
-            </div>
-            <CardTitle class="text-xl text-muted-foreground/70">More Tools Coming</CardTitle>
-            <CardDescription class="text-muted-foreground/60">
-              We're constantly building new tools to help founders and product teams.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button variant="ghost" class="w-full text-muted-foreground/60" disabled>Subscribe for Updates</Button>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  </section>
-
-  <!-- Trust Section -->
-  <section class="container mx-auto px-4 py-16 md:py-20">
-    <div class="max-w-5xl mx-auto">
-      <div class="grid md:grid-cols-5 gap-8 items-center">
-        <div class="md:col-span-3 space-y-6">
-          <div class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
-            <CheckCircle class="w-4 h-4 text-primary" />
-            BUILT BY EXPERTS
-          </div>
-
-          <h2 class="text-3xl md:text-4xl font-bold text-foreground">Real Tools from Real Product Builders</h2>
-
-          <p class="text-lg text-muted-foreground">
-            These aren't just demos. Each tool is built by RyderTech engineers using the same
-            technologies and best practices we apply to client projects.
-          </p>
-
-          <p class="text-muted-foreground/80">
-            We've built 50+ digital products for startups and enterprises. These tools showcase our
-            approach to problem-solving and technical excellence.
-          </p>
-
-          <div class="pt-2">
-            <Button variant="outline" size="lg" class="gap-2 group" href="/contact">
-              Need this built professionally?
-              <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </div>
-        </div>
-
-        <div class="md:col-span-2">
-          <div class="relative rounded-2xl border border-border/60 bg-card/60 backdrop-blur p-8 overflow-hidden">
-            <div class="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl"></div>
-            <div class="space-y-4 relative">
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                <span class="font-medium text-foreground">Production-Ready Code</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span class="font-medium text-foreground">Real AI Integration</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full bg-purple-500"></div>
-                <span class="font-medium text-foreground">Scalable Architecture</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                <span class="font-medium text-foreground">Enterprise Security</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Footer -->
-  <section class="container mx-auto px-4 pb-20">
-    <div
-      class="relative max-w-4xl mx-auto text-center rounded-3xl p-8 md:p-14 border border-primary/15 bg-gradient-to-b from-primary/10 to-transparent overflow-hidden"
-    >
-      <div class="absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-48 rounded-full bg-primary/15 blur-3xl"></div>
-      <div class="relative">
-        <div class="inline-flex items-center gap-1.5 mb-4 text-primary">
-          <Star class="w-4 h-4 fill-primary" />
-          <Star class="w-4 h-4 fill-primary" />
-          <Star class="w-4 h-4 fill-primary" />
-          <Star class="w-4 h-4 fill-primary" />
-          <Star class="w-4 h-4 fill-primary" />
-        </div>
-        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-foreground">Ready to Build Something Great?</h2>
-        <p class="text-muted-foreground mb-8 max-w-xl mx-auto">
-          These tools give you a glimpse of how we work. Let's discuss how we can apply this
-          expertise to your project.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" class="gap-2 px-8 shadow-lg shadow-primary/20" href="/contact">
-            <Mail class="w-4 h-4" />
-            Contact RyderTech
-          </Button>
-          <Button size="lg" variant="outline" class="gap-2" onclick={() => (showNewsletter = true)}>
-            Join Labs Newsletter
-          </Button>
-        </div>
-        <p class="text-sm text-muted-foreground/60 mt-6">No spam. Just occasional updates about new tools and technical insights.</p>
-      </div>
-    </div>
-  </section>
+	<!-- CTA -->
+	<section class="border-t border-border py-16">
+		<div class="mx-auto max-w-5xl px-6 text-center">
+			<h2 class="mb-4 text-2xl font-medium text-foreground">Need this built for your business?</h2>
+			<p class="mx-auto mb-8 max-w-xl text-sm text-muted-foreground">
+				These tools showcase our engineering approach. Let's discuss how we can
+				apply this expertise to your project.
+			</p>
+			<div class="flex flex-col gap-4 sm:flex-row justify-center">
+				<Button size="lg" class="gap-2 px-8" href="/contact">
+					<Mail class="h-4 w-4" />
+					Contact RyderTech
+				</Button>
+				<Button size="lg" variant="outline" class="gap-2" onclick={() => (showNewsletter = true)}>
+					Join Labs Newsletter
+				</Button>
+			</div>
+			<p class="mt-6 text-xs text-muted-foreground/60">
+				No spam. Just occasional updates about new tools and technical insights.
+			</p>
+		</div>
+	</section>
 </div>
