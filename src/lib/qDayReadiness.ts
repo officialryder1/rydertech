@@ -247,31 +247,8 @@ function buildRecommendations(
 	return recs;
 }
 
-function formatCount(n: number): string {
+export function formatCount(n: number): string {
 	if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
 	if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
 	return `${n}`;
-}
-
-// Standalone test harness for node
-if (import.meta.url === `file://${process.argv[1]}`) {
-	const sample: QDayInput = {
-		handlesSensitiveData: true,
-		sensitiveRecordCount: 50000,
-		retentionYears: 7,
-		cryptoInventoryDone: false,
-		legacyCryptoPct: 85,
-		activePki: true,
-		endpointPatchablePct: 60,
-		hasPQCPlan: false,
-		annualRevenueUSD: 2_500_000
-	};
-
-	const result = computeQDayRisk(sample);
-	console.log('Score:', result.score, '/ 100');
-	console.log('Risk Level:', result.riskLevel);
-	console.log('Timeline:', result.quantumTimeline);
-	console.log('Time Until Exposed:', result.timeUntilExposed);
-	console.log('Revenue at Risk: $' + result.revenueAtRiskUSD.toLocaleString());
-	console.log('Recommendations:', result.recommendations.length);
 }
