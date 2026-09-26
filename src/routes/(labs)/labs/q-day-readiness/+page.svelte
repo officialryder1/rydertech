@@ -360,11 +360,14 @@
 					<CardContent class="space-y-6">
 						<!-- Score Display -->
 						<div class="text-center py-8">
-							<div class="inline-flex items-center justify-center w-32 h-32 rounded-full text-5xl font-black mb-4"
-								class={result.riskLevel === 'critical' ? 'bg-red-50 text-red-600'
-								: result.riskLevel === 'high' ? 'bg-orange-50 text-orange-600'
-									: result.riskLevel === 'moderate' ? 'bg-amber-50 text-amber-600'
-										: 'bg-green-50 text-green-600'}>
+							<div
+								class={`inline-flex items-center justify-center w-32 h-32 rounded-full text-5xl font-black mb-4 ${
+									result.riskLevel === 'critical' ? 'bg-red-50 text-red-600'
+									: result.riskLevel === 'high' ? 'bg-orange-50 text-orange-600'
+										: result.riskLevel === 'moderate' ? 'bg-amber-50 text-amber-600'
+											: 'bg-green-50 text-green-600'
+								}`}
+							>
 								{result.score}
 							</div>
 							<h3 class="text-2xl font-black text-gray-900 mb-2">
