@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness';
 
 export interface ReportRow {
   label: string;
@@ -75,6 +75,8 @@ import type { EngineResult as RevLeakResult } from './revLeak';
 import type { EngineResult as EventRiskResult } from './eventAccessRisk';
 import { formatMoney } from './opsDrain';
 import type { EngineResult as OpsDrainResult } from './opsDrain';
+import { formatMoney as formatMoneyAgentic, recommendAgenticStack } from './agenticWorkflowCost';
+import type { EngineResult as AgenticCostResult } from './agenticWorkflowCost';
 import type { QDayResult } from './qDayReadiness';
 import type { EngineResult as LocalVisibilityResult } from './localVisibility';
 import type { EngineResult as AeoResult } from './aeoReadiness';
@@ -401,4 +403,29 @@ export function reportFromQDay(r: QDayResult, email: string): ReportPayload {
     generatedAt: todayIso(),
     sourceUrl: 'https://rydertech.ng/labs/q-day-readiness'
   };
+}
+
+// ---- Agentic Workflow Cost ----
+export function reportFromAgenticCost(r: AgenticCostResult, currency: 'NGN' | 'USD'): ReportPayload {
+	const money = (n: number) => formatMoneyAgentic(n, currency);
+	const isBad = r.severity === 'critical' || r.severity === 'high';
+	return {
+		tool: 'agentic-cost',
+		title: 'Agentic Workflow Cost Audit',
+		heroLabel: 'Annual cost of manual coordination',
+		heroValue: money(r.totalAnnualCost),
+		heroTone: isBad ? 'bad' : 'neutral',
+		verdict: r.verdict,
+		rows: [
+			{ label: 'Hours consumed / year', value: `${r.totalAnnualHours.toLocaleString()}h`, tone: 'bad' },
+			{ label: 'Recoverable by agents / yr', value: money(r.recoverableAnnualCost), tone: 'good' },
+			{ label: 'Net annual saving', value: money(r.netAnnualSaving), tone: r.netAnnualSaving > 0 ? 'good' : 'bad' },
+			{ label: 'Payback period', value: r.paybackMonths === null ? '—' : `${r.paybackMonths} mo`, tone: 'neutral' },
+			{ label: 'Days freed / year', value: `${r.daysFreedPerYear}`, tone: 'good' }
+		],
+		recommendations: recommendAgenticStack(r.tasks).slice(0, 4),
+		currency,
+		generatedAt: todayIso(),
+		sourceUrl: 'https://rydertech.ng/labs/agentic-workflow-cost'
+	};
 }
