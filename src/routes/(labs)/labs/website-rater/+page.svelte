@@ -184,8 +184,9 @@
 						{ email, source: 'lead_magnet_website_rater', subscribed_at: new Date().toISOString(), lead_score: lead.points, lead_tier: lead.tier }
 					])
 					.select();
-			} catch {
-				console.info('Website Rater lead backup skipped (DB unavailable):', email);
+			} catch (dbErr) {
+				// Log specifically so missing columns are visible in production logs.
+				console.warn('Supabase newsletter_subscriptions insert failed (website-rater lead):', dbErr);
 			}
 		} catch (err) {
 			console.warn('Website Rater lead email failed:', err);
