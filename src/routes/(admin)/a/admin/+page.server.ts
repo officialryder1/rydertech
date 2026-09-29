@@ -102,20 +102,18 @@ export const load: PageServerLoad = async ({ locals }) => {
   });
   // Labs tool + premium guide captures share the newsletter_subscriptions table.
   // 'magnets' = filtered subset for the admin Lead Magnets tab (lead_magnet_* sources).
-  // 'newsletters' = all newsletter_subscriptions rows (for Newsletter tab, which shows source).
   const magnets = (newslettersWithSegment || []).filter(n => String(n.source || '').startsWith('lead_magnet_'));
-  const newsletters = newslettersWithSegment;
 
   const stats = {
     totalSubmissions: submissions.length,
-    totalSubscribers: newsletters.length,
+    totalSubscribers: newslettersWithSegment.length,
     totalMagnets: magnets.length,
     totalUsers: (profiles || []).length,
     weeklySubmissions: submissions.filter(s => new Date(s.submitted_at) >= last7days).length,
-    weeklySubscribers: newsletters.filter(s => new Date(s.subscribed_at) >= last7days).length,
+    weeklySubscribers: newslettersWithSegment.filter(s => new Date(s.subscribed_at) >= last7days).length,
     weeklyMagnets: magnets.filter(s => new Date(s.subscribed_at) >= last7days).length,
     monthlySubmissions: submissions.filter(s => new Date(s.submitted_at) >= last30days).length,
-    monthlySubscribers: newsletters.filter(s => new Date(s.subscribed_at) >= last30days).length,
+    monthlySubscribers: newslettersWithSegment.filter(s => new Date(s.subscribed_at) >= last30days).length,
     monthlyMagnets: magnets.filter(s => new Date(s.subscribed_at) >= last30days).length,
     pendingSubmissions: submissions.filter(s => s.status === 'new').length,
     contactedSubmissions: submissions.filter(s => s.status === 'contacted').length,
