@@ -22,8 +22,15 @@
 		Search as SearchIcon,
 		Layout,
     ArrowLeft,
-    Share2
+    Gauge
 	} from '@lucide/svelte';
+	import { scoreLead } from '$lib/leadScore';
+	import { reportFromWebsiteRater, buildShareUrl } from '$lib/shareReport';
+	import { supabase } from '$lib/supabaseClient';
+	import { env } from '$env/dynamic/public';
+	import emailjs from '@emailjs/browser';
+	import { goto } from '$app/navigation';
+	import type { ReviewResult } from '$lib/websiteRaterResults';
 
 	// State
 	let url = $state('');
@@ -31,6 +38,11 @@
 	let error = $state('');
 	let review = $state<any>(null);
   let reviewedUrl = $state('');
+	let email = $state('');
+	let company = $state('');
+	let isSubmitting = $state(false);
+	let unlocked = $state(false);
+	let leadError = $state<string | null>(null);
 
 	const categoryIcons: Record<string, any> = {
 		design: Palette,
@@ -71,10 +83,11 @@
 			review = data.review;
 			try { localStorage.setItem('rydertech_lead_captured', '1'); } catch {}
 
-      // Update URL with query param for shareability
+			// Update URL with query param for shareability
 			const newUrl = new URL(window.location.href);
 			newUrl.searchParams.set('url', url);
 			window.history.pushState({}, '', newUrl);
+
 
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Something went wrong';
@@ -105,19 +118,86 @@
 		review = null;
 		url = '';
 		reviewedUrl = '';
+		email = '';
+		company = '';
+		unlocked = false;
+		leadError = null;
 		window.history.pushState({}, '', '/');
 	}
 
-  function shareResults() {
-		if (navigator.share) {
-			navigator.share({
-				title: `Website Analysis: ${reviewedUrl}`,
-				text: `My website scored ${review.overallScore}/10 on RyderTech website rater!`,
-				url: window.location.href
-			});
-		} else {
-			navigator.clipboard.writeText(window.location.href);
+	async function handleLeadSubmit(e: Event) {
+		e.preventDefault();
+		leadError = null;
+		if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			leadError = 'Please enter a valid email address.';
+			return;
 		}
+		isSubmitting = true;
+		try {
+			// Always unlock — delivery failure must never block the prospect.
+			unlocked = true;
+			try {
+				localStorage.setItem('rydertech_website_rater_email', email);
+				localStorage.setItem('rydertech_lead_captured', '1');
+			} catch {}
+
+			// Score the lead: lower review score = hotter lead (bigger gap to fix).
+			const healthScore = review ? Math.round((review.overallScore / 10) * 100) : 50;
+			const lead = scoreLead({
+				tool: 'revleak',
+				impactValue: review ? review.overallScore * 10000 : 0,
+				revenueAtRisk: review ? review.overallScore * 10000 : 0,
+				healthScore
+			});
+
+			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
+			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
+			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+
+			const summaryText = JSON.stringify(review, null, 2).slice(0, 500);
+
+			if (serviceId && templateId && publicKey) {
+				await emailjs.send(
+					serviceId,
+					templateId,
+					{
+						from_name: company || 'Website Rater lead',
+						from_email: email,
+						company,
+						budget: `Review score: ${review?.overallScore}/10`,
+						timeline: 'Ready for a website audit',
+						message: `New Website Rater result (source: /labs/website-rater). Lead score: ${lead.points}/100 (${lead.tier}).\n\nURL: ${reviewedUrl}\nScore: ${review?.overallScore}/10\nSummary: ${summaryText}`,
+						lead_type: 'lead_magnet_website_rater',
+						lead_score: lead.points,
+						lead_tier: lead.tier
+					},
+					{ publicKey }
+				);
+			} else {
+				console.warn('EmailJS not configured — website-rater lead not emailed:', email);
+			}
+
+			try {
+				await supabase
+					.from('newsletter_subscriptions')
+					.insert([
+						{ email, source: 'lead_magnet_website_rater', subscribed_at: new Date().toISOString(), lead_score: lead.points, lead_tier: lead.tier }
+					])
+					.select();
+			} catch {
+				console.info('Website Rater lead backup skipped (DB unavailable):', email);
+			}
+		} catch (err) {
+			console.warn('Website Rater lead email failed:', err);
+		} finally {
+			isSubmitting = false;
+		}
+	}
+
+	function getReport() {
+		if (!review) return;
+		const payload = reportFromWebsiteRater(review as ReviewResult, reviewedUrl);
+		goto(buildShareUrl(payload));
 	}
 
   // Check for URL param on mount
@@ -300,15 +380,15 @@
 				</Button>
 
         <div class="flex gap-2">
-						<Button 
-							variant="outline" 
-							onclick={shareResults}
-							class="border-brand-blue/20"
-						>
-							<Share2 class="w-4 h-4 mr-2" aria-hidden="true" />
-							Share
-						</Button>
-					</div>
+					<Button
+						variant="outline"
+						onclick={getReport}
+						class="border-brand-blue/20"
+					>
+						<Gauge class="w-4 h-4 mr-2" aria-hidden="true" />
+						Report
+					</Button>
+				</div>
         </nav>
 
 				<!-- Overall Score Card -->
@@ -413,17 +493,48 @@
 				</div>
 
 				<!-- CTA -->
-				<div class="text-center pt-8">
-					<Button 
-						size="lg"
-						onclick={reset}
-						class="bg-gradient-to-r from-secondary to-secondary-dark text-white hover:opacity-90"
-					>
-						<RefreshCw class="w-5 h-5 mr-2" />
-						Analyze Another Website
-					</Button>
-				</div>
-			</article>
+				{#if !unlocked}
+					<div class="text-center pt-8">
+						<h3 class="text-lg font-semibold mb-2">Get a detailed fix plan</h3>
+						<p class="text-sm text-muted-foreground mb-4 max-w-xl mx-auto">
+							Enter your email and we'll send you a scoped performance audit — the fixes for your
+							lowest-scoring areas and what a rebuild is worth.
+						</p>
+						<form onsubmit={handleLeadSubmit} class="max-w-md mx-auto space-y-3">
+							<div class="flex gap-2">
+								<Input type="text" bind:value={company} placeholder="Company" class="flex-1" />
+								<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
+							</div>
+							{#if leadError}
+								<p class="text-xs text-destructive text-center">{leadError}</p>
+							{/if}
+							<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90">
+								{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
+							</Button>
+							<p class="text-center text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
+						</form>
+					</div>
+				{:else}
+					<div class="text-center pt-8 space-y-4">
+						<Button
+							variant="outline"
+							onclick={getReport}
+							class="gap-2"
+						>
+							<Gauge class="w-4 h-4 mr-2" />
+							Get shareable audit report
+						</Button>
+						<Button
+							size="lg"
+							onclick={reset}
+							class="bg-gradient-to-r from-secondary to-secondary-dark text-white hover:opacity-90"
+						>
+							<RefreshCw class="w-5 h-5 mr-2" />
+							Analyze Another Website
+						</Button>
+					</div>
+				{/if}
+				</article>
 		{/if}
 	</main>
 

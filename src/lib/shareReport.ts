@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness' | 'website-rater';
 
 export interface ReportRow {
   label: string;
@@ -427,5 +427,37 @@ export function reportFromAgenticCost(r: AgenticCostResult, currency: 'NGN' | 'U
 		currency,
 		generatedAt: todayIso(),
 		sourceUrl: 'https://rydertech.ng/labs/agentic-workflow-cost'
+	};
+}
+
+// ---- Website Rater ----
+import type { ReviewResult } from './websiteRaterResults';
+
+export function reportFromWebsiteRater(r: ReviewResult, url: string): ReportPayload {
+	const score = r.overallScore;
+	const scoreLabel = score >= 8 ? 'Good' : score >= 6 ? 'Moderate' : 'Needs work';
+	const scoreTone = score >= 8 ? 'good' : score >= 6 ? 'neutral' : 'bad';
+	// Build rows from each category score
+	const rows: ReportRow[] = Object.entries(r.categories).map(([key, cat]) => ({
+		label: key.charAt(0).toUpperCase() + key.slice(1),
+		value: `${cat.score}/10`,
+		tone: cat.score >= 8 ? 'good' : cat.score >= 6 ? 'neutral' : 'bad' as const
+	}));
+	return {
+		tool: 'website-rater',
+		title: 'Website Review Report',
+		heroLabel: 'Overall website score',
+		heroValue: `${score}/10`,
+		heroTone: scoreTone,
+		verdict:
+			score >= 8
+				? `Your site is performing well (${scoreLabel}). Keep iterating on the ${Object.entries(r.categories).reduce((best: [string, any], [k, c]) => (c.score < best[1].score ? [k, c] : best))[0]} and capitalize on ${r.strengths[0] || 'your strengths'}.`
+				: score >= 6
+				? `Your site is ${scoreLabel} — ${r.improvements[0] || 'there are actionable improvements to make'}.`
+				: `Your site has significant gaps (${scoreLabel}). The biggest win is ${r.improvements[0] || 'addressing the lowest-scoring areas'}.`,
+		rows,
+		recommendations: r.improvements.slice(0, 3),
+		generatedAt: todayIso(),
+		sourceUrl: 'https://rydertech.ng/labs/website-rater'
 	};
 }
