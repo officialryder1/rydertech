@@ -12,7 +12,7 @@ export type Tier = 'cool' | 'warm' | 'hot';
 
 export interface ScoreInput {
 	/** which tool produced the result */
-	tool: 'ops_drain' | 'revleak' | 'event_risk' | 'visibility' | 'aeo' | 'cost_estimator' | 'agentic_cost';
+	tool: 'website_rater' | 'ops_drain' | 'revleak' | 'event_risk' | 'visibility' | 'aeo' | 'cost_estimator' | 'agentic_cost';
 	/** the money/impact metric the tool computed (absolute, in the tool's currency) */
 	impactValue: number;
 	/** total annual $ value left on the table (normalised to NGN for cross-tool comparison) */

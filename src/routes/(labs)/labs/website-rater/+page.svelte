@@ -144,10 +144,10 @@
 			// Score the lead: lower review score = hotter lead (bigger gap to fix).
 			const healthScore = review ? Math.round((review.overallScore / 10) * 100) : 50;
 			const lead = scoreLead({
-				tool: 'revleak',
-				impactValue: review ? review.overallScore * 10000 : 0,
-				revenueAtRisk: review ? review.overallScore * 10000 : 0,
-				healthScore
+			tool: 'website_rater',
+			impactValue: review ? review.overallScore * 10000 : 0,
+			revenueAtRisk: review ? review.overallScore * 10000 : 0,
+			healthScore,
 			});
 
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
