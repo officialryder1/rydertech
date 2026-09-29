@@ -591,11 +591,17 @@
 
           <!-- Tool breakdown -->
           <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {#each ['ops-drain', 'revleak', 'event-access-risk', 'cost-estimator', 'website-rater'] as tool}
+            {#each [
+              { label: 'Ops Drain', source: 'lead_magnet_ops_drain' },
+              { label: 'RevLeak', source: 'lead_magnet_revleak' },
+              { label: 'Event Risk', source: 'lead_magnet_event_risk' },
+              { label: 'Website Rater', source: 'lead_magnet_website_rater' },
+              { label: 'Cost Guide', source: 'lead_magnet_cost_guide' }
+            ] as tool}
               <Card>
                 <CardContent class="p-4 text-center">
-                  <p class="text-sm text-gray-600">{tool}</p>
-                  <p class="text-2xl font-bold">{magnets.filter(m => m.tool_slug === tool).length}</p>
+                  <p class="text-sm text-gray-600">{tool.label}</p>
+                  <p class="text-2xl font-bold">{magnets.filter(m => m.source === tool.source).length}</p>
                 </CardContent>
               </Card>
             {/each}
@@ -608,7 +614,7 @@
                   <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tool</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
@@ -619,12 +625,12 @@
                       <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{lead.email}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge variant="outline">{lead.tool_slug}</Badge>
+                          <Badge variant="outline capitalize">{lead.source}</Badge>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{lead.name || '—'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">—</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{lead.company || '—'}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(lead.captured_at).toLocaleDateString()}
+                          {new Date(lead.subscribed_at).toLocaleDateString()}
                         </td>
                       </tr>
                     {:else}

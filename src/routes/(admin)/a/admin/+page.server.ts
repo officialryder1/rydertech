@@ -64,18 +64,15 @@ export const load: PageServerLoad = async ({ locals }) => {
   const [
     { data: contactSubmissions, error: contactError },
     { data: newsletterSubs, error: newsletterError },
-    { data: leadMagnets, error: magnetError },
     { data: profiles, error: profilesError }
   ] = await Promise.all([
     admin.from('contact_submissions').select('*').order('submitted_at', { ascending: false }),
     admin.from('newsletter_subscriptions').select('*').order('subscribed_at', { ascending: false }),
-    admin.from('lead_magnets').select('*').order('captured_at', { ascending: false }),
     admin.from('profiles').select('*').order('created_at', { ascending: false })
   ]);
 
   if (contactError) console.error('Failed to fetch contact submissions:', contactError);
   if (newsletterError) console.error('Failed to fetch newsletter subs:', newsletterError);
-  if (magnetError) console.error('Failed to fetch lead magnets:', magnetError);
   if (profilesError) console.error('Failed to fetch profiles:', profilesError);
 
   const now = new Date();
@@ -103,7 +100,11 @@ export const load: PageServerLoad = async ({ locals }) => {
     }
     return n;
   });
-  const magnets = leadMagnets || [];
+  // Labs tool + premium guide captures share the newsletter_subscriptions table.
+  // 'magnets' = filtered subset for the admin Lead Magnets tab (lead_magnet_* sources).
+  // 'newsletters' = all newsletter_subscriptions rows (for Newsletter tab, which shows source).
+  const magnets = (newslettersWithSegment || []).filter(n => String(n.source || '').startsWith('lead_magnet_'));
+  const newsletters = newslettersWithSegment;
 
   const stats = {
     totalSubmissions: submissions.length,
@@ -112,10 +113,10 @@ export const load: PageServerLoad = async ({ locals }) => {
     totalUsers: (profiles || []).length,
     weeklySubmissions: submissions.filter(s => new Date(s.submitted_at) >= last7days).length,
     weeklySubscribers: newsletters.filter(s => new Date(s.subscribed_at) >= last7days).length,
-    weeklyMagnets: magnets.filter(s => new Date(s.captured_at) >= last7days).length,
+    weeklyMagnets: magnets.filter(s => new Date(s.subscribed_at) >= last7days).length,
     monthlySubmissions: submissions.filter(s => new Date(s.submitted_at) >= last30days).length,
     monthlySubscribers: newsletters.filter(s => new Date(s.subscribed_at) >= last30days).length,
-    monthlyMagnets: magnets.filter(s => new Date(s.captured_at) >= last30days).length,
+    monthlyMagnets: magnets.filter(s => new Date(s.subscribed_at) >= last30days).length,
     pendingSubmissions: submissions.filter(s => s.status === 'new').length,
     contactedSubmissions: submissions.filter(s => s.status === 'contacted').length,
     repliedSubmissions: submissions.filter(s => s.status === 'replied').length,
