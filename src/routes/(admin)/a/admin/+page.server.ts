@@ -91,6 +91,18 @@ export const load: PageServerLoad = async ({ locals }) => {
     return new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime();
   });
   const newsletters = newsletterSubs || [];
+  // For labs lead-magnet subs that already have a client-side lead_score,
+  // ensure lead_segment is populated (hot/warm/cold) so the UI can filter.
+  const newslettersWithSegment = newsletters.map(n => {
+    if (n.lead_score != null && !n.lead_segment) {
+      let segment;
+      if (n.lead_score >= 70) segment = 'hot';
+      else if (n.lead_score >= 40) segment = 'warm';
+      else segment = 'cold';
+      return { ...n, lead_segment: segment };
+    }
+    return n;
+  });
   const magnets = leadMagnets || [];
 
   const stats = {
@@ -114,7 +126,7 @@ export const load: PageServerLoad = async ({ locals }) => {
     user,
     stats,
     submissions,
-    newsletters,
+    newsletters: newslettersWithSegment,
     magnets,
     profiles: profiles || []
   };

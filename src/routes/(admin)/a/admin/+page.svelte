@@ -54,6 +54,22 @@
     return submissions.filter(s => s.lead_segment === segment).length;
   }
 
+  function getNewsletterSegmentCount(segment) {
+    return newsletters.filter(n => n.lead_segment === segment).length;
+  }
+
+  function getFilteredNewsletters() {
+    let result = newsletters;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(sub =>
+        sub.email?.toLowerCase().includes(q) ||
+        sub.source?.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }
+
   // Real percentage change vs previous period
   function getChange(current, previous) {
     if (previous === 0) return current > 0 ? 100 : 0;
@@ -374,9 +390,21 @@
                           <p class="text-sm text-gray-500 capitalize">{subscriber.source}</p>
                         </div>
                       </div>
-                      <p class="text-sm text-gray-500">
-                        {new Date(subscriber.subscribed_at).toLocaleDateString()}
-                      </p>
+                      <div class="text-right">
+                        {#if subscriber.lead_score}
+                          <div class="flex items-center gap-2 justify-end">
+                            <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>
+                              {segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment}
+                            </Badge>
+                            <span class="text-xs font-medium text-gray-600">{subscriber.lead_score}/100</span>
+                          </div>
+                        {:else}
+                          <p class="text-xs text-gray-400">No score</p>
+                        {/if}
+                        <p class="text-xs text-gray-500 mt-1">
+                          {new Date(subscriber.subscribed_at).toLocaleDateString()}
+                        </p>
+                      </div>
                     </div>
                   {:else}
                     <p class="text-sm text-gray-500 text-center py-4">No subscribers yet</p>
@@ -627,6 +655,42 @@
             </Button>
           </div>
 
+          <!-- Segment Filter -->
+          <div class="flex items-center gap-2">
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'all'
+                  ? 'bg-[var(--primary)] text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+              onclick={() => leadFilter = 'all'}
+            >All ({getNewsletterSegmentCount('hot') + getNewsletterSegmentCount('warm') + getNewsletterSegmentCount('cold')})</button>
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'hot'
+                  ? 'bg-red-500 text-white'
+                  : 'text-red-600 hover:bg-red-50'
+              }`}
+              onclick={() => leadFilter = 'hot'}
+            >🔥 Hot ({getNewsletterSegmentCount('hot')})</button>
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'warm'
+                  ? 'bg-yellow-500 text-white'
+                  : 'text-yellow-600 hover:bg-yellow-50'
+              }`}
+              onclick={() => leadFilter = 'warm'}
+            >⏳ Warm ({getNewsletterSegmentCount('warm')})</button>
+            <button
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                leadFilter === 'cold'
+                  ? 'bg-gray-500 text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+              onclick={() => leadFilter = 'cold'}
+            >📋 Cold ({getNewsletterSegmentCount('cold')})</button>
+          </div>
+
           <Card>
             <CardContent class="p-0">
               <div class="overflow-x-auto">
@@ -635,12 +699,14 @@
                     <tr>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Lead Score</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Segment</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subscription Date</th>
                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    {#each newsletters as subscriber}
+                    {#each getFilteredNewsletters() as subscriber}
                       <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="flex items-center">
@@ -653,6 +719,24 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
                           {subscriber.source}
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                          {#if subscriber.lead_score}
+                            <div class={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold ${
+                              subscriber.lead_score >= 70 ? 'bg-red-100 text-red-700' :
+                              subscriber.lead_score >= 40 ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-gray-100 text-gray-700'
+                            }`}>
+                              {subscriber.lead_score}
+                            </div>
+                          {:else}
+                            <span class="text-xs text-gray-400">—</span>
+                          {/if}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>
+                            {segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment || 'cold'}
+                          </Badge>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {new Date(subscriber.subscribed_at).toLocaleDateString()}
                         </td>
@@ -664,7 +748,7 @@
                       </tr>
                     {:else}
                       <tr>
-                        <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+                        <td colspan="6" class="px-6 py-8 text-center text-gray-500">
                           No subscribers yet
                         </td>
                       </tr>
