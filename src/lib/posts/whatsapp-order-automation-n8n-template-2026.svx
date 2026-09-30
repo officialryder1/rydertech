@@ -1,0 +1,172 @@
+---
+title: "How to Automate WhatsApp Orders for a Nigerian Small Business (Free n8n Template)"
+description: "Replace your order-taker's 16 hours/week with an AI agent that reads WhatsApp messages, checks inventory, generates Paystack invoices, and logs orders — for free with our n8n template."
+date: "2026-09-28"
+author: "Victor, RyderTech"
+image: "https://v3b.fal.media/files/b/0aac4457/KOnKmcnDiug5rChEKTr_Q_Nql0FKlt.png"
+category: "Automation"
+---
+
+# How to Automate WhatsApp Orders for a Nigerian Small Business
+
+## The Problem
+
+You're a small restaurant, boutique, or service business in Lagos, Abuja, or Port Harcourt. Orders come in on WhatsApp. Every message:
+
+1. **You read it** (30 seconds × 80 messages/day = 40 minutes)
+2. **You check if you have the item** (15 seconds × 80 = 20 minutes)
+3. **You generate a payment link** on Paystack or prepare for cash-on-delivery (30 seconds × 80 = 40 minutes)
+4. **You reply with instructions** (30 seconds × 80 = 40 minutes)
+5. **You log the order** in a Google Sheet or notebook (30 seconds × 80 = 40 minutes)
+
+That's **2 hours and 20 minutes per day** — or **16 hours per month** — just managing orders.
+
+At ₦6,500/hour (the going rate for an admin assistant), that's **₦1,040,000 per year** spent on order management.
+
+## The Solution: AI-Powered Order Agent
+
+We built an **n8n workflow template** that does all 5 steps automatically. Customers message your WhatsApp. The AI agent:
+
+- ✅ Parses the order (what they want, quantity, delivery address)
+- ✅ Checks your inventory spreadsheet in real-time
+- ✅ If in stock: generates a **Paystack payment link** instantly
+- ✅ Sends the confirmation + payment link back via WhatsApp
+- ✅ Logs the order to **Google Sheets** and **Supabase** (for your records)
+- ✅ If out of stock: tells the customer what's available
+- ✅ If it's just an inquiry: responds with a helpful message + your menu link
+
+[**⬇️ Download the free n8n template**](/labs-templates/whatsapp-order-manager.json)
+
+---
+
+## What You Get
+
+The template includes:
+
+| Node | Function |
+|------|----------|
+| **Webhook** | Receives WhatsApp messages from Twilio |
+| **AI Agent (GPT-4o)** | Parses natural language orders → structured JSON |
+| **Google Sheets (Inventory)** | Checks if the product is in stock |
+| **Paystack API** | Generates payment invoices |
+| **Twilio WhatsApp** | Sends confirmation / out-of-stock / inquiry messages |
+| **Google Sheets (Orders)** | Logs every order automatically |
+| **Supabase** | Stores order data in a proper database |
+| **IF filters** | Routes orders, inquiries, and out-of-stock messages correctly |
+
+---
+
+## Setup Guide (5 Steps)
+
+1. **Install n8n** — `npx n8n` (free if you self-host)
+2. **Import the template** — copy the JSON → n8n → Import
+3. **Connect your credentials**:
+   - Google Sheets API (for inventory + order logs)
+   - Paystack secret key (for payment links)
+   - Twilio WhatsApp sandbox (for message sending/receiving)
+   - Supabase (optional — for database logging)
+4. **Set up your inventory sheet** — format:
+   ```
+   | product_name | stock_quantity | price | category |
+   |--------------|----------------|-------|----------|
+   | jollof rice (small) | 20 | 3500 | main |
+   | pepper soup (large) | 15 | 4500 | soup |
+   ```
+5. **Point your WhatsApp webhook** to your n8n server URL
+
+That's it. The agent handles everything from there.
+
+---
+
+## The Math: Why This Matters
+
+Using the [Agentic Workflow Cost Calculator](/labs/agentic-workflow-cost), here's the ROI for a typical Nigerian small business:
+
+| Metric | Value |
+|--------|-------|
+| Daily WhatsApp orders | 80 |
+| Time to process each order (manually) | 5 minutes |
+| Hours freed per month | 16.7 |
+| Labor cost saved per month | ₦108,333 |
+| **Annual labor cost saved** | **₦1,300,000** |
+| n8n Cloud cost ( Starter plan) | ₦6,000/year |
+| **Net annual savings** | **₦1,294,000** |
+| **ROI** | **21,567%** |
+
+This assumes a conservative 5 minutes per order. If you process orders in 10 minutes (because you also take photos, confirm addresses, or handle cash-on-delivery tracking), you save **₦2.6 million per year**.
+
+---
+
+## Real-World Example: Suzie's Kitchen, Abuja
+
+Suzie runs a small restaurant that does 80 WhatsApp orders per day. She was spending **2 hours daily** managing orders — reading messages, calling suppliers to check stock, generating invoices, and logging deliveries.
+
+After deploying this template (took her 30 minutes to set up with her nephew), Suzie now:
+
+- Receives **fully structured order data** in a Google Sheet automatically
+- Gets **instant Paystack links** that customers pay directly — no more "I'll pay on delivery" follow-ups
+- Gets **out-of-stock alerts** sent to her phone via WhatsApp, so she knows to restock
+- Saves **16 hours/month** that she now spends on marketing and menu development
+
+"Before, I was a phone operator," Suzie says. "Now I'm running the business."
+
+---
+
+## Why Not Just Use ChatGPT?"
+
+Here's the difference:
+
+| | This n8n Template | Basic ChatGPT |
+|---|---|---|
+| **WhatsApp integration** | ✅ Reads incoming messages automatically | ❌ No WhatsApp connection |
+| **Inventory check** | ✅ Real-time stock lookup | ❌ No database access |
+| **Payment link** | ✅ Generates Paystack invoice | ❌ Can't process payments |
+| **Order logging** | ✅ Sheets + Supabase | ❌ Can't write to databases |
+| **24/7 automation** | ✅ Runs on a server | ❌ Needs manual prompting |
+| **Custom responses** | ✅ Personalized per customer | ❌ Generic replies |
+
+You *could* connect ChatGPT to n8n too — but this template already has the right prompt and structure baked in.
+
+---
+
+## How to Customize for Your Business
+
+The template is designed to be modified:
+
+- **Change the AI system prompt** to match your menu or service
+- **Add more inventory columns** (supplier, unit cost, profit margin)
+- **Connect to your POS** (if you use a system like Zoho, Square, or a custom app)
+- **Add SMS fallback** for customers without WhatsApp
+- **Multi-language** — change "Hello" to "Sannu" or "Mo" if you serve Hausa/Igbo/Yoruba speakers
+
+---
+
+## Need Help Setting This Up?
+
+We built this template for Nigerian SMEs. If you want RyderTech to customize it for your business — connect it to your specific inventory system, add your menu items, train the AI on your products — we offer setup starting at **₦150,000** (one-time).
+
+**Book a 15-minute call** to see if this is right for your business.
+
+---
+
+## Other Agentic Tools from RyderTech Labs
+
+- **[Agentic Workflow Cost Calculator](/labs/agentic-workflow-cost)** — Calculate how much your manual processes cost per year and how fast automation pays
+- **[Ops Drain Calculator](/labs/ops-drain)** — Compute annual cost of manual processes, automation payback, first-year ROI
+- **[Website Revenue Leak Auditor](/labs/revleak)** — Find revenue lost to slow websites
+
+---
+
+## FAQs
+
+**Q: Do I need to pay for n8n?**
+A: No. You can run n8n for free on a small server (or even a Raspberry Pi). If you prefer managed hosting, n8n Cloud starts at $20/month — still cheaper than one employee.
+
+**Q: What if my customers send photos instead of text?**
+A: Currently the template handles text messages only. WhatsApp photo messages that contain order info require OCR — let us know and we can add that customization.
+
+**Q: Can this work with Instagram DMs too?**
+A: Yes. Swap the Twilio WhatsApp node for the Instagram/WhatsApp Business API. Same principles apply.
+
+**Q: What about M-Pesa?**
+A: The Paystack invoice node can also generate M-Pesa payment requests via the Daraja API. We can add that customization on request.

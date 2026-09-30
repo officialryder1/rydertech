@@ -1,0 +1,381 @@
+{
+  "name": "WhatsApp Order Manager — AI Agent for Nigerian SMEs (n8n template)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-webhook",
+        "responseMode": "responseNode"
+      },
+      "name": "Webhook - WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [140, 300],
+      "webhook": "webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.entry?.[0]?.changes?.[0]?.field }}",
+              "operation": "equal",
+              "value2": "messages"
+            }
+          ]
+        }
+      },
+      "name": "Filter - New Messages",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "sheetId": "={{ $credentials.googleSheetsApi?.sheetId }}",
+        "range": "Inventory!A:D",
+        "options": {}
+      },
+      "name": "Load Inventory (Google Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [300, 500]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "messages": {
+          "message": [
+            {
+              "role": "system",
+              "content": "You are an AI order-processing assistant for a Nigerian small business. Your job is to parse WhatsApp messages from customers and extract structured order data. Always respond with valid JSON only.\n\nExtract these fields:\n- product_name: the product/service name (e.g. 'jollof rice small', 'pepper soup large')\n- quantity: number (default 1 if not specified)\n- delivery_address: the customer's delivery address if mentioned\n- customer_name: the sender's name if available\n- special_instructions: any extras like 'no pepper', 'extra chicken', etc.\n- is_inquiry: true if the message is a general question, false if it's a clear order attempt\n\nIf the message is just a greeting like 'hi' or 'hello', set is_inquiry to true.\n\nExamples:\n\"I want 2 plates of jollof rice for delivery to Plot 7, Abuja\"\n{\"product_name\": \"jollof rice\", \"quantity\": 2, \"delivery_address\": \"Plot 7, Abuja\", \"customer_name\": \"\", \"special_instructions\": \"\", \"is_inquiry\": false}\n\n\"Hi how much is your pepper soup?\"\n{\"product_name\": \"\", \"quantity\": 0, \"delivery_address\": \"\", \"customer_name\": \"\", \"special_instructions\": \"\", \"is_inquiry\": true}\n\nMessage:"
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body }}"
+            }
+          ]
+        },
+        "options": {
+          "max_tokens": 500,
+          "response_format": "json_object"
+        },
+        "json": true
+      },
+      "name": "AI Agent - Parse Order",
+      "type": "n8n-nodes-base.openai",
+      "typeVersion": 1.22,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.is_inquiry }}",
+              "operation": "false"
+            }
+          ]
+        }
+      },
+      "name": "Filter - Orders Only (skip inquiries)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetId": "={{ $credentials.googleSheetsApi?.sheetId }}",
+        "range": "Inventory!A:D",
+        "lookupColumn": "product_name",
+        "lookupValue": "={{ $json.product_name }}",
+        "options": {}
+      },
+      "name": "Check Inventory",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $('Check Inventory').item.json?.stock_quantity }}",
+              "operation": ">=",
+              "value2": "={{ $json.quantity }}"
+            }
+          ]
+        }
+      },
+      "name": "Check Stock Availability",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "domain": "={{ $credentials.paystack?.domain }}",
+        "path": "checkout/invoice/create",
+        "method": "POST",
+        "options": {},
+        "body": {
+          "amount": "={{ Math.round($json.quantity * ($('Check Inventory').item.json?.price) * 100) }}",
+          "currency": "NGN",
+          "customer": {
+            "email": "whatsapp@customer.com",
+            "name": "={{ $json.customer_name || 'WhatsApp Customer' }}",
+            "phone": "={{ $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from }}"
+          },
+          "description": "Order for {{ $json.quantity }}x {{ $json.product_name }} (delivery: {{ $json.delivery_address || 'to be confirmed' }})",
+          "callback_url": "https://your-n8n-domain.com/webhook/paystack-success"
+        },
+        "headers": {
+          "Authorization": "Bearer {{ $credentials.paystack?.secretKey }}",
+          "Content-Type": "application/json"
+        }
+      },
+      "name": "Create Paystack Invoice",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1300, 300]
+    },
+    {
+      "parameters": {
+        "domain": "your-whatsapp-number",
+        "from": "whatsapp:+14155238886",
+        "to": "={{ 'whatsapp:' + $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from }}",
+        "message": "Hi {{ $json.customer_name || 'there' }}!\n\n✅ Order confirmed!\n{{ $json.quantity }}x {{ $json.product_name }}\nTotal: ₦{{ Math.round($json.quantity * ($('Check Inventory').item.json?.price) * 100) / 100 }}\n\n💳 Pay here: {{ $('Create Paystack Invoice').item.json?.data?.invoice_url }}\n\n📍 Delivery: {{ $json.delivery_address || 'Please confirm your address' }}\n\nWe'll start preparing your order once payment is confirmed. Track it at rydertech.ng/track",
+        "options": {}
+      },
+      "name": "Send Order Confirmation (Twilio Whatsapp)",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 2,
+      "position": [1500, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetId": "={{ $credentials.googleSheetsApi?.sheetId }}",
+        "range": "Orders!A:F",
+        "options": {},
+        "columnsMapping": {
+          "timestamp": "={{ new Date().toISOString() }}",
+          "phone_number": "={{ $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from }}",
+          "product_name": "={{ $json.product_name }}",
+          "quantity": "={{ $json.quantity }}",
+          "delivery_address": "={{ $json.delivery_address }}",
+          "amount": "={{ $json.quantity * $('Check Inventory').item.json?.price }}",
+          "paystack_ref": "={{ $('Create Paystack Invoice').item.json?.data?.ref }}"
+        }
+      },
+      "name": "Log Order to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [1700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "orders",
+        "columns": {
+          "phone_number": "={{ $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from }}",
+          "product_name": "={{ $json.product_name }}",
+          "quantity": "={{ $json.quantity }}",
+          "delivery_address": "={{ $json.delivery_address }}",
+          "amount": "={{ $json.quantity * $('Check Inventory').item.json?.price }}",
+          "paystack_ref": "={{ $('Create Paystack Invoice').item.json?.data?.ref }}",
+          "status": "pending_payment"
+        }
+      },
+      "name": "Log Order to Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 2,
+      "position": [1700, 400]
+    },
+    {
+      "parameters": {
+        "domain": "your-whatsapp-number",
+        "from": "whatsapp:+14155238886",
+        "to": "={{ 'whatsapp:' + $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from }}",
+        "message": "Hi {{ $json.customer_name || 'there' }}!\n\n❓ Thanks for your message. A customer service agent will reply shortly.\n\nIn the meantime, you can browse our menu: https://your-menu-link.com\n\nOr call us directly.",
+        "options": {}
+      },
+      "name": "Send Inquiry Response",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 2,
+      "position": [700, 500]
+    },
+    {
+      "parameters": {
+        "domain": "your-whatsapp-number",
+        "from": "whatsapp:+14155238886",
+        "to": "={{ 'whatsapp:' + $json.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from }}",
+        "message": "Hi {{ $json.customer_name || 'there' }},\n\n😔 Sorry, {{ $json.product_name }} is currently out of stock.\n\nOur current menu:\n{{ $('Load Inventory (Google Sheets)').item.json?.map(item => item.product_name + ' - ₦' + item.price).join(', ') }}\n\nWould you like to order something else?",
+        "options": {}
+      },
+      "name": "Send Out of Stock Response",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 2,
+      "position": [1300, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $('Webhook - WhatsApp').item.json?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.type === 'text' }}",
+              "operation": "true"
+            }
+          ]
+        }
+      },
+      "name": "Filter - Text Messages Only",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [140, 500]
+    }
+  ],
+  "connections": {
+    "Webhook - WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Filter - Text Messages Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter - Text Messages Only": {
+      "main": [
+        [
+          {
+            "node": "Filter - New Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter - New Messages": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Parse Order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Inventory (Google Sheets)": {
+      "main": [
+        [
+          {
+            "node": "Check Inventory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Parse Order": {
+      "main": [
+        [
+          {
+            "node": "Check Inventory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter - Orders Only (skip inquiries)": {
+      "main": [
+        [
+          {
+            "node": "Check Stock Availability",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ],
+      "else": [
+        [
+          {
+            "node": "Send Inquiry Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Stock Availability": {
+      "main": [
+        [
+          {
+            "node": "Create Paystack Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ],
+      "else": [
+        [
+          {
+            "node": "Send Out of Stock Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Paystack Invoice": {
+      "main": [
+        [
+          {
+            "node": "Send Order Confirmation (Twilio Whatsapp)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Order Confirmation (Twilio Whatsapp)": {
+      "main": [
+        [
+          {
+            "node": "Log Order to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Inventory": {
+      "main": [
+        [
+          {
+            "node": "Filter - Orders Only (skip inquiries)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "timezone": "Africa/Lagos"
+  },
+  "meta": {
+    "description": "WhatsApp Order Manager — AI-powered order intake for Nigerian SMEs. Uses n8n 2.0 AI Agent nodes to parse WhatsApp messages, check inventory in Google Sheets, generate Paystack invoices, and log orders to Supabase. Free template from RyderTech Labs.",
+    "tags": ["WhatsApp", "M-Pesa", "Paystack", "AI Agent", "Order Management", "Nigeria", "SME"],
+    "version": "1.0",
+    "source": "https://rydertech.ng/labs/agentic-workflow-cost"
+  }
+}

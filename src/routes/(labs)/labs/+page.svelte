@@ -140,13 +140,22 @@
 			category: "Automation"
 		},
 		{
-			title: "Agentic Workflow Cost",
-			description: "Calculate what WhatsApp orders, M-Pesa reconciliation, and invoice chasing cost — and how an AI agent pays for itself.",
-			icon: Bot,
-			href: "/labs/agentic-workflow-cost",
-			action: "Calculate Savings",
-			category: "Automation",
-			new: true
+		  title: "Agentic Workflow Cost",
+		  description: "Calculate what WhatsApp orders, M-Pesa reconciliation, and invoice chasing cost — and how an AI agent pays for itself.",
+		  icon: Bot,
+		  href: "/labs/agentic-workflow-cost",
+		  action: "Calculate Savings",
+		  category: "Automation",
+		  new: true
+		},
+		{
+		  title: "Agent Template Library",
+		  description: "Free pre-built n8n templates for Nigerian SMEs — WhatsApp orders, inventory, M-Pesa, Paystack automation.",
+		  icon: Bot,
+		  href: "/labs/agent-templates",
+		  action: "Browse Templates",
+		  category: "Automation",
+		  new: true
 		},
 		// AI Tools
 		{
