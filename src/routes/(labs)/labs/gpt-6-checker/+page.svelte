@@ -13,6 +13,7 @@
   import { reportFromGpt6, buildShareUrl } from '$lib/shareReport';
   import { scoreLead } from '$lib/leadScore';
   import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
   import {
     Bot, Brain, BarChart3, CheckCircle, Clock, TrendingUp, ArrowLeft,
     PartyPopper, Send, Globe, Database, Shield, Zap, Cloud,
@@ -42,6 +43,14 @@
   let isSubmitting = $state(false);
   let unlocked = $state(false);
   let error = $state<string | null>(null);
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get('utm_source');
+	const _toolParam = page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : ''
+	].filter(Boolean).join('|') || 'direct');
 
   interface Preset {
     currentAiUsage: 'none' | 'chatgpt' | 'api' | 'enterprise';
@@ -114,6 +123,7 @@
         lead_type: 'gpt6_checker',
         lead_score: lead.points,
         lead_tier: lead.tier,
+        lead_source: leadSource,
         tool: 'GPT-6 Readiness Checker'
       };
 
@@ -135,7 +145,8 @@
           company: businessName || '',
           lead_score: lead.points,
           lead_tier: lead.tier,
-          lead_type: 'gpt6_checker'
+          lead_type: 'gpt6_checker',
+          lead_source: leadSource
         }]).select();
       } catch {
         console.info('GPT-6 lead backup skipped (DB unavailable):', email);

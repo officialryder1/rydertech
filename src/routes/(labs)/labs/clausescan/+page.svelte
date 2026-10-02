@@ -25,6 +25,7 @@
 	import { severityLabel } from '$lib/clauseScan';
 	import { CLAUSESCAN_PRICE_NGN } from '$lib/clauseScan';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	type ContractType = 'generic' | 'employment' | 'vendor' | 'lease' | 'nda' | 'partnership' | 'saas';
 
@@ -43,6 +44,14 @@
 	let email = $state('');
 	let scanning = $state(false);
 	let error = $state<string | null>(null);
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get('utm_source');
+	const _toolParam = page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : ''
+	].filter(Boolean).join('|') || 'direct');
 	let summary = $state<{
 		riskScore: number;
 		severity: 'low' | 'moderate' | 'high' | 'critical';
@@ -161,7 +170,8 @@
 						message: `New ClauseScan result (source: /labs/clausescan). Lead score: ${lead.points}/100 (${lead.tier}).\nRisk score: ${summary.riskScore}/100 (${severityLabel(summary.severity)}). Clauses: ${summary.clauseCount}.\nVerdict: ${summary.verdict}`,
 						lead_type: 'lead_magnet_clausescan',
 						lead_score: lead.points,
-						lead_tier: lead.tier
+						lead_tier: lead.tier,
+						lead_source: leadSource
 					},
 					{ publicKey }
 				);
@@ -175,8 +185,9 @@
 							source: 'lead_magnet_clausescan',
 							subscribed_at: new Date().toISOString(),
 							lead_score: lead.points,
-							lead_tier: lead.tier
-						}
+							lead_tier: lead.tier,
+							lead_source: leadSource
+							}
 					])
 					.select();
 			} catch {}

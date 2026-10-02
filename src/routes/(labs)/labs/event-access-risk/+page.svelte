@@ -17,6 +17,7 @@
 	import { reportFromEventRisk, buildShareUrl } from '$lib/shareReport';
 	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import {
 		ScanLine,
 		Clock,
@@ -58,6 +59,18 @@
 	let isSubmitting = $state(false);
 	let unlocked = $state(false);
 	let error = $state<string | null>(null);
+
+	// Capture lead source from URL params (utm_source, utm_medium, utm_campaign, tool)
+	const _utmSource = $page.url.searchParams.get('utm_source');
+	const _utmMedium = $page.url.searchParams.get('utm_medium');
+	const _utmCampaign = $page.url.searchParams.get('utm_campaign');
+	const _toolParam = $page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : '',
+		_utmMedium ? `medium:${_utmMedium}` : '',
+		_utmCampaign ? `campaign:${_utmCampaign}` : ''
+	].filter(Boolean).join('|') || 'direct');
 
 	// Live QR demo state
 	let qrDataUrl = $state('');
@@ -144,40 +157,41 @@
 			const leadTier = lead.tier;
 
 			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+						const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
+						const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
 
-			if (serviceId && templateId && publicKey) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
-						from_name: company || 'Event Access Risk Scanner lead',
-						from_email: email,
-						company,
-						budget: money(result.staffingDelta),
-						timeline: `${result.gateTimeSavedMin} min faster gate`,
-						message: `New Event Access Risk Scanner result (source: /labs/event-access-risk). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
-						lead_type: 'lead_magnet_event_risk',
-						lead_score: leadScoreVal,
-						lead_tier: leadTier
-					},
-					{ publicKey }
-				);
-			} else {
-				console.warn('EmailJS not configured — event-risk lead not emailed:', email);
-			}
+						if (serviceId && templateId && publicKey) {
+							await emailjs.send(
+								serviceId,
+								templateId,
+								{
+									from_name: company || 'Event Access Risk Scanner lead',
+									from_email: email,
+									company,
+									budget: money(result.staffingDelta),
+									timeline: `${result.gateTimeSavedMin} min faster gate`,
+									message: `New Event Access Risk Scanner result (source: /labs/event-access-risk). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+									lead_type: 'lead_magnet_event_risk',
+									lead_score: leadScoreVal,
+									lead_tier: leadTier,
+									lead_source: leadSource
+								},
+								{ publicKey }
+							);
+						} else {
+							console.warn('EmailJS not configured — event-risk lead not emailed:', email);
+						}
 
-			try {
-				await supabase
-					.from('newsletter_subscriptions')
-					.insert([
-						{ email, source: 'lead_magnet_event_risk', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier }
-					])
-					.select();
-			} catch {
-				console.info('Event risk lead backup skipped (DB unavailable):', email);
-			}
+						try {
+							await supabase
+								.from('newsletter_subscriptions')
+								.insert([
+									{ email, source: 'lead_magnet_event_risk', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource }
+								])
+								.select();
+						} catch {
+							console.info('Event risk lead backup skipped (DB unavailable):', email);
+						}
 		} catch (err) {
 			console.warn('Event risk lead email failed:', err);
 		} finally {

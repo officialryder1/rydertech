@@ -22,7 +22,16 @@
         'event-access-risk': 'Event Access Risk Scanner'
     };
     const tool = $derived($page.url.searchParams.get('tool') ?? '');
-    const toolLabel = $derived(toolLabels[tool] ?? 'free tools');
+    const toolLabel = $derived(Reflect.get(toolLabels, tool) ?? 'free tools');
+    const utmSource = $derived($page.url.searchParams.get('utm_source') ?? '');
+    const utmMedium = $derived($page.url.searchParams.get('utm_medium') ?? '');
+    const utmCampaign = $derived($page.url.searchParams.get('utm_campaign') ?? '');
+    const fullLeadSource = $derived([
+        tool ? `tool:${tool}` : '',
+        utmSource ? `utm:${utmSource}` : '',
+        utmMedium ? `medium:${utmMedium}` : '',
+        utmCampaign ? `campaign:${utmCampaign}` : ''
+    ].filter(Boolean).join('|') || (tool ? `contact?tool=${tool}` : 'contact'));
 
     // WhatsApp is the reliable instant channel (confirmed working).
     const waPhone = '2349033147769';
@@ -118,7 +127,7 @@
                     budget: formData.budget,
                     timeline: formData.timeline,
                     message: formData.message,
-                    lead_source: tool ? `contact?tool=${tool}` : 'contact'
+                    lead_source: fullLeadSource
                 },
                 { publicKey }
             );
@@ -134,7 +143,7 @@
                         budget: formData.budget,
                         timeline: formData.timeline,
                         message: formData.message,
-                        lead_source: tool ? `contact?tool=${tool}` : 'contact',
+                        lead_source: fullLeadSource,
                         submitted_at: new Date().toISOString(),
                         status: 'new'
                     }

@@ -30,6 +30,7 @@
 	import { env } from '$env/dynamic/public';
 	import emailjs from '@emailjs/browser';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import type { ReviewResult } from '$lib/websiteRaterResults';
 
 	// State
@@ -43,6 +44,14 @@
 	let isSubmitting = $state(false);
 	let unlocked = $state(false);
 	let leadError = $state<string | null>(null);
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get('utm_source');
+	const _toolParam = page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : ''
+	].filter(Boolean).join('|') || 'direct');
 
 	const categoryIcons: Record<string, any> = {
 		design: Palette,
@@ -169,7 +178,8 @@
 						message: `New Website Rater result (source: /labs/website-rater). Lead score: ${lead.points}/100 (${lead.tier}).\n\nURL: ${reviewedUrl}\nScore: ${review?.overallScore}/10\nSummary: ${summaryText}`,
 						lead_type: 'lead_magnet_website_rater',
 						lead_score: lead.points,
-						lead_tier: lead.tier
+						lead_tier: lead.tier,
+						lead_source: leadSource
 					},
 					{ publicKey }
 				);
@@ -181,7 +191,7 @@
 				await supabase
 					.from('newsletter_subscriptions')
 					.insert([
-						{ email, source: 'lead_magnet_website_rater', subscribed_at: new Date().toISOString(), lead_score: lead.points, lead_tier: lead.tier }
+						{ email, source: 'lead_magnet_website_rater', subscribed_at: new Date().toISOString(), lead_score: lead.points, lead_tier: lead.tier, lead_source: leadSource }
 					])
 					.select();
 			} catch (dbErr) {
@@ -501,19 +511,21 @@
 							Enter your email and we'll send you a scoped performance audit — the fixes for your
 							lowest-scoring areas and what a rebuild is worth.
 						</p>
-						<form onsubmit={handleLeadSubmit} class="max-w-md mx-auto space-y-3">
-							<div class="flex gap-2">
-								<Input type="text" bind:value={company} placeholder="Company" class="flex-1" />
-								<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
-							</div>
-							{#if leadError}
-								<p class="text-xs text-destructive text-center">{leadError}</p>
-							{/if}
-							<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90">
-								{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
-							</Button>
-							<p class="text-center text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
-						</form>
+						<div class="group max-w-md mx-auto space-y-3">
+										<form onsubmit={handleLeadSubmit} class="space-y-3">
+											<div class="flex gap-2">
+												<Input type="text" bind:value={company} placeholder="Company" class="flex-1" />
+												<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
+											</div>
+											{#if leadError}
+												<p class="text-xs text-destructive text-center">{leadError}</p>
+											{/if}
+											<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible">
+												{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
+											</Button>
+											<p class="text-center text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
+										</form>
+									</div>
 					</div>
 				{:else}
 					<div class="text-center pt-8 space-y-4">

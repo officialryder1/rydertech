@@ -9,6 +9,7 @@
 	import emailjs from '@emailjs/browser';
 	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import {
 		Sparkles, Copy, RefreshCw, AlertCircle, Loader2, Send, TrendingUp,
 		Target, Type, List, HelpCircle, Megaphone, Shield, Award, Zap,
@@ -24,6 +25,14 @@
 	let count = $state(8);
 	let loading = $state(false);
 	let error = $state('');
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get('utm_source');
+	const _toolParam = page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : ''
+	].filter(Boolean).join('|') || 'direct');
 	let result = $state<HeadlineResult | null>(null);
 	let copiedId = $state<string | null>(null);
 	let email = $state('');
@@ -164,7 +173,8 @@
 						message: `New AI Headline Studio result (source: /labs/headline-studio).\nLead score: ${lead.points}/100 (${lead.tier}).\n\n${summaryText()}`,
 						lead_type: 'lead_magnet_headline_studio',
 						lead_score: lead.points,
-						lead_tier: lead.tier
+						lead_tier: lead.tier,
+						lead_source: leadSource
 					},
 					{ publicKey }
 				);
@@ -182,8 +192,9 @@
 							source: 'lead_magnet_headline_studio',
 							subscribed_at: new Date().toISOString(),
 							lead_score: lead.points,
-							lead_tier: lead.tier
-						}
+							lead_tier: lead.tier,
+							lead_source: leadSource
+							}
 					])
 					.select();
 			} catch {

@@ -30,6 +30,7 @@
 	} from '$lib/qDayReadiness';
 	import { reportFromQDay, buildShareUrl } from '$lib/shareReport';
 	import { scoreLead } from '$lib/leadScore';
+	import { page } from '$app/stores';
 
 	// Defaults model a mid-size firm with notable quantum exposure
 	const DEFAULTS: QDayInput = {
@@ -51,6 +52,14 @@
 	let unlocked = $state(false);
 	let showShare = $state(false);
 	let error = $state<string | null>(null);
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get("utm_source");
+	const _toolParam = page.url.searchParams.get("tool");
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : "",
+		_toolParam ? `tool:${_toolParam}` : ""
+	].filter(Boolean).join("|") || "direct");
 
 	const riskConfig: Record<RiskLevel, { label: string; color: string; icon: any }> = {
 		low: { label: 'Low Risk — Watchful Waiting', color: 'text-green-600', icon: ShieldCheck },
@@ -107,7 +116,8 @@
 						budget: '',
 						timeline: '',
 						message: 'New lead from Q-Day Readiness calculator.',
-						lead_type: 'qday_readiness'
+						lead_type: 'qday_readiness',
+						lead_source: leadSource
 					},
 					{ publicKey }
 				);
@@ -119,7 +129,7 @@
 			try {
 				const { error: dbErr } = await supabase
 					.from('newsletter_subscriptions')
-					.insert([{ email, source: 'qday_readiness', subscribed_at: new Date().toISOString() }])
+					.insert([{ email, source: 'qday_readiness', subscribed_at: new Date().toISOString(), lead_source: leadSource }])
 					.select();
 				if (dbErr) throw dbErr;
 			} catch (dbErr) {

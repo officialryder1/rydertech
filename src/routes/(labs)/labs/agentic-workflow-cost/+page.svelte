@@ -31,6 +31,7 @@
   import { reportFromAgenticCost, buildShareUrl } from '$lib/shareReport';
   import { scoreLead } from '$lib/leadScore';
   import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
   // Defaults model a realistic Lagos/SME using WhatsApp + M-Pesa manually.
   // Calibrated to yield a ~8-12 month payback to argue for the service.
@@ -51,6 +52,14 @@
   let isSubmitting = $state(false);
   let unlocked = $state(false);
   let error = $state<string | null>(null);
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get('utm_source');
+	const _toolParam = page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : ''
+	].filter(Boolean).join('|') || 'direct');
 
   const input = $derived<EngineInput>({
     hourlyCost,
@@ -171,6 +180,7 @@
             lead_type: 'lead_magnet_agentic_cost',
             lead_score: leadScoreVal,
             lead_tier: leadTier,
+            lead_source: leadSource,
           },
           { publicKey }
         );
@@ -183,7 +193,7 @@
         await supabase
           .from('newsletter_subscriptions')
           .insert([
-            { email, source: 'lead_magnet_agentic_cost', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier },
+            { email, source: 'lead_magnet_agentic_cost', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource },
           ])
           .select();
       } catch {

@@ -9,6 +9,7 @@
 	import emailjs from '@emailjs/browser';
 	import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import {
 		Sparkles, Copy, RefreshCw, AlertCircle, Loader2, Linkedin, Twitter,
 		Mail, Video, Instagram, BookOpen, Send
@@ -22,6 +23,14 @@
 	let selectedPlatforms = $state<string[]>(['linkedin', 'twitter']);
 	let loading = $state(false);
 	let error = $state('');
+
+	// Capture lead source from URL params (utm_source, tool)
+	const _utmSource = page.url.searchParams.get('utm_source');
+	const _toolParam = page.url.searchParams.get('tool');
+	const leadSource = $derived([
+		_utmSource ? `utm:${_utmSource}` : '',
+		_toolParam ? `tool:${_toolParam}` : ''
+	].filter(Boolean).join('|') || 'direct');
 	let posts = $state<RepurposedPost[]>([]);
 	let copiedId = $state<string | null>(null);
 	let email = $state('');
@@ -173,7 +182,8 @@
 						message: `New AI Content Repurposer result (source: /labs/content-repurposer).\nLead score: ${lead.points}/100 (${lead.tier}).\n\n${summaryText()}`,
 						lead_type: 'lead_magnet_content_repurposer',
 						lead_score: lead.points,
-						lead_tier: lead.tier
+						lead_tier: lead.tier,
+						lead_source: leadSource
 					},
 					{ publicKey }
 				);
@@ -190,8 +200,9 @@
 							source: 'lead_magnet_content_repurposer',
 							subscribed_at: new Date().toISOString(),
 							lead_score: lead.points,
-							lead_tier: lead.tier
-						}
+							lead_tier: lead.tier,
+							lead_source: leadSource
+							}
 					])
 					.select();
 			} catch {
