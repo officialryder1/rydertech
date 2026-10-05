@@ -51,6 +51,7 @@
 
 <svelte:head>
   <title>AI & ML Services | RyderTech — Intelligent Software for Nigerian Businesses</title>
+  <link rel="canonical" href="https://www.rydertech.ng/services/ai" />
   <meta name="description" content="RyderTech builds AI & ML solutions: LLM chatbots, computer vision, ML automation, and AI-ready apps for businesses in Lagos, Abuja, Port Harcourt, and worldwide. Book an AI consult." />
   <meta name="keywords" content="AI development Nigeria, machine learning Nigeria, LLM chatbot, computer vision, AI automation, AI app development Lagos, RAG agent, MLOps Nigeria" />
   {@html `<script type="application/ld+json">${JSON.stringify({

@@ -1050,7 +1050,7 @@
 </div>
 
 <svelte:head>
-  <link rel="canonical" href="https://rydertech.ng" />
+  <link rel="canonical" href="https://www.rydertech.ng" />
   {@html `<script type="application/ld+json">${faqJson}</script>`}
 </svelte:head>
 

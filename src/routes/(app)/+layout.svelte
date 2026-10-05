@@ -99,7 +99,7 @@ function applyUpdate() {
 
   <!-- Open Graph -->
    <meta property="og:type" content="website" />
-   <meta property="og:url" content="https://rydertech.ng"/>
+   <meta property="og:url" content="https://www.rydertech.ng"/>
    <meta property="og:title" content="RyderTech — Web, Mobile & AI Software Agency in Abuja, Nigeria" />
    <meta property="og:description" content="RyderTech is an Abuja-based web development & software agency building fast, AI-powered web, mobile, and cloud platforms — and making them intelligent with AI: LLM chatbots, computer vision, and ML automation." />
     <meta property="og:image" content="https://rydertech.ng/og-image.jpg" />

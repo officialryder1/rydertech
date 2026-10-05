@@ -5,8 +5,8 @@
 
   const metaTitle = seoTitle ?? `${title} - RyderTech Blog`;
   const metaDescription = ogDescription ?? excerpt;
-  const canonical = `https://rydertech.ng/blog/${slug ?? ''}`;
-  const og = { title: ogTitle ?? metaTitle, description: metaDescription, type: 'article', url: canonical, image: image ?? 'https://rydertech.ng/icons/og-image.png' };
+  const canonical = `https://www.rydertech.ng/blog/${slug ?? ''}`;
+  const og = { title: ogTitle ?? metaTitle, description: metaDescription, type: 'article', url: canonical, image: image ?? 'https://www.rydertech.ng/icons/og-image.png' };
   const twitter = { card: 'summary_large_image', site: '@rydertech', title: metaTitle, description: twitterText ?? metaDescription, image: og.image };
 </script>
 

@@ -13,7 +13,7 @@
   // Static canonical: the page is prerendered, so $page.url resolves to the
   // SvelteKit build placeholder ("http://sveltekit-prerender/..."). Always use
   // the real canonical origin + slug for <link canonical>, OG, and JSON-LD.
-  const canonicalUrl = `https://rydertech.ng/blog/${post.metadata.slug}`;
+  const canonicalUrl = `https://www.rydertech.ng/blog/${post.metadata.slug}`;
 
   // Format date once
   const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', { 
