@@ -8,6 +8,7 @@ export const GET: RequestHandler = async () => {
     { path: '/services/ai', priority: '0.9', freq: 'weekly' },
     { path: '/services/web-design-in-nigeria', priority: '0.8', freq: 'monthly' },
     { path: '/about', priority: '0.6', freq: 'monthly' },
+    { path: '/terms', priority: '0.4', freq: 'yearly' },
     { path: '/work', priority: '0.7', freq: 'monthly' },
     { path: '/reviews', priority: '0.7', freq: 'weekly' },
     { path: '/contact', priority: '0.8', freq: 'monthly' },
