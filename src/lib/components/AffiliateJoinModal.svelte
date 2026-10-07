@@ -67,7 +67,7 @@
 {#if show}
   <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
     <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" on:click={closeModal}></div>
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" on:click={closeModal} role="alert" aria-label="Close"></div>
     
     <!-- Modal -->
     <div class="relative bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-slideUp">

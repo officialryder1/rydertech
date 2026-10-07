@@ -64,7 +64,9 @@
 {#if show}
   <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4 animate-fadeIn">
     <!-- Backdrop -->
-    <div 
+    <div
+      role="alert"
+      aria-label="Close affiliate popup"
       class="absolute inset-0 bg-black/50 backdrop-blur-sm"
       onclick={handleClose}
     ></div>

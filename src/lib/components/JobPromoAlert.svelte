@@ -33,7 +33,9 @@
 </script>
 
 {#if isVisible}
-  <div 
+  <div
+    role="alert"
+    aria-label="RyderTech promotional banner"
     class="fixed z-[9999] {positionClasses[position]} transition-all duration-300 ease-out"
     class:opacity-0={isAnimating}
     class:scale-95={isAnimating}
