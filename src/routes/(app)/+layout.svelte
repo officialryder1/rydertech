@@ -229,7 +229,7 @@ function applyUpdate() {
             </div>
           </div>
           <p class="text-gray-400 max-w-md text-lg leading-relaxed">
-            We build the platforms that run your business — web, mobile, and cloud — and make them intelligent with AI, from chatbots to computer vision.
+            We build the platforms that run your business web, mobile, and cloud and make them intelligent with AI, from chatbot to computer vision.
           </p>
         </div>
         
