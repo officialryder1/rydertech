@@ -23,7 +23,7 @@
 </svelte:head>
 
 <div class="min-h-screen bg-slate-50 text-slate-900">
-	<div class="mx-auto max-w-6xl px-4 py-10 md:py-16">
+	<div class="mx-auto max-w-6xl px-4 pt-28 pb-10 md:pt-32 md:pb-16">
 		<div
 			class="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_25px_80px_-30px_rgba(15,23,42,0.25)]"
 		>
