@@ -264,6 +264,14 @@ function applyUpdate() {
             {/each}
           </div>
         </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-4">Legal</h3>
+          <div class="space-y-2 text-gray-400">
+            <a href="/terms" class="hover:text-white transition-colors cursor-pointer block">Terms &amp; Conditions</a>
+            <a href="/privacy" class="hover:text-white transition-colors cursor-pointer block">Privacy Policy (coming)</a>
+          </div>
+        </div>
       </div>
       
       <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">

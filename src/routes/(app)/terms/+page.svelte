@@ -6,8 +6,8 @@
 </script>
 
 <svelte:head>
-  <title>Terms & Conditions | RyderTech — Abuja Web & AI Agency</title>
-  <meta name="description" content="RyderTech Terms & Conditions. Nigeria-based web development and AI agency. Project engagement, payments (50% deposit), IP transfer on full payment, and liability terms." />
+  <title>Terms Conditions | RyderTech, Abuja Web AI Agency</title>
+  <meta name="description" content="RyderTech Terms and Conditions. Nigeria-based web development and AI agency. Project engagement, payments (50% deposit), IP transfer on full payment, and liability terms." />
   <link rel="canonical" href="https://www.rydertech.ng/terms" />
   <meta property="og:title" content="Terms & Conditions | RyderTech" />
   <meta property="og:description" content="Client engagement, payments, IP transfer, and liability terms for RyderTech projects." />
@@ -23,7 +23,8 @@
       <p class="text-gray-500">Effective: {effectiveDate}</p>
     </header>
 
-    <div class="prose prose-gray max-w-none">
+    <div class="prose-sm prose-gray max-w-prose mx-auto">
+      <!-- max-w-prose caps at 65ch for readability; margins auto-center -->
       <p>
         These Terms &amp; Conditions ("Terms") govern your use of <strong>RyderTech.ng</strong>, the
         RyderTech client portal, courses, labs tools, and any services or projects delivered by
@@ -150,14 +151,14 @@
       </p>
       <p>
         A full Privacy Policy is being drafted; until it is published, you may request a copy of your
-        data or ask us to delete it by writing to <a class="text-primary underline" href="mailto:hello@rydertech.ng">hello@rydertech.ng</a>.
+        data or ask us to delete it by writing to <a class="text-primary underline" href="mailto:rydertech.ng@gmail.com">rydertech.ng@gmail.com</a>.
       </p>
 
       <hr class="my-12 border-gray-200" />
 
       <p class="text-gray-600">
         Questions? Write to us at
-        <a class="text-primary underline" href="mailto:hello@rydertech.ng">hello@rydertech.ng</a>
+        <a class="text-primary underline" href="mailto:rydertech.ng@gmail.com">rydertech.ng@gmail.com</a>
         — or visit <a class="text-primary underline" href="/contact">/contact</a>.
       </p>
     </div>
