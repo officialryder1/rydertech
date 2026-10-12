@@ -13,7 +13,7 @@ const config = {
 		remarkPlugins: [],
 		rehypePlugins: []
 	})],
-	kit: { adapter: adapter() },
+	kit: { adapter: adapter({ runtime: 'nodejs22.x' }) },
 	extensions: ['.svelte', '.svx']
 };
 

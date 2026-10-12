@@ -15,6 +15,27 @@
 		<link rel="manifest" href="%sveltekit.assets%/manifest.json">
 		<!-- iOS icons -->
   		<link rel="apple-touch-icon" href="/icons/pwa-192x192.png">
+
+		<!-- Campaign display fonts (self-hosted, latin subset). Declared once here
+		     rather than per-page so there is no duplicate @font-face across routes. -->
+		<link rel="preload" as="font" type="font/woff2" href="/fonts/playfair-display-latin-var.woff2" crossorigin="anonymous">
+		<link rel="preload" as="font" type="font/woff2" href="/fonts/roboto-latin-var.woff2" crossorigin="anonymous">
+		<style>
+			@font-face {
+				font-family: 'Playfair Display';
+				font-style: normal;
+				font-weight: 400 900;
+				font-display: swap;
+				src: url('/fonts/playfair-display-latin-var.woff2') format('woff2');
+			}
+			@font-face {
+				font-family: 'Roboto';
+				font-style: normal;
+				font-weight: 100 900;
+				font-display: swap;
+				src: url('/fonts/roboto-latin-var.woff2') format('woff2');
+			}
+		</style>
 		%sveltekit.head%
 
 		<!-- Google tag (gtag.js) -->
