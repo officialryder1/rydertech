@@ -197,13 +197,18 @@ export function isReconciliationWork(manualTasks: string[]): boolean {
 }
 
 /**
- * Loaded hourly rate from Q8. The stored range midpoint is the monthly cost for the
- * whole team; dividing by team size gives cost per person, then by monthly hours.
- * With no team size we assume 1 person, which is the conservative (higher) hourly rate.
+ * Loaded hourly rate from Q8.
+ *
+ * @Marketer's footnote reads: "Staff cost converted to loaded hourly rate using
+ * midpoint of selected range x team size estimate." The range is the PER-PERSON
+ * monthly cost, so multiplying by team size and dividing by (team size x monthly
+ * hours) cancels team size out. Effective rate is therefore midpoint / 160.
+ *
+ * This matters: dividing by team size as well understates the rate by a factor of
+ * team size and pushes every payback figure 2-5x outside the published 4-12 month band.
  */
-export function loadedHourlyCost(range: StaffCostRange, teamSize = 1): number {
-	const size = clamp(teamSize, 1, 500);
-	return STAFF_COST_MIDPOINT[range] / size / WORK_HOURS_PER_MONTH;
+export function loadedHourlyCost(range: StaffCostRange, _teamSize = 1): number {
+	return STAFF_COST_MIDPOINT[range] / WORK_HOURS_PER_MONTH;
 }
 
 /** Complexity from data readiness + number of workflows + team capability. */
@@ -311,7 +316,7 @@ export function computeAudit(input: AuditInput): AuditResult {
 
 	if (hasCost) {
 		assumptions.push(
-			`Staff cost converted to a loaded hourly rate using the midpoint of the selected range (NGN ${STAFF_COST_MIDPOINT[input.staffCostRange].toLocaleString()}/mo) divided by ${teamSize} ${teamSize === 1 ? 'person' : 'people'} and ${WORK_HOURS_PER_MONTH} working hours/month.`
+			`Staff cost converted to a loaded hourly rate using the midpoint of the selected range (NGN ${STAFF_COST_MIDPOINT[input.staffCostRange].toLocaleString()}/mo per person) divided by ${WORK_HOURS_PER_MONTH} working hours/month, then applied to your combined weekly hours.`
 		);
 	} else {
 		assumptions.push('Staff cost not provided — no ROI figure is shown.');
