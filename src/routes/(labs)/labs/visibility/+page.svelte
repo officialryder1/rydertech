@@ -68,8 +68,8 @@
 	let error = $state<string | null>(null);
 
 	// Capture lead source from URL params (utm_source, tool)
-	const _utmSource = page.url.searchParams.get('utm_source');
-	const _toolParam = page.url.searchParams.get('tool');
+	const _utmSource = $page.url.searchParams.get('utm_source');
+	const _toolParam = $page.url.searchParams.get('tool');
 	const leadSource = $derived([
 		_utmSource ? `utm:${_utmSource}` : '',
 		_toolParam ? `tool:${_toolParam}` : ''
