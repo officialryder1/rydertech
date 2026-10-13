@@ -63,6 +63,12 @@ export interface AuditInput {
 	techComfort: Scale15;
 	/** Team size, used only to convert a monthly cost into a loaded hourly rate. */
 	teamSize?: number;
+	/**
+	 * Recurring monthly cost to run the automation (hosting, APIs, retainer).
+	 * Not a question — it is a platform assumption, defaulted from the shipped
+	 * ops-drain preset and disclosed in the report's assumptions block.
+	 */
+	monthlyRunCost?: number;
 }
 
 export interface RoiEstimate {
@@ -70,10 +76,22 @@ export interface RoiEstimate {
 	annual_time_cost: number;
 	/** rate_card_lookup(complexity, sector) */
 	pilot_cost: number;
-	/** pilot_cost / (annual_time_cost / 12) */
-	payback_months: number;
+	/** GROSS headline: pilot_cost / (annual_time_cost / 12). Null when suppressed. */
+	payback_months: number | null;
+	/** NET second line: pilot_cost / ((annual_time_cost - 12 x run cost) / 12). Null when never. */
+	net_payback_months: number | null;
 	/** (annual_time_cost - pilot_cost) / pilot_cost */
 	roi_multiple: number;
+	/** Recurring monthly cost netted off in the second line. */
+	monthly_run_cost: number;
+	/** Set when the gross headline is withheld because run cost eats the saving. */
+	headline_suppressed_reason: string | null;
+	/** Weekly manual hours at which THIS sector+pilot pays back inside 90 days. */
+	ninety_day_threshold_hrs_wk: number;
+	/** True when the respondent's own hours clear the 90-day threshold. */
+	meets_ninety_day: boolean;
+	/** Ready-to-render conditional line; never a blanket promise. */
+	ninety_day_conditional: string;
 }
 
 export interface AuditResult {
@@ -138,6 +156,15 @@ export const STAFF_COST_MIDPOINT: Record<StaffCostRange, number> = {
 
 /** Working hours per person per month — converts a monthly cost to a loaded hourly rate. */
 export const WORK_HOURS_PER_MONTH = 160;
+
+/**
+ * Default recurring cost to run a shipped automation. Not a question — it mirrors the
+ * shipped ops-drain preset (NGN 60,000/mo platform run cost) and is disclosed in the
+ * report's assumptions block. Pass `monthlyRunCost` to override.
+ */
+export const DEFAULT_MONTHLY_RUN_COST = 60_000;
+
+const formatNaira = (n: number) => 'NGN ' + Math.round(n).toLocaleString('en-US');
 
 /**
  * Rate card. Anchors (@Researcher, 2026-10-12):
@@ -248,6 +275,7 @@ export function confidenceOf(input: AuditInput): { confidence: Confidence; reaso
 export function computeAudit(input: AuditInput): AuditResult {
 	const complexity = assessComplexity(input);
 	const teamSize = clamp(input.teamSize ?? 1, 1, 500);
+	const monthlyRunCost = clamp(input.monthlyRunCost ?? DEFAULT_MONTHLY_RUN_COST, 0, 10_000_000);
 
 	// --- ROI ---------------------------------------------------------------
 	const { confidence, reason } = confidenceOf(input);
@@ -259,13 +287,35 @@ export function computeAudit(input: AuditInput): AuditResult {
 		const annual_time_cost = hrsWk * 52 * hourly;
 		const pilot_cost = rateCardLookup(input.sector, complexity);
 		const monthlySaving = annual_time_cost / 12;
-		const payback_months = monthlySaving > 0 ? round(pilot_cost / monthlySaving, 1) : Number.POSITIVE_INFINITY;
-		const roi_multiple = pilot_cost > 0 ? round((annual_time_cost - pilot_cost) / pilot_cost, 2) : 0;
+
+		// Headline = gross (per spec). Second line = net of running the automation.
+		const grossPayback = monthlySaving > 0 ? round(pilot_cost / monthlySaving, 1) : null;
+		const netMonthly = monthlySaving - monthlyRunCost;
+		const netPayback = netMonthly > 0 ? round(pilot_cost / netMonthly, 1) : null;
+
+		// Suppress the headline when the automation's own run cost eats the saving —
+		// same discipline as the confidence flag: withhold rather than overstate.
+		const headlineSuppressed =
+			netMonthly <= 0
+				? `Headline withheld — at ${formatNaira(monthlyRunCost)}/month to run, this automation costs more than the manual work it replaces. Reduce scope or raise the workload.`
+				: null;
+
+		const threshold = ninetyDayThresholdHrsWk(pilot_cost, hourly);
+		const meets = hrsWk >= threshold;
+
 		roi = {
 			annual_time_cost: Math.round(annual_time_cost),
 			pilot_cost,
-			payback_months,
-			roi_multiple
+			payback_months: headlineSuppressed ? null : grossPayback,
+			net_payback_months: netPayback,
+			roi_multiple: pilot_cost > 0 ? round((annual_time_cost - pilot_cost) / pilot_cost, 2) : 0,
+			monthly_run_cost: monthlyRunCost,
+			headline_suppressed_reason: headlineSuppressed,
+			ninety_day_threshold_hrs_wk: threshold,
+			meets_ninety_day: meets,
+			ninety_day_conditional: meets
+				? `Your ${hrsWk} hrs/wk clears the ${threshold} hrs/wk this build needs to pay for itself in under 90 days.`
+				: `This build pays for itself in under 90 days once your weekly manual hours exceed ${threshold}. You are at ${hrsWk}.`
 		};
 	}
 
@@ -331,6 +381,9 @@ export function computeAudit(input: AuditInput): AuditResult {
 	}
 
 	assumptions.push(`Pilot priced at the ${complexity}-complexity ${input.sector.replace(/_/g, ' ')} rate.`);
+	assumptions.push(
+		`Running the automation is assumed to cost ${formatNaira(monthlyRunCost)}/month (hosting, APIs, retainer); the headline payback is gross of this and the second line nets it off.`
+	);
 
 	const citations = isReconciliationWork(input.manualTasks)
 		? [CITATIONS.world_bank_recon, CITATIONS.sage_default, CITATIONS.nuelsville]

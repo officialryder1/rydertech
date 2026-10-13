@@ -341,7 +341,7 @@
 	}
 </script>
 
-<div id="calculator" class="grid gap-6 lg:grid-cols-[1fr_400px]">
+<div class="audit-calculator grid gap-6 lg:grid-cols-[1fr_400px]">
 	<!-- INPUTS -->
 	<section class="space-y-5">
 		<Card>
@@ -518,7 +518,7 @@
 			<CardContent class="pt-6">
 				{#if !unlocked}
 					<div class="mb-4 flex items-center justify-between gap-2">
-						<Badge variant="secondary" class="border-[#D4AF37]/30 bg-[#D4AF37]/10 text-[#D4AF37]">
+						<Badge variant="outline" class="border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
 							Step 2
 						</Badge>
 						<span class="text-xs text-gray-500">Free · No sales call</span>

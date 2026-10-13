@@ -94,6 +94,48 @@
       "segment": "ops-heavy_businesses",
       "date": "2026-08-21",
       "sendAt": "13:13"
+    },
+    {
+      "email": "info@printivo.com",
+      "segment": "ops-heavy_businesses",
+      "date": "2026-10-08",
+      "sendAt": "14:16"
+    },
+    {
+      "email": "info@aiicoplc.com",
+      "segment": "ops-heavy_businesses",
+      "date": "2026-10-08",
+      "sendAt": "14:24"
+    },
+    {
+      "email": "info@seamfix.com",
+      "segment": "saas",
+      "date": "2026-10-08",
+      "sendAt": "14:40"
+    },
+    {
+      "email": "info@esusu.africa",
+      "segment": "saas",
+      "date": "2026-10-08",
+      "sendAt": "17:04"
+    },
+    {
+      "email": "info@hoteloga.com",
+      "segment": "saas",
+      "date": "2026-10-08",
+      "sendAt": "17:28"
+    },
+    {
+      "email": "info@terragon.com",
+      "segment": "saas",
+      "date": "2026-10-10",
+      "sendAt": "10:40"
+    },
+    {
+      "email": "info@exact.com.gh",
+      "segment": "saas",
+      "date": "2026-10-10",
+      "sendAt": "16:00"
     }
   ]
 }

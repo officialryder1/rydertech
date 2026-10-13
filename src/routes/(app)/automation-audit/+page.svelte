@@ -153,7 +153,7 @@
 />
 
 <div
-	class="campaign-dark min-h-screen bg-[#0A0A0F] font-roboto text-gray-200 antialiased selection:bg-[#06B6D4]/30 selection:text-white"
+	class="campaign-dark dark min-h-screen bg-[#0A0A0F] font-roboto text-gray-200 antialiased selection:bg-[#06B6D4]/30 selection:text-white"
 >
 	<!-- ============================= HERO ============================= -->
 	<section class="relative overflow-hidden border-b border-white/5">
