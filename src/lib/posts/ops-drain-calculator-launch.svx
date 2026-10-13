@@ -1,0 +1,71 @@
+---
+title: "We Built a Calculator That Shows Exactly How Much Manual Work Costs You"
+description: "How much is manual work costing your Nigerian business every month? Our Ops Drain Calculator reveals the real cost in naira — and how fast automation actually pays for itself."
+date: "2026-10-12"
+author: "Victor, RyderTech"
+slug: "ops-drain-calculator-launch"
+category: "Automation"
+readTime: "5 min read"
+excerpt: "Every ROI calculator we tried used American salary inputs — so the number was useless here. We built one that prices manual work in naira. Here's why that one detail changes the entire decision."
+tags: ["automation", "ops-drain", "roi-calculator", "nigeria", "process-automation"]
+image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1000&auto=format&fit=crop"
+views: 0
+comments: 0
+labs_tool: "ops-drain"
+---
+
+# We Built a Calculator That Shows Exactly How Much Manual Work Costs You
+
+Most businesses don't have an AI problem. They have a math problem they've never actually done.
+
+We kept hearing the same thing in discovery calls: *"We know we should automate some of this, but we don't know where to start, and honestly we don't know if it's worth it."*
+
+Fair. So we went looking for a calculator. There are dozens of automation ROI calculators online, and we found the problem in about four minutes.
+
+## The Problem With Every ROI Calculator We Tried
+
+They all ask you the same question: **what's your average hourly labor cost?**
+
+And they all default to something like $45/hour. Some let you change it. Most people don't.
+
+Then the calculator runs the math and tells you automation pays back in 11 months.
+
+Here's why that number is worse than useless for a business in Lagos or Abuja. If your admin staff cost ₦180,000 a month and works 160 hours, your real loaded hourly cost is around **₦1,125** — not $45. The same process, priced with the wrong wage input, produces a payback period that's off by a factor of roughly 40.
+
+A business owner types in their real hours, sees a payback window that looks like 18 months, closes the tab, and keeps doing it manually. Not because automation is a bad investment for them — but because the tool lied to them with someone else's salary.
+
+We couldn't find a calculator that did this properly for the Nigerian market. So we built one.
+
+## What the Ops Drain Calculator Actually Does
+
+It starts where every honest audit should: with **your** processes, priced in **naira**.
+
+You tell it what your team does manually — check-in, scheduling, data entry, reconciliation, invoicing, reporting. How many people touch it, how long each one takes, how often.
+
+Then it does three things:
+
+1. **Prices the drain** — the annual cost of the manual work, using a Nigerian hourly rate you can actually verify.
+2. **Prices the fix** — the automation build cost plus its monthly run cost.
+3. **Returns the payback period in days** — not a vague "efficiency gains" claim.
+
+The default hourly rate is **₦6,500**, and there's a currency toggle if you're pricing a dollar-facing operation. We set the Nigerian number as the default deliberately, because the default is what most people leave alone — and that's exactly where every other calculator gets it wrong.
+
+**A real example.** Three people doing manual check-in, twenty minutes each, daily. That's 60 minutes a day of staff time. At ₦6,500/hour, it's about **₦1.6M a year** in staff hours for a process that a QR check-in system handles in 0.4 seconds per attendee. Against a build cost that lands well under that, the payback is measured in **days**, not quarters.
+
+That's the entire point. Not "automation is the future." Just: *here is the leak, here is what closing it costs, here is when it pays for itself.*
+
+## What We Learned Building It
+
+**Everyone underestimates the small stuff.** No single manual task looks expensive. Twenty minutes a day is nothing. The calculator's job is to make people add them up — and it's the *sum* that's usually a full salary.
+
+**The 90-day line is a genuinely useful filter.** When we scoped our first automation build, we held ourselves to one rule: if it doesn't pay for itself inside 90 days, we don't recommend it. It forces honest sequencing. Most businesses shouldn't start with the impressive platform — they should start with the repetitive process that drains the most.
+
+**Real production systems make the claim credible.** We're not theorizing. We run **Veripasshub** for event check-in — 50,000+ verified records, 0.4-second response, and zero gate staff. We built [Gym House](/labs) to run 500+ gym members with no full-time admin — billing, check-in, and audit logs fully automated. Those aren't pitch decks. They're running.
+
+## Run Your Own Numbers
+
+The calculator is free, needs no email address, and takes about thirty seconds.
+
+[**Calculate Your Ops Drain →**](/automation-audit)
+
+If the number surprises you, that's the point. It surprises almost everyone — and it's usually the first time anyone's actually done the math.

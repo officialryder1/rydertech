@@ -1,0 +1,91 @@
+---
+title: "How Veripasshub Cut Event Gate Costs by 70% (Case Study)"
+description: "A full case study on Veripasshub — how automated QR event check-in replaced twelve manual gate agents with a 0.4-second scan, 50,000+ verified records, and a real-time attendance dashboard."
+date: "2026-10-15"
+author: "Victor, RyderTech"
+slug: "veripasshub-event-gate-costs-case-study"
+category: "Case Study"
+readTime: "6 min read"
+excerpt: "Twelve gate agents, long queues, and no reliable attendance count. Here's what the gate looked like before automation — and the numbers after."
+tags: ["veripasshub", "event-automation", "qr-check-in", "case-study", "nigeria"]
+image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop"
+views: 0
+comments: 0
+labs_tool: "event-access-risk"
+---
+
+# How Veripasshub Cut Event Gate Costs by 70% (Case Study)
+
+Every event we ran into had the same gate problem, and it was never about staffing discipline.
+
+It was structural. A gate is a place where you ask a human to verify, one at a time, whether another human is allowed in. That task has a fixed throughput, and it does not care that 900 people arrived at the same minute.
+
+Here's what that looked like, what we changed, and what it's worth.
+
+## The Problem
+
+Our client's events were running twelve gate agents per venue.
+
+Each one manually checked a ticket or a name against a list. It worked, in the sense that people eventually got in. But:
+
+- **Queues.** Throughput was limited by how fast a person could read a name and make a judgement call. Peak arrival always exceeded it.
+- **No real count.** Attendance was an estimate produced the next morning. During the event, nobody could answer "how many people are inside?"
+- **Duplicate entries.** Manual checking can't reliably catch a ticket presented twice, and on a sold-out event that's real revenue.
+- **Payroll for twelve people** to perform a task that is, functionally, a lookup.
+
+The last one is the one that got the attention. Twelve agents at a Nigerian loaded rate is a substantial monthly figure — spent entirely on a 0.4-second lookup.
+
+## The Solution
+
+We built **Veripasshub** as a QR check-in system with automated verification.
+
+The attendee receives a unique QR code. At the gate, a staff member scans it. The system validates it against the verified record set and returns a result in **0.4 seconds** — valid, invalid, or already-scanned.
+
+There is no manual list to check. There is no judgement call to make. The scan either resolves or it doesn't.
+
+Underneath:
+
+- **50,000+ verified attendee records** processed through the system
+- **Cryptographic QR validation** — a duplicate scan is detected, not eyeballed
+- **Real-time attendance dashboard** — the count is live, during the event
+- **Full audit trail** — every scan is logged with a timestamp, which matters for security and post-event reporting
+- **Fully automated infrastructure** — no manual gate staff required to operate it
+
+## The Result
+
+The gate went from **twelve agents to zero**. Attendees scan and walk in.
+
+The staffing cost reduction landed around **70%**. That's the number that justified the build, and it paid for itself well inside a quarter.
+
+But the operationally interesting change was the queue. It stopped existing. Not "improved" — gone, because the throughput constraint moved from human reaction time to a scan event.
+
+And attendance stopped being an estimate. The dashboard gave a live count, which is the difference between managing an event and reconstructing one the next day.
+
+## What Made the Payback Obvious
+
+This was not a hard ROI case to argue, and the reason is worth stating plainly: **the process repeated on every single event.**
+
+A one-off automation has to justify itself once against an uncertain future. A recurring one has a cycle count. Twelve agents, every event, indefinitely — against a build that costs less than a fraction of what those agents cost across a season.
+
+That's the same logic behind the [Ops Drain Calculator](/automation-audit): find the loop that repeats, price the cycle, divide.
+
+## The Generalisable Part
+
+Veripasshub is an events product, but the pattern isn't specific to events.
+
+Any process shaped like *"a human verifies, one at a time, whether something is legitimate"* is a candidate:
+
+- **Gyms** — member check-in against an active membership
+- **Property** — guest and viewing access for short-lets and estates
+- **Venues** — staff access control with an audit trail
+- **Logistics** — delivery confirmation at handover
+
+Same engine, different record set. We've reused the validation core for all four.
+
+## Check Your Own Exposure
+
+If you run events, the [Event Access Risk Scanner](/labs/event-access-risk) will tell you where your gate leaks — clear-time bottlenecks, gatecrash exposure, and revenue at risk. It's free.
+
+And if you want the general version, the [Ops Drain Calculator](/automation-audit) prices your manual processes in naira and returns the payback period.
+
+**[Run the Event Access Risk Scanner →](/labs/event-access-risk)**

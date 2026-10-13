@@ -1,6 +1,6 @@
 <script lang="ts">
 	/**
-	 * /automation-audit — RyderTech "90-Day Automation Audit" campaign landing page.
+	 * /automation-audit — RyderTech Automation Audit campaign landing page.
 	 *
 	 * Brand: premium dark (#0A0A0F base), cyan #06B6D4 + gold #D4AF37 accents,
 	 * Playfair Display headers + Roboto body (self-hosted below, no external request).
@@ -140,14 +140,14 @@
 	data={{
 		title: 'Automation Audit — How Much Is Manual Work Costing You Every Month? | RyderTech',
 		description:
-			'Most businesses do not need AI agents — they need automation that pays for itself in 90 days. Calculate your ops drain in naira, see your payback period, and book a free automation audit call.',
+			'Find out what your manual ops drag costs — and whether automation pays for itself inside 12 months. Calculate your ops drain in naira, see your payback period, and book a free automation audit call.',
 		canonical: 'https://rydertech.ng/automation-audit',
 		keywords: [
 			'automation audit',
 			'ops drain calculator',
 			'automation ROI Nigeria',
 			'business process automation',
-			'90-day payback automation'
+			'payback inside 12 months'
 		]
 	}}
 />
@@ -175,7 +175,7 @@
 				class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-1.5 text-xs font-medium tracking-wide text-[#D4AF37] uppercase"
 			>
 				<Sparkles class="h-3.5 w-3.5" />
-				The 90-Day Automation Audit
+				The Automation Audit
 			</div>
 
 			<h1 class="font-playfair text-4xl leading-tight font-bold text-white md:text-6xl md:leading-[1.1]">
@@ -391,6 +391,12 @@
 						Automation pays for itself in {livePayback} months.
 					</p>
 				{/if}
+				{#if result && result.recoverableAnnualHours / 52 >= 43.6}
+					<p class="mt-2 text-sm font-medium text-[#06B6D4]">
+						At your current workload, this pays for itself in under 90 days — recoverable manual
+						hours above 44/week hit that mark at today's rates.
+					</p>
+				{/if}
 			</div>
 		{/if}
 	</section>
@@ -452,7 +458,7 @@
 			</div>
 
 			<h2 class="font-playfair text-3xl leading-tight font-bold text-white md:text-5xl">
-				Your 90-Day Payback <span class="text-[#D4AF37]">Starts Here</span>
+				Your Payback Clock <span class="text-[#D4AF37]">Starts Here</span>
 			</h2>
 
 			<p class="mx-auto mt-6 max-w-xl text-lg text-gray-400">
@@ -495,7 +501,7 @@
 				</div>
 				<div>
 					<Clock class="mb-3 h-5 w-5 text-[#06B6D4]" />
-					<p class="text-sm font-semibold text-white">Payback in 90 days</p>
+					<p class="text-sm font-semibold text-white">Payback inside 12 months, often sooner</p>
 					<p class="mt-1 text-xs text-gray-400">
 						Every build we scope is measured against a payback window. If it does not pay back, we say so.
 					</p>

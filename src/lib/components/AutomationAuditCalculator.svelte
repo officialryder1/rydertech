@@ -299,7 +299,7 @@
 
 		push('NEXT STEP', 9, true, gold);
 		push('Book a free 20-minute Automation Audit call. We map your top 3', 11);
-		push('automation opportunities and project your 90-day ROI before you spend a naira.', 11);
+		push('automation opportunities and project your 12-month ROI before you spend a naira.', 11);
 		y -= 10;
 		push('rydertech.ng/automation-audit', 11, true, cyan);
 

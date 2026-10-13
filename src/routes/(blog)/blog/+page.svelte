@@ -43,6 +43,8 @@
     'Security',
     'Mobile Development',
     'Business',
+    'Automation',
+    'Case Study',
     'Others'
   ];
 

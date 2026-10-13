@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { Component } from 'svelte';
+import { isPublished } from '$lib/postPublish';
 
 export interface PostMetadata {
 	title: string;
@@ -33,6 +34,12 @@ export async function load({ params }): Promise<{ post: Post; slug: string }> {
 
 		if (slug === params.slug) {
 			const post = await resolver();
+
+			// A future-dated post is not reachable by direct URL either, or the
+			// drip leaks through guessed slugs and internal links.
+			if (!isPublished(post.metadata.date)) {
+				error(404, 'Post not found');
+			}
 
 			return {
 				post,

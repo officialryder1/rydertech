@@ -1,7 +1,26 @@
 import type { RequestHandler } from './$types';
+import { publishedOnly } from '$lib/postPublish';
 
 export const GET: RequestHandler = async () => {
   const baseUrl = 'https://rydertech.ng';
+
+  // Blog post URLs are DERIVED from the post files, not hardcoded — a hardcoded
+  // list rots every time a post is added, and it cannot know about publish dates.
+  // Gating here matters: a future-dated post in the sitemap is a 404 Google will
+  // crawl and index as an error.
+  const postModules = import.meta.glob('$lib/posts/*.svx', { eager: true }) as Record<
+    string,
+    { metadata: { date: string | Date } }
+  >;
+  const postPaths = publishedOnly(
+    Object.entries(postModules).map(([path, post]) => ({
+      slug: path.split('/').pop()!.replace('.svx', ''),
+      date: post.metadata.date
+    }))
+  )
+    .map((p) => ({ path: `/blog/${p.slug}`, priority: '0.8', freq: 'monthly' }))
+    .sort((a, b) => a.path.localeCompare(b.path));
+
   const pages = [
     { path: '', priority: '1.0', freq: 'daily' },
     { path: '/services', priority: '0.9', freq: 'weekly' },
@@ -36,34 +55,11 @@ export const GET: RequestHandler = async () => {
     { path: '/courses/ai-video-generation-ads', priority: '0.8', freq: 'monthly' },
     { path: '/courses/llm-chatbots-agents', priority: '0.8', freq: 'monthly' },
     { path: '/courses/no-code-ai-business-ops', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/ai-chatbot-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/computer-vision-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/whatsapp-ai-assistant-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/ml-automation-smes-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/slow-website-revenue-loss', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/web-development-agency-abuja', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/gpt-6-astra-what-it-means-for-your-business', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/headline-formulas-clicks', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/ai-personalized-ecommerce-2026', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/build-vs-buy-vs-outsource', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/cloud-native-architecture-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/ecommerce-website-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/helping-business-without-website', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/scaling-a-multivendor-marketplace', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/scaling-fintech-infrastructure', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/svelte-vs-react-2025', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/track-your-finance', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/web-design-cost-nigeria', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/gemini-2026-nigerian-developers', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/agentic-ai-autonomous-digital-workforce-2026', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/ai-agents-african-small-businesses-2026', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/whatsapp-order-automation-n8n-template-2026', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/q-day-post-quantum-cryptography-2026', priority: '0.8', freq: 'monthly' },
-    { path: '/blog/cloud-3-0-sovereign-ai-infrastructure-2026', priority: '0.8', freq: 'monthly' },
     { path: '/locations', priority: '0.7', freq: 'monthly' },
     { path: '/locations/abuja-web-design', priority: '0.8', freq: 'monthly' },
     { path: '/locations/lagos-web-design', priority: '0.8', freq: 'monthly' },
-    { path: '/locations/port-harcourt-web-design', priority: '0.8', freq: 'monthly' }
+    { path: '/locations/port-harcourt-web-design', priority: '0.8', freq: 'monthly' },
+    ...postPaths
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

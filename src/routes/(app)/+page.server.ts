@@ -1,4 +1,5 @@
 import type { Component } from 'svelte';
+import { publishedOnly } from '$lib/postPublish';
 
 interface PostMetadata {
 	title: string;
@@ -33,8 +34,9 @@ export async function load() {
 		};
 	});
 
-	// Sort by date descending, take latest 3
-	const latestPosts = allPosts
+	// Only published posts, then sort by date descending, take latest 3.
+	// Without the gate a future-dated post lands on the homepage as "latest".
+	const latestPosts = publishedOnly(allPosts)
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 		.slice(0, 3);
 
