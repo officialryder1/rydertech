@@ -169,7 +169,7 @@ function applyUpdate() {
     })}</script>`}
 </svelte:head>
 
-<div class="min-h-screen bg-white overflow-hidden">
+<div class="min-h-screen bg-white overflow-x-clip">
   <!-- Animated Background -->
   <div class="fixed inset-0 pointer-events-none geometric-pattern"></div>
   

@@ -401,7 +401,7 @@
 							<button
 								type="button"
 								onclick={() => removeTask(task.id)}
-								class="text-gray-500 transition hover:text-red-400"
+								class="text-gray-400 transition hover:text-red-400"
 								aria-label="Remove task"
 							>
 								<X class="h-4 w-4" />
@@ -410,30 +410,30 @@
 
 						<div class="grid grid-cols-2 gap-3 sm:grid-cols-5">
 							<label class="block">
-								<span class="mb-1 block text-[10px] tracking-wide text-gray-500 uppercase">People</span>
+								<span class="mb-1 block text-[11px] tracking-wide text-gray-400 uppercase">People</span>
 								<Input type="number" min="0" bind:value={task.people} class="h-8 text-sm" />
 							</label>
 							<label class="block">
-								<span class="mb-1 block text-[10px] tracking-wide text-gray-500 uppercase">Mins each</span>
+								<span class="mb-1 block text-[11px] tracking-wide text-gray-400 uppercase">Mins each</span>
 								<Input type="number" min="0" bind:value={task.minutesEach} class="h-8 text-sm" />
 							</label>
 							<label class="block">
-								<span class="mb-1 block text-[10px] tracking-wide text-gray-500 uppercase">Frequency</span>
+								<span class="mb-1 block text-[11px] tracking-wide text-gray-400 uppercase">Frequency</span>
 								<select
 									bind:value={task.frequency}
-									class="h-8 w-full rounded-md border border-white/10 bg-transparent px-2 text-sm outline-none focus-visible:border-[#06B6D4]"
+									class="h-8 w-full rounded-md border border-white/10 bg-transparent px-2 text-sm text-gray-200 outline-none focus-visible:border-[#06B6D4]"
 								>
 									{#each ['daily', 'weekly', 'monthly'] as f}
-										<option value={f} class="bg-[#12121A]">{f}</option>
+										<option value={f} class="bg-[#12121A] text-gray-200">{f}</option>
 									{/each}
 								</select>
 							</label>
 							<label class="block">
-								<span class="mb-1 block text-[10px] tracking-wide text-gray-500 uppercase">Rework %</span>
+								<span class="mb-1 block text-[11px] tracking-wide text-gray-400 uppercase">Rework %</span>
 								<Input type="number" min="0" max="100" bind:value={task.errorRatePct} class="h-8 text-sm" />
 							</label>
-							<label class="block">
-								<span class="mb-1 block text-[10px] tracking-wide text-gray-500 uppercase">Automatable %</span>
+							<label class="block max-sm:col-span-2">
+								<span class="mb-1 block text-[11px] tracking-wide text-gray-400 uppercase">Automatable %</span>
 								<Input type="number" min="0" max="100" bind:value={task.automatablePct} class="h-8 text-sm" />
 							</label>
 						</div>
@@ -521,7 +521,7 @@
 						<Badge variant="outline" class="border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
 							Step 2
 						</Badge>
-						<span class="text-xs text-gray-500">Free · No sales call</span>
+						<span class="text-xs text-gray-400">Free · No sales call</span>
 					</div>
 					<h3 class="text-lg font-semibold">Download My Audit Report</h3>
 					<p class="mt-1.5 text-sm text-gray-400">
@@ -543,7 +543,7 @@
 								Download My Audit Report
 							{/if}
 						</Button>
-						<p class="text-center text-[11px] text-gray-500">
+						<p class="text-center text-[11px] text-gray-400">
 							We email it. No email required to calculate above.
 						</p>
 					</form>

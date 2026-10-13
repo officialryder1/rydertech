@@ -170,7 +170,7 @@
 			></div>
 		</div>
 
-		<div class="relative container mx-auto max-w-5xl px-4 py-20 text-center md:py-28">
+		<div class="relative container mx-auto max-w-6xl px-4 py-20 text-center md:py-28">
 			<div
 				class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-1.5 text-xs font-medium tracking-wide text-[#D4AF37] uppercase"
 			>
@@ -195,10 +195,10 @@
 					Calculate My Ops Drain
 					<ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" />
 				</a>
-				<p class="text-sm text-gray-500">No email required. No sales call. Just your numbers.</p>
+				<p class="text-sm text-gray-400">No email required. No sales call. Just your numbers.</p>
 			</div>
 
-			<div class="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-gray-500">
+			<div class="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-gray-400">
 				<span class="flex items-center gap-1.5"
 					><ShieldCheck class="h-3.5 w-3.5 text-[#06B6D4]" /> 50,000+ verified attendee records</span
 				>
@@ -295,7 +295,7 @@
 				<dl class="space-y-4">
 					{#each comparisonRows as row}
 						<div class="flex flex-col gap-1 border-b border-red-500/10 pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-							<dt class="text-xs tracking-wide text-gray-500 uppercase">{row.metric}</dt>
+							<dt class="text-xs tracking-wide text-gray-400 uppercase">{row.metric}</dt>
 							<dd class="text-sm font-medium text-red-300 sm:text-right">{row.manual}</dd>
 						</div>
 					{/each}
@@ -313,7 +313,7 @@
 				<dl class="space-y-4">
 					{#each comparisonRows as row}
 						<div class="flex flex-col gap-1 border-b border-[#06B6D4]/10 pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-							<dt class="text-xs tracking-wide text-gray-500 uppercase">{row.metric}</dt>
+							<dt class="text-xs tracking-wide text-gray-400 uppercase">{row.metric}</dt>
 							<dd class="text-sm font-medium text-[#7DE3F5] sm:text-right">{row.auto}</dd>
 						</div>
 					{/each}
@@ -336,15 +336,15 @@
 				<div class="mt-5 flex gap-6">
 					<div>
 						<p class="font-playfair text-2xl font-bold text-white">50K+</p>
-						<p class="text-xs text-gray-500">verified records</p>
+						<p class="text-xs text-gray-400">verified records</p>
 					</div>
 					<div>
 						<p class="font-playfair text-2xl font-bold text-[#06B6D4]">0.4s</p>
-						<p class="text-xs text-gray-500">check-in response</p>
+						<p class="text-xs text-gray-400">check-in response</p>
 					</div>
 					<div>
 						<p class="font-playfair text-2xl font-bold text-[#D4AF37]">0</p>
-						<p class="text-xs text-gray-500">gate staff needed</p>
+						<p class="text-xs text-gray-400">gate staff needed</p>
 					</div>
 				</div>
 			</div>
@@ -363,15 +363,15 @@
 				<div class="mt-5 flex gap-6">
 					<div>
 						<p class="font-playfair text-2xl font-bold text-white">500+</p>
-						<p class="text-xs text-gray-500">members managed</p>
+						<p class="text-xs text-gray-400">members managed</p>
 					</div>
 					<div>
 						<p class="font-playfair text-2xl font-bold text-[#06B6D4]">0</p>
-						<p class="text-xs text-gray-500">full-time admins</p>
+						<p class="text-xs text-gray-400">full-time admins</p>
 					</div>
 					<div>
 						<p class="font-playfair text-2xl font-bold text-[#D4AF37]">100%</p>
-						<p class="text-xs text-gray-500">billing automated</p>
+						<p class="text-xs text-gray-400">billing automated</p>
 					</div>
 				</div>
 			</div>
@@ -418,7 +418,7 @@
 								{/each}
 							</div>
 							<p class="mt-2 text-sm font-semibold text-white">{t.name}</p>
-							<p class="text-xs text-gray-500">{t.location} · {t.project}</p>
+							<p class="text-xs text-gray-400">{t.location} · {t.project}</p>
 						</figcaption>
 					</figure>
 				{/each}
@@ -428,7 +428,7 @@
 			<div class="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
 				{#each logos as logo}
 					<span
-						class="font-playfair text-lg font-bold tracking-wide text-gray-600 transition hover:text-gray-300"
+						class="font-playfair text-lg font-bold tracking-wide text-gray-400 transition hover:text-gray-300"
 						>{logo}</span
 					>
 				{/each}
@@ -479,7 +479,7 @@
 					Or download the Ops Drain Calculator one-pager
 				</a>
 
-				<p class="text-xs text-gray-600">No commitment. No obligation. Just clarity.</p>
+				<p class="text-xs text-gray-400">No commitment. No obligation. Just clarity.</p>
 			</div>
 
 			<!-- Trust row -->
@@ -489,21 +489,21 @@
 				<div>
 					<UsersRound class="mb-3 h-5 w-5 text-[#06B6D4]" />
 					<p class="text-sm font-semibold text-white">Built, not consulted</p>
-					<p class="mt-1 text-xs text-gray-500">
+					<p class="mt-1 text-xs text-gray-400">
 						We run Veripasshub and Gym House in production. We have shipped what we are recommending.
 					</p>
 				</div>
 				<div>
 					<Clock class="mb-3 h-5 w-5 text-[#06B6D4]" />
 					<p class="text-sm font-semibold text-white">Payback in 90 days</p>
-					<p class="mt-1 text-xs text-gray-500">
+					<p class="mt-1 text-xs text-gray-400">
 						Every build we scope is measured against a payback window. If it does not pay back, we say so.
 					</p>
 				</div>
 				<div>
 					<ShieldCheck class="mb-3 h-5 w-5 text-[#06B6D4]" />
 					<p class="text-sm font-semibold text-white">Automation first, AI second</p>
-					<p class="mt-1 text-xs text-gray-500">
+					<p class="mt-1 text-xs text-gray-400">
 						We fix the workflow before layering AI on it. That is why the gains hold.
 					</p>
 				</div>
@@ -530,5 +530,70 @@
 	:global(.campaign-dark h1),
 	:global(.campaign-dark h2) {
 		font-feature-settings: normal;
+	}
+
+	/* ---- Campaign dark token scope -------------------------------------------
+	   The global `.dark` block in app.css redefines `--primary` to near-white
+	   (oklch(0.929 …)) for shadcn surfaces. That is correct for admin dashboards
+	   but wrong here: every `bg-primary` button in this page's calculator renders
+	   white-on-white — measured contrast 1.23:1, i.e. literally invisible.
+	   Re-pin the brand tokens for the campaign scope only. Specificity
+	   `.campaign-dark.dark` (0,2,0) beats `.dark` (0,1,0) deterministically. */
+	:global(.campaign-dark.dark) {
+		--background: #0a0a0f;
+		--foreground: #e5e7eb;
+		--card: #12121a;
+		--card-foreground: #f3f4f6;
+		--popover: #12121a;
+		--popover-foreground: #f3f4f6;
+		--primary: #1e40af; /* brand deep blue — white text now reads 8.6:1 */
+		--primary-foreground: #ffffff;
+		--secondary: #d4af37; /* brand gold */
+		--secondary-foreground: #0a0a0f;
+		--muted: #1c1c26;
+		--muted-foreground: #9ca3af; /* gray-400: 7.3:1 on #0A0A0F */
+		--accent: #06b6d4; /* brand cyan */
+		--accent-foreground: #0a0a0f;
+		--border: rgba(255, 255, 255, 0.1);
+		--input: rgba(255, 255, 255, 0.15);
+		--ring: #06b6d4;
+	}
+
+	/* The global navbar is built for the light site: transparent bar, gray-700
+	   links, navy gradient logo. Over this page's #0A0A0F hero the links measure
+	   1.74:1 — invisible. Re-color only while a .campaign-dark page is mounted.
+	   (Pixel-sampled: link luminance 26 on a 19 background.) */
+	:global(body:has(.campaign-dark) nav a) {
+		color: #e5e7eb;
+	}
+	:global(body:has(.campaign-dark) nav a:hover) {
+		color: #06b6d4;
+	}
+	:global(body:has(.campaign-dark) nav a span.bg-clip-text) {
+		background-image: linear-gradient(to right, #ffffff, #ffffff);
+		-webkit-text-fill-color: #ffffff;
+	}
+	/* …but `-webkit-text-fill-color` INHERITS, so the white fill above also
+	   repaints the gold "TECH" child span (which only sets `color`). Re-pin the
+	   brand gold on the child so the logo keeps its two-tone treatment.
+	   Gold on #0A0A0F measures 9.4:1 — passes comfortably. */
+	:global(body:has(.campaign-dark) nav a span.bg-clip-text span.text-\[\#D4AF37\]) {
+		-webkit-text-fill-color: #d4af37;
+		color: #d4af37;
+	}
+	/* On scroll the global nav swaps to `bg-white/90`. A white bar under light
+	   links is just as invisible as gray-700 links on near-black, so hold the
+	   bar dark across BOTH scroll states (attribute match, since the utility
+	   class name is dynamic). */
+	:global(body:has(.campaign-dark) nav[class*='bg-white']) {
+		background-color: rgba(10, 10, 15, 0.85);
+		backdrop-filter: blur(12px);
+	}
+	:global(body:has(.campaign-dark) nav button[aria-label]) {
+		background-color: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+	:global(body:has(.campaign-dark) nav button[aria-label] svg) {
+		color: #e5e7eb;
 	}
 </style>
