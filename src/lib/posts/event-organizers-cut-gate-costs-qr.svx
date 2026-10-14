@@ -1,5 +1,5 @@
 ---
-title: "Event Organizers: Cut Gate Costs by 70% With QR Automation"
+title: "Event Organizers: Cut Gate Costs With QR Check-In Automation"
 description: "A practical playbook for event organizers on replacing manual gate checks with automated QR check-in — clear times, gatecrash exposure, and the real staffing math."
 date: "2026-10-21"
 author: "Victor, RyderTech"
@@ -14,7 +14,7 @@ comments: 0
 labs_tool: "event-access-risk"
 ---
 
-# Event Organizers: Cut Gate Costs by 70% With QR Automation
+Event Organizers: Cut Gate Costs With QR Check-In Automation
 
 If you run events, you already know where the day goes wrong.
 
@@ -54,7 +54,7 @@ This is the part that justifies the build, so let's be direct about it.
 
 A typical venue gate running **twelve agents** at a Nigerian loaded rate is a substantial figure — and it's spent performing what is functionally a 0.4-second lookup, thousands of times.
 
-Replace that with automated check-in and a small number of scan attendants, and the **staffing reduction lands around 70%**. Against a build that costs a fraction of a season's gate payroll, the payback is measured in **events**, not years.
+A typical venue gate running twelve agents at a Nigerian loaded rate is a substantial figure — spent on a 0.4-second lookup, thousands of times over. The process repeats on every event, which is exactly why the payback cycles in events, not years.
 
 The reason this case is so clean is that it **repeats**. Every event is another cycle. There's no arguing about whether the efficiency gain is real — you're paying for twelve agents or you aren't.
 

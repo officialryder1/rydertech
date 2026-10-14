@@ -1,5 +1,5 @@
 ---
-title: "How Veripasshub Cut Event Gate Costs by 70% (Case Study)"
+title: "How Veripasshub Cut Event Gate Costs by Automating Its Check-In Process (Case Study)"
 description: "A full case study on Veripasshub — how automated QR event check-in replaced twelve manual gate agents with a 0.4-second scan, 50,000+ verified records, and a real-time attendance dashboard."
 date: "2026-10-15"
 author: "Victor, RyderTech"
@@ -14,7 +14,7 @@ comments: 0
 labs_tool: "event-access-risk"
 ---
 
-# How Veripasshub Cut Event Gate Costs by 70% (Case Study)
+How Veripasshub Cut Event Gate Costs by Automating Its Check-In Process (Case Study)
 
 Every event we ran into had the same gate problem, and it was never about staffing discipline.
 
