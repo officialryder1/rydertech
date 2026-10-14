@@ -2,6 +2,7 @@
   import { ArrowRight } from '@lucide/svelte';
   import { Badge } from '$lib/components/ui/badge';
   import { Card, CardContent } from '$lib/components/ui/card';
+  import { publishedOnly } from '$lib/postPublish';
 
   interface PostMeta {
     title?: string;
@@ -21,18 +22,23 @@
     eager: true,
   }) as Record<string, { metadata?: PostMeta }>;
 
-  // Build posts list with metadata
+  // Build posts list with metadata.
+  // Gated: this component globs the posts itself, so it needs its own publish
+  // filter — otherwise it links to future-dated posts that 404, which is a
+  // crawl error and a dead click for the reader.
   let allPosts = $derived(
-    Object.entries(modules)
-      .map(([path, mod]) => {
-        const slug = path.split('/').pop()?.replace('.svx', '') ?? '';
-        return {
-          slug,
-          ...(mod.metadata || {}),
-          path: `/blog/${slug}`,
-        };
-      })
-      .filter(p => p.slug && p.slug !== currentSlug)
+    publishedOnly(
+      Object.entries(modules)
+        .map(([path, mod]) => {
+          const slug = path.split('/').pop()?.replace('.svx', '') ?? '';
+          return {
+            slug,
+            ...(mod.metadata || {}),
+            path: `/blog/${slug}`,
+          };
+        })
+        .filter(p => p.slug && p.slug !== currentSlug)
+    )
   );
 
   // Find related posts: match on tags, then category
