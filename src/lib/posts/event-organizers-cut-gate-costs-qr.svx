@@ -52,11 +52,11 @@ Automated check-in produces a live count as a by-product of the scan. The dashbo
 
 This is the part that justifies the build, so let's be direct about it.
 
-A typical venue gate running **twelve agents** at a Nigerian loaded rate is a substantial figure — and it's spent performing what is functionally a 0.4-second lookup, thousands of times.
+A typical venue gate spends real staffed hours on a lookup that takes seconds to run — repeated thousands of times over.
 
-A typical venue gate running twelve agents at a Nigerian loaded rate is a substantial figure — spent on a 0.4-second lookup, thousands of times over. The process repeats on every event, which is exactly why the payback cycles in events, not years.
+That's the drain worth automating: a process that repeats on a known cadence and cycles its payback in events, not years.
 
-The reason this case is so clean is that it **repeats**. Every event is another cycle. There's no arguing about whether the efficiency gain is real — you're paying for twelve agents or you aren't.
+The reason this case is so clean is that it **repeats**. Every event is another cycle. There's no arguing about whether the efficiency gain is real — the staffed hours are either there or they aren't.
 
 ## What The Transition Actually Looks Like
 
