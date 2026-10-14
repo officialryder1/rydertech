@@ -85,3 +85,5 @@ If you're not sure where your gate leaks, the [Event Access Risk Scanner](/labs/
 And for the general case, the [Ops Drain Calculator](/automation-audit) prices any repeating manual process in naira and returns the payback period.
 
 **[Scan Your Event Access Risk →](/labs/event-access-risk)**
+
+Next in this series: the same verify-one-at-a-time pattern, applied to rent cycles and guest access for property managers.

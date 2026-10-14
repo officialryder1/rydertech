@@ -98,4 +98,6 @@ Enter your staff cost, how many people do the reconciliation, how long it takes 
 
 **[Calculate Your Ops Drain →](/automation-audit)**
 
-If the payback comes back under ninety days — and for a property loop it usually does — that's the number to act on.
+If the payback comes back inside a year — and for a property loop it usually does — that's the number to act on.
+
+Or skip the calculator entirely: **[book a free scoping call](https://www.rydertech.ng/contact)** and we'll map your rent cycle with you in fifteen minutes, no deck — just the numbers and a build quote.

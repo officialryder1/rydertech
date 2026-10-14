@@ -20,7 +20,7 @@ Every event we ran into had the same gate problem, and it was never about staffi
 
 It was structural. A gate is a place where you ask a human to verify, one at a time, whether another human is allowed in. That task has a fixed throughput, and it does not care that 900 people arrived at the same minute.
 
-Here's what that looked like, what we changed, and what it's worth.
+Here's what that looked like, what we changed, and what it's worth. All figures are from this engagement.
 
 ## The Problem
 
@@ -33,7 +33,7 @@ Each one manually checked a ticket or a name against a list. It worked, in the s
 - **Duplicate entries.** Manual checking can't reliably catch a ticket presented twice, and on a sold-out event that's real revenue.
 - **Payroll for twelve people** to perform a task that is, functionally, a lookup.
 
-The last one is the one that got the attention. Twelve agents at a Nigerian loaded rate is a substantial monthly figure — spent entirely on a 0.4-second lookup.
+The last one is the one that got the attention. Twelve agents at a Nigerian loaded rate is a substantial monthly figure — spent entirely on a 0.4-second lookup. That's the cost this engagement removed.
 
 ## The Solution
 

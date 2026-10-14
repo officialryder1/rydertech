@@ -71,7 +71,7 @@ This isn't really a technology story. It's a payback story.
 
 The processes that leak — check-in, billing, attendance — **repeat every single day and every month.** That's what makes the automation case clean. You're not betting on a future efficiency gain; you're removing a daily cost that recurs whether or not you do anything about it.
 
-Price three hours a day of front-desk time, add the missed billing and the churn you didn't see coming, and the build pays for itself well inside a quarter. That's the arithmetic, and it's why this is the vertical where our 90-day rule is easiest to hit.
+Price three hours a day of front-desk time, add the missed billing and the churn you didn't see coming, and the build pays for itself well inside a quarter. That's the arithmetic, and it's why gyms are one of the verticals where the payback case lands fastest.
 
 ## Find Your Own Number
 

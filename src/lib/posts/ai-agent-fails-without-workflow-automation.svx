@@ -88,10 +88,10 @@ Most businesses we audit need rows one through three and want row five. That's t
 
 ## Start With The Number
 
-Before you buy an agent, find out what your manual processes actually cost. Not a vendor's estimate — your own inputs, priced in naira.
+Before you buy an agent, find out what your manual processes actually cost — and, more importantly, which of them an agent would never fix. Not a vendor's estimate: your own inputs, priced in naira.
 
-The [Ops Drain Calculator](/automation-audit) takes about thirty seconds and returns the annual cost of your manual work plus the payback period for automating it.
+The [Automation Audit](/automation-audit) walks nine questions: the processes that repeat, the people doing them, and what they actually cost you per month. It returns where automation pays back first — the lookup-and-verify rows from the table above — and what an agent genuinely can't touch. Takes about two minutes.
 
 Then fix the process. Then, if you still need judgement at scale, add the agent — and it'll hold, because there's something solid underneath it.
 
-**[Calculate Your Ops Drain →](/automation-audit)**
+**[Run The Automation Audit →](/automation-audit)**
