@@ -156,12 +156,13 @@
 					}
 
 					try {
-						await supabase
+						const { error: dbError } = await supabase
 							.from('newsletter_subscriptions')
 							.insert([
 								{ email, source: 'lead_magnet_revleak', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource }
 							])
 							.select();
+						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
 					} catch {
 						console.info('RevLeak lead backup skipped (DB unavailable):', email);
 					}

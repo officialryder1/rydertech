@@ -193,7 +193,7 @@
 
 			// Best-effort DB backup, non-blocking if Supabase is off.
 			try {
-				await supabase
+				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')
 					.insert([
 						{
@@ -206,6 +206,7 @@
 						}
 					])
 					.select();
+						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
 			} catch {
 				console.info('Automation audit lead backup skipped (DB unavailable):', email);
 			}

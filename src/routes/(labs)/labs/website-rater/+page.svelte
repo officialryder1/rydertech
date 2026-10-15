@@ -188,12 +188,13 @@
 			}
 
 			try {
-				await supabase
+				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')
 					.insert([
 						{ email, source: 'lead_magnet_website_rater', subscribed_at: new Date().toISOString(), lead_score: lead.points, lead_tier: lead.tier, lead_source: leadSource }
 					])
 					.select();
+						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
 			} catch (dbErr) {
 				// Log specifically so missing columns are visible in production logs.
 				console.warn('Supabase newsletter_subscriptions insert failed (website-rater lead):', dbErr);

@@ -192,7 +192,7 @@
 			}
 
 			try {
-				await supabase
+				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')
 					.insert([
 						{
@@ -205,6 +205,7 @@
 							}
 					])
 					.select();
+						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
 			} catch {
 				console.info('Repurposer lead backup skipped (DB unavailable):', email);
 			}

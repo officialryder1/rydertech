@@ -49,6 +49,9 @@
 	let isSubmitting = $state(false);
 	let unlocked = $state(false);
 	let error = $state<string | null>(null);
+	// Path A: opt-in tag for the FindingsNg pricing-intel sequence. Off by default
+	// so the warm ops-drain list stays clean unless the lead asks for it.
+	let wantsFindingsNg = $state(false);
 
 	// Capture lead source from URL params (utm_source, utm_medium, utm_campaign, tool)
 	const _utmSource = $page.url.searchParams.get('utm_source');
@@ -173,7 +176,8 @@
 								lead_type: 'lead_magnet_ops_drain',
 								lead_score: leadScoreVal,
 								lead_tier: leadTier,
-								lead_source: leadSource
+								lead_source: leadSource,
+								lead_tags: wantsFindingsNg ? 'findingsng' : ''
 							},
 							{ publicKey }
 						);
@@ -182,15 +186,30 @@
 					}
 
 					// Best-effort DB backup, non-blocking if Supabase is off.
+					// supabase-js does NOT throw on a rejected write — it returns
+					// { error }. The old bare `catch` never fired, so a schema drift
+					// (missing column) silently dropped every lead with no alert.
+					// Check the returned error explicitly and log it.
 					try {
-						await supabase
+						const { error: dbError } = await supabase
 							.from('newsletter_subscriptions')
 							.insert([
-								{ email, source: 'lead_magnet_ops_drain', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource }
+								{
+									email,
+									source: 'lead_magnet_ops_drain',
+									subscribed_at: new Date().toISOString(),
+									lead_score: leadScoreVal,
+									lead_tier: leadTier,
+									lead_source: leadSource,
+									lead_tags: wantsFindingsNg ? ['findingsng'] : []
+								}
 							])
 							.select();
-					} catch {
-						console.info('Ops drain lead backup skipped (DB unavailable):', email);
+						if (dbError) {
+							console.error('Ops drain lead NOT persisted:', dbError.code, dbError.message, { email });
+						}
+					} catch (dbErr) {
+						console.error('Ops drain lead backup threw (DB unavailable):', dbErr, { email });
 					}
 		} catch (err) {
 			console.warn('Ops drain lead email failed:', err);
@@ -421,6 +440,16 @@
 							<form onsubmit={handleSubmit} class="mt-4 space-y-3">
 								<Input type="text" bind:value={company} placeholder="Company" />
 								<Input type="email" bind:value={email} placeholder="you@company.com" required />
+								<label class="flex cursor-pointer items-start gap-2.5 text-xs text-muted-foreground">
+									<input
+										type="checkbox"
+										bind:checked={wantsFindingsNg}
+										class="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary"
+									/>
+									<span>
+											Also send me pricing-intel benchmarks for SaaS vendors I actually compete with.
+										</span>
+								</label>
 								{#if error}
 									<p class="text-xs text-destructive">{error}</p>
 								{/if}

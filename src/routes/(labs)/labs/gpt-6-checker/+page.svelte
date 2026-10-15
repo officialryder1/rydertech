@@ -139,7 +139,7 @@
       }
 
       try {
-        await supabase.from('newsletter_subscriptions').insert([{
+        const { error: dbError } = await supabase.from('newsletter_subscriptions').insert([{
           email,
           source: 'lead_magnet_gpt6',
           company: businessName || '',
@@ -148,6 +148,7 @@
           lead_type: 'gpt6_checker',
           lead_source: leadSource
         }]).select();
+						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
       } catch {
         console.info('GPT-6 lead backup skipped (DB unavailable):', email);
       }

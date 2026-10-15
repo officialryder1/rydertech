@@ -133,7 +133,7 @@
 					.select();
 				if (dbErr) throw dbErr;
 			} catch (dbErr) {
-				console.info('Lead backup skipped (DB unavailable):', email);
+				console.error('Q-Day lead NOT persisted:', dbErr, { email });
 			}
 
 			// Shareable report

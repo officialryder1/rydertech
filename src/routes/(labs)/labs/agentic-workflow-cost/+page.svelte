@@ -190,12 +190,13 @@
 
       // Best-effort DB backup, non-blocking if Supabase is off.
       try {
-        await supabase
+        const { error: dbError } = await supabase
           .from('newsletter_subscriptions')
           .insert([
             { email, source: 'lead_magnet_agentic_cost', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource },
           ])
           .select();
+						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
       } catch {
         console.info('Agentic-cost lead backup skipped (DB unavailable):', email);
       }
