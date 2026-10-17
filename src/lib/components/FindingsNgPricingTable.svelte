@@ -68,16 +68,18 @@
 	}
 
 	function fromBenchmark(bench: VendorBenchmark): DisplayRow {
+		// Supabase join returns nested: { ..., benchmarks: { metric_name, ... } }
+		const benchmark = (bench as any).benchmarks ?? {};
 		const { figure, note } = splitBenchmarkValue(bench.value);
 		return {
 			key: `bench-${bench.id}`,
-			plan: bench.metric_name.replace(/_/g, ' '),
+			plan: (benchmark.metric_name ?? 'Benchmark').replace(/_/g, ' '),
 			price: figure,
-			limit: bench.metric_unit,
+			limit: benchmark.metric_unit ?? '',
 			verified: bench.is_verified,
 			popular: false,
 			note,
-			source: bench.source_url
+			source: benchmark.source_url ?? null
 		};
 	}
 

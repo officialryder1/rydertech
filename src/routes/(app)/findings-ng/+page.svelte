@@ -2,74 +2,12 @@
 	import { browser } from '$app/environment';
 	import { ArrowRight, ExternalLink } from '@lucide/svelte';
 	import FindingsNgPricingTable from '$lib/components/FindingsNgPricingTable.svelte';
-	import type { ComparisonRow } from '$lib/findingsng.js';
+	import type { PageData } from './$types';
 
-	const seedRows: ComparisonRow[] = [
-		{
-			vendor: {
-				id: 'seed-prisync',
-				name: 'Prisync',
-				slug: 'prisync',
-				logo_url: null,
-				website_url: 'https://prisync.com',
-				description: 'Price tracking and competitor monitoring SaaS',
-				category: 'price-tracking',
-				founded_year: null,
-				employee_range: null,
-				nigerian_focus: false,
-				status: 'published'
-			},
-			tiers: [
-				{ id: 'seed-prisync-1', vendor_id: 'seed-prisync', plan_name: 'Starter', price_monthly: 99, price_yearly: null, currency: 'USD', billing_unit: 'product_count', billing_cycle: 'monthly', unit_limit: 100, is_popular: false, sort_order: 0, is_verified: true, verified_date: '2026-10-15', source_url: 'https://prisync.com/pricing' },
-				{ id: 'seed-prisync-2', vendor_id: 'seed-prisync', plan_name: 'Pro', price_monthly: 199, price_yearly: null, currency: 'USD', billing_unit: 'product_count', billing_cycle: 'monthly', unit_limit: 1000, is_popular: true, sort_order: 1, is_verified: true, verified_date: '2026-10-15', source_url: 'https://prisync.com/pricing' },
-				{ id: 'seed-prisync-3', vendor_id: 'seed-prisync', plan_name: 'Premium', price_monthly: 399, price_yearly: null, currency: 'USD', billing_unit: 'product_count', billing_cycle: 'monthly', unit_limit: 5000, is_popular: false, sort_order: 2, is_verified: true, verified_date: '2026-10-15', source_url: 'https://prisync.com/pricing' }
-			],
-			benchmarks: []
-		},
-		{
-			vendor: {
-				id: 'seed-pricefy',
-				name: 'Pricefy',
-				slug: 'pricefy',
-				logo_url: null,
-				website_url: 'https://pricefy.com',
-				description: 'SKU-based price tracking with a forever-free tier',
-				category: 'price-tracking',
-				founded_year: null,
-				employee_range: null,
-				nigerian_focus: false,
-				status: 'published'
-			},
-			tiers: [
-				{ id: 'seed-pricefy-1', vendor_id: 'seed-pricefy', plan_name: 'Free', price_monthly: 0, price_yearly: null, currency: 'USD', billing_unit: 'sku_count', billing_cycle: 'monthly', unit_limit: 50, is_popular: false, sort_order: 0, is_verified: true, verified_date: '2026-10-15', source_url: 'https://pricefy.com/pricing' },
-				{ id: 'seed-pricefy-2', vendor_id: 'seed-pricefy', plan_name: 'Pro', price_monthly: 99, price_yearly: null, currency: 'USD', billing_unit: 'sku_count', billing_cycle: 'monthly', unit_limit: 2000, is_popular: true, sort_order: 1, is_verified: true, verified_date: '2026-10-15', source_url: 'https://pricefy.com/pricing' },
-				{ id: 'seed-pricefy-3', vendor_id: 'seed-pricefy', plan_name: 'Business', price_monthly: 499, price_yearly: null, currency: 'USD', billing_unit: 'sku_count', billing_cycle: 'monthly', unit_limit: 25000, is_popular: false, sort_order: 2, is_verified: true, verified_date: '2026-10-15', source_url: 'https://pricefy.com/pricing' }
-			],
-			benchmarks: []
-		},
-		{
-			vendor: {
-				id: 'seed-price2spy',
-				name: 'Price2Spy',
-				slug: 'price2spy',
-				logo_url: null,
-				website_url: 'https://price2spy.com',
-				description: 'URL-based price tracking, now quote-led',
-				category: 'price-tracking',
-				founded_year: null,
-				employee_range: null,
-				nigerian_focus: false,
-				status: 'published'
-			},
-			tiers: [],
-			benchmarks: [
-				{ id: 'seed-price2spy-b1', vendor_id: 'seed-price2spy', benchmark_id: 'seed-bench-starting', value: '$157.95/mo (2K URLs) - Shopify listing, not vendor-confirmed', is_verified: false, verified_date: null, metric_name: 'starting_price', metric_unit: 'USD/mo', category: 'price-tracking', source_url: 'https://apps.shopify.com/price2spy' },
-				{ id: 'seed-price2spy-b2', vendor_id: 'seed-price2spy', benchmark_id: 'seed-bench-mid', value: '$788.95/mo (10K URLs) - Shopify listing, not vendor-confirmed', is_verified: false, verified_date: null, metric_name: 'mid_market_price', metric_unit: 'USD/mo', category: 'price-tracking', source_url: 'https://apps.shopify.com/price2spy' }
-			]
-		}
-	];
+	let { data }: { data: PageData } = $props();
 
-	const findings = [
+
+		const findings = [
 		{
 			tag: 'Category floor',
 			title: 'Entry pricing sits between $0 and $99 a month.',
@@ -238,7 +176,7 @@
 				</p>
 			</div>
 
-			<FindingsNgPricingTable rows={seedRows} />
+			<FindingsNgPricingTable rows={data.rows} />
 		</div>
 	</section>
 
