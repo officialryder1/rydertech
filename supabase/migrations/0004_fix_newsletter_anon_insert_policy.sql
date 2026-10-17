@@ -33,8 +33,7 @@ select
   'PRE-FLIGHT rls' as check_name,
   schemaname,
   tablename,
-  rowsecurity,
-  forcerowsecurity
+  rowsecurity
 from pg_tables
 where schemaname = 'public'
   and tablename  = 'newsletter_subscriptions';
