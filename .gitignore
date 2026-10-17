@@ -38,3 +38,6 @@ scripts/render_pdf.cjs
 
 # Hermes temp dirs (agent scratch — never commit)
 .hermes-tmp*
+
+# supabase CLI local link state (machine-specific)
+supabase/.temp/
