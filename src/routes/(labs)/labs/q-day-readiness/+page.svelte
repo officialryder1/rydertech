@@ -129,8 +129,7 @@
 			try {
 				const { error: dbErr } = await supabase
 					.from('newsletter_subscriptions')
-					.insert([{ email, source: 'qday_readiness', subscribed_at: new Date().toISOString(), lead_source: leadSource }])
-					.select();
+					.insert([{ email, source: 'qday_readiness', subscribed_at: new Date().toISOString(), lead_source: leadSource }]);
 				if (dbErr) throw dbErr;
 			} catch (dbErr) {
 				console.error('Q-Day lead NOT persisted:', dbErr, { email });

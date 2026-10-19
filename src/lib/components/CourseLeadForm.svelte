@@ -61,8 +61,7 @@
       try {
         const { error: dbError } = await supabase
           .from('newsletter_subscriptions')
-          .insert([{ email, source: 'course_interest', course: courseTitle, subscribed_at: new Date().toISOString() }])
-          .select();
+          .insert([{ email, source: 'course_interest', course: courseTitle, subscribed_at: new Date().toISOString() }]);
 						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
       } catch {
         console.info('Course lead backup skipped (DB unavailable):', email);

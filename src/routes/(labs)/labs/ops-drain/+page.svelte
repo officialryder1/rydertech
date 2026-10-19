@@ -203,8 +203,7 @@
 									lead_source: leadSource,
 									lead_tags: wantsFindingsNg ? ['findingsng'] : []
 								}
-							])
-							.select();
+							]);
 						if (dbError) {
 							console.error('Ops drain lead NOT persisted:', dbError.code, dbError.message, { email });
 						}

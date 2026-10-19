@@ -48,8 +48,7 @@
             subscribed_at: new Date().toISOString(),
             source: 'welcome_modal' // Fixed typo from 'welcome_model'
           }
-        ])
-        .select();
+        ]);
 
       if (supabaseError) {
         throw supabaseError;

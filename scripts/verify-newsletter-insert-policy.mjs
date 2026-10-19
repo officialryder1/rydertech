@@ -29,8 +29,7 @@ const { data: ins, error: insErr, status } = await anon
     lead_tier: 'hot',
     lead_source: '/labs/ops-drain',
     lead_tags: ['findingsng'],
-  }])
-  .select();
+  }]);
 console.log(`1. ANON INSERT: status=${status} ${insErr ? `ERR ${insErr.code} ${insErr.message}` : `OK rows=${ins?.length}`}`);
 if (insErr) {
   console.log('RESULT: BLOCKED - the policy is not live. Touch 1 stays gated.');

@@ -187,8 +187,7 @@
 								.from('newsletter_subscriptions')
 								.insert([
 									{ email, source: 'lead_magnet_event_risk', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource }
-								])
-								.select();
+								]);
 						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
 						} catch {
 							console.info('Event risk lead backup skipped (DB unavailable):', email);

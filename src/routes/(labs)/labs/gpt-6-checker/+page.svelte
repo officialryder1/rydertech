@@ -147,7 +147,7 @@
           lead_tier: lead.tier,
           lead_type: 'gpt6_checker',
           lead_source: leadSource
-        }]).select();
+        }]);
 						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
       } catch {
         console.info('GPT-6 lead backup skipped (DB unavailable):', email);

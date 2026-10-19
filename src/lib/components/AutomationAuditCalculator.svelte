@@ -204,8 +204,7 @@
 							lead_tier: lead.tier,
 							lead_source: leadSource
 						}
-					])
-					.select();
+					]);
 						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
 			} catch {
 				console.info('Automation audit lead backup skipped (DB unavailable):', email);
