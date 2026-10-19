@@ -36,9 +36,15 @@ if (insErr) {
   process.exit(2);
 }
 
-// 2. service-role confirm
-const { data: conf } = await admin.from('newsletter_subscriptions')
-  .select('id,email,lead_tags,lead_score,lead_segment').eq('email', email);
+// 2. service-role confirm (must actually return the row - a null read here
+//    means the confirmation is broken, not that the policy passed)
+const { data: conf, error: confErr } = await admin.from('newsletter_subscriptions')
+  .select('id,email,lead_tags,lead_score').eq('email', email);
+if (confErr || !conf?.length) {
+  console.log(`2. SERVICE-ROLE READ: FAILED ${confErr?.code ?? ''} ${confErr?.message ?? 'no row returned'}`);
+  await admin.from('newsletter_subscriptions').delete().eq('email', email);
+  process.exit(2);
+}
 console.log('2. SERVICE-ROLE READ:', JSON.stringify(conf));
 
 // 3. the segment query the admin dashboard runs
