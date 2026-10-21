@@ -52,6 +52,22 @@ function scoreLead(submission: { budget?: string; company?: string; lead_source?
   return { lead_score: total, lead_segment: segment };
 }
 
+// --- Tier classification from lead_score (hot/warm/cold naming) ---
+function classifyTier(score: number | null | undefined): 'hot' | 'warm' | 'cold' {
+  if (score == null) return 'cold';
+  if (score >= 70) return 'hot';
+  if (score >= 40) return 'warm';
+  return 'cold';
+}
+
+// --- ISO week key for weekly accumulation ---
+function weekKey(dateStr: string): string {
+  const d = new Date(dateStr);
+  const day = d.getDay() || 7; // Sunday -> 7
+  d.setDate(d.getDate() - day + 1); // Monday of this ISO week
+  return d.toISOString().slice(0, 10);
+}
+
 export const load: PageServerLoad = async ({ locals }) => {
   const user = locals.user;
 
@@ -64,16 +80,37 @@ export const load: PageServerLoad = async ({ locals }) => {
   const [
     { data: contactSubmissions, error: contactError },
     { data: newsletterSubs, error: newsletterError },
-    { data: profiles, error: profilesError }
+    { data: profiles, error: profilesError },
+    { data: findingsngSubs, error: findingsngError },
+    { data: vendors, error: vendorsError },
+    { data: pricingTiers, error: pricingError },
+    { data: benchmarks, error: benchmarksError }
   ] = await Promise.all([
     admin.from('contact_submissions').select('*').order('submitted_at', { ascending: false }),
     admin.from('newsletter_subscriptions').select('*').order('subscribed_at', { ascending: false }),
-    admin.from('profiles').select('*').order('created_at', { ascending: false })
+    admin.from('profiles').select('*').order('created_at', { ascending: false }),
+    // Card 1: FindingsNg segment — lead_tags @> ARRAY['findingsng']
+    admin.from('newsletter_subscriptions')
+      .select('*')
+      .contains('lead_tags', ['findingsng'])
+      .order('subscribed_at', { ascending: false }),
+    // Card 2: Vendor intelligence
+    admin.from('vendors').select('*').order('name', { ascending: true }),
+    admin.from('pricing_tiers')
+      .select('*, vendors(name, slug, website_url, status, category)')
+      .order('vendor_id', { ascending: true }),
+    admin.from('benchmarks')
+      .select('*, vendor_benchmarks(value, is_verified, verified_date)')
+      .order('metric_name', { ascending: true })
   ]);
 
   if (contactError) console.error('Failed to fetch contact submissions:', contactError);
   if (newsletterError) console.error('Failed to fetch newsletter subs:', newsletterError);
   if (profilesError) console.error('Failed to fetch profiles:', profilesError);
+  if (findingsngError) console.error('Failed to fetch FindingsNg subs:', findingsngError);
+  if (vendorsError) console.error('Failed to fetch vendors:', vendorsError);
+  if (pricingError) console.error('Failed to fetch pricing tiers:', pricingError);
+  if (benchmarksError) console.error('Failed to fetch benchmarks:', benchmarksError);
 
   const now = new Date();
   const last7days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -83,26 +120,96 @@ export const load: PageServerLoad = async ({ locals }) => {
     ...sub,
     ...scoreLead(sub),
   })).sort((a, b) => {
-    // Sort by lead_score desc, then by submitted_at desc
     if (b.lead_score !== a.lead_score) return b.lead_score - a.lead_score;
     return new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime();
   });
   const newsletters = newsletterSubs || [];
+
   // For labs lead-magnet subs that already have a client-side lead_score,
   // ensure lead_segment is populated (hot/warm/cold) so the UI can filter.
   const newslettersWithSegment = newsletters.map(n => {
     if (n.lead_score != null && !n.lead_segment) {
-      let segment;
-      if (n.lead_score >= 70) segment = 'hot';
-      else if (n.lead_score >= 40) segment = 'warm';
-      else segment = 'cold';
-      return { ...n, lead_segment: segment };
+      return { ...n, lead_segment: classifyTier(n.lead_score) };
     }
     return n;
   });
-  // Labs tool + premium guide captures share the newsletter_subscriptions table.
-  // 'magnets' = filtered subset for the admin Lead Magnets tab (lead_magnet_* sources).
-  const magnets = (newslettersWithSegment || []).filter(n => String(n.source || '').startsWith('lead_magnet_'));
+
+  // FIX dual-column drift: labs routes write to `lead_source`, the Lead Magnets
+  // tab filters on `source`. Union both columns so no captures are lost.
+  const magnets = (newslettersWithSegment || []).filter(n =>
+    String(n.source || '').startsWith('lead_magnet_') ||
+    String(n.lead_source || '').startsWith('lead_magnet_')
+  );
+
+  // ================================================================
+  // Card 1: FindingsNg segment
+  // ================================================================
+  const fnSubs = findingsngSubs || [];
+  const fnTotal = fnSubs.length;
+
+  // Tier breakdown (hot/warm/cold from lead_score)
+  const fnHot = fnSubs.filter(s => classifyTier(s.lead_score) === 'hot').length;
+  const fnWarm = fnSubs.filter(s => classifyTier(s.lead_score) === 'warm').length;
+  const fnCold = fnSubs.filter(s => classifyTier(s.lead_score) === 'cold').length;
+
+  // Per-source breakdown (union source + lead_source like the magnets fix)
+  const fnPerSource: Record<string, number> = {};
+  for (const s of fnSubs) {
+    const src = String(s.source || s.lead_source || 'unknown');
+    fnPerSource[src] = (fnPerSource[src] || 0) + 1;
+  }
+
+  // Last-touch: most recent subscribed_at
+  const fnLastTouch = fnSubs.length > 0
+    ? fnSubs.reduce((latest, s) => {
+        const d = new Date(s.subscribed_at);
+        return d > latest ? d : latest;
+      }, new Date(fnSubs[0].subscribed_at))
+    : null;
+
+  // Weekly accumulation: count per ISO week (last 8 weeks)
+  const fnWeeklyMap: Record<string, number> = {};
+  for (const s of fnSubs) {
+    const wk = weekKey(s.subscribed_at);
+    fnWeeklyMap[wk] = (fnWeeklyMap[wk] || 0) + 1;
+  }
+  // Sort weeks ascending and take last 8
+  const fnWeeklySorted = Object.entries(fnWeeklyMap)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-8);
+
+  const findingsngStats = {
+    total: fnTotal,
+    hot: fnHot,
+    warm: fnWarm,
+    cold: fnCold,
+    perSource: fnPerSource,
+    lastTouch: fnLastTouch ? fnLastTouch.toISOString() : null,
+    weekly: fnWeeklySorted
+  };
+
+  // ================================================================
+  // Card 2: Vendor intelligence
+  // ================================================================
+  const vendorList = vendors || [];
+  const tierList = pricingTiers || [];
+  const benchmarkList = benchmarks || [];
+
+  // Verified counts for pattern-lock badges
+  const verifiedTiers = tierList.filter(t => t.is_verified).length;
+  const unverifiedTiers = tierList.filter(t => !t.is_verified).length;
+  const verifiedBenchmarks = benchmarkList.filter(b =>
+    (b as unknown as { vendor_benchmarks?: { is_verified: boolean }[] }).vendor_benchmarks?.some(vb => vb.is_verified)
+  ).length;
+
+  const vendorStats = {
+    totalVendors: vendorList.length,
+    totalTiers: tierList.length,
+    verifiedTiers,
+    unverifiedTiers,
+    totalBenchmarks: benchmarkList.length,
+    verifiedBenchmarks
+  };
 
   const stats = {
     totalSubmissions: submissions.length,
@@ -127,7 +234,17 @@ export const load: PageServerLoad = async ({ locals }) => {
     submissions,
     newsletters: newslettersWithSegment,
     magnets,
-    profiles: profiles || []
+    profiles: profiles || [],
+    findingsng: {
+      stats: findingsngStats,
+      subs: fnSubs
+    },
+    vendors: {
+      stats: vendorStats,
+      list: vendorList,
+      tiers: tierList,
+      benchmarks: benchmarkList
+    }
   };
 };
 

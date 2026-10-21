@@ -1,9 +1,8 @@
 <script>
-  import { Shield, Users, Mail, MessageCircle, TrendingUp, Download, Search, ArrowRight, BarChart3, Settings, Bell, CheckCircle, XCircle, Eye, X, FileText } from '@lucide/svelte';
+  import { Shield, Users, Mail, MessageCircle, TrendingUp, Download, Search, ArrowRight, BarChart3, Settings, CheckCircle, XCircle, Eye, X, Building2, CheckCircle2, AlertCircle, ExternalLink } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
-  import { fade } from 'svelte/transition';
 
   let { data } = $props();
 
@@ -20,6 +19,8 @@
   const magnets = data.magnets;
   const stats = data.stats;
   const user = data.user;
+  const findingsng = data.findingsng;
+  const vendorData = data.vendors;
 
   // Lead segment helpers
   const segmentColors = {
@@ -70,16 +71,6 @@
     return result;
   }
 
-  // Real percentage change vs previous period
-  function getChange(current, previous) {
-    if (previous === 0) return current > 0 ? 100 : 0;
-    return Math.round(((current - previous) / previous) * 100);
-  }
-
-  const subChange = getChange(stats.weeklySubmissions, stats.monthlySubmissions - stats.weeklySubmissions);
-  const newsChange = getChange(stats.weeklySubscribers, stats.monthlySubscribers - stats.weeklySubscribers);
-  const magChange = getChange(stats.weeklyMagnets, stats.monthlyMagnets - stats.weeklyMagnets);
-
   function getStatusColor(status) {
     const colors = {
       'new': 'bg-blue-100 text-blue-800 border-blue-200',
@@ -88,22 +79,6 @@
       'closed': 'bg-gray-100 text-gray-800 border-gray-200'
     };
     return colors[status] || colors.new;
-  }
-
-  function getPriority(budget) {
-    if (!budget) return 'low';
-    if (budget.includes('50k+') || budget.includes('25k-50k')) return 'high';
-    if (budget.includes('10k-25k')) return 'medium';
-    return 'low';
-  }
-
-  function getPriorityColor(priority) {
-    const colors = {
-      'high': 'bg-red-100 text-red-800 border-red-200',
-      'medium': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      'low': 'bg-gray-100 text-gray-800 border-gray-200'
-    };
-    return colors[priority] || colors.low;
   }
 
   function convertToCSV(data) {
@@ -151,6 +126,21 @@
     showLeadModal = false;
     selectedLead = null;
   }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    return new Date(dateStr).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function formatPrice(tier) {
+    if (tier.price_monthly == null) return 'Custom';
+    const curr = tier.currency || 'USD';
+    const symbol = curr === 'NGN' ? '₦' : curr === 'USD' ? '$' : curr === 'GBP' ? '£' : '';
+    return `${symbol}${tier.price_monthly}/${tier.billing_cycle === 'monthly' ? 'mo' : 'yr'}`;
+  }
+
+  const verifiedBadge = 'bg-green-100 text-green-800 border-green-200';
+  const unverifiedBadge = 'bg-yellow-100 text-yellow-800 border-yellow-200';
 </script>
 
 <svelte:head>
@@ -169,10 +159,9 @@
           </div>
           <div>
             <h1 class="text-xl font-bold text-gray-900">RyderTech Admin</h1>
-            <p class="text-sm text-gray-500">Manage leads and subscribers</p>
+            <p class="text-sm text-gray-500">Manage leads, subscribers & vendor intelligence</p>
           </div>
         </div>
-
         <div class="flex items-center space-x-4">
           <span class="text-sm text-gray-500">Hi, {user.email?.split('@')[0]}</span>
           <Button variant="outline" size="sm" class="flex items-center gap-2">
@@ -190,6 +179,8 @@
       <nav class="p-4 space-y-2">
         {#each [
           { id: 'overview', label: 'Overview', icon: BarChart3 },
+          { id: 'findingsng', label: 'FindingsNg', icon: TrendingUp },
+          { id: 'vendors', label: 'Vendor Intel', icon: Building2 },
           { id: 'leads', label: 'Contact Leads', icon: Users },
           { id: 'magnets', label: 'Lead Magnets', icon: Download },
           { id: 'newsletter', label: 'Newsletter', icon: Mail }
@@ -219,10 +210,10 @@
           <!-- Stats Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {#each [
-              { label: 'Contact Leads', value: stats.totalSubmissions, change: subChange, icon: Users, color: 'blue' },
-              { label: 'Lead Magnets', value: stats.totalMagnets, change: magChange, icon: Download, color: 'orange' },
-              { label: 'Newsletter', value: stats.totalSubscribers, change: newsChange, icon: Mail, color: 'green' },
-              { label: 'Pending', value: stats.pendingSubmissions, change: null, icon: MessageCircle, color: 'purple' }
+              { label: 'Contact Leads', value: stats.totalSubmissions, icon: Users, color: 'blue' },
+              { label: 'Lead Magnets', value: stats.totalMagnets, icon: Download, color: 'orange' },
+              { label: 'Newsletter', value: stats.totalSubscribers, icon: Mail, color: 'green' },
+              { label: 'Pending', value: stats.pendingSubmissions, icon: MessageCircle, color: 'purple' }
             ] as stat}
               <Card class="hover:shadow-lg transition-shadow duration-300">
                 <CardContent class="p-6">
@@ -230,11 +221,6 @@
                     <div>
                       <p class="text-sm font-medium text-gray-600">{stat.label}</p>
                       <p class="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
-                      {#if stat.change !== null}
-                        <p class="text-xs {stat.change >= 0 ? 'text-green-600' : 'text-red-600'} mt-1">
-                          {stat.change >= 0 ? '+' : ''}{stat.change}% this week
-                        </p>
-                      {/if}
                     </div>
                     <div class="p-3 rounded-lg bg-{stat.color}-100">
                       <stat.icon class="w-6 h-6 text-{stat.color}-600" />
@@ -245,13 +231,10 @@
             {/each}
           </div>
 
-          <!-- Status Breakdown -->
-          <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Status Breakdown + Lead Quality + This Week -->
+          <div class="grid lg:grid-cols-3 gap-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Lead Status Breakdown</CardTitle>
-                <CardDescription>Current status of all contact submissions</CardDescription>
-              </CardHeader>
+              <CardHeader><CardTitle>Lead Status Breakdown</CardTitle></CardHeader>
               <CardContent>
                 <div class="space-y-3">
                   {#each [
@@ -270,10 +253,7 @@
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>Lead Quality Score</CardTitle>
-                <CardDescription>AI-scored segmentation of your leads</CardDescription>
-              </CardHeader>
+              <CardHeader><CardTitle>Lead Quality Score</CardTitle></CardHeader>
               <CardContent>
                 <div class="space-y-3">
                   {#each [
@@ -291,282 +271,361 @@
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>This Week</CardTitle>
-                <CardDescription>New captures in the last 7 days</CardDescription>
-              </CardHeader>
+              <CardHeader><CardTitle>This Week</CardTitle></CardHeader>
               <CardContent>
                 <div class="space-y-3">
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Contact Forms</span>
-                    <span class="font-medium">{stats.weeklySubmissions}</span>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Lead Magnets</span>
-                    <span class="font-medium">{stats.weeklyMagnets}</span>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Newsletter</span>
-                    <span class="font-medium">{stats.weeklySubscribers}</span>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Registered Users</span>
-                    <span class="font-medium">{stats.totalUsers}</span>
-                  </div>
+                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Contact Forms</span><span class="font-medium">{stats.weeklySubmissions}</span></div>
+                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Lead Magnets</span><span class="font-medium">{stats.weeklyMagnets}</span></div>
+                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Newsletter</span><span class="font-medium">{stats.weeklySubscribers}</span></div>
+                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Registered Users</span><span class="font-medium">{stats.totalUsers}</span></div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <!-- Recent Leads Preview -->
+          <!-- Recent Leads + Subscribers -->
           <div class="grid lg:grid-cols-2 gap-6">
             <Card>
-              <CardHeader class="flex flex-row items-center justify-between pb-4">
-                <div>
-                  <CardTitle>Recent Leads</CardTitle>
-                  <CardDescription>Latest contact form submissions</CardDescription>
-                </div>
-                <Button variant="outline" size="sm" onclick={exportSubmissions}>
-                  <Download class="w-4 h-4 mr-2" />
-                  Export
-                </Button>
-              </CardHeader>
+              <CardHeader><CardTitle>Recent Leads</CardTitle></CardHeader>
               <CardContent>
                 <div class="space-y-4">
                   {#each submissions.slice(0, 5) as submission}
-                    <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full flex items-center justify-center">
-                          <Users class="w-5 h-5 text-[var(--primary)]" />
-                        </div>
-                        <div>
-                          <p class="font-medium text-gray-900">{submission.name}</p>
-                          <p class="text-sm text-gray-500">{submission.email}</p>
-                        </div>
-                      </div>
-                      <div class="text-right">
-                        <Badge class={getStatusColor(submission.status)}>
-                          {submission.status}
-                        </Badge>
-                        <p class="text-xs text-gray-500 mt-1">
-                          {new Date(submission.submitted_at).toLocaleDateString()}
-                        </p>
-                      </div>
+                    <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
+                      <div><p class="font-medium text-gray-900">{submission.name}</p><p class="text-sm text-gray-500">{submission.email}</p></div>
+                      <Badge class={getStatusColor(submission.status)}>{submission.status}</Badge>
                     </div>
                   {:else}
                     <p class="text-sm text-gray-500 text-center py-4">No leads yet</p>
                   {/each}
                 </div>
-                {#if submissions.length > 0}
-                  <Button variant="ghost" class="w-full mt-4" onclick={() => activeTab = 'leads'}>
-                    View All Leads
-                    <ArrowRight class="w-4 h-4 ml-2" />
-                  </Button>
-                {/if}
               </CardContent>
             </Card>
-
             <Card>
-              <CardHeader class="flex flex-row items-center justify-between pb-4">
-                <div>
-                  <CardTitle>Recent Subscribers</CardTitle>
-                  <CardDescription>Latest newsletter signups</CardDescription>
-                </div>
-                <Button variant="outline" size="sm" onclick={exportNewsletters}>
-                  <Download class="w-4 h-4 mr-2" />
-                  Export
-                </Button>
-              </CardHeader>
+              <CardHeader><CardTitle>Recent Subscribers</CardTitle></CardHeader>
               <CardContent>
                 <div class="space-y-4">
                   {#each newsletters.slice(0, 5) as subscriber}
-                    <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center">
-                          <Mail class="w-5 h-5 text-green-600" />
-                        </div>
-                        <div>
-                          <p class="font-medium text-gray-900">{subscriber.email}</p>
-                          <p class="text-sm text-gray-500 capitalize">{subscriber.source}</p>
-                        </div>
-                      </div>
-                      <div class="text-right">
-                        {#if subscriber.lead_score}
-                          <div class="flex items-center gap-2 justify-end">
-                            <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>
-                              {segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment}
-                            </Badge>
-                            <span class="text-xs font-medium text-gray-600">{subscriber.lead_score}/100</span>
-                          </div>
-                        {:else}
-                          <p class="text-xs text-gray-400">No score</p>
-                        {/if}
-                        <p class="text-xs text-gray-500 mt-1">
-                          {new Date(subscriber.subscribed_at).toLocaleDateString()}
-                        </p>
-                      </div>
+                    <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
+                      <div><p class="font-medium text-gray-900">{subscriber.email}</p><p class="text-sm text-gray-500 capitalize">{subscriber.source}</p></div>
+                      <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>{segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment}</Badge>
                     </div>
                   {:else}
                     <p class="text-sm text-gray-500 text-center py-4">No subscribers yet</p>
                   {/each}
                 </div>
-                {#if newsletters.length > 0}
-                  <Button variant="ghost" class="w-full mt-4" onclick={() => activeTab = 'newsletter'}>
-                    View All Subscribers
-                    <ArrowRight class="w-4 h-4 ml-2" />
-                  </Button>
-                {/if}
               </CardContent>
             </Card>
           </div>
+        </div>
+
+      <!-- FindingsNg Tab -->
+      {:else if activeTab === 'findingsng'}
+        <div class="space-y-6">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900">FindingsNg Segment</h2>
+            <p class="text-gray-600 mt-1">Subscribers tagged <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">lead_tags @> ['findingsng']</code> — pricing-intel opt-ins from ops-drain leads.</p>
+          </div>
+
+          <!-- Top Stats Row -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Total</p><p class="text-2xl font-bold">{findingsng.stats.total}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Hot</p><p class="text-2xl font-bold text-red-600">{findingsng.stats.hot}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Warm</p><p class="text-2xl font-bold text-yellow-600">{findingsng.stats.warm}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Cold</p><p class="text-2xl font-bold text-gray-600">{findingsng.stats.cold}</p></CardContent></Card>
+          </div>
+
+          <!-- Last Touch + Per Source -->
+          <div class="grid lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader><CardTitle>Last Touch</CardTitle><CardDescription>Most recent subscription in this segment</CardDescription></CardHeader>
+              <CardContent>
+                {#if findingsng.stats.lastTouch}
+                  <p class="text-lg font-medium">{formatDate(findingsng.stats.lastTouch)}</p>
+                {:else}
+                  <p class="text-gray-500">No subscribers yet</p>
+                {/if}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader><CardTitle>Per Source</CardTitle><CardDescription>Breakdown by capture source (unioned source + lead_source)</CardDescription></CardHeader>
+              <CardContent>
+                <div class="space-y-2">
+                  {#each Object.entries(findingsng.stats.perSource || {}) as [src, count]}
+                    <div class="flex items-center justify-between"><Badge variant="outline">{src}</Badge><span class="font-medium">{count}</span></div>
+                  {:else}
+                    <p class="text-gray-500 text-sm">No data</p>
+                  {/each}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <!-- Weekly Accumulation -->
+          <Card>
+            <CardHeader><CardTitle>Weekly Accumulation</CardTitle><CardDescription>New subscribers per ISO week (last 8 weeks)</CardDescription></CardHeader>
+            <CardContent>
+              {#if findingsng.stats.weekly.length > 0}
+                <div class="flex items-end gap-2 h-40">
+                  {#each findingsng.stats.weekly as [week, count]}
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                      <span class="text-xs font-medium">{count}</span>
+                      <div class="w-full bg-[var(--primary)]/20 rounded-t" style="height: {Math.max(4, count * 20)}px"></div>
+                      <span class="text-xs text-gray-500">{week.slice(5)}</span>
+                    </div>
+                  {/each}
+                </div>
+              {:else}
+                <p class="text-gray-500 text-sm">No weekly data yet</p>
+              {/if}
+            </CardContent>
+          </Card>
+
+          <!-- Subscriber List -->
+          <Card>
+            <CardHeader><CardTitle>FindingsNg Subscribers</CardTitle><CardDescription>{findingsng.stats.total} total</CardDescription></CardHeader>
+            <CardContent class="p-0">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tier</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    {#each findingsng.subs as sub}
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm text-gray-900">{sub.email}</td>
+                        <td class="px-6 py-4"><Badge variant="outline">{sub.source || sub.lead_source || '—'}</Badge></td>
+                        <td class="px-6 py-4 text-center">{#if sub.lead_score != null}<span class="font-medium">{sub.lead_score}</span>{:else}<span class="text-gray-400">—</span>{/if}</td>
+                        <td class="px-6 py-4"><Badge class={segmentColors[sub.lead_segment] || segmentColors.cold}>{segmentIcons[sub.lead_segment] || '📋'} {sub.lead_segment || 'cold'}</Badge></td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{formatDate(sub.subscribed_at)}</td>
+                      </tr>
+                    {:else}
+                      <tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No FindingsNg subscribers yet</td></tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+      <!-- Vendor Intelligence Tab -->
+      {:else if activeTab === 'vendors'}
+        <div class="space-y-6">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900">Vendor Intelligence</h2>
+            <p class="text-gray-600 mt-1">Pricing tiers and benchmarks for the FindingsNg marketplace. Verified badges driven by <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">is_verified</code> + <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">verified_date</code>.</p>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Vendors</p><p class="text-2xl font-bold">{vendorData.stats.totalVendors}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Pricing Tiers</p><p class="text-2xl font-bold">{vendorData.stats.totalTiers}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Verified Tiers</p><p class="text-2xl font-bold text-green-600">{vendorData.stats.verifiedTiers}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Unverified</p><p class="text-2xl font-bold text-yellow-600">{vendorData.stats.unverifiedTiers}</p></CardContent></Card>
+            <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">Benchmarks</p><p class="text-2xl font-bold">{vendorData.stats.totalBenchmarks}</p></CardContent></Card>
+          </div>
+
+          <!-- Vendors Table -->
+          <Card>
+            <CardHeader><CardTitle>Vendors</CardTitle></CardHeader>
+            <CardContent class="p-0">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendor</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Website</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    {#each vendorData.list as v}
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">{v.name}</td>
+                        <td class="px-6 py-4"><Badge class={v.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>{v.status}</Badge></td>
+                        <td class="px-6 py-4 text-sm text-gray-600">{v.category}</td>
+                        <td class="px-6 py-4 text-sm">
+                          <a href={v.website_url} target="_blank" rel="noopener" class="text-[var(--primary)] hover:underline flex items-center gap-1">
+                            {v.website_url?.replace(/^https?:\/\//, '')} <ExternalLink class="w-3 h-3" />
+                          </a>
+                        </td>
+                      </tr>
+                    {:else}
+                      <tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No vendors</td></tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          <!-- Pricing Tiers Table -->
+          <Card>
+            <CardHeader><CardTitle>Pricing Tiers</CardTitle><CardDescription>Pattern-lock: is_verified + verified_date drive badges</CardDescription></CardHeader>
+            <CardContent class="p-0">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendor</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Plan</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Billing Unit</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Limit</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Verified</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    {#each vendorData.tiers as tier}
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">{tier.vendors?.name || '—'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">{tier.plan_name}</td>
+                        <td class="px-6 py-4 text-sm">{formatPrice(tier)}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">{tier.billing_unit}</td>
+                        <td class="px-6 py-4 text-sm">{tier.unit_limit ?? '—'}</td>
+                        <td class="px-6 py-4">
+                          {#if tier.is_verified}
+                            <Badge class={verifiedBadge}>
+                              <CheckCircle2 class="w-3 h-3 mr-1" />Verified{#if tier.verified_date}<span class="ml-1 text-xs opacity-75">{tier.verified_date}</span>{/if}
+                            </Badge>
+                          {:else}
+                            <Badge class={unverifiedBadge}><AlertCircle class="w-3 h-3 mr-1" />Unverified</Badge>
+                          {/if}
+                        </td>
+                        <td class="px-6 py-4 text-sm">
+                          {#if tier.source_url}
+                            <a href={tier.source_url} target="_blank" rel="noopener" class="text-[var(--primary)] hover:underline flex items-center gap-1">Link <ExternalLink class="w-3 h-3" /></a>
+                          {:else}
+                            <span class="text-gray-400">—</span>
+                          {/if}
+                        </td>
+                      </tr>
+                    {:else}
+                      <tr><td colspan="7" class="px-6 py-8 text-center text-gray-500">No pricing tiers</td></tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          <!-- Benchmarks Table -->
+          <Card>
+            <CardHeader><CardTitle>Benchmarks</CardTitle><CardDescription>Category-level metrics with per-vendor values from vendor_benchmarks</CardDescription></CardHeader>
+            <CardContent class="p-0">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Metric</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendor Values</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    {#each vendorData.benchmarks as b}
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">{b.metric_name}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">{b.metric_unit}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">{b.category}</td>
+                        <td class="px-6 py-4 text-sm">
+                          {#if b.vendor_benchmarks?.length > 0}
+                            <div class="space-y-1">
+                              {#each b.vendor_benchmarks as vb}
+                                <div class="flex items-center gap-2">
+                                  <span class="font-medium">{vb.value}</span>
+                                  {#if vb.is_verified}<Badge class={verifiedBadge}>Verified</Badge>{:else}<Badge class={unverifiedBadge}>Unverified</Badge>{/if}
+                                </div>
+                              {/each}
+                            </div>
+                          {:else}
+                            <span class="text-gray-400">—</span>
+                          {/if}
+                        </td>
+                        <td class="px-6 py-4 text-sm">
+                          {#if b.source_url}
+                            <a href={b.source_url} target="_blank" rel="noopener" class="text-[var(--primary)] hover:underline flex items-center gap-1">Link <ExternalLink class="w-3 h-3" /></a>
+                          {:else}
+                            <span class="text-gray-400">—</span>
+                          {/if}
+                        </td>
+                      </tr>
+                    {:else}
+                      <tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No benchmarks</td></tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
       <!-- Leads Management Tab -->
       {:else if activeTab === 'leads'}
         <div class="space-y-6">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h2 class="text-2xl font-bold text-gray-900">Contact Leads</h2>
-              <p class="text-gray-600">{submissions.length} total submissions</p>
-            </div>
+            <div><h2 class="text-2xl font-bold text-gray-900">Contact Leads</h2><p class="text-gray-600">{submissions.length} total</p></div>
             <div class="flex items-center space-x-3">
               <div class="relative">
                 <Search class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  bind:value={searchQuery}
-                  placeholder="Search leads..."
-                  class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
-                />
+                <input type="text" bind:value={searchQuery} placeholder="Search leads..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg" />
               </div>
-              <Button variant="outline" onclick={exportSubmissions}>
-                <Download class="w-4 h-4 mr-2" />
-                Export CSV
-              </Button>
+              <Button variant="outline" onclick={exportSubmissions}><Download class="w-4 h-4 mr-2" />Export</Button>
             </div>
           </div>
-
-          <!-- Segment Filter Tabs -->
           <div class="flex items-center gap-2">
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'all'
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-              onclick={() => leadFilter = 'all'}
-            >All ({getSegmentCount('hot') + getSegmentCount('warm') + getSegmentCount('cold')})</button>
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'hot'
-                  ? 'bg-red-500 text-white'
-                  : 'text-red-600 hover:bg-red-50'
-              }`}
-              onclick={() => leadFilter = 'hot'}
-            >🔥 Hot ({getSegmentCount('hot')})</button>
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'warm'
-                  ? 'bg-yellow-500 text-white'
-                  : 'text-yellow-600 hover:bg-yellow-50'
-              }`}
-              onclick={() => leadFilter = 'warm'}
-            >⏳ Warm ({getSegmentCount('warm')})</button>
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'cold'
-                  ? 'bg-gray-500 text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-              onclick={() => leadFilter = 'cold'}
-            >📋 Cold ({getSegmentCount('cold')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'all' ? 'bg-[var(--primary)] text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'all'}>All ({getSegmentCount('hot') + getSegmentCount('warm') + getSegmentCount('cold')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'hot' ? 'bg-red-500 text-white' : 'text-red-600 hover:bg-red-50'}`} onclick={() => leadFilter = 'hot'}>Hot ({getSegmentCount('hot')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'warm' ? 'bg-yellow-500 text-white' : 'text-yellow-600 hover:bg-yellow-50'}`} onclick={() => leadFilter = 'warm'}>Warm ({getSegmentCount('warm')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'cold' ? 'bg-gray-500 text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'cold'}>Cold ({getSegmentCount('cold')})</button>
           </div>
-
           <Card>
             <CardContent class="p-0">
               <div class="overflow-x-auto">
                 <table class="w-full">
                   <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Lead Score</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Segment</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Budget</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Company</th>
+                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Segment</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
                     {#each getFilteredSubmissions() as submission}
-                      <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <div>
-                            <div class="font-medium text-gray-900">{submission.name}</div>
-                            <div class="text-sm text-gray-500">{submission.email}</div>
-                          </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {submission.company || '—'}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                          <div class="flex items-center justify-center">
-                            <div class={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold ${
-                              submission.lead_score >= 70 ? 'bg-red-100 text-red-700' :
-                              submission.lead_score >= 40 ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-gray-100 text-gray-700'
-                            }`}>
-                              {submission.lead_score}
-                            </div>
-                          </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge class={segmentColors[submission.lead_segment] || segmentColors.cold}>
-                            {segmentIcons[submission.lead_segment] || '📋'} {submission.lead_segment}
-                          </Badge>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge class={getPriorityColor(getPriority(submission.budget))}>
-                            {getPriority(submission.budget)}
-                          </Badge>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge class={getStatusColor(submission.status)}>
-                            {submission.status}
-                          </Badge>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(submission.submitted_at).toLocaleDateString()}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onclick={() => viewLeadDetails(submission)}
-                          >
-                            <Eye class="w-4 h-4 mr-1" />
-                            View
-                          </Button>
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4"><div class="font-medium text-gray-900">{submission.name}</div><div class="text-sm text-gray-500">{submission.email}</div></td>
+                        <td class="px-6 py-4 text-sm">{submission.company || '—'}</td>
+                        <td class="px-6 py-4 text-center"><span class={`inline-flex w-10 h-10 rounded-full items-center justify-center text-sm font-bold ${submission.lead_score >= 70 ? 'bg-red-100 text-red-700' : submission.lead_score >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-700'}`}>{submission.lead_score}</span></td>
+                        <td class="px-6 py-4"><Badge class={segmentColors[submission.lead_segment] || segmentColors.cold}>{segmentIcons[submission.lead_segment] || '📋'} {submission.lead_segment}</Badge></td>
+                        <td class="px-6 py-4"><Badge class={getStatusColor(submission.status)}>{submission.status}</Badge></td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{formatDate(submission.submitted_at)}</td>
+                        <td class="px-6 py-4">
+                          <Button size="sm" variant="outline" onclick={() => viewLeadDetails(submission)}><Eye class="w-4 h-4" /></Button>
                           {#if submission.status === 'new'}
-                            <form method="POST" action="?/updateStatus" class="inline">
+                            <form method="POST" action="?/updateStatus" class="inline ml-2">
                               <input type="hidden" name="id" value={submission.id} />
                               <input type="hidden" name="status" value="contacted" />
-                              <Button size="sm" type="submit">
-                                <CheckCircle class="w-4 h-4 mr-1" />
-                                Contacted
-                              </Button>
+                              <Button size="sm" type="submit"><CheckCircle class="w-4 h-4" /></Button>
                             </form>
                           {/if}
                         </td>
                       </tr>
                     {:else}
-                      <tr>
-                        <td colspan="7" class="px-6 py-8 text-center text-gray-500">
-                          No leads found
-                        </td>
-                      </tr>
+                      <tr><td colspan="7" class="px-6 py-8 text-center text-gray-500">No leads found</td></tr>
                     {/each}
                   </tbody>
                 </table>
@@ -579,17 +638,9 @@
       {:else if activeTab === 'magnets'}
         <div class="space-y-6">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h2 class="text-2xl font-bold text-gray-900">Lead Magnets</h2>
-              <p class="text-gray-600">{magnets.length} captures from /labs tools</p>
-            </div>
-            <Button variant="outline" onclick={exportMagnets}>
-              <Download class="w-4 h-4 mr-2" />
-              Export CSV
-            </Button>
+            <div><h2 class="text-2xl font-bold text-gray-900">Lead Magnets</h2><p class="text-gray-600">{magnets.length} captures (unioned source + lead_source)</p></div>
+            <Button variant="outline" onclick={exportMagnets}><Download class="w-4 h-4 mr-2" />Export</Button>
           </div>
-
-          <!-- Tool breakdown -->
           <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
             {#each [
               { label: 'Ops Drain', source: 'lead_magnet_ops_drain' },
@@ -598,47 +649,31 @@
               { label: 'Website Rater', source: 'lead_magnet_website_rater' },
               { label: 'Cost Guide', source: 'lead_magnet_cost_guide' }
             ] as tool}
-              <Card>
-                <CardContent class="p-4 text-center">
-                  <p class="text-sm text-gray-600">{tool.label}</p>
-                  <p class="text-2xl font-bold">{magnets.filter(m => m.source === tool.source).length}</p>
-                </CardContent>
-              </Card>
+              <Card><CardContent class="p-4 text-center"><p class="text-sm text-gray-600">{tool.label}</p><p class="text-2xl font-bold">{magnets.filter(m => m.source === tool.source || m.lead_source === tool.source).length}</p></CardContent></Card>
             {/each}
           </div>
-
           <Card>
             <CardContent class="p-0">
               <div class="overflow-x-auto">
                 <table class="w-full">
                   <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Company</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
                     {#each magnets as lead}
-                      <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{lead.email}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge variant="outline capitalize">{lead.source}</Badge>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">—</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{lead.company || '—'}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(lead.subscribed_at).toLocaleDateString()}
-                        </td>
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm">{lead.email}</td>
+                        <td class="px-6 py-4"><Badge variant="outline">{lead.source || lead.lead_source}</Badge></td>
+                        <td class="px-6 py-4 text-sm">{lead.company || '—'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{formatDate(lead.subscribed_at)}</td>
                       </tr>
                     {:else}
-                      <tr>
-                        <td colspan="5" class="px-6 py-8 text-center text-gray-500">
-                          No lead magnet captures yet
-                        </td>
-                      </tr>
+                      <tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No lead magnet captures yet</td></tr>
                     {/each}
                   </tbody>
                 </table>
@@ -651,113 +686,39 @@
       {:else if activeTab === 'newsletter'}
         <div class="space-y-6">
           <div class="flex justify-between items-center">
-            <div>
-              <h2 class="text-2xl font-bold text-gray-900">Newsletter Subscribers</h2>
-              <p class="text-gray-600">{newsletters.length} total subscribers</p>
-            </div>
-            <Button onclick={exportNewsletters}>
-              <Download class="w-4 h-4 mr-2" />
-              Export CSV
-            </Button>
+            <div><h2 class="text-2xl font-bold text-gray-900">Newsletter Subscribers</h2><p class="text-gray-600">{newsletters.length} total</p></div>
+            <Button onclick={exportNewsletters}><Download class="w-4 h-4 mr-2" />Export</Button>
           </div>
-
-          <!-- Segment Filter -->
           <div class="flex items-center gap-2">
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'all'
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-              onclick={() => leadFilter = 'all'}
-            >All ({getNewsletterSegmentCount('hot') + getNewsletterSegmentCount('warm') + getNewsletterSegmentCount('cold')})</button>
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'hot'
-                  ? 'bg-red-500 text-white'
-                  : 'text-red-600 hover:bg-red-50'
-              }`}
-              onclick={() => leadFilter = 'hot'}
-            >🔥 Hot ({getNewsletterSegmentCount('hot')})</button>
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'warm'
-                  ? 'bg-yellow-500 text-white'
-                  : 'text-yellow-600 hover:bg-yellow-50'
-              }`}
-              onclick={() => leadFilter = 'warm'}
-            >⏳ Warm ({getNewsletterSegmentCount('warm')})</button>
-            <button
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                leadFilter === 'cold'
-                  ? 'bg-gray-500 text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-              onclick={() => leadFilter = 'cold'}
-            >📋 Cold ({getNewsletterSegmentCount('cold')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'all' ? 'bg-[var(--primary)] text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'all'}>All ({getNewsletterSegmentCount('hot') + getNewsletterSegmentCount('warm') + getNewsletterSegmentCount('cold')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'hot' ? 'bg-red-500 text-white' : 'text-red-600 hover:bg-red-50'}`} onclick={() => leadFilter = 'hot'}>Hot ({getNewsletterSegmentCount('hot')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'warm' ? 'bg-yellow-500 text-white' : 'text-yellow-600 hover:bg-yellow-50'}`} onclick={() => leadFilter = 'warm'}>Warm ({getNewsletterSegmentCount('warm')})</button>
+            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'cold' ? 'bg-gray-500 text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'cold'}>Cold ({getNewsletterSegmentCount('cold')})</button>
           </div>
-
           <Card>
             <CardContent class="p-0">
               <div class="overflow-x-auto">
                 <table class="w-full">
                   <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
-                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Lead Score</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Segment</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subscription Date</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tier</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    {#each getFilteredNewsletters() as subscriber}
-                      <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="flex items-center">
-                            <div class="w-8 h-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mr-3">
-                              <Mail class="w-4 h-4 text-green-600" />
-                            </div>
-                            <div class="font-medium text-gray-900">{subscriber.email}</div>
-                          </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
-                          {subscriber.source}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                          {#if subscriber.lead_score}
-                            <div class={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold ${
-                              subscriber.lead_score >= 70 ? 'bg-red-100 text-red-700' :
-                              subscriber.lead_score >= 40 ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-gray-100 text-gray-700'
-                            }`}>
-                              {subscriber.lead_score}
-                            </div>
-                          {:else}
-                            <span class="text-xs text-gray-400">—</span>
-                          {/if}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>
-                            {segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment || 'cold'}
-                          </Badge>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(subscriber.subscribed_at).toLocaleDateString()}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <Badge class="bg-green-100 text-green-800 border-green-200">
-                            Active
-                          </Badge>
-                        </td>
+                    {#each getFilteredNewsletters() as sub}
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-medium">{sub.email}</td>
+                        <td class="px-6 py-4 text-sm">{sub.source || sub.lead_source || '—'}</td>
+                        <td class="px-6 py-4 text-center">{#if sub.lead_score != null}<span class={`inline-flex w-10 h-10 rounded-full items-center justify-center text-sm font-bold ${sub.lead_score >= 70 ? 'bg-red-100 text-red-700' : sub.lead_score >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-700'}`}>{sub.lead_score}</span>{:else}<span class="text-gray-400">—</span>{/if}</td>
+                        <td class="px-6 py-4"><Badge class={segmentColors[sub.lead_segment] || segmentColors.cold}>{segmentIcons[sub.lead_segment] || '📋'} {sub.lead_segment || 'cold'}</Badge></td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{formatDate(sub.subscribed_at)}</td>
                       </tr>
                     {:else}
-                      <tr>
-                        <td colspan="6" class="px-6 py-8 text-center text-gray-500">
-                          No subscribers yet
-                        </td>
-                      </tr>
+                      <tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No subscribers yet</td></tr>
                     {/each}
                   </tbody>
                 </table>
@@ -769,149 +730,38 @@
 
       <!-- Lead Details Modal -->
       {#if showLeadModal && selectedLead}
-        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-scale-in">
-            <!-- Modal Header -->
-            <div class="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] p-6 text-white">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h2 class="text-2xl font-bold">Lead Details</h2>
-                  <p class="text-white/80">Complete contact form submission</p>
-                </div>
-                <button
-                  onclick={closeLeadModal}
-                  class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                >
-                  <X class="w-5 h-5" />
-                </button>
-              </div>
+        <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-xl font-bold">Lead Details</h2>
+              <button onclick={closeLeadModal} class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200"><X class="w-5 h-5" /></button>
             </div>
-
-            <!-- Modal Content -->
-            <div class="p-6 max-h-[calc(90vh-200px)] overflow-y-auto">
-              <div class="grid md:grid-cols-2 gap-6 mb-6">
-                <!-- Contact Information -->
-                <Card>
-                  <CardHeader>
-                    <CardTitle class="flex items-center gap-2">
-                      <Users class="w-5 h-5" />
-                      Contact Information
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent class="space-y-3">
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Name:</span>
-                      <span class="font-medium">{selectedLead.name}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Email:</span>
-                      <a href="mailto:{selectedLead.email}" class="font-medium text-[var(--primary)] hover:underline">
-                        {selectedLead.email}
-                      </a>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Company:</span>
-                      <span class="font-medium">{selectedLead.company || 'Not provided'}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Submitted:</span>
-                      <span class="font-medium">
-                        {new Date(selectedLead.submitted_at).toLocaleDateString()} at {new Date(selectedLead.submitted_at).toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <!-- Project Details -->
-                <Card>
-                  <CardHeader>
-                    <CardTitle class="flex items-center gap-2">
-                      <FileText class="w-5 h-5" />
-                      Project Details
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent class="space-y-3">
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Budget:</span>
-                      <Badge variant="outline">{selectedLead.budget || 'Not specified'}</Badge>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Timeline:</span>
-                      <Badge variant="outline">{selectedLead.timeline || 'Not specified'}</Badge>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Priority:</span>
-                      <Badge class={getPriorityColor(getPriority(selectedLead.budget))}>
-                        {getPriority(selectedLead.budget)}
-                      </Badge>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Status:</span>
-                      <Badge class={getStatusColor(selectedLead.status)}>
-                        {selectedLead.status}
-                      </Badge>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-600">Source:</span>
-                      <span class="font-medium">{selectedLead.lead_source || 'contact'}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <!-- Project Message -->
-              <Card>
-                <CardHeader>
-                  <CardTitle class="flex items-center gap-2">
-                    <MessageCircle class="w-5 h-5" />
-                    Project Description
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div class="bg-gray-50 rounded-lg p-4 border">
-                    <p class="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                      {selectedLead.message || 'No message provided.'}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <!-- Action Buttons -->
-              <div class="flex flex-wrap gap-3 mt-6 pt-6 border-t">
-                {#if selectedLead.status !== 'contacted'}
-                  <form method="POST" action="?/updateStatus">
-                    <input type="hidden" name="id" value={selectedLead.id} />
-                    <input type="hidden" name="status" value="contacted" />
-                    <Button type="submit" class="flex-1 min-w-[200px]">
-                      <CheckCircle class="w-4 h-4 mr-2" />
-                      Mark as Contacted
-                    </Button>
-                  </form>
-                {:else}
-                  <Button disabled class="flex-1 min-w-[200px]">
-                    <CheckCircle class="w-4 h-4 mr-2" />
-                    Already Contacted
-                  </Button>
-                {/if}
-
-                <Button
-                  variant="outline"
-                  onclick={() => window.open(`mailto:${selectedLead.email}?subject=Regarding your inquiry&body=Hi ${selectedLead.name},`, '_blank')}
-                  class="flex-1 min-w-[200px]"
-                >
-                  <Mail class="w-4 h-4 mr-2" />
-                  Send Email
-                </Button>
-
-                <form method="POST" action="?/updateStatus">
+            <div class="grid md:grid-cols-2 gap-4">
+              <Card><CardContent class="space-y-2">
+                <div><span class="text-gray-600">Name:</span> <span class="font-medium">{selectedLead.name}</span></div>
+                <div><span class="text-gray-600">Email:</span> <span class="font-medium">{selectedLead.email}</span></div>
+                <div><span class="text-gray-600">Company:</span> <span class="font-medium">{selectedLead.company || '—'}</span></div>
+              </CardContent></Card>
+              <Card><CardContent class="space-y-2">
+                <div><span class="text-gray-600">Budget:</span> <span class="font-medium">{selectedLead.budget || '—'}</span></div>
+                <div><span class="text-gray-600">Status:</span> <Badge class={getStatusColor(selectedLead.status)}>{selectedLead.status}</Badge></div>
+                <div><span class="text-gray-600">Source:</span> <span class="font-medium">{selectedLead.lead_source || 'contact'}</span></div>
+              </CardContent></Card>
+            </div>
+            <Card class="mt-4"><CardContent><p class="font-medium mb-2">Message</p><p class="text-gray-700 whitespace-pre-wrap">{selectedLead.message || 'No message provided.'}</p></CardContent></Card>
+            <div class="flex gap-3 mt-6">
+              {#if selectedLead.status !== 'contacted'}
+                <form method="POST" action="?/updateStatus" class="flex-1">
                   <input type="hidden" name="id" value={selectedLead.id} />
-                  <input type="hidden" name="status" value="closed" />
-                  <Button variant="outline" type="submit" class="flex-1 min-w-[200px]">
-                    <XCircle class="w-4 h-4 mr-2" />
-                    Close Lead
-                  </Button>
+                  <input type="hidden" name="status" value="contacted" />
+                  <Button type="submit" class="w-full"><CheckCircle class="w-4 h-4 mr-2" />Mark Contacted</Button>
                 </form>
-              </div>
+              {/if}
+              <form method="POST" action="?/updateStatus" class="flex-1">
+                <input type="hidden" name="id" value={selectedLead.id} />
+                <input type="hidden" name="status" value="closed" />
+                <Button variant="outline" type="submit" class="w-full"><XCircle class="w-4 h-4 mr-2" />Close Lead</Button>
+              </form>
             </div>
           </div>
         </div>
@@ -919,20 +769,3 @@
     </main>
   </div>
 </div>
-
-<style>
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
-  }
-  .animate-scale-in {
-    animation: scaleIn 0.3s ease-out;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes scaleIn {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-</style>

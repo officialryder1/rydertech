@@ -269,7 +269,7 @@ function applyUpdate() {
           <h3 class="font-black text-lg mb-4">Legal</h3>
           <div class="space-y-2 text-gray-400">
             <a href="/terms" class="hover:text-white transition-colors cursor-pointer block">Terms &amp; Conditions</a>
-            <a href="/privacy" class="hover:text-white transition-colors cursor-pointer block">Privacy Policy (coming)</a>
+            <a href="/privacy" class="hover:text-white transition-colors cursor-pointer block">Privacy Policy</a>
           </div>
         </div>
       </div>
