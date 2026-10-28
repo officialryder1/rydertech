@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness' | 'website-rater';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness' | 'website-rater' | 'property-chatbot';
 
 export interface ReportRow {
   label: string;
@@ -430,8 +430,33 @@ export function reportFromAgenticCost(r: AgenticCostResult, currency: 'NGN' | 'U
 	};
 }
 
-// ---- Website Rater ----
-import type { ReviewResult } from './websiteRaterResults';
+// ---- Property Chatbot ----
+import type { Lead as PropertyChatbotLead } from './propertyChatbot';
+import { TIER_LABEL } from './leadScore';
+
+export function reportFromPropertyChatbot(lead: PropertyChatbotLead): ReportPayload {
+	return {
+		tool: 'property-chatbot',
+		title: 'Property Chatbot Lead Report',
+		heroLabel: 'Lead score',
+		heroValue: `${lead.leadScore}/100 (${TIER_LABEL[lead.leadTier]})`,
+		heroTone: lead.leadScore >= 80 ? 'good' : lead.leadScore >= 55 ? 'neutral' : 'bad',
+		verdict: `Prospect ${lead.name} is interested in ${lead.propertyTitle} in ${lead.location} (${lead.propertyType === 'buy' ? 'buying' : 'renting'}). Inspection scheduled for ${lead.inspectionDate || 'TBD'}.`,
+		rows: [
+			{ label: 'Name', value: lead.name, tone: 'neutral' },
+			{ label: 'Phone', value: lead.phone, tone: 'neutral' },
+			{ label: 'Property', value: lead.propertyTitle, tone: 'neutral' },
+			{ label: 'Location', value: lead.location, tone: 'neutral' }
+		],
+		recommendations: [
+			'Follow up within 2 hours while the lead is warm.',
+			'Confirm inspection date and send property brochure.',
+			'Add to CRM with lead source = property-chatbot.'
+		],
+		generatedAt: todayIso(),
+		sourceUrl: 'https://rydertech.ng/labs/property-chatbot'
+	};
+}
 
 export function reportFromWebsiteRater(r: ReviewResult, url: string): ReportPayload {
 	const score = r.overallScore;

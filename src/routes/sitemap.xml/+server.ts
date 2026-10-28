@@ -51,6 +51,7 @@ export const GET: RequestHandler = async () => {
     { path: '/labs/agentic-workflow-cost', priority: '0.9', freq: 'monthly' },
     { path: '/labs/agent-templates', priority: '0.8', freq: 'monthly' },
     { path: '/labs/voice-agent', priority: '0.9', freq: 'monthly' },
+    { path: '/labs/property-chatbot', priority: '0.9', freq: 'monthly' },
     { path: '/findings-ng', priority: '0.8', freq: 'monthly' },
     { path: '/courses', priority: '0.8', freq: 'weekly' },
     { path: '/courses/ai-automation-mastery', priority: '0.8', freq: 'monthly' },

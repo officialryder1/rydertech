@@ -4,20 +4,21 @@
 	import NewsLetterModel from "$lib/components/NewsLetterModel.svelte";
 	import { fade } from "svelte/transition";
 	import {
-		Calculator,
-		FileText,
-		Timer,
-		ScanLine,
-		Search,
-		Gauge,
-		Sparkles,
-		Bot,
-		Brain,
-		Shield,
-		LayoutGrid,
-		ArrowRight,
-		Mail
-	} from "@lucide/svelte";
+			Calculator,
+			FileText,
+			Timer,
+			ScanLine,
+			Search,
+			Gauge,
+			Sparkles,
+			Bot,
+			Brain,
+			Shield,
+			LayoutGrid,
+			ArrowRight,
+			Mail,
+			MessageCircle
+		} from "@lucide/svelte";
 
 	let showNewsletter = $state(false);
 
@@ -158,6 +159,15 @@
 		  new: true
 		},
 		// AI Tools
+		{
+			title: "Property Chatbot Lead Capture",
+			description: "Demo chatbot that guides real estate prospects from property interest to inspection booking, capturing qualified leads for your CRM.",
+			icon: MessageCircle,
+			href: "/labs/property-chatbot",
+			action: "Try the Chatbot",
+			category: "AI Agents",
+			new: true
+		},
 		{
 			title: "AI Headline Studio",
 			description: "Generate viral headline variants using proven copywriting formulas.",
