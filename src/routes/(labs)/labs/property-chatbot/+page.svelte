@@ -20,7 +20,7 @@
 		CheckCircle2
 	} from '@lucide/svelte';
 
-	import type { EngineState, ChatMessage, Property, Lead, ConversationStep } from '$lib/propertyChatbot';
+	import type { EngineState, ChatMessage, Property, Lead, ConversationStep, LocationKey } from '$lib/propertyChatbot';
 	import {
 		initialState,
 		selectPropertyType,
@@ -32,7 +32,8 @@
 		formatDate,
 		getSampleLead,
 		getProperties,
-		getLocationLabels
+		getLocationLabels,
+		LOCATION_LABELS
 	} from '$lib/propertyChatbot';
 	import { scoreLead } from '$lib/leadScore';
 	import { supabase } from '$lib/supabaseClient';
@@ -47,6 +48,17 @@
 		[_utmSource ? `utm:${_utmSource}` : '', _toolParam ? `tool:${_toolParam}` : ''].filter(Boolean).join('|') || 'direct'
 	);
 
+	// Score a lead based on current engine state
+	function scoreLeadFromState(state: EngineState): { score: number; tier: 'hot' | 'warm' | 'cool' } {
+		const lead = scoreLead({
+			tool: 'property_chatbot',
+			impactValue: state.selectedProperty?.price || 0,
+			revenueAtRisk: state.selectedProperty?.price || 0,
+			healthScore: state.propertyType === 'buy' ? 40 : 60
+		});
+		return { score: lead.points, tier: lead.tier };
+	}
+
 	// Engine state
 	let engineState = $state<EngineState>(initialState());
 	let inputValue = $state('');
@@ -54,8 +66,14 @@
 	let leadError = $state<string | null>(null);
 	let leadSubmitted = $state(false);
 	let leadReceived = $state<Lead | null>(null);
+	let messagesContainer = $state<HTMLElement>();
 
-	// Derived: show property grid when at property_detail step
+	// Auto-scroll to bottom of chat messages when messages change
+	$effect(() => {
+		if (engineState.messages && messagesContainer) {
+			messagesContainer.scrollTop = messagesContainer.scrollHeight;
+		}
+	});
 	const properties = getProperties();
 	const locationLabels = getLocationLabels();
 
@@ -308,71 +326,71 @@
 							<CardDescription>Chat with the demo to see how the lead capture flow works</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<!-- Messages -->
-							<div class="mb-4 flex h-[400px] flex-col gap-3 overflow-y-auto rounded-lg bg-slate-50 p-4">
-								{#each engineState.messages as msg, i}
-									<div class="flex gap-3 {msg.role === 'user' ? 'justify-end' : 'justify-start'}">
-										<div
-											class="max-w-[80%] rounded-2xl px-3 py-2 text-sm {msg.role === 'user'
-												? 'bg-primary text-white'
-												: 'bg-white text-slate-800 border border-slate-200'}"
-										>
-											<p class="whitespace-pre-wrap">{msg.content}</p>
-											{#if msg.property}
-												{@const p = msg.property as Property}
-												<div class="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-2">
-													<img
-														src={p.image}
-														alt={p.title}
-														class="mb-1 h-24 w-full rounded object-cover"
-														loading="lazy"
-													/>
-													<p class="font-semibold text-xs text-slate-900">{p.title}</p>
-													<div class="mt-1 flex gap-3 text-[10px] text-slate-600">
-														<span class="flex items-center gap-1"><Bed class="h-3 w-3" />{p.bedrooms} bed</span>
-														<span class="flex items-center gap-1"><Bath class="h-3 w-3" />{p.bathrooms} bath</span>
-														<span class="flex items-center gap-1"><Home class="h-3 w-3" />{p.sqft} sqft</span>
+								<!-- Messages -->
+								<div bind:this={messagesContainer} class="mb-4 flex h-[320px] flex-col gap-3 overflow-y-auto rounded-lg bg-slate-50 p-4">
+									{#each engineState.messages as msg, i}
+										<div class="flex gap-3 {msg.role === 'user' ? 'justify-end' : 'justify-start'}">
+											<div
+												class="max-w-[80%] rounded-2xl px-3 py-2 text-sm {msg.role === 'user'
+													? 'bg-primary text-white'
+													: 'bg-white text-slate-800 border border-slate-200'}"
+											>
+												<p class="whitespace-pre-wrap">{msg.content}</p>
+												{#if msg.property}
+													{@const p = msg.property as Property}
+													<div class="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-2">
+														<img
+															src={p.image}
+															alt={p.title}
+															class="mb-1 h-24 w-full rounded object-cover"
+															loading="lazy"
+														/>
+														<p class="font-semibold text-xs text-slate-900">{p.title}</p>
+														<div class="mt-1 flex gap-3 text-[10px] text-slate-600">
+															<span class="flex items-center gap-1"><Bed class="h-3 w-3" />{p.bedrooms} bed</span>
+															<span class="flex items-center gap-1"><Bath class="h-3 w-3" />{p.bathrooms} bath</span>
+															<span class="flex items-center gap-1"><Home class="h-3 w-3" />{p.sqft} sqft</span>
+														</div>
+														<p class="mt-1 font-semibold text-primary text-xs">{p.priceFormatted}</p>
 													</div>
-													<p class="mt-1 font-semibold text-primary text-xs">{p.priceFormatted}</p>
-												</div>
-											{/if}
-											{#if msg.options}
-												<div class="mt-2 flex flex-col gap-1.5">
-													{#each msg.options as opt}
-														<button
-															onclick={() => handleOptionClick(opt)}
-															class="text-left rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:border-primary hover:text-primary transition-all"
-														>
-															{opt}
-														</button>
-													{/each}
-												</div>
-											{/if}
+												{/if}
+												{#if msg.options}
+													<div class="mt-2 flex flex-col gap-1.5">
+														{#each msg.options as opt}
+															<button
+																onclick={() => handleOptionClick(opt)}
+																class="text-left rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:border-primary hover:text-primary transition-all"
+															>
+																{opt}
+															</button>
+														{/each}
+													</div>
+												{/if}
+											</div>
 										</div>
-									</div>
-								{/each}
-							</div>
-
-							<!-- Input for name/phone/date steps -->
-							{#if engineState.step === 'name' || engineState.step === 'phone' || engineState.step === 'inspection_date'}
-								<form onsubmit={handleFormSubmit} class="flex gap-2">
-									<Input
-										type={engineState.step === 'inspection_date' ? 'date' : engineState.step === 'phone' ? 'tel' : 'text'}
-										bind:value={inputValue}
-										placeholder={getInputLabel(engineState.step)}
-										required
-										class="flex-1"
-									/>
-									<Button type="submit" size="sm">
-										<Send class="h-4 w-4" />
-									</Button>
-								</form>
-							{:else if engineState.step !== 'complete'}
-								<div class="text-center text-xs text-slate-500">
-									Pick an option above to continue the conversation.
+									{/each}
 								</div>
-							{/if}
-						</CardContent>
+
+								<!-- Input for name/phone/date steps -->
+								{#if engineState.step === 'name' || engineState.step === 'phone' || engineState.step === 'inspection_date'}
+									<form onsubmit={handleFormSubmit} class="flex gap-2">
+										<Input
+											type={engineState.step === 'inspection_date' ? 'date' : engineState.step === 'phone' ? 'tel' : 'text'}
+											bind:value={inputValue}
+											placeholder={getInputLabel(engineState.step)}
+											required
+											class="flex-1"
+										/>
+										<Button type="submit" size="sm">
+											<Send class="h-4 w-4" />
+										</Button>
+									</form>
+								{:else if engineState.step !== 'complete'}
+									<div class="text-center text-xs text-slate-500">
+										Pick an option above to continue the conversation.
+									</div>
+								{/if}
+							</CardContent>
 					</Card>
 				</section>
 
@@ -429,26 +447,53 @@
 			<section class="mt-12">
 				<h2 class="mb-4 text-lg font-semibold text-foreground">How the lead arrives to your real estate team</h2>
 				<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-					<div class="flex items-start gap-3">
-						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
-							<User class="h-4 w-4 text-primary" />
-						</div>
-						<div class="flex-1">
-							<div class="flex items-center gap-2">
-								<span class="font-medium text-sm text-foreground">Sarah Okonkwo</span>
-								<span class="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-medium text-green-800">Hot Lead</span>
+					{#if engineState.selectedProperty}
+						{@const prop = engineState.selectedProperty}
+						{@const scoreObj = scoreLeadFromState(engineState)}
+						<div class="flex items-start gap-3">
+							<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+								<User class="h-4 w-4 text-primary" />
 							</div>
-							<p class="text-xs text-muted-foreground">
-								Interested in: Buying a 4-Bedroom Detached House in Maitama - ₦450,000,000
-							</p>
-							<div class="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-600">
-								<span class="flex items-center gap-1.5"><Phone class="h-3 w-3" />+234 803 456 7890</span>
-								<span class="flex items-center gap-1.5"><Calendar class="h-3 w-3" />Wishlist: 28 Oct 2025</span>
-								<span class="flex items-center gap-1.5"><MapPin class="h-3 w-3" />Maitama, Abuja</span>
-								<span class="flex items-center gap-1.5"><CheckCircle2 class="h-3 w-3" />Lead score: 85/100</span>
+							<div class="flex-1">
+								<div class="flex items-center gap-2">
+									<span class="font-medium text-sm text-foreground">{engineState.name || 'John Doe'}</span>
+									<span class="rounded-full {scoreObj.tier === 'hot' ? 'bg-green-100 text-green-800' : scoreObj.tier === 'warm' ? 'bg-amber-100 text-amber-800' : 'bg-slate-200 text-slate-800'} px-2 py-0.5 text-[10px] font-medium">
+										{scoreObj.tier === 'hot' ? 'Hot Lead' : scoreObj.tier === 'warm' ? 'Warm Lead' : 'Cold Lead'}
+									</span>
+								</div>
+								<p class="text-xs text-muted-foreground">
+									Interested in: {engineState.propertyType === 'buy' ? 'Buying' : 'Renting'} a {prop.bedrooms}-Bedroom {prop.title} in {LOCATION_LABELS[engineState.location || 'wuse']} - {prop.priceFormatted}
+								</p>
+								<div class="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-600">
+									<span class="flex items-center gap-1.5"><Phone class="h-3 w-3" />{engineState.phone || '+234 803 456 7890'}</span>
+									<span class="flex items-center gap-1.5"><Calendar class="h-3 w-3" />Inspection: {formatDate(engineState.inspectionDate) || 'TBD'}</span>
+									<span class="flex items-center gap-1.5"><MapPin class="h-3 w-3" />{LOCATION_LABELS[engineState.location || 'wuse']}, Abuja</span>
+									<span class="flex items-center gap-1.5"><CheckCircle2 class="h-3 w-3" />Lead score: {scoreObj.score}/100</span>
+								</div>
 							</div>
 						</div>
-					</div>
+					{:else}
+						<div class="flex items-start gap-3">
+							<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+								<User class="h-4 w-4 text-primary" />
+							</div>
+							<div class="flex-1">
+								<div class="flex items-center gap-2">
+									<span class="font-medium text-sm text-foreground">Sarah Okonkwo</span>
+									<span class="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-medium text-green-800">Hot Lead</span>
+								</div>
+								<p class="text-xs text-muted-foreground">
+									Interested in: Buying a 4-Bedroom Detached House in Maitama - ₦450,000,000
+								</p>
+								<div class="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-600">
+									<span class="flex items-center gap-1.5"><Phone class="h-3 w-3" />+234 803 456 7890</span>
+									<span class="flex items-center gap-1.5"><Calendar class="h-3 w-3" />Wishlist: 2 Oct 2025</span>
+									<span class="flex items-center gap-1.5"><MapPin class="h-3 w-3" />Maitama, Abuja</span>
+									<span class="flex items-center gap-1.5"><CheckCircle2 class="h-3 w-3" />Lead score: 85/100</span>
+								</div>
+							</div>
+						</div>
+					{/if}
 				</div>
 				<p class="mt-2 text-xs text-slate-500">
 					This is a demo preview. When you complete the flow above, we send the same structured data to your

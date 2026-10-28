@@ -168,7 +168,7 @@ const PROPERTIES: Record<LocationKey, Property[]> = {
 	]
 };
 
-const LOCATION_LABELS: Record<LocationKey, string> = {
+export const LOCATION_LABELS: Record<LocationKey, string> = {
 	wuse: 'Wuse',
 	maitama: 'Maitama',
 	gwarimpa: 'Gwarimpa/Gwagwalada',
