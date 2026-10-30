@@ -1,133 +1,93 @@
 ---
-title: "Property Chatbot Demo: How a 7-Step AI Flow Captures Real Estate Leads in Abuja"
-description: "Walk through building a demo chatbot that turns property interest into qualified leads — buy/rent, location, property detail, inspection booking — and ships structured data to your CRM."
+title: "Property Chatbot Demo: How Abuja Real Estate Agents Can Capture 24/7 Leads Without a Call Centre"
+description: "Stop losing leads after 6pm. Our 7-step property chatbot captures visitor contact details and inspection requests 24/7 — try the demo and see how it works for your listings."
 date: 2026-10-28
 author: "RyderTech"
 slug: "property-chatbot-lead-capture-demo"
 category: "AI Agents"
-readTime: "6 min read"
-excerpt: "How our 7-step property chatbot converts anonymous website visitors into qualified real estate leads — and the exact flow you can replicate for your listings."
+readTime: "4 min read"
+excerpt: "Stop losing leads after 6pm. Our 7-step property chatbot captures visitor contact details and inspection requests 24/7 — try the demo and see how it works for your listings."
 tags: ["property-chatbot", "lead-capture", "abudja", "real-estate", "ai-agent", "demo-tool"]
 image: "https://images.unsplash.com/photo-1560518866-6f5d2a5d0c0a?q=80&w=1000&auto=format&fit=crop"
 views: 0
 comments: 0
 labs_tool: "property-chatbot"
 ---
-Every week, real estate agents in Abuja lose qualified leads to cold-call competitors because their website has no way to capture interest after office hours. A visitor lands on a property listing, reads for 30 seconds, and leaves — no name, no phone, no follow-up.
+**Stop losing leads after 6pm.**
 
-What if that same visitor could chat with your listings 24/7, browse properties by location, pick one they like, and hand you their contact details plus a preferred inspection date — all without a human on the line?
+You close your laptop at 6pm. At 8pm, a family lands on your listing for a 3-bedroom flat in Wuse. They like it. They want to see it in person. But no one is online to answer.
 
-That is what our **property chatbot demo** does. In this post we break down the 7-step conversation flow, the engine architecture, and how the captured lead arrives in your CRM as structured data.
+By 10am the next morning — if they even remember — they're talking to your competitor.
 
-## The problem: websites don't close leads
+What if your website could **talk back** while you sleep?
 
-A typical Nigerian real estate listing page shows 5-10 properties and calls for enquiries. The visitor:
+Try this: [rydertech.ng/labs/property-chatbot](https://rydertech.ng/labs/property-chatbot). It takes 30 seconds to walk through, and it shows exactly how a chatbot turns anonymous visitors into qualified leads.
 
-1. Scrolls through a few listings
-2. Likes one but needs to see it in person
-3. Has to fill out a generic contact form or — more likely — WhatsApp the agent later
-4. Often forgets or gets distracted
+## Here's what most agents do wrong
 
-The conversion rate on static listing pages hovers around **1-3%**. But chatbots that guide the user through a structured flow typically convert at **8-15%** because the friction is lower and the experience feels conversational, not transactional.
+Most real estate agents slap a "Contact Us" form on their listing pages and hope for the best. The result? A 1-3% conversion rate.
 
-## The 7-step conversation flow
+But agencies that use **conversational lead capture** — chatbots that guide visitors step by step — convert at **8-15%**, because the experience feels like talking to a colleague, not filling out paperwork.
 
-Our demo chatbot uses a deterministic state machine — no hallucinations, no ambiguity. Here is exactly what the user experiences:
+## The 7-step flow that converts
 
-### Step 1: Property type
-> "Hi there! I am Ryder, your property assistant. I can help you find properties for sale or rent in prime Abuja locations."
+Here's what a visitor experiences with our property chatbot (try it yourself at the link above):
 
-The user clicks either **Buy Land/Property** or **Rent a Property**. No typing required.
+1. **"Hi! I'm Ryder, your property assistant."** — The bot greets them instantly, no waiting.
 
-### Step 2: Location
-The chatbot shows five Abuja locations — Wuse, Maitama, Gwarimpa, Asokoro, and Area 1 District — pulled dynamically from the engine's property catalogue.
+2. **Buy or Rent?** — One click. No typing.
 
-### Step 3: Property detail
-After the user picks a location, the bot renders the available properties with images, specs (bedrooms, bathrooms, sqft), and prices. The user clicks one.
+3. **Which area?** — Wuse, Maitama, Gwarimpa, Asokoro, Area 1. The bot knows your inventory.
 
-### Steps 4-6: Lead capture
-The chatbot asks for the user's **name**, **phone number**, and **preferred inspection date** — one at a time, confirming each entry. The input stays pinned at the bottom of the chat window so no scrolling is needed.
+4. **Which property?** — Photos, specs (bedrooms, sqft), prices — all shown inline. One click to pick.
 
-### Step 7: Lead dispatched
-The final message confirms: "A RyderTech real estate specialist will contact you to confirm your inspection." The structured lead is sent to the real estate team's inbox and CRM.
+5. **Name** — The bot asks naturally: "Nice to meet you, [name]!"
 
-## Engine architecture (pure TS, SSR-safe)
+6. **Phone** — Just confirm the number.
 
-The conversation engine lives in `src/lib/propertyChatbot.ts` — a single file with zero dependencies. It uses a functional state-machine pattern:
+7. **When to inspect?** — They pick a date from a calendar.
 
-```ts
-type ConversationStep =
-	| 'property_type'
-	| 'location'
-	| 'property_detail'
-	| 'name'
-	| 'phone'
-	| 'inspection_date'
-	| 'complete';
+Done. The bot sends the lead straight to your inbox with **name, phone, exact property, and inspection date**. No cold call. No WhatsApp tag. No form to fill.
 
-export type EngineState = {
-	step: ConversationStep;
-	propertyType: PropertyType | null;
-	location: LocationKey | null;
-	selectedProperty: Property | null;
-	name: string;
-	phone: string;
-	email: string;
-	inspectionDate: string;
-	messages: ChatMessage[];
-};
-```
+## How to use this for your agency (3-minute setup)
 
-Each transition is a pure function:
+You don't need to build anything from scratch. Here's how to apply this to your platform:
 
-- `selectPropertyType(state, 'buy')` → advances to location selection
-- `selectLocation(state, 'maitama')` → loads Maitama properties, advances to detail
-- `selectProperty(state, 'maitama-001')` → sets the selected property, advances to name capture
-- `enterName(state, 'John')` → stores name, advances to phone
-- `enterPhone(state, '+234...')` → stores phone, advances to inspection date
-- `enterInspectionDate(state, '2025-10-28')` → completes the flow, builds the lead
+### Step 1: Embed on your listing pages
+The chatbot runs on any website with a single script tag. It starts conversations automatically — no button click needed. Visitors feel greeted, not bothered.
 
-The property catalogue is static demo data for five Abuja districts, with prices ranging from ₦65M (Area 1 apartment) to ₦450M (Maitama detached house).
+### Step 2: Connect to your listing database
+Swap our demo property data for your actual listings. The bot pulls live inventory by location so visitors always see current availability, prices, and photos.
 
-## What the lead arrives as
+### Step 3: Route leads to your CRM
+Every completed conversation creates a structured lead with:
+- Property type (buy/rent)
+- Exact location and property ID
+- Visitor name and phone
+- Preferred inspection date
+- Lead score (hot/warm/cold based on property value and engagement)
 
-On the right side of the demo, a live preview shows exactly how the lead data gets structured when it reaches the real estate team:
+Hot leads go straight to your sales team via WhatsApp or SMS. Warm leads enter nurture sequences.
 
-| Field | Example Value |
-|-------|--------------|
-| Name | John Doe |
-| Phone | +234 803 456 7890 |
-| Interest | Renting a 2-Bedroom Apartment in Wuse - ₦95,000,000 |
-| Location | Wuse, Abuja |
-| Inspection | 28 Oct 2025 |
-| Lead Score | 85/100 (Hot) |
+### Step 4: Hand off to humans when needed
+The bot handles the first 7 steps. If a visitor asks "Do you do 360 tours?" or "What's the legal documentation?", the bot escalates to a human agent with full conversation history.
 
-The lead score is computed by our internal `leadScore.ts` engine, which factors in property value (impact), revenue at risk, and engagement quality. Buying leads score higher than renting leads because the ticket size is larger.
+## What your team sees when a lead arrives
 
-## Real-world deployment
+**Hot Lead** · Score: 85/100
 
-This is a **demo**, but it uses the same architecture we deploy for clients:
+Sarah Okonkwo · +234 803 456 7890
 
-- **EmailJS integration** sends the lead as a structured email template to the agent's inbox — no SMTP server to manage
-- **Supabase persistence** logs the lead in the `newsletter_subscriptions` table with `lead_source`, `lead_score`, and `lead_tier` fields
-- **URL parameter tracking** captures `utm_source` and `tool` params so you know which marketing channel drove the lead
-- **localStorage backup** stores the lead client-side so the demo can replay it on refresh
+Interested in: Buying a 4-Bedroom Detached House in Maitama — ₦450,000,000
 
-In a production deployment, we swap the static property catalogue for a Supabase-backed listing database, add authentication for agents to manage their listings, and integrate with CRM webhook pipelines (HubSpot, Salesforce, PipeDrive).
+Inspection: 28 Oct 2025 · Location: Maitama, Abuja
 
-## Try it yourself
+No hunting through WhatsApp messages. No parsing phone numbers out of voice notes. The lead arrives structured and ready to call.
 
-The live demo is at [rydertech.ng/labs/property-chatbot](https://rydertech.ng/labs/property-chatbot). Walk through the full flow and watch the lead preview update in real time with your selections.
+## Try it — then replicate it
 
-Want a version built for your agency? [Get in touch](/contact) — we build chatbots that integrate with your existing listing database and CRM.
+The demo is live at [rydertech.ng/labs/property-chatbot](https://rydertech.ng/labs/property-chatbot). Walk through it as a buyer — pick a location, select a property, enter a fake name and phone. Watch the lead preview update in real time.
 
-## FAQ
+This is exactly the flow we deploy for real estate clients. The difference between this demo and a production build is just data integration — your listings, your CRM, your branding.
 
-**Is this a real property listing?**  
-No — this is a demo tool built to showcase our chatbot architecture. All property data is simulated for demonstration purposes.
-
-**Can I integrate this with my CRM?**  
-Yes. We build production chatbots that push leads via webhook to any CRM (HubSpot, Salesforce, Airtable, Zoho, or custom integrations). The lead payload is structured JSON ready for any pipeline.
-
-**What data do you collect?**  
-Only the lead details you enter (name, phone, email, inspection preference). We never sell data. See our [Privacy Policy](/privacy) for full details.
+**Want one built for your agency?** [Get in touch](/contact) — we build custom chatbots for Nigerian real estate agents that integrate with your existing listing database and CRM pipeline.
