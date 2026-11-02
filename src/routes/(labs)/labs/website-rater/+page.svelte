@@ -335,7 +335,13 @@
 				] as feature}
 					<div class="text-center p-6 rounded-xl bg-white border border-primary/5 shadow-sm">
 						<div class="w-12 h-12 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-							<svelte:component this={feature.icon} class="w-6 h-6 text-primary" />
+							{#if feature.title === 'Design Review'}
+								<Palette class="w-6 h-6 text-primary" />
+							{:else if feature.title === 'Performance'}
+								<Zap class="w-6 h-6 text-primary" />
+							{:else if feature.title === 'SEO & Growth'}
+								<TrendingUp class="w-6 h-6 text-primary" />
+							{/if}
 						</div>
 						<h3 class="font-semibold text-primary mb-2">{feature.title}</h3>
 						<p class="text-sm text-slate-600">{feature.desc}</p>
