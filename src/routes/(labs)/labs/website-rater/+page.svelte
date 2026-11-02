@@ -553,6 +553,32 @@
 
 	<!-- Footer -->
 	<footer class="border-t border-slate-200 mt-20 py-8 text-center text-slate-500 text-sm">
-		<p>Powered by Google Gemini AI • Built with 💖 by RyderTech</p>
+		<!-- Cross-tool recommendations -->
+		<div class="max-w-3xl mx-auto mb-8">
+			<h3 class="text-lg font-semibold text-foreground mb-4 text-center">Other RyderTech Labs tools you might find useful</h3>
+			<div class="grid gap-4 sm:grid-cols-2">
+				<a
+					href="/labs/ops-drain"
+					class="rounded-xl border border-slate-200 bg-white p-4 text-left transition-all hover:border-primary hover:shadow-md"
+				>
+					<h4 class="font-semibold text-foreground mb-1">Ops Drain Calculator</h4>
+					<p class="text-xs text-slate-600">
+						See what your manual processes cost per year and how fast automation pays for itself.
+					</p>
+				</a>
+				<a
+					href="/labs/event-access-risk"
+					class="rounded-xl border border-slate-200 bg-white p-4 text-left transition-all hover:border-primary hover:shadow-md"
+				>
+					<h4 class="font-semibold text-foreground mb-1">Event Access Risk Scanner</h4>
+					<p class="text-xs text-slate-600">
+						Audit your event gate for bottlenecks, gatecrash exposure, and revenue at risk.
+					</p>
+				</a>
+			</div>
+			<div class="mt-6 text-center">
+			<p class="text-slate-500 text-sm">Powered by Google Gemini AI • Built with 💖 by RyderTech</p>
+			</div>
+		</div>
 	</footer>
 </div>
