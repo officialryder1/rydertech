@@ -163,7 +163,9 @@
 			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
 			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
 
-			const summaryText = JSON.stringify(review, null, 2).slice(0, 500);
+			const summaryText = review
+				? `Overall score: ${review.overallScore}/10\n\nSummary: ${review.summary}\n\nStrengths:\n${(review.strengths || []).map((s: string) => `- ${s}`).join('\n')}\n\nImprovements:\n${(review.improvements || []).map((i: string) => `- ${i}`).join('\n')}\n\nCategories:\n${Object.entries(review.categories || {}).map(([key, cat]: [string, any]) => `- ${key}: ${cat.score}/10`).join('\n')}`
+				: 'No review data available';
 
 			if (serviceId && templateId && publicKey) {
 				await emailjs.send(
