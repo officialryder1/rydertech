@@ -528,7 +528,7 @@
 											{#if leadError}
 												<p class="text-xs text-destructive text-center">{leadError}</p>
 											{/if}
-											<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible">
+											<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 text-white">
 												{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
 											</Button>
 											<p class="text-center text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
