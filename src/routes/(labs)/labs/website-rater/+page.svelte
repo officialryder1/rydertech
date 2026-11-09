@@ -145,14 +145,14 @@
 	}
 
 	function getScoreColor(score: number): string {
-		if (score >= 8) return 'text-brand-blue';
-		if (score >= 6) return 'text-brand-gold';
+		if (score >= 8) return 'text-primary';
+		if (score >= 6) return 'text-secondary';
 		return 'text-red-500';
 	}
 
 	function getScoreBg(score: number): string {
-		if (score >= 8) return 'bg-brand-blue/10 border-brand-blue/20';
-		if (score >= 6) return 'bg-brand-gold/10 border-brand-gold/20';
+		if (score >= 8) return 'bg-primary/10 border-primary/20';
+		if (score >= 6) return 'bg-secondary/10 border-secondary/20';
 		return 'bg-red-500/10 border-red-500/20';
 	}
 
@@ -274,18 +274,18 @@
 	/>
 {/if}
 
-<div class="min-h-screen bg-gradient-to-b from-brand-cream via-white to-blue-50/30">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 via-white to-blue-50/30">
   <!-- Skip to main content for accessibility -->
-	<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-brand-blue text-white px-4 py-2 rounded-lg z-50">
+	<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded-lg z-50">
 		Skip to main content
 	</a>
 
 	<!-- Header -->
-	<header class="border-b border-brand-blue/10 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+	<header class="border-b border-primary/10 bg-white/80 backdrop-blur-md sticky top-0 z-50">
 		<div class="container mx-auto px-4 h-16 flex items-center justify-between">
 			<div class="flex items-center gap-2">
         <a href="/labs" class="flex items-center gap-2 group" aria-label="RyderTech Labs - website rater">
-          <div class="w-8 h-8 bg-gradient-to-br from-brand-blue to-brand-blue-light rounded-lg flex items-center justify-center">
+          <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center">
             <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
           </div>
           <span class="font-bold text-xl text-primary">RyderTech Labs.</span>
@@ -319,7 +319,7 @@
 			</div>
 
 			<!-- Input Card -->
-			<Card class="max-w-2xl mx-auto border-blue/10 shadow-xl shadow-brand-blue/5">
+			<Card class="max-w-2xl mx-auto border-blue/10 shadow-xl shadow-primary/5">
 				<CardHeader class="text-center pb-4">
 					<CardTitle class="text-2xl text-primary">Enter Website URL</CardTitle>
 					<CardDescription>We'll analyze the site and provide detailed feedback</CardDescription>
@@ -347,7 +347,7 @@
 						<Button 
 							type="submit" 
 							disabled={loading}
-							class="w-full h-12 text-primary hover:text-white border border-primary text-lg bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 transition-all"
+							class="w-full h-12 text-primary hover:text-white border border-primary text-lg bg-gradient-to-r from-primary to-primary-light hover:opacity-90 transition-all"
 						>
 							{#if loading}
 								<Loader2 class="w-5 h-5 mr-2 animate-spin" />
@@ -435,7 +435,7 @@
 					<Button
 						variant="outline"
 						onclick={getReport}
-						class="border-brand-blue/20"
+						class="border-primary/20"
 					>
 						<Gauge class="w-4 h-4 mr-2" aria-hidden="true" />
 						Report
@@ -545,7 +545,7 @@
 				</div>
 
 				<!-- Service bridge + lead capture: unified conversion block -->
-								<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-brand-blue via-brand-blue to-brand-blue-dark p-6 md:p-8 text-white">
+								<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-primary via-primary to-primary-dark p-6 md:p-8 text-white">
 									<h3 class="text-xl md:text-2xl font-bold mb-2">
 										{#if weakestAreas.length > 0}
 											Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
