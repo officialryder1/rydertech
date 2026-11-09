@@ -544,72 +544,56 @@
 					</Card>
 				</div>
 
-				<!-- Service bridge: turn the score into a fix conversation -->
-				<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-brand-blue to-brand-blue-light p-6 md:p-8 text-white">
-					<h3 class="text-xl md:text-2xl font-bold mb-2">
-						{#if weakestAreas.length > 0}
-							Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
-						{:else}
-							Ready to raise your score?
-						{/if}
-					</h3>
-					<p class="text-blue-100 text-sm md:text-base mb-5 max-w-2xl">
-						These are exactly the areas a targeted rebuild fixes first. RyderTech designs and builds fast, SEO-ready websites for Nigerian businesses — and we'll scope the fixes for {reviewedUrl} in one call.
-					</p>
-					<div class="flex flex-col sm:flex-row gap-3">
-										<Button href={primaryFix.href} size="lg" class="bg-white text-primary hover:bg-blue-50 border-0 font-semibold" onclick={() => track('website_rater_bridge_click', { cta: 'fix_my', category: primaryFix.label, url: reviewedUrl })}>
-											Fix my {primaryFix.label}
-										</Button>
-										<Button href="/contact" variant="outline" size="lg" class="border-white/40 text-white hover:bg-white/10 hover:text-white" onclick={() => track('website_rater_bridge_click', { cta: 'talk_to_rydertech', url: reviewedUrl })}>
-											Talk to RyderTech
-										</Button>
-									</div>
-				</div>
+				<!-- Service bridge + lead capture: unified conversion block -->
+								<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-brand-blue to-brand-blue-light p-6 md:p-8 text-white">
+									<h3 class="text-xl md:text-2xl font-bold mb-2">
+										{#if weakestAreas.length > 0}
+											Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
+										{:else}
+											Ready to raise your score?
+										{/if}
+									</h3>
+									<p class="text-white/90 text-sm md:text-base mb-5 max-w-2xl">
+										These are exactly the areas a targeted rebuild fixes first. RyderTech designs and builds fast, SEO-ready websites for Nigerian businesses — we'll scope the fixes for {reviewedUrl} in one call.
+									</p>
 
-				<!-- CTA -->
-				{#if !unlocked}
-					<div class="text-center pt-8">
-						<h3 class="text-lg font-semibold mb-2">Get a detailed fix plan</h3>
-						<p class="text-sm text-muted-foreground mb-4 max-w-xl mx-auto">
-							Enter your email and we'll send you a scoped performance audit — the fixes for your
-							lowest-scoring areas and what a rebuild is worth.
-						</p>
-						<div class="group max-w-md mx-auto space-y-3">
-										<form onsubmit={handleLeadSubmit} class="space-y-3">
-											<div class="flex gap-2">
-												<Input type="text" bind:value={company} placeholder="Company" class="flex-1" />
-												<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
-											</div>
-											{#if leadError}
-												<p class="text-xs text-destructive text-center">{leadError}</p>
-											{/if}
-											<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 text-white" onclick={() => track('website_rater_lead_capture', { url: reviewedUrl, score: review?.overallScore })}>
-																{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
-															</Button>
-											<p class="text-center text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
-										</form>
-									</div>
-					</div>
-				{:else}
-					<div class="text-center pt-8 space-y-4">
-						<Button
-											variant="outline"
-											onclick={() => { track('website_rater_share_report', { url: reviewedUrl, score: review?.overallScore }); getReport(); }}
-											class="gap-2"
-										>
-											<Gauge class="w-4 h-4 mr-2" />
-											Get shareable audit report
-										</Button>
-						<Button
-							size="lg"
-							onclick={reset}
-							class="bg-gradient-to-r from-secondary to-secondary-dark text-white hover:opacity-90"
-						>
-							<RefreshCw class="w-5 h-5 mr-2" />
-							Analyze Another Website
-						</Button>
-					</div>
-				{/if}
+									{#if !unlocked}
+										<div class="group max-w-md mx-auto space-y-3">
+											<form onsubmit={handleLeadSubmit} class="space-y-3">
+												<div class="flex flex-col sm:flex-row gap-2">
+													<Input type="text" bind:value={company} placeholder="Company (optional)" class="flex-1" />
+													<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
+												</div>
+												{#if leadError}
+													<p class="text-xs text-red-200 text-center">{leadError}</p>
+												{/if}
+												<Button type="submit" disabled={isSubmitting} class="w-full bg-white text-primary hover:bg-blue-50 border-0 font-semibold" onclick={() => track('website_rater_bridge_click', { cta: 'fix_my', category: primaryFix.label, url: reviewedUrl })}>
+													{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
+												</Button>
+												<p class="text-center text-xs text-white/70">No spam. Unsubscribe anytime.</p>
+											</form>
+										</div>
+									{:else}
+										<div class="text-center pt-4 space-y-4">
+											<Button
+												variant="outline"
+												onclick={() => { track('website_rater_share_report', { url: reviewedUrl, score: review?.overallScore }); getReport(); }}
+												class="gap-2 border-white/40 text-white hover:bg-white/10"
+											>
+												<Gauge class="w-4 h-4 mr-2" />
+												Get shareable audit report
+											</Button>
+											<Button
+												size="lg"
+												onclick={reset}
+												class="bg-white/10 text-white hover:bg-white/20"
+											>
+												<RefreshCw class="w-5 h-5 mr-2" />
+												Analyze Another Website
+											</Button>
+										</div>
+									{/if}
+								</div>
 				</article>
 		{/if}
 	</main>
