@@ -61,6 +61,38 @@
 		seo: SearchIcon
 	};
 
+	// Maps a scored category to the RyderTech service that fixes it.
+	const categoryNames: Record<string, string> = {
+		design: 'Design',
+		ux: 'UX',
+		performance: 'Performance',
+		accessibility: 'Accessibility',
+		seo: 'SEO'
+	};
+
+	const serviceFixMap: Record<string, { href: string; label: string }> = {
+		design: { href: '/services/web-design-in-nigeria', label: 'web design & rebuilds' },
+		ux: { href: '/services/web-design-in-nigeria', label: 'UX-focused rebuilds' },
+		performance: { href: '/services/web-design-in-nigeria', label: 'speed optimization' },
+		accessibility: { href: '/contact', label: 'accessibility remediation' },
+		seo: { href: '/services/web-design-in-nigeria', label: 'SEO-ready builds' }
+	};
+
+	// Two lowest-scoring categories — the visitor's pain, stated back at them.
+	const weakestAreas = $derived(
+		review && review.categories
+			? Object.entries(review.categories as Record<string, { score: number }>)
+					.sort((a, b) => a[1].score - b[1].score)
+					.slice(0, 2)
+			: []
+	);
+
+	const primaryFix = $derived(
+		weakestAreas.length > 0 && serviceFixMap[weakestAreas[0][0]]
+			? serviceFixMap[weakestAreas[0][0]]
+			: { href: '/services/web-design-in-nigeria', label: 'web design & rebuilds' }
+	);
+
   // SEO data based on state
 	const seoData = $derived({
 		title: review 
@@ -509,6 +541,28 @@
 							</ul>
 						</CardContent>
 					</Card>
+				</div>
+
+				<!-- Service bridge: turn the score into a fix conversation -->
+				<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-brand-blue to-brand-blue-light p-6 md:p-8 text-white">
+					<h3 class="text-xl md:text-2xl font-bold mb-2">
+						{#if weakestAreas.length > 0}
+							Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
+						{:else}
+							Ready to raise your score?
+						{/if}
+					</h3>
+					<p class="text-blue-100 text-sm md:text-base mb-5 max-w-2xl">
+						These are exactly the areas a targeted rebuild fixes first. RyderTech designs and builds fast, SEO-ready websites for Nigerian businesses — and we'll scope the fixes for {reviewedUrl} in one call.
+					</p>
+					<div class="flex flex-col sm:flex-row gap-3">
+						<Button href={primaryFix.href} size="lg" class="bg-white text-primary hover:bg-blue-50 border-0 font-semibold">
+							Fix my {primaryFix.label}
+						</Button>
+						<Button href="/contact" variant="outline" size="lg" class="border-white/40 text-white hover:bg-white/10 hover:text-white">
+							Talk to RyderTech
+						</Button>
+					</div>
 				</div>
 
 				<!-- CTA -->
