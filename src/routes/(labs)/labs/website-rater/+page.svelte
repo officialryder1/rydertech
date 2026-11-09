@@ -31,6 +31,7 @@
 	import emailjs from '@emailjs/browser';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { track } from '@vercel/analytics/sveltekit';
 	import type { ReviewResult } from '$lib/websiteRaterResults';
 
 	// State
@@ -556,13 +557,13 @@
 						These are exactly the areas a targeted rebuild fixes first. RyderTech designs and builds fast, SEO-ready websites for Nigerian businesses — and we'll scope the fixes for {reviewedUrl} in one call.
 					</p>
 					<div class="flex flex-col sm:flex-row gap-3">
-						<Button href={primaryFix.href} size="lg" class="bg-white text-primary hover:bg-blue-50 border-0 font-semibold">
-							Fix my {primaryFix.label}
-						</Button>
-						<Button href="/contact" variant="outline" size="lg" class="border-white/40 text-white hover:bg-white/10 hover:text-white">
-							Talk to RyderTech
-						</Button>
-					</div>
+										<Button href={primaryFix.href} size="lg" class="bg-white text-primary hover:bg-blue-50 border-0 font-semibold" onclick={() => track('website_rater_bridge_click', { cta: 'fix_my', category: primaryFix.label, url: reviewedUrl })}>
+											Fix my {primaryFix.label}
+										</Button>
+										<Button href="/contact" variant="outline" size="lg" class="border-white/40 text-white hover:bg-white/10 hover:text-white" onclick={() => track('website_rater_bridge_click', { cta: 'talk_to_rydertech', url: reviewedUrl })}>
+											Talk to RyderTech
+										</Button>
+									</div>
 				</div>
 
 				<!-- CTA -->
@@ -582,9 +583,9 @@
 											{#if leadError}
 												<p class="text-xs text-destructive text-center">{leadError}</p>
 											{/if}
-											<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 text-white">
-												{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
-											</Button>
+											<Button type="submit" disabled={isSubmitting} class="w-full bg-gradient-to-r from-brand-blue to-brand-blue-light hover:opacity-90 text-white" onclick={() => track('website_rater_lead_capture', { url: reviewedUrl, score: review?.overallScore })}>
+																{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
+															</Button>
 											<p class="text-center text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
 										</form>
 									</div>
@@ -592,13 +593,13 @@
 				{:else}
 					<div class="text-center pt-8 space-y-4">
 						<Button
-							variant="outline"
-							onclick={getReport}
-							class="gap-2"
-						>
-							<Gauge class="w-4 h-4 mr-2" />
-							Get shareable audit report
-						</Button>
+											variant="outline"
+											onclick={() => { track('website_rater_share_report', { url: reviewedUrl, score: review?.overallScore }); getReport(); }}
+											class="gap-2"
+										>
+											<Gauge class="w-4 h-4 mr-2" />
+											Get shareable audit report
+										</Button>
 						<Button
 							size="lg"
 							onclick={reset}
