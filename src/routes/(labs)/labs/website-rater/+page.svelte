@@ -545,7 +545,7 @@
 				</div>
 
 				<!-- Service bridge + lead capture: unified conversion block -->
-								<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-brand-blue to-brand-blue-light p-6 md:p-8 text-white">
+								<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-brand-blue via-brand-blue to-brand-blue-dark p-6 md:p-8 text-white">
 									<h3 class="text-xl md:text-2xl font-bold mb-2">
 										{#if weakestAreas.length > 0}
 											Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
@@ -561,9 +561,9 @@
 										<div class="group max-w-md mx-auto space-y-3">
 											<form onsubmit={handleLeadSubmit} class="space-y-3">
 												<div class="flex flex-col sm:flex-row gap-2">
-													<Input type="text" bind:value={company} placeholder="Company (optional)" class="flex-1" />
-													<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
-												</div>
+																					<Input type="text" bind:value={company} placeholder="Company" required class="flex-1" />
+																					<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
+																				</div>
 												{#if leadError}
 													<p class="text-xs text-red-200 text-center">{leadError}</p>
 												{/if}
