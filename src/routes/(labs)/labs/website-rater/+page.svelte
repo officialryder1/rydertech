@@ -561,8 +561,8 @@
 										<div class="group max-w-md mx-auto space-y-3">
 											<form onsubmit={handleLeadSubmit} class="space-y-3">
 												<div class="flex flex-col sm:flex-row gap-2">
-																					<Input type="text" bind:value={company} placeholder="Company" required class="flex-1" />
-																					<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1" />
+																					<Input type="text" bind:value={company} placeholder="Company" required class="flex-1 text-foreground" />
+																					<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1 text-foreground" />
 																				</div>
 												{#if leadError}
 													<p class="text-xs text-red-200 text-center">{leadError}</p>
