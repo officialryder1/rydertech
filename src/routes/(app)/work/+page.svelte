@@ -133,24 +133,41 @@
             liveUrl: null
         },
         {
-            slug: 'supplychain',
-            title: 'Supply Chain Management',
-            filter: 'Custom Software',
-            category: 'Enterprise Software',
-            tagline: 'Logistics & inventory at scale',
-            summary: 'An enterprise supply-chain solution with inventory optimization and live logistics tracking across warehouses and regions.',
-            image: null,
-            nda: true,
-            metrics: [
-                { value: 'Optimised', label: 'Inventory' },
-                { value: 'Live', label: 'Tracking' },
-                { value: 'Azure', label: 'Cloud' }
-            ],
-            results: ['Demand-based stocking', 'Multi-warehouse visibility', 'Route & ETA tracking'],
-            tech: ['Angular', 'Java', 'Oracle', 'Azure'],
-            liveUrl: null
-        }
-    ];
+                    slug: 'supplychain',
+                    title: 'Supply Chain Management',
+                    filter: 'Custom Software',
+                    category: 'Enterprise Software',
+                    tagline: 'Logistics & inventory at scale',
+                    summary: 'An enterprise supply-chain solution with inventory optimization and live logistics tracking across warehouses and regions.',
+                    image: null,
+                    nda: true,
+                    metrics: [
+                        { value: 'Optimised', label: 'Inventory' },
+                        { value: 'Live', label: 'Tracking' },
+                        { value: 'Azure', label: 'Cloud' }
+                    ],
+                    results: ['Demand-based stocking', 'Multi-warehouse visibility', 'Route & ETA tracking'],
+                    tech: ['Angular', 'Java', 'Oracle', 'Azure'],
+                    liveUrl: null
+                },
+                {
+                    slug: 'keystone-asset',
+                    title: 'Keystone Asset Management',
+                    filter: 'Web Apps',
+                    category: 'Web & Real Estate',
+                    tagline: 'Institutional CRE landing with interactive 3D massing',
+                    summary: 'A premium commercial real estate investment landing page featuring a procedural WebGL massing study (22-floor tower) with floor-by-floor underwriting data, camera views, and investor access form. Built for sale as a white-label template.',
+                    image: '/work-keystone.png',
+                    metrics: [
+                        { value: '22', label: 'Floors modelled' },
+                        { value: '4', label: 'Camera views' },
+                        { value: '9.4KB', label: 'Initial JS' }
+                    ],
+                    results: ['Procedural 3D engine (no external models)', 'Lazy-loaded Three.js (470KB deferred)', 'GTM-ready analytics layer'],
+                    tech: ['Vite', 'Three.js', 'Vanilla JS', 'Tailwind CSS'],
+                    liveUrl: 'https://meridian-partners-one.vercel.app/'
+                            }
+                        ];
 
     const featured = caseStudies.find((p) => p.featured);
     const rest = caseStudies.filter((p) => !p.featured);

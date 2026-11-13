@@ -51,3 +51,5 @@ scripts/repro-*.cjs
 
 # supabase CLI local link state (machine-specific)
 supabase/.temp/
+
+.vercel
