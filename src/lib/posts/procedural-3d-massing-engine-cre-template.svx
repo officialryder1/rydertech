@@ -124,7 +124,7 @@ study = await loadGLTFModel(canvas, {
 ```
 
 **What buyers need to provide:**
-- `building.glb` — Draco-compressed (< 10 MB)
+- `building.glb` — Draco-compressed (&lt; 10 MB)
 - `building.meta.json` — floor metadata matching GLTF mesh names (`Floor_01`, `Floor_02`...)
 
 Camera views auto-compute from model bounds. No manual config.
