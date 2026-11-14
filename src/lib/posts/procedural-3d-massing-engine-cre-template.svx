@@ -147,7 +147,7 @@ BASE=http://localhost:4173 node scripts/verify.mjs
 | **Forms** | Rejects invalid, accepts valid, honeypot-ready |
 | **A11y** | WCAG AA contrast (4.75:1 light / 6.95:1 dark), keyboard nav, reduced motion |
 | **SEO** | JSON-LD (Org, RealEstateAgent, InvestmentFund), sitemap, robots, OG/Twitter |
-| **Performance** | No mobile overflow, hero CTA visible, image payload < 600 KB |
+| **Performance** | No mobile overflow, hero CTA visible, image payload &lt; 600 KB |
 | **Security** | CSP meta, service worker, no emoji/gradient headlines |
 
 ---
