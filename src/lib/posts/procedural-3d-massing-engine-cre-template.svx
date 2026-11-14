@@ -1,0 +1,195 @@
+---
+title: "How We Built a Procedural 3D Massing Engine for CRE in 9 KB of JavaScript"
+description: "The engineering behind Keystone Asset Management — a production-ready institutional CRE landing page template with a lazy-loaded Three.js massing study, floor-by-floor underwriting data, and a license inquiry modal. All in a single deployable package."
+date: "2026-11-14"
+author: "Victor, RyderTech"
+slug: "procedural-3d-massing-engine-cre-template"
+category: "Engineering"
+readTime: "8 min read"
+excerpt: "We replaced a 470 KB Three.js bundle with a 9 KB lazy-loaded wrapper and a procedural engine that generates a 22-floor tower at runtime — complete with floor-plate efficiency, glazing ratios, and camera views. Here's how."
+tags: ["threejs", "webgl", "cre", "commercial-real-estate", "performance", "typescript", "vite"]
+image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+views: 0
+comments: 0
+labs_tool: "automation-audit"
+---
+
+How We Built a Procedural 3D Massing Engine for CRE in 9 KB of JavaScript
+
+When we set out to build the **Keystone Asset Management** template — a white-label institutional CRE landing page — the 3D massing study was the differentiator. Not a decorative hero. A functional underwriting tool.
+
+The brief: investors need to *see* the asset. Floor plates, glazing ratios, clear heights, vertical zoning. And they need it before capital is committed.
+
+The constraint: **no external model files**. No GLB, no CDN, no 50 MB download. The template had to be a single deployable artifact — `npm run build` → `dist/` → Vercel.
+
+---
+
+## The Architecture
+
+```
+dist/
+├── index.html                    # 23 KB (with JSON-LD, CSP, modal)
+├── assets/
+│   ├── index-*.js                # 9.4 KB  ← main bundle (NO Three.js)
+│   ├── massing-study-*.js        # 7.5 KB  ← procedural engine wrapper
+│   ├── three-*.js                # 470 KB  ← Three.js (LAZY, on viewport)
+│   └── index-*.css               # 18.5 KB
+├── models/
+│   ├── asset.meta.json           # 6 KB   ← 22-floor underwriting data
+│   └── floor-metadata.schema.json
+└── img/                          # 240 KB ← portfolio renders
+```
+
+**Key insight**: Three.js (470 KB gzipped → 117 KB) only loads when the hero enters the viewport via `IntersectionObserver`. First paint is **9.4 KB**.
+
+---
+
+## The Procedural Engine
+
+`src/three/massing-study.js` generates the tower at runtime using seeded RNG. No two builds are different — same seed = same building.
+
+```javascript
+// Floor plate resolution with zone-aware geometry
+const widthAt = (floorIndex) => {
+  if (floorIndex < PODIUM_FLOORS) return LOT_WIDTH;
+  if (floorIndex >= FLOORS - CROWN_FLOORS) return LOT_WIDTH * 0.62;
+  return LOT_WIDTH - TOWER_INSET * 2;  // typical tower
+};
+```
+
+**Features:**
+- **22 floors** — Podium (4), Tower (15), Crown (3)
+- **Office + Residential variants** — punched windows + balconies for multifamily
+- **4 camera views** — Overview, Street, Crown, Plan (smooth spherical interpolation)
+- **Floor-by-floor underwriting** — plate, efficiency, glazing, clear height bound to interactive strip
+- **Keyboard + touch + mouse** — arrow keys, pinch zoom, Home/End, Enter to select
+- **Reduced motion respected** — `prefers-reduced-motion` pauses auto-spin
+
+---
+
+## Lazy-Loading Three.js
+
+The 470 KB chunk loads **only when needed**:
+
+```javascript
+// main.js — IntersectionObserver triggers load
+const heroSection = document.querySelector('.hero');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      io.unobserve(entry.target);
+      initWebGL();  // dynamic import('./three/massing-study.js')
+    }
+  });
+}, { rootMargin: '200px 0px', threshold: 0.01 });
+io.observe(heroSection);
+```
+
+**Result:**
+- LCP unaffected by Three.js
+- Mobile users who don't scroll to hero never pay the cost
+- `prefers-reduced-motion` users never load it
+
+---
+
+## Floor Selector + Underwriting Data
+
+The floor strip isn't decorative — it's a **data browser**. Each floor maps to real underwriting metrics:
+
+| Floor | Zone | Plate | Efficiency | Glazing | Clear Height | Use |
+|-------|------|-------|------------|---------|--------------|-----|
+| 1–4 | Podium | 1,180 sq ft | 78% | 64% | 13'6" | Retail frontage |
+| 5–19 | Tower | 1,180 sq ft | 82% | 68% | 13'6" | Grade A office |
+| 20–22 | Crown | 940 sq ft | 74% | 71% | 12'6" | Penthouse suite |
+
+Clicking a floor updates the specs panel in real time. The data lives in `public/models/asset.meta.json` — versionable, reviewable, replaceable.
+
+---
+
+## GLTF Upgrade Path (For Buyers)
+
+The procedural engine is the **demo**. Real clients have Revit/Rhino models.
+
+We built a drop-in replacement with **identical API**:
+
+```javascript
+// src/three/gltf-loader.js — same { setFocus, setView, destroy }
+const { loadGLTFModel } = await import('./three/gltf-loader.js');
+study = await loadGLTFModel(canvas, {
+  gltfUrl: '/models/building.glb',
+  metadataUrl: '/models/building.meta.json',
+  onReady: ({ floors }) => { /* same */ },
+  onFocus,
+});
+```
+
+**What buyers need to provide:**
+- `building.glb` — Draco-compressed (< 10 MB)
+- `building.meta.json` — floor metadata matching GLTF mesh names (`Floor_01`, `Floor_02`...)
+
+Camera views auto-compute from model bounds. No manual config.
+
+---
+
+## Verification Suite (25 Automated Checks)
+
+Every deploy passes 25 Playwright checks:
+
+```bash
+# Run locally
+BASE=http://localhost:4173 node scripts/verify.mjs
+```
+
+| Category | Checks |
+|----------|--------|
+| **Runtime** | No console errors, WebGL canvas present/sized, hero CTA in viewport |
+| **3D** | Floor strip (22), selection updates specs, camera chips respond |
+| **Forms** | Rejects invalid, accepts valid, honeypot-ready |
+| **A11y** | WCAG AA contrast (4.75:1 light / 6.95:1 dark), keyboard nav, reduced motion |
+| **SEO** | JSON-LD (Org, RealEstateAgent, InvestmentFund), sitemap, robots, OG/Twitter |
+| **Performance** | No mobile overflow, hero CTA visible, image payload < 600 KB |
+| **Security** | CSP meta, service worker, no emoji/gradient headlines |
+
+---
+
+## The License Inquiry Modal
+
+Not a separate page — a modal triggered from Hero + Footer CTAs:
+
+```javascript
+// Tracks in dataLayer for GTM
+dlPush('license_modal_open', { trigger: 'cta' });
+dlPush('license_inquiry_submit', { aum, use_case, firm });
+```
+
+Form captures: name, email, firm, AUM range, use case, message. Validates client-side, submits to your endpoint.
+
+---
+
+## Deploy & Sell
+
+```bash
+npm run build          # → dist/ (production-ready)
+npx vercel --prod      # → live in 30s
+```
+
+**Package for Gumroad:**
+- `dist/` zip (production)
+- `src/` + `models/` + `GLTF_INTEGRATION.md` zip (source)
+- Price: $397 single / $1,497 agency
+
+---
+
+## Why This Matters
+
+Most CRE landing pages are static marketing. This one **carries underwriting data**.
+
+When an LP asks "what's the efficiency on floor 17?", the answer is in the model — not a PDF buried in a data room.
+
+**That's the product.** Not the 3D. The data.
+
+---
+
+**[View Live Demo →](https://meridian-partners-one.vercel.app)** | **[License Inquiry →](https://meridian-partners-one.vercel.app/#license-modal)** | **[Technical Docs →](https://github.com/rydertech/keystone-asset-template)**
+
+*Built by [RyderTech](/) — we ship these systems for paying clients.*
