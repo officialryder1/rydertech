@@ -86,17 +86,22 @@ export async function POST({ request }) {
 		});
 
 		// Server-side Supabase write (service role, bypasses RLS) — guaranteed audit trail
+		let dbError: { table: string; message: string } | null = null;
 		try {
 			const admin = createSupabaseAdminClient();
 			const table = pickSupabaseTable(data.lead_type);
 			const row = buildSupabaseRow(data, table);
-			const { error: dbError } = await admin.from(table).insert([row]);
-			if (dbError) console.error('Supabase admin insert failed:', dbError);
+			const { error } = await admin.from(table).insert([row]);
+			if (error) {
+				console.error('Supabase admin insert failed:', error);
+				dbError = { table, message: error.message };
+			}
 		} catch (dbErr) {
 			console.error('Supabase admin client error:', dbErr);
+			dbError = { table: 'unknown', message: dbErr instanceof Error ? dbErr.message : String(dbErr) };
 		}
 
-		return json({ success: true });
+		return json({ success: true, dbError });
 	} catch (error) {
 		console.error('Email API error:', error);
 		return json(
