@@ -8,7 +8,7 @@ category: "Engineering"
 readTime: "8 min read"
 excerpt: "We replaced a 470 KB Three.js bundle with a 9 KB lazy-loaded wrapper and a procedural engine that generates a 22-floor tower at runtime — complete with floor-plate efficiency, glazing ratios, and camera views. Here's how."
 tags: ["threejs", "webgl", "cre", "commercial-real-estate", "performance", "typescript", "vite"]
-image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+image: "/blog/keystone-massing-engine.jpg"
 views: 0
 comments: 0
 labs_tool: "automation-audit"
