@@ -151,22 +151,23 @@
                     liveUrl: null
                 },
                 {
-                    slug: 'keystone-asset',
-                    title: 'Keystone Asset Management',
-                    filter: 'Web Apps',
-                    category: 'Web & Real Estate',
-                    tagline: 'Institutional CRE landing with interactive 3D massing',
-                    summary: 'A premium commercial real estate investment landing page featuring a procedural WebGL massing study (22-floor tower) with floor-by-floor underwriting data, camera views, and investor access form. Built for sale as a white-label template.',
-                    image: '/work-keystone.png',
-                    metrics: [
-                        { value: '22', label: 'Floors modelled' },
-                        { value: '4', label: 'Camera views' },
-                        { value: '9.4KB', label: 'Initial JS' }
-                    ],
-                    results: ['Procedural 3D engine (no external models)', 'Lazy-loaded Three.js (470KB deferred)', 'GTM-ready analytics layer'],
-                    tech: ['Vite', 'Three.js', 'Vanilla JS', 'Tailwind CSS'],
-                    liveUrl: 'https://meridian-partners-one.vercel.app/'
-                            }
+                                    slug: 'keystone-asset',
+                                    title: 'Keystone Asset Management',
+                                    filter: 'Web Apps',
+                                    category: 'Web & Real Estate',
+                                    tagline: 'Institutional CRE landing with interactive 3D massing',
+                                    summary: 'A premium commercial real estate investment landing page featuring a procedural WebGL massing study (22-floor tower) with floor-by-floor underwriting data, camera views, and investor access form. Built for sale as a white-label template.',
+                                    image: '/work-keystone.png',
+                                    metrics: [
+                                        { value: '22', label: 'Floors modelled' },
+                                        { value: '4', label: 'Camera views' },
+                                        { value: '9.4KB', label: 'Initial JS' }
+                                    ],
+                                    results: ['Procedural 3D engine (no external models)', 'Lazy-loaded Three.js (470KB deferred)', 'GTM-ready analytics layer'],
+                                    tech: ['Vite', 'Three.js', 'Vanilla JS', 'Tailwind CSS'],
+                                    liveUrl: 'https://meridian-partners-one.vercel.app/',
+                                    gumroadUrl: 'https://rydertech.gumroad.com/l/keystone-asset-template'
+                                            }
                         ];
 
     const featured = caseStudies.find((p) => p.featured);
@@ -420,21 +421,31 @@
                             </ul>
 
                             <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
-                                <div class="flex flex-wrap gap-1.5">
-                                    {#each project.tech.slice(0, 3) as t}
-                                        <Badge variant="outline" class="text-[10px]">{t}</Badge>
-                                    {/each}
-                                </div>
-                                {#if project.liveUrl}
-                                    <a href={project.liveUrl} target="_blank" rel="noopener" class="flex items-center gap-1 text-[var(--primary)] text-sm font-semibold hover:gap-2 transition-all">
-                                        Live <ExternalLink class="w-3.5 h-3.5" />
-                                    </a>
-                                {:else}
-                                    <a href="/contact" class="flex items-center gap-1 text-[var(--primary)] text-sm font-semibold hover:gap-2 transition-all">
-                                        Ask <ArrowRight class="w-3.5 h-3.5" />
-                                    </a>
-                                {/if}
-                            </div>
+                                                            <div class="flex flex-wrap gap-1.5">
+                                                                {#each project.tech.slice(0, 3) as t}
+                                                                    <Badge variant="outline" class="text-[10px]">{t}</Badge>
+                                                                {/each}
+                                                            </div>
+                                                            <div class="flex items-center gap-2">
+                                                                {#if project.gumroadUrl}
+                                                                    <a href={project.gumroadUrl} target="_blank" rel="noopener" class="flex items-center gap-1 text-sm font-semibold bg-[var(--primary)] text-white px-3 py-1.5 rounded-lg hover:bg-[var(--primary)]/90 transition-colors">
+                                                                        <span class="hidden sm:inline">Buy Template</span>
+                                                                        <span class="sm:hidden">Buy</span>
+                                                                    </a>
+                                                                {/if}
+                                                                {#if project.liveUrl}
+                                                                    <a href={project.liveUrl} target="_blank" rel="noopener" class="flex items-center gap-1 text-[var(--primary)] text-sm font-semibold hover:gap-2 transition-all">
+                                                                        <span class="hidden sm:inline">View Demo</span>
+                                                                        <span class="sm:hidden">Demo</span>
+                                                                        <ExternalLink class="w-3.5 h-3.5" />
+                                                                    </a>
+                                                                {:else}
+                                                                    <a href="/contact" class="flex items-center gap-1 text-[var(--primary)] text-sm font-semibold hover:gap-2 transition-all">
+                                                                        Ask <ArrowRight class="w-3.5 h-3.5" />
+                                                                    </a>
+                                                                {/if}
+                                                            </div>
+                                                        </div>
                         </CardContent>
                     </Card>
                     </div>
