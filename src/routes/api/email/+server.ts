@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { env } from '$env/dynamic/private';
+import { createSupabaseAdminClient } from '$lib/supabase/server';
 
 const schema = z.object({
 	from_name: z.string().min(1),
@@ -18,6 +19,42 @@ const schema = z.object({
 
 function getResend() {
 	return new Resend(env.RESEND_API_KEY);
+}
+
+function pickSupabaseTable(leadType?: string): string {
+	if (!leadType) return 'contact_submissions';
+	if (leadType.startsWith('lead_magnet_')) return 'newsletter_subscriptions';
+	if (leadType === 'voice_agent' || leadType === 'ai_widget' || leadType === 'course_interest') return 'newsletter_subscriptions';
+	return 'contact_submissions';
+}
+
+function buildSupabaseRow(data: z.infer<typeof schema>, table: string) {
+	const base = {
+		email: data.from_email,
+		company: data.company || null,
+		budget: data.budget || null,
+		timeline: data.timeline || null,
+		message: data.message,
+		lead_score: data.lead_score ?? null,
+		lead_tier: data.lead_tier || null,
+		lead_source: data.lead_source || null,
+		submitted_at: new Date().toISOString()
+	};
+
+	if (table === 'contact_submissions') {
+		return {
+			...base,
+			name: data.from_name,
+			status: 'new'
+		};
+	}
+
+	// newsletter_subscriptions
+	return {
+		...base,
+		source: data.lead_type || 'unknown',
+		subscribed_at: new Date().toISOString()
+	};
 }
 
 export async function POST({ request }) {
@@ -47,6 +84,17 @@ export async function POST({ request }) {
 			html,
 			reply_to: data.from_email
 		});
+
+		// Server-side Supabase write (service role, bypasses RLS) — guaranteed audit trail
+		try {
+			const admin = createSupabaseAdminClient();
+			const table = pickSupabaseTable(data.lead_type);
+			const row = buildSupabaseRow(data, table);
+			const { error: dbError } = await admin.from(table).insert([row]);
+			if (dbError) console.error('Supabase admin insert failed:', dbError);
+		} catch (dbErr) {
+			console.error('Supabase admin client error:', dbErr);
+		}
 
 		return json({ success: true });
 	} catch (error) {
