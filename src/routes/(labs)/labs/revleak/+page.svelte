@@ -6,8 +6,8 @@
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import { formatMoney } from '$lib/opsDrain';
+		import { sendLeadEmail } from '$lib/email';
+		import { formatMoney } from '$lib/opsDrain';
 	import { computeRevLeak, type EngineInput } from '$lib/revLeak';
 	import { reportFromRevLeak, buildShareUrl } from '$lib/shareReport';
 	import { scoreLead } from '$lib/leadScore';
@@ -121,39 +121,27 @@
 			} catch {}
 
 			const lead = scoreLead({
-				tool: 'revleak',
-				impactValue: result.annualLeak,
-				revenueAtRisk: result.annualLeak,
-				healthScore: result.severity === 'critical' ? 0 : result.severity === 'high' ? 25 : result.severity === 'moderate' ? 60 : 90
-			});
-			const leadScoreVal = lead.points;
-			const leadTier = lead.tier;
+						tool: 'revleak',
+						impactValue: result.annualLeak,
+						revenueAtRisk: result.annualLeak,
+						healthScore: result.severity === 'critical' ? 0 : result.severity === 'high' ? 25 : result.severity === 'moderate' ? 60 : 90
+					});
+					const leadScoreVal = lead.points;
+					const leadTier = lead.tier;
 
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-					const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-					const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-					if (serviceId && templateId && publicKey) {
-						await emailjs.send(
-							serviceId,
-							templateId,
-							{
-								from_name: company || 'RevLeak Auditor lead',
-								from_email: email,
-								company,
-								budget: money(result.annualLeak),
-								timeline: `${result.lostConversionPct}% conversion recovered`,
-								message: `New RevLeak Auditor result (source: /labs/revleak). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
-								lead_type: 'lead_magnet_revleak',
-								lead_score: leadScoreVal,
-								lead_tier: leadTier,
-								lead_source: leadSource
-							},
-							{ publicKey }
-						);
-					} else {
-						console.warn('EmailJS not configured — revleak lead not emailed:', email);
-					}
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
+						from_name: company || 'RevLeak Auditor lead',
+						from_email: email,
+						company,
+						budget: money(result.annualLeak),
+						timeline: `${result.lostConversionPct}% conversion recovered`,
+						message: `New RevLeak Auditor result (source: /labs/revleak). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+						lead_type: 'lead_magnet_revleak',
+						lead_score: leadScoreVal,
+						lead_tier: leadTier,
+						lead_source: leadSource
+					});
 
 					try {
 						const { error: dbError } = await supabase

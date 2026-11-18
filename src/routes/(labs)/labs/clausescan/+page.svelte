@@ -7,8 +7,8 @@
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import {
+		import { sendLeadEmail } from '$lib/email';
+		import {
 		FileText,
 		ScanLine,
 		ArrowLeft,
@@ -148,20 +148,15 @@
 		} catch {}
 
 		try {
-			const lead = scoreLead({
-				tool: 'clausescan' as any,
-				impactValue: summary.riskScore * 5000,
-				revenueAtRisk: summary.riskScore * 5000,
-				healthScore: 100 - summary.riskScore
-			});
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-			if (serviceId && templateId && publicKey) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
+					const lead = scoreLead({
+						tool: 'clausescan' as any,
+						impactValue: summary.riskScore * 5000,
+						revenueAtRisk: summary.riskScore * 5000,
+						healthScore: 100 - summary.riskScore
+					});
+
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
 						from_name: 'ClauseScan lead',
 						from_email: email,
 						company: '',
@@ -172,30 +167,28 @@
 						lead_score: lead.points,
 						lead_tier: lead.tier,
 						lead_source: leadSource
-					},
-					{ publicKey }
-				);
-			}
-			try {
-				const { error: dbError } = await supabase
-					.from('newsletter_subscriptions')
-					.insert([
-						{
-							email,
-							source: 'lead_magnet_clausescan',
-							subscribed_at: new Date().toISOString(),
-							lead_score: lead.points,
-							lead_tier: lead.tier,
-							lead_source: leadSource
-							}
-					]);
-						if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
-			} catch {}
-		} catch (err) {
-			console.warn('ClauseScan lead email failed (non-blocking):', err);
-		}
+					});
+				} catch (err) {
+							console.warn('ClauseScan lead email failed (non-blocking):', err);
+						}
 
-		// Start Paystack payment.
+						try {
+							const { error: dbError } = await supabase
+								.from('newsletter_subscriptions')
+								.insert([
+									{
+										email,
+										source: 'lead_magnet_clausescan',
+										subscribed_at: new Date().toISOString(),
+										lead_score: lead.points,
+										lead_tier: lead.tier,
+										lead_source: leadSource
+										}
+								]);
+								if (dbError) { console.error('Lead NOT persisted:', dbError.code, dbError.message, { email }); }
+						} catch {}
+
+						// Start Paystack payment.
 		if (!env.PAYSTACK_PUBLIC_KEY) {
 			payError = 'Paystack is not configured yet. Contact support.';
 			return;

@@ -6,8 +6,8 @@
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import { scoreLead } from '$lib/leadScore';
+		import { sendLeadEmail } from '$lib/email';
+		import { scoreLead } from '$lib/leadScore';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import {
@@ -160,20 +160,13 @@
 			} catch {}
 
 			const lead = scoreLead({
-				tool: 'cost_estimator',
-				impactValue: posts.length * 100000,
-				revenueAtRisk: posts.length * 200000
-			});
+						tool: 'cost_estimator',
+						impactValue: posts.length * 100000,
+						revenueAtRisk: posts.length * 200000
+					});
 
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-			if (serviceId && templateId && publicKey && email) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
 						from_name: company || 'Content Repurposer lead',
 						from_email: email,
 						company,
@@ -184,14 +177,9 @@
 						lead_score: lead.points,
 						lead_tier: lead.tier,
 						lead_source: leadSource
-					},
-					{ publicKey }
-				);
-			} else {
-				console.warn('EmailJS not configured — repurposer lead not emailed:', email);
-			}
+					});
 
-			try {
+					try {
 				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')
 					.insert([

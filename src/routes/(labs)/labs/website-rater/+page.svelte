@@ -28,8 +28,8 @@
 	import { reportFromWebsiteRater, buildShareUrl } from '$lib/shareReport';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import { goto } from '$app/navigation';
+		import { sendLeadEmail } from '$lib/email';
+		import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { track } from '@vercel/analytics/sveltekit';
 	import type { ReviewResult } from '$lib/websiteRaterResults';
@@ -185,26 +185,19 @@
 
 			// Score the lead: lower review score = hotter lead (bigger gap to fix).
 			const healthScore = review ? Math.round((review.overallScore / 10) * 100) : 50;
-			const lead = scoreLead({
-			tool: 'website_rater',
-			impactValue: review ? review.overallScore * 10000 : 0,
-			revenueAtRisk: review ? review.overallScore * 10000 : 0,
-			healthScore,
-			});
+					const lead = scoreLead({
+						tool: 'website_rater',
+						impactValue: review ? review.overallScore * 10000 : 0,
+						revenueAtRisk: review ? review.overallScore * 10000 : 0,
+						healthScore
+					});
 
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+					const summaryText = review
+						? `Overall score: ${review.overallScore}/10\n\nSummary: ${review.summary}\n\nStrengths:\n${(review.strengths || []).map((s: string) => `- ${s}`).join('\n')}\n\nImprovements:\n${(review.improvements || []).map((i: string) => `- ${i}`).join('\n')}\n\nCategories:\n${Object.entries(review.categories || {}).map(([key, cat]: [string, any]) => `- ${key}: ${cat.score}/10`).join('\n')}`
+						: 'No review data available';
 
-			const summaryText = review
-				? `Overall score: ${review.overallScore}/10\n\nSummary: ${review.summary}\n\nStrengths:\n${(review.strengths || []).map((s: string) => `- ${s}`).join('\n')}\n\nImprovements:\n${(review.improvements || []).map((i: string) => `- ${i}`).join('\n')}\n\nCategories:\n${Object.entries(review.categories || {}).map(([key, cat]: [string, any]) => `- ${key}: ${cat.score}/10`).join('\n')}`
-				: 'No review data available';
-
-			if (serviceId && templateId && publicKey) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
 						from_name: company || 'Website Rater lead',
 						from_email: email,
 						company,
@@ -215,14 +208,9 @@
 						lead_score: lead.points,
 						lead_tier: lead.tier,
 						lead_source: leadSource
-					},
-					{ publicKey }
-				);
-			} else {
-				console.warn('EmailJS not configured — website-rater lead not emailed:', email);
-			}
+					});
 
-			try {
+					try {
 				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')
 					.insert([

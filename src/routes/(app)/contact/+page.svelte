@@ -13,7 +13,7 @@
     import { Badge } from '$lib/components/ui/badge';
     import { fade } from 'svelte/transition';
     import { env } from '$env/dynamic/public';
-    import emailjs from '@emailjs/browser';
+        import { sendLeadEmail } from '$lib/email';
 
     // Which tool the lead came from (tools link with ?tool=ops-drain etc.)
     const toolLabels = {
@@ -102,25 +102,12 @@
     ];
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        isSubmitting = true;
-        error = null;
+            e.preventDefault();
+            isSubmitting = true;
+            error = null;
 
-        const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-        const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-        const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-        if (!serviceId || !templateId || !publicKey) {
-            error = 'Email service is not configured. Please chat us on WhatsApp or email rydertech.ng@gmail.com directly.';
-            isSubmitting = false;
-            return;
-        }
-
-        try {
-            await emailjs.send(
-                serviceId,
-                templateId,
-                {
+            try {
+                await sendLeadEmail({
                     from_name: formData.name,
                     from_email: formData.email,
                     company: formData.company,
@@ -128,12 +115,10 @@
                     timeline: formData.timeline,
                     message: formData.message,
                     lead_source: fullLeadSource
-                },
-                { publicKey }
-            );
+                });
 
-            // Best-effort backup copy in Supabase (non-blocking).
-            supabase
+                // Best-effort backup copy in Supabase (non-blocking).
+                supabase
                 .from('contact_submissions')
                 .insert([
                     {

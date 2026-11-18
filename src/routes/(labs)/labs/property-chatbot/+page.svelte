@@ -38,7 +38,7 @@
 	import { scoreLead } from '$lib/leadScore';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
+	import { sendLeadEmail } from '$lib/email';
 	import { page } from '$app/stores';
 
 	// Capture lead source from URL params
@@ -171,36 +171,19 @@
 				leadTier: lead.tier
 			};
 
-			// Send via EmailJS
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-			if (serviceId && templateId && publicKey) {
-				try {
-					await emailjs.send(
-						serviceId,
-						templateId,
-						{
-							from_name: `${nameInput} - Property Chatbot`,
-							from_email: emailInput || 'no-email@lead.com',
-							company: 'Property Chatbot Lead',
-							budget: `${property.priceFormatted} (${engineState.propertyType === 'buy' ? 'Buy' : 'Rent'})`,
-							timeline: `Inspection: ${formatDate(engineState.inspectionDate) || 'TBD'}`,
-							message: `New property chatbot lead (source: /labs/property-chatbot).\nLead score: ${lead.points}/100 (${lead.tier}).\n\nProspect: ${nameInput}\nPhone: ${phoneInput}\nEmail: ${emailInput || 'N/A'}\nInterest: ${engineState.propertyType === 'buy' ? 'Buying' : 'Renting'}\nLocation: ${engineState.location ? locationLabels[engineState.location] : 'Unknown'}\nProperty: ${property.title} (${property.priceFormatted})\nInspection date: ${formatDate(engineState.inspectionDate) || 'Not selected'}\nLead source: ${leadSource}`,
-							lead_type: 'lead_magnet_property_chatbot',
-							lead_score: lead.points,
-							lead_tier: lead.tier,
-							lead_source: leadSource
-						},
-						{ publicKey }
-					);
-				} catch (emailErr) {
-					console.warn('Property chatbot lead email failed:', emailErr);
-				}
-			} else {
-				console.warn('EmailJS not configured — property chatbot lead not emailed:', nameInput);
-			}
+			// Send via unified helper (Resend primary, EmailJS fallback).
+			await sendLeadEmail({
+				from_name: `${nameInput} - Property Chatbot`,
+				from_email: emailInput || 'no-email@lead.com',
+				company: 'Property Chatbot Lead',
+				budget: `${property.priceFormatted} (${engineState.propertyType === 'buy' ? 'Buy' : 'Rent'})`,
+				timeline: `Inspection: ${formatDate(engineState.inspectionDate) || 'TBD'}`,
+				message: `New property chatbot lead (source: /labs/property-chatbot).\nLead score: ${lead.points}/100 (${lead.tier}).\n\nProspect: ${nameInput}\nPhone: ${phoneInput}\nEmail: ${emailInput || 'N/A'}\nInterest: ${engineState.propertyType === 'buy' ? 'Buying' : 'Renting'}\nLocation: ${engineState.location ? locationLabels[engineState.location] : 'Unknown'}\nProperty: ${property.title} (${property.priceFormatted})\nInspection date: ${formatDate(engineState.inspectionDate) || 'Not selected'}\nLead source: ${leadSource}`,
+				lead_type: 'lead_magnet_property_chatbot',
+				lead_score: lead.points,
+				lead_tier: lead.tier,
+				lead_source: leadSource
+			});
 
 			// Persist to Supabase
 			try {

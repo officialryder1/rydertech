@@ -5,8 +5,8 @@
   import SEOMeta from '$lib/components/SEOMeta.svelte';
   import { supabase } from '$lib/supabaseClient';
   import { env } from '$env/dynamic/public';
-  import emailjs from '@emailjs/browser';
-  import {
+    import { sendLeadEmail } from '$lib/email';
+    import {
     computeGpt6Readiness,
     type Gpt6Input
   } from '$lib/gpt6Checker';
@@ -107,38 +107,28 @@
       } catch {}
 
       const lead = scoreLead({
-        tool: 'gpt6-checker',
-        impactValue: result.score,
-        revenueAtRisk: 0,
-        healthScore: result.score
-      });
+              tool: 'gpt6-checker',
+              impactValue: result.score,
+              revenueAtRisk: 0,
+              healthScore: result.score
+            });
 
-      const templateParams = {
-        from_name: businessName || 'GPT-6 Readiness lead',
-        from_email: email,
-        company: businessName || '',
-        budget: `$${aiBudgetUsd}`,
-        timeline: `${result.levelLabel} (${result.score}/100)`,
-        message: `New GPT-6 Readiness Audit (source: /labs/gpt-6-checker). Lead score: ${lead.points}/100 (${lead.tier}).\n\n${summaryText()}`,
-        lead_type: 'gpt6_checker',
-        lead_score: lead.points,
-        lead_tier: lead.tier,
-        lead_source: leadSource,
-        tool: 'GPT-6 Readiness Checker'
-      };
+            // Send the lead via unified helper (Resend primary, EmailJS fallback).
+            await sendLeadEmail({
+              from_name: businessName || 'GPT-6 Readiness lead',
+              from_email: email,
+              company: businessName || '',
+              budget: `$${aiBudgetUsd}`,
+              timeline: `${result.levelLabel} (${result.score}/100)`,
+              message: `New GPT-6 Readiness Audit (source: /labs/gpt-6-checker). Lead score: ${lead.points}/100 (${lead.tier}).\n\n${summaryText()}`,
+              lead_type: 'gpt6_checker',
+              lead_score: lead.points,
+              lead_tier: lead.tier,
+              lead_source: leadSource,
+              tool: 'GPT-6 Readiness Checker'
+            });
 
-      // Fire-and-forget EmailJS + Supabase — never block the prospect
-      const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(serviceId, templateId, templateParams, { publicKey });
-      } else {
-        console.warn('EmailJS not configured — GPT-6 lead not emailed:', email);
-      }
-
-      try {
+            try {
         const { error: dbError } = await supabase.from('newsletter_subscriptions').insert([{
           email,
           source: 'lead_magnet_gpt6',

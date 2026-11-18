@@ -13,8 +13,8 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import {
+		import { sendLeadEmail } from '$lib/email';
+		import {
 		Timer,
 		TrendingDown,
 		Plus,
@@ -150,30 +150,23 @@
 		}
 		isSubmitting = true;
 		try {
-			// Always unlock — a delivery failure must never block the prospect.
-			unlocked = true;
-			submitted = true;
-			try {
-				localStorage.setItem('rydertech_automation_audit_email', email);
-				localStorage.setItem('rydertech_lead_captured', '1');
-			} catch {}
+					// Always unlock — a delivery failure must never block the prospect.
+					unlocked = true;
+					submitted = true;
+					try {
+						localStorage.setItem('rydertech_automation_audit_email', email);
+						localStorage.setItem('rydertech_lead_captured', '1');
+					} catch {}
 
-			const lead = scoreLead({
-				tool: 'ops_drain',
-				impactValue: result.recoverableAnnualCost,
-				revenueAtRisk: result.recoverableAnnualCost,
-				healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20))
-			});
+					const lead = scoreLead({
+						tool: 'ops_drain',
+						impactValue: result.recoverableAnnualCost,
+						revenueAtRisk: result.recoverableAnnualCost,
+						healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20))
+					});
 
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-			if (serviceId && templateId && publicKey) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
 						from_name: company || 'Automation Audit lead',
 						from_email: email,
 						company,
@@ -184,14 +177,9 @@
 						lead_score: lead.points,
 						lead_tier: lead.tier,
 						lead_source: leadSource
-					},
-					{ publicKey }
-				);
-			} else {
-				console.warn('EmailJS not configured — automation-audit lead not emailed:', email);
-			}
+					});
 
-			// Best-effort DB backup, non-blocking if Supabase is off.
+					// Best-effort DB backup, non-blocking if Supabase is off.
 			try {
 				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')

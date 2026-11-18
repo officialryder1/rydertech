@@ -1,6 +1,6 @@
 <script lang="ts">
   import { env } from '$env/dynamic/public';
-  import emailjs from '@emailjs/browser';
+  import { sendLeadEmail } from '$lib/email';
   import { Brain, Send, X, ArrowUpRight, Mail } from '@lucide/svelte';
 
   type Msg = { role: 'user' | 'assistant'; content: string };
@@ -78,26 +78,17 @@
     submittingLead = true;
     leadError = null;
     try {
-      const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(
-          serviceId,
-          templateId,
-          {
-            from_name: 'AI Widget Lead',
-            from_email: email,
-            company: '',
-            budget: '',
-            timeline: '',
-            message:
-              'New lead captured from the on-site AI assistant (Ryder). Visitor chatted about RyderTech services.',
-            lead_type: 'ai_widget'
-          },
-          { publicKey }
-        );
-      }
+      // Send the lead via unified helper (Resend primary, EmailJS fallback).
+      await sendLeadEmail({
+        from_name: 'AI Widget Lead',
+        from_email: email,
+        company: '',
+        budget: '',
+        timeline: '',
+        message:
+          'New lead captured from the on-site AI assistant (Ryder). Visitor chatted about RyderTech services.',
+        lead_type: 'ai_widget'
+      });
       leadCaptured = true;
       messages = [
         ...messages,

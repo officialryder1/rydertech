@@ -6,8 +6,8 @@
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import { formatMoney } from '$lib/opsDrain';
+		import { sendLeadEmail } from '$lib/email';
+		import { formatMoney } from '$lib/opsDrain';
 	import {
 		computeAeoReadiness,
 		type EngineInput,
@@ -140,23 +140,16 @@
 			} catch {}
 
 			const lead = scoreLead({
-				tool: 'aeo',
-				impactValue: result.revenueAtRisk,
-				revenueAtRisk: result.revenueAtRisk,
-				healthScore: result.score
-			});
-			const leadScoreVal = lead.points;
-			const leadTier = lead.tier;
+						tool: 'aeo',
+						impactValue: result.revenueAtRisk,
+						revenueAtRisk: result.revenueAtRisk,
+						healthScore: result.score
+					});
+					const leadScoreVal = lead.points;
+					const leadTier = lead.tier;
 
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-			if (serviceId && templateId && publicKey) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
 						from_name: company || businessName || 'AI Search Readiness lead',
 						from_email: email,
 						company: company || businessName,
@@ -167,14 +160,9 @@
 						lead_score: leadScoreVal,
 						lead_tier: leadTier,
 						lead_source: leadSource
-					},
-					{ publicKey }
-				);
-			} else {
-				console.warn('EmailJS not configured — aeo lead not emailed:', email);
-			}
+					});
 
-			try {
+					try {
 				const { error: dbError } = await supabase
 					.from('newsletter_subscriptions')
 					.insert([{ email, source: 'lead_magnet_aeo', subscribed_at: new Date().toISOString(), lead_score: leadScoreVal, lead_tier: leadTier, lead_source: leadSource }]);

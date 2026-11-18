@@ -6,8 +6,8 @@
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import {
+		import { sendLeadEmail } from '$lib/email';
+		import {
 		Timer,
 		TrendingDown,
 		Plus,
@@ -150,40 +150,28 @@
 			} catch {}
 
 			const lead = scoreLead({
-				tool: 'ops_drain',
-				impactValue: result.recoverableAnnualCost,
-				revenueAtRisk: result.recoverableAnnualCost,
-				healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20))
-			});
-			const leadScoreVal = lead.points;
-			const leadTier = lead.tier;
+						tool: 'ops_drain',
+						impactValue: result.recoverableAnnualCost,
+						revenueAtRisk: result.recoverableAnnualCost,
+						healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20))
+					});
+					const leadScoreVal = lead.points;
+					const leadTier = lead.tier;
 
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-					const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-					const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-					if (serviceId && templateId && publicKey) {
-						await emailjs.send(
-							serviceId,
-							templateId,
-							{
-								from_name: company || 'Ops Drain Calculator lead',
-								from_email: email,
-								company,
-								budget: money(buildCost),
-								timeline: result.paybackMonths === null ? 'n/a' : `${result.paybackMonths} month payback`,
-								message: `New Ops Drain Calculator result (source: /labs/ops-drain). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
-								lead_type: 'lead_magnet_ops_drain',
-								lead_score: leadScoreVal,
-								lead_tier: leadTier,
-								lead_source: leadSource,
-								lead_tags: wantsFindingsNg ? 'findingsng' : ''
-							},
-							{ publicKey }
-						);
-					} else {
-						console.warn('EmailJS not configured — ops-drain lead not emailed:', email);
-					}
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
+						from_name: company || 'Ops Drain Calculator lead',
+						from_email: email,
+						company,
+						budget: money(buildCost),
+						timeline: result.paybackMonths === null ? 'n/a' : `${result.paybackMonths} month payback`,
+						message: `New Ops Drain Calculator result (source: /labs/ops-drain). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+						lead_type: 'lead_magnet_ops_drain',
+						lead_score: leadScoreVal,
+						lead_tier: leadTier,
+						lead_source: leadSource,
+						lead_tags: wantsFindingsNg ? 'findingsng' : ''
+					});
 
 					// Best-effort DB backup, non-blocking if Supabase is off.
 					// supabase-js does NOT throw on a rejected write — it returns

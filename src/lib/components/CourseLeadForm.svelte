@@ -2,7 +2,7 @@
   import { Mail, CheckCircle, ArrowRight } from '@lucide/svelte';
   import { supabase } from '$lib/supabaseClient';
   import { env } from '$env/dynamic/public';
-  import emailjs from '@emailjs/browser';
+    import { sendLeadEmail } from '$lib/email';
 
   // Course-interest lead capture. Reuses the proven EmailJS path (same service
   // + template as the contact form / lead magnet). Always reveals the CTA so a
@@ -28,21 +28,14 @@
     }
     isSubmitting = true;
     try {
-      // Reveal success state immediately — never block the prospect.
-      submitted = true;
-      try {
-        localStorage.setItem('rydertech_course_lead', email);
-      } catch {}
+          // Reveal success state immediately — never block the prospect.
+          submitted = true;
+          try {
+            localStorage.setItem('rydertech_course_lead', email);
+          } catch {}
 
-      const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(
-          serviceId,
-          templateId,
-          {
+          // Send the lead to the inbox via unified helper (Resend primary, EmailJS fallback).
+          await sendLeadEmail({
             from_name: name || 'Course Prospect',
             from_email: email,
             company: '',
@@ -50,14 +43,9 @@
             timeline: '',
             message: `New course-interest lead: ${courseTitle} (source: /courses).`,
             lead_type: 'course_interest'
-          },
-          { publicKey }
-        );
-      } else {
-        console.warn('EmailJS not configured — course lead not emailed:', email);
-      }
+          });
 
-      // Best-effort backup (non-blocking if DB is off).
+          // Best-effort backup (non-blocking if DB is off).
       try {
         const { error: dbError } = await supabase
           .from('newsletter_subscriptions')

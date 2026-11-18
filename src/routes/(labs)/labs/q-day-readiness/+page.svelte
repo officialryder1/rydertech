@@ -6,8 +6,8 @@
 	import SEOMeta from '$lib/components/SEOMeta.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { env } from '$env/dynamic/public';
-	import emailjs from '@emailjs/browser';
-	import {
+		import { sendLeadEmail } from '$lib/email';
+		import {
 		Shield,
 		ShieldCheck,
 		ShieldX,
@@ -96,20 +96,12 @@
 		}
 		isSubmitting = true;
 		try {
-			// Always unlock — the user gets the report regardless.
-			unlocked = true;
-			localStorage.setItem('ryday_qday_email', email);
+					// Always unlock — the user gets the report regardless.
+					unlocked = true;
+					localStorage.setItem('ryday_qday_email', email);
 
-			// Primary: EmailJS (confirmed working by owner)
-			const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-			const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-			const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-			if (serviceId && templateId && publicKey) {
-				await emailjs.send(
-					serviceId,
-					templateId,
-					{
+					// Send the lead via unified helper (Resend primary, EmailJS fallback).
+					await sendLeadEmail({
 						from_name: 'Q-Day Readiness Score',
 						from_email: email,
 						company: '',
@@ -118,14 +110,9 @@
 						message: 'New lead from Q-Day Readiness calculator.',
 						lead_type: 'qday_readiness',
 						lead_source: leadSource
-					},
-					{ publicKey }
-				);
-			} else {
-				console.warn('EmailJS not configured — lead not emailed:', email);
-			}
+					});
 
-			// Best-effort backup in Supabase (non-blocking if DB is off)
+					// Best-effort backup in Supabase (non-blocking if DB is off)
 			try {
 				const { error: dbErr } = await supabase
 					.from('newsletter_subscriptions')

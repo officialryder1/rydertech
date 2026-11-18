@@ -2,7 +2,7 @@
   import { Download, Mail, CheckCircle, Gift, ArrowRight } from '@lucide/svelte';
   import { supabase } from '$lib/supabaseClient';
   import { env } from '$env/dynamic/public';
-  import emailjs from '@emailjs/browser';
+    import { sendLeadEmail } from '$lib/email';
 
   // Gate the lead-magnet PDF behind an email capture.
   // Captured emails are sent to RyderTech's inbox via EmailJS (same
@@ -28,37 +28,24 @@
     }
     isSubmitting = true;
     try {
-      // Always reveal the PDF so the user is never blocked.
-      unlocked = true;
-      try {
-        localStorage.setItem('rydertech_lead_magnet_email', email);
-      } catch {}
+            // Always reveal the PDF so the user is never blocked.
+            unlocked = true;
+            try {
+              localStorage.setItem('rydertech_lead_magnet_email', email);
+            } catch {}
 
-      // Send the lead to the inbox via EmailJS (primary capture path).
-      const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+            // Send the lead to the inbox via unified helper (Resend primary, EmailJS fallback).
+            await sendLeadEmail({
+              from_name: 'Lead Magnet Download',
+              from_email: email,
+              company: '',
+              budget: '',
+              timeline: '',
+              message: 'New lead-magnet download: Website Cost Guide 2026 (source: homepage / services).',
+              lead_type: 'lead_magnet_cost_guide'
+            });
 
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(
-          serviceId,
-          templateId,
-          {
-            from_name: 'Lead Magnet Download',
-            from_email: email,
-            company: '',
-            budget: '',
-            timeline: '',
-            message: 'New lead-magnet download: Website Cost Guide 2026 (source: homepage / services).',
-            lead_type: 'lead_magnet_cost_guide'
-          },
-          { publicKey }
-        );
-      } else {
-        console.warn('EmailJS not configured — lead not emailed:', email);
-      }
-
-      // Best-effort backup in Supabase (non-blocking if DB is off).
+            // Best-effort backup in Supabase (non-blocking if DB is off).
       try {
         const { error: dbError } = await supabase
           .from('newsletter_subscriptions')

@@ -6,8 +6,8 @@
   import SEOMeta from '$lib/components/SEOMeta.svelte';
   import { supabase } from '$lib/supabaseClient';
   import { env } from '$env/dynamic/public';
-  import emailjs from '@emailjs/browser';
-  import {
+    import { sendLeadEmail } from '$lib/email';
+    import {
     Bot,
     TrendingDown,
     Plus,
@@ -154,41 +154,29 @@
       } catch {}
 
       const lead = scoreLead({
-        tool: 'agentic_cost',
-        impactValue: result.recoverableAnnualCost,
-        revenueAtRisk: result.recoverableAnnualCost,
-        healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20)),
-      });
-      const leadScoreVal = lead.points;
-      const leadTier = lead.tier;
+              tool: 'agentic_cost',
+              impactValue: result.recoverableAnnualCost,
+              revenueAtRisk: result.recoverableAnnualCost,
+              healthScore: 100 - Math.min(100, Math.round(result.recoverableAnnualHours / 20)),
+            });
+            const leadScoreVal = lead.points;
+            const leadTier = lead.tier;
 
-      const serviceId = env.PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = env.PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = env.PUBLIC_EMAILJS_PUBLIC_KEY;
+            // Send the lead via unified helper (Resend primary, EmailJS fallback).
+            await sendLeadEmail({
+              from_name: company || 'Agentic Workflow Cost Calculator lead',
+              from_email: email,
+              company,
+              budget: money(buildCost),
+              timeline: result.paybackMonths === null ? 'n/a' : `${result.paybackMonths} month payback`,
+              message: `New Agentic Workflow Cost Calculator result (source: /labs/agentic-workflow-cost). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
+              lead_type: 'lead_magnet_agentic_cost',
+              lead_score: leadScoreVal,
+              lead_tier: leadTier,
+              lead_source: leadSource,
+            });
 
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(
-          serviceId,
-          templateId,
-          {
-            from_name: company || 'Agentic Workflow Cost Calculator lead',
-            from_email: email,
-            company,
-            budget: money(buildCost),
-            timeline: result.paybackMonths === null ? 'n/a' : `${result.paybackMonths} month payback`,
-            message: `New Agentic Workflow Cost Calculator result (source: /labs/agentic-workflow-cost). Lead score: ${leadScoreVal}/100 (${leadTier}).\n\n${summaryText()}`,
-            lead_type: 'lead_magnet_agentic_cost',
-            lead_score: leadScoreVal,
-            lead_tier: leadTier,
-            lead_source: leadSource,
-          },
-          { publicKey }
-        );
-      } else {
-        console.warn('EmailJS not configured — agentic-cost lead not emailed:', email);
-      }
-
-      // Best-effort DB backup, non-blocking if Supabase is off.
+            // Best-effort DB backup, non-blocking if Supabase is off.
       try {
         const { error: dbError } = await supabase
           .from('newsletter_subscriptions')
