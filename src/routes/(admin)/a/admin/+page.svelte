@@ -29,61 +29,146 @@
 
   // Lead segment helpers
   const segmentColors = {
-    hot: 'bg-red-100 text-red-800 border-red-200',
-    warm: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    cold: 'bg-gray-100 text-gray-800 border-gray-200'
+  	hot: 'bg-red-100 text-red-800 border-red-200',
+  	warm: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+  	cold: 'bg-gray-100 text-gray-800 border-gray-200'
   };
 
   const segmentIcons = {
-    hot: '🔥',
-    warm: '⏳',
-    cold: '📋'
+  	hot: '🔥',
+  	warm: '⏳',
+  	cold: '📋'
   };
 
+  // ---- Intelligence Layer Helpers ----
+  function getHotLeads() {
+  	return submissions.filter(s => s.lead_segment === 'hot').sort((a, b) => b.lead_score - a.lead_score);
+  }
+
+  function getWeeklyTrend() {
+  	const weeks = 8;
+  	const now = new Date();
+  	const trend = [];
+  	for (let i = weeks - 1; i >= 0; i--) {
+  		const weekStart = new Date(now);
+  		weekStart.setDate(now.getDate() - now.getDay() - 7 * i);
+  		weekStart.setHours(0, 0, 0, 0);
+  		const weekEnd = new Date(weekStart);
+  		weekEnd.setDate(weekEnd.getDate() + 6);
+  		weekEnd.setHours(23, 59, 59, 999);
+		
+  		const weekLeads = submissions.filter(s => {
+  			const d = new Date(s.submitted_at);
+  			return d >= weekStart && d <= weekEnd;
+  		});
+  		const weekMagnets = magnets.filter(m => {
+  			const d = new Date(m.subscribed_at);
+  			return d >= weekStart && d <= weekEnd;
+  		});
+  		const weekNewsletters = newsletters.filter(n => {
+  			const d = new Date(n.subscribed_at);
+  			return d >= weekStart && d <= weekEnd;
+  		});
+		
+  		trend.push({
+  			week: weekStart.toISOString().slice(0, 10),
+  			leads: weekLeads.length,
+  			magnets: weekMagnets.length,
+  			newsletters: weekNewsletters.length,
+  			hot: weekLeads.filter(l => l.lead_segment === 'hot').length
+  		});
+  	}
+  	return trend;
+  }
+
+  function getSourceAttribution() {
+  	const sources = {};
+	
+  	[...submissions, ...magnets, ...newsletters].forEach(item => {
+  		const src = item.lead_source || item.source || 'direct';
+  		if (!sources[src]) sources[src] = { leads: 0, magnets: 0, hot: 0, avgScore: 0 };
+  		if (item.lead_score != null) {
+  			sources[src].avgScore = (sources[src].avgScore * (sources[src].leads + sources[src].magnets) + item.lead_score) / (sources[src].leads + sources[src].magnets + 1);
+  		}
+  		if (submissions.includes(item)) sources[src].leads++;
+  		if (magnets.includes(item)) sources[src].magnets++;
+  		if (item.lead_segment === 'hot') sources[src].hot++;
+  	});
+	
+  	return Object.entries(sources)
+  		.map(([source, data]) => ({ source, ...data, avgScore: Math.round(data.avgScore) }))
+  		.sort((a, b) => (b.leads + b.magnets) - (a.leads + a.magnets))
+  		.slice(0, 10);
+  }
+
+  function getConversionFunnel() {
+  	const totalLeads = submissions.length + magnets.length + newsletters.length;
+  	const contacted = submissions.filter(s => s.status === 'contacted').length + submissions.filter(s => s.status === 'replied').length;
+  	const replied = submissions.filter(s => s.status === 'replied').length;
+  	// Scoping calls would be tracked separately; for now estimate from hot leads
+  	const scoping = getHotLeads().length;
+  	const paid = 0; // Would come from CRM/Stripe integration
+	
+  	return [
+  		{ stage: 'Total Leads', count: totalLeads, pct: 100, color: 'blue' },
+  		{ stage: 'Contacted', count: contacted, pct: totalLeads > 0 ? Math.round((contacted / totalLeads) * 100) : 0, color: 'green' },
+  		{ stage: 'Replied', count: replied, pct: totalLeads > 0 ? Math.round((replied / totalLeads) * 100) : 0, color: 'purple' },
+  		{ stage: 'Scoping Calls', count: scoping, pct: totalLeads > 0 ? Math.round((scoping / totalLeads) * 100) : 0, color: 'amber' },
+  		{ stage: 'Paid', count: paid, pct: totalLeads > 0 ? Math.round((paid / totalLeads) * 100) : 0, color: 'emerald' }
+  	];
+  }
+
   function getFilteredSubmissions() {
-    let result = submissions;
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(sub =>
-        sub.name?.toLowerCase().includes(q) ||
-        sub.email?.toLowerCase().includes(q) ||
-        sub.company?.toLowerCase().includes(q)
-      );
-    }
-    if (leadFilter !== 'all') {
-      result = result.filter(sub => sub.lead_segment === leadFilter);
-    }
-    return result;
+  	let result = submissions;
+  	if (searchQuery) {
+  		const q = searchQuery.toLowerCase();
+  		result = result.filter(sub =>
+  			sub.name?.toLowerCase().includes(q) ||
+  			sub.email?.toLowerCase().includes(q) ||
+  			sub.company?.toLowerCase().includes(q)
+  		);
+  	}
+  	if (leadFilter !== 'all') {
+  		result = result.filter(sub => sub.lead_segment === leadFilter);
+  	}
+  	// Sort
+  	result = [...result].sort((a, b) => {
+  		if (sortBy === 'score') return sortOrder === 'desc' ? (b.lead_score || 0) - (a.lead_score || 0) : (a.lead_score || 0) - (b.lead_score || 0);
+  		if (sortBy === 'date') return sortOrder === 'desc' ? new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime() : new Date(a.submitted_at).getTime() - new Date(b.submitted_at).getTime();
+  		if (sortBy === 'source') return sortOrder === 'desc' ? (a.lead_source || '').localeCompare(b.lead_source || '') : (b.lead_source || '').localeCompare(a.lead_source || '');
+  		return 0;
+  	});
+  	return result;
   }
 
   function getSegmentCount(segment) {
-    return submissions.filter(s => s.lead_segment === segment).length;
+  	return submissions.filter(s => s.lead_segment === segment).length;
   }
 
   function getNewsletterSegmentCount(segment) {
-    return newsletters.filter(n => n.lead_segment === segment).length;
+  	return newsletters.filter(n => n.lead_segment === segment).length;
   }
 
   function getFilteredNewsletters() {
-    let result = newsletters;
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(sub =>
-        sub.email?.toLowerCase().includes(q) ||
-        sub.source?.toLowerCase().includes(q)
-      );
-    }
-    return result;
+  	let result = newsletters;
+  	if (searchQuery) {
+  		const q = searchQuery.toLowerCase();
+  		result = result.filter(sub =>
+  			sub.email?.toLowerCase().includes(q) ||
+  			sub.source?.toLowerCase().includes(q)
+  		);
+  	}
+  	return result;
   }
 
   function getStatusColor(status) {
-    const colors = {
-      'new': 'bg-blue-100 text-blue-800 border-blue-200',
-      'contacted': 'bg-green-100 text-green-800 border-green-200',
-      'replied': 'bg-purple-100 text-purple-800 border-purple-200',
-      'closed': 'bg-gray-100 text-gray-800 border-gray-200'
-    };
-    return colors[status] || colors.new;
+  	const colors = {
+  		'new': 'bg-blue-100 text-blue-800 border-blue-200',
+  		'contacted': 'bg-green-100 text-green-800 border-green-200',
+  		'replied': 'bg-purple-100 text-purple-800 border-purple-200',
+  		'closed': 'bg-gray-100 text-gray-800 border-gray-200'
+  	};
+  	return colors[status] || colors.new;
   }
 
   function convertToCSV(data) {
@@ -206,122 +291,248 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <!-- Overview Tab -->
-      {#if activeTab === 'overview'}
-        <div class="space-y-6">
-          <h2 class="text-2xl font-bold text-gray-900">Overview</h2>
+        <main class="flex-1 p-6">
+          <!-- Overview Tab -->
+          {#if activeTab === 'overview'}
+            <div class="space-y-6">
+              <!-- Hot Leads Alert Banner -->
+              {#if hotLeadsAlert && getHotLeads().length > 0}
+                <div class="flex items-center gap-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                    <AlertTriangle class="w-5 h-5 text-red-600" />
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-red-800">{getHotLeads().length} hot lead{getHotLeads().length !== 1 ? 's' : ''} this week</p>
+                    <p class="text-sm text-red-700">Prioritize outreach to high-score leads before they cool down.</p>
+                  </div>
+                  <Button variant="outline" size="sm" onclick={() => { activeTab = 'leads'; leadFilter = 'hot'; hotLeadsAlert = false; }}>
+                    View Hot Leads
+                  </Button>
+                  <button onclick={() => hotLeadsAlert = false} class="text-red-500 hover:text-red-700">
+                    <X class="w-5 h-5" />
+                  </button>
+                </div>
+              {/if}
 
-          <!-- Stats Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {#each [
-              { label: 'Contact Leads', value: stats.totalSubmissions, icon: Users, color: 'blue' },
-              { label: 'Lead Magnets', value: stats.totalMagnets, icon: Download, color: 'orange' },
-              { label: 'Newsletter', value: stats.totalSubscribers, icon: Mail, color: 'green' },
-              { label: 'Pending', value: stats.pendingSubmissions, icon: MessageCircle, color: 'purple' }
-            ] as stat}
-              <Card class="hover:shadow-lg transition-shadow duration-300">
-                <CardContent class="p-6">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p class="text-sm font-medium text-gray-600">{stat.label}</p>
-                      <p class="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+              <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-bold text-gray-900">Overview</h2>
+                <div class="flex items-center gap-2">
+                  <Button variant="outline" size="sm" onclick={() => showAdvancedFilters = !showAdvancedFilters}>
+                    <Filter class="w-4 h-4 mr-1" /> Advanced
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Stats Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {#each [
+                  { label: 'Contact Leads', value: stats.totalSubmissions, icon: Users, color: 'blue' },
+                  { label: 'Lead Magnets', value: stats.totalMagnets, icon: Download, color: 'orange' },
+                  { label: 'Newsletter', value: stats.totalSubscribers, icon: Mail, color: 'green' },
+                  { label: 'Pending', value: stats.pendingSubmissions, icon: MessageCircle, color: 'purple' }
+                ] as stat}
+                  <Card class="hover:shadow-lg transition-shadow duration-300">
+                    <CardContent class="p-6">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <p class="text-sm font-medium text-gray-600">{stat.label}</p>
+                          <p class="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-{stat.color}-100">
+                          <stat.icon class="w-6 h-6 text-{stat.color}-600" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                {/each}
+              </div>
+
+              <!-- Lead Quality Score + Source Attribution + Conversion Funnel -->
+              <div class="grid lg:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader><CardTitle class="flex items-center gap-2"><Star class="w-4 h-4 text-amber-500" /> Lead Quality Score</CardTitle></CardHeader>
+                  <CardContent>
+                    <div class="space-y-3">
+                      {#each [
+                        { label: 'Hot', count: getSegmentCount('hot'), icon: '🔥', color: 'red', pct: stats.totalSubmissions > 0 ? Math.round((getSegmentCount('hot') / stats.totalSubmissions) * 100) : 0 },
+                        { label: 'Warm', count: getSegmentCount('warm'), icon: '⏳', color: 'yellow', pct: stats.totalSubmissions > 0 ? Math.round((getSegmentCount('warm') / stats.totalSubmissions) * 100) : 0 },
+                        { label: 'Cold', count: getSegmentCount('cold'), icon: '📋', color: 'gray', pct: stats.totalSubmissions > 0 ? Math.round((getSegmentCount('cold') / stats.totalSubmissions) * 100) : 0 }
+                      ] as item}
+                        <div class="flex items-center justify-between">
+                          <span class="text-sm text-gray-600 flex items-center gap-2">{item.icon} {item.label}</span>
+                          <div class="flex items-center gap-3">
+                            <Badge class="bg-{item.color}-100 text-{item.color}-800">{item.count}</Badge>
+                            <span class="text-xs text-gray-500">{item.pct}%</span>
+                          </div>
+                        </div>
+                      {/each}
+                      <div class="pt-2 border-t">
+                        <div class="flex items-center justify-between text-sm">
+                          <span class="text-gray-600">Total Scored</span>
+                          <span class="font-medium">{stats.totalSubmissions}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="p-3 rounded-lg bg-{stat.color}-100">
-                      <stat.icon class="w-6 h-6 text-{stat.color}-600" />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader><CardTitle class="flex items-center gap-2"><Target class="w-4 h-4 text-blue-500" /> Top Sources</CardTitle></CardHeader>
+                  <CardContent>
+                    <div class="space-y-2">
+                      {#each getSourceAttribution() as src}
+                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                          <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">{src.source}</p>
+                            <p class="text-xs text-gray-500">{src.leads} leads • {src.magnets} magnets • {src.hot} hot</p>
+                          </div>
+                          <div class="text-right">
+                            <p class="text-sm font-medium text-gray-900">{src.avgScore}/100</p>
+                            <p class="text-xs text-gray-500">Avg Score</p>
+                          </div>
+                        </div>
+                      {:else}
+                        <p class="text-sm text-gray-500 text-center py-4">No source data yet</p>
+                      {/each}
                     </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader><CardTitle class="flex items-center gap-2"><Activity class="w-4 h-4 text-green-500" /> Conversion Funnel</CardTitle></CardHeader>
+                  <CardContent>
+                    <div class="space-y-3">
+                      {#each getConversionFunnel() as stage}
+                        <div>
+                          <div class="flex items-center justify-between text-sm mb-1">
+                            <span class="text-gray-600">{stage.stage}</span>
+                            <span class="font-medium">{stage.count} ({stage.pct}%)</span>
+                          </div>
+                          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-{stage.color}-500 rounded-full transition-all" style="width: {stage.pct}%"></div>
+                          </div>
+                        </div>
+                      {/each}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <!-- Weekly Trend Chart -->
+              <Card>
+                <CardHeader><CardTitle class="flex items-center gap-2"><BarChart3 class="w-4 h-4 text-purple-500" /> Weekly Trend (8 Weeks)</CardTitle></CardHeader>
+                <CardContent>
+                  <div class="flex items-end gap-2 h-48">
+                    {#each getWeeklyTrend() as week}
+                      <div class="flex-1 flex flex-col items-center gap-1">
+                        <span class="text-xs font-medium text-gray-600">{week.leads + week.magnets + week.newsletters}</span>
+                        <div class="w-full flex gap-1" style="height: {Math.max(4, (week.leads + week.magnets + week.newsletters) * 12)}px">
+                          <div class="flex-1 bg-blue-500" style="width: {week.leads > 0 ? (week.leads / (week.leads + week.magnets + week.newsletters || 1)) * 100 : 0}%"></div>
+                          <div class="flex-1 bg-orange-500" style="width: {week.magnets > 0 ? (week.magnets / (week.leads + week.magnets + week.newsletters || 1)) * 100 : 0}%"></div>
+                          <div class="flex-1 bg-green-500" style="width: {week.newsletters > 0 ? (week.newsletters / (week.leads + week.magnets + week.newsletters || 1)) * 100 : 0}%"></div>
+                        </div>
+                        <span class="text-xs text-gray-500">{week.week.slice(5)}</span>
+                        {#if week.hot > 0}
+                          <span class="text-xs text-red-600 font-medium">🔥 {week.hot}</span>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                  <div class="mt-4 flex items-center gap-4 text-xs text-gray-500">
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-blue-500 rounded" /> Contact Forms</span>
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-orange-500 rounded" /> Lead Magnets</span>
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-green-500 rounded" /> Newsletter</span>
+                    <span class="flex items-center gap-1 text-red-600">🔥 Hot Leads</span>
                   </div>
                 </CardContent>
               </Card>
-            {/each}
-          </div>
 
-          <!-- Status Breakdown + Lead Quality + This Week -->
-          <div class="grid lg:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader><CardTitle>Lead Status Breakdown</CardTitle></CardHeader>
-              <CardContent>
-                <div class="space-y-3">
-                  {#each [
-                    { label: 'New', count: stats.pendingSubmissions, color: 'blue' },
-                    { label: 'Contacted', count: stats.contactedSubmissions, color: 'green' },
-                    { label: 'Replied', count: stats.repliedSubmissions, color: 'purple' },
-                    { label: 'Closed', count: stats.closedSubmissions, color: 'gray' }
-                  ] as item}
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm text-gray-600">{item.label}</span>
-                      <Badge class="bg-{item.color}-100 text-{item.color}-800">{item.count}</Badge>
+              <!-- Recent Hot Leads Priority Table -->
+              {#if getHotLeads().length > 0}
+                <Card class="border-red-200 bg-red-50">
+                  <CardHeader><CardTitle class="flex items-center gap-2"><Flag class="w-4 h-4 text-red-500" /> Hot Leads - Action Required</CardTitle></CardHeader>
+                  <CardContent>
+                    <div class="overflow-x-auto">
+                      <table class="w-full">
+                        <thead class="bg-red-100 border-b border-red-200">
+                          <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-red-700 uppercase">Lead</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-red-700 uppercase">Company</th>
+                            <th class="px-4 py-2 text-center text-xs font-medium text-red-700 uppercase">Score</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-red-700 uppercase">Source</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-red-700 uppercase">Date</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-red-700 uppercase">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-red-100">
+                          {#each getHotLeads().slice(0, 10) as lead}
+                            <tr class="hover:bg-red-50">
+                              <td class="px-4 py-3">
+                                <div class="font-medium text-gray-900">{lead.name}</div>
+                                <div class="text-sm text-gray-500">{lead.email}</div>
+                              </td>
+                              <td class="px-4 py-3 text-sm">{lead.company || '—'}</td>
+                              <td class="px-4 py-3 text-center">
+                                <span class="inline-flex w-10 h-10 rounded-full items-center justify-center text-sm font-bold bg-red-100 text-red-700">{lead.lead_score}</span>
+                              </td>
+                              <td class="px-4 py-3"><Badge variant="outline">{lead.lead_source || 'direct'}</Badge></td>
+                              <td class="px-4 py-3 text-sm text-gray-500">{formatDate(lead.submitted_at)}</td>
+                              <td class="px-4 py-3">
+                                <form method="POST" action="?/updateStatus" class="inline">
+                                  <input type="hidden" name="id" value={lead.id} />
+                                  <input type="hidden" name="status" value="contacted" />
+                                  <Button size="sm" type="submit"><CheckCircle class="w-4 h-4" /></Button>
+                                </form>
+                              </td>
+                            </tr>
+                          {/each}
+                        </tbody>
+                      </table>
                     </div>
-                  {/each}
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              {/if}
 
-            <Card>
-              <CardHeader><CardTitle>Lead Quality Score</CardTitle></CardHeader>
-              <CardContent>
-                <div class="space-y-3">
-                  {#each [
-                    { label: 'Hot', count: getSegmentCount('hot'), icon: '🔥', color: 'red' },
-                    { label: 'Warm', count: getSegmentCount('warm'), icon: '⏳', color: 'yellow' },
-                    { label: 'Cold', count: getSegmentCount('cold'), icon: '📋', color: 'gray' }
-                  ] as item}
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm text-gray-600 flex items-center gap-2">{item.icon} {item.label}</span>
-                      <Badge class="bg-{item.color}-100 text-{item.color}-800">{item.count}</Badge>
+              <!-- Recent Leads + Subscribers -->
+              <div class="grid lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader class="flex items-center justify-between">
+                    <CardTitle>Recent Leads</CardTitle>
+                    <Button variant="ghost" size="sm" onclick={() => activeTab = 'leads'}>View all <ArrowRight class="w-3 h-3 ml-1" /></Button>
+                  </CardHeader>
+                  <CardContent>
+                    <div class="space-y-4">
+                      {#each submissions.slice(0, 5) as submission}
+                        <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
+                          <div><p class="font-medium text-gray-900">{submission.name}</p><p class="text-sm text-gray-500">{submission.email}</p></div>
+                          <Badge class={getStatusColor(submission.status)}>{submission.status}</Badge>
+                        </div>
+                      {:else}
+                        <p class="text-sm text-gray-500 text-center py-4">No leads yet</p>
+                      {/each}
                     </div>
-                  {/each}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader><CardTitle>This Week</CardTitle></CardHeader>
-              <CardContent>
-                <div class="space-y-3">
-                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Contact Forms</span><span class="font-medium">{stats.weeklySubmissions}</span></div>
-                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Lead Magnets</span><span class="font-medium">{stats.weeklyMagnets}</span></div>
-                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Newsletter</span><span class="font-medium">{stats.weeklySubscribers}</span></div>
-                  <div class="flex items-center justify-between"><span class="text-sm text-gray-600">Registered Users</span><span class="font-medium">{stats.totalUsers}</span></div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <!-- Recent Leads + Subscribers -->
-          <div class="grid lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader><CardTitle>Recent Leads</CardTitle></CardHeader>
-              <CardContent>
-                <div class="space-y-4">
-                  {#each submissions.slice(0, 5) as submission}
-                    <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
-                      <div><p class="font-medium text-gray-900">{submission.name}</p><p class="text-sm text-gray-500">{submission.email}</p></div>
-                      <Badge class={getStatusColor(submission.status)}>{submission.status}</Badge>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader class="flex items-center justify-between">
+                    <CardTitle>Recent Subscribers</CardTitle>
+                    <Button variant="ghost" size="sm" onclick={() => activeTab = 'newsletter'}>View all <ArrowRight class="w-3 h-3 ml-1" /></Button>
+                  </CardHeader>
+                  <CardContent>
+                    <div class="space-y-4">
+                      {#each newsletters.slice(0, 5) as subscriber}
+                        <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
+                          <div><p class="font-medium text-gray-900">{subscriber.email}</p><p class="text-sm text-gray-500 capitalize">{subscriber.source}</p></div>
+                          <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>{segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment}</Badge>
+                        </div>
+                      {:else}
+                        <p class="text-sm text-gray-500 text-center py-4">No subscribers yet</p>
+                      {/each}
                     </div>
-                  {:else}
-                    <p class="text-sm text-gray-500 text-center py-4">No leads yet</p>
-                  {/each}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader><CardTitle>Recent Subscribers</CardTitle></CardHeader>
-              <CardContent>
-                <div class="space-y-4">
-                  {#each newsletters.slice(0, 5) as subscriber}
-                    <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
-                      <div><p class="font-medium text-gray-900">{subscriber.email}</p><p class="text-sm text-gray-500 capitalize">{subscriber.source}</p></div>
-                      <Badge class={segmentColors[subscriber.lead_segment] || segmentColors.cold}>{segmentIcons[subscriber.lead_segment] || '📋'} {subscriber.lead_segment}</Badge>
-                    </div>
-                  {:else}
-                    <p class="text-sm text-gray-500 text-center py-4">No subscribers yet</p>
-                  {/each}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
 
       <!-- FindingsNg Tab -->
       {:else if activeTab === 'findingsng'}
@@ -576,24 +787,55 @@
         </div>
 
       <!-- Leads Management Tab -->
-      {:else if activeTab === 'leads'}
-        <div class="space-y-6">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div><h2 class="text-2xl font-bold text-gray-900">Contact Leads</h2><p class="text-gray-600">{submissions.length} total</p></div>
-            <div class="flex items-center space-x-3">
-              <div class="relative">
-                <Search class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input type="text" bind:value={searchQuery} placeholder="Search leads..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg" />
-              </div>
-              <Button variant="outline" onclick={exportSubmissions}><Download class="w-4 h-4 mr-2" />Export</Button>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'all' ? 'bg-[var(--primary)] text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'all'}>All ({getSegmentCount('hot') + getSegmentCount('warm') + getSegmentCount('cold')})</button>
-            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'hot' ? 'bg-red-500 text-white' : 'text-red-600 hover:bg-red-50'}`} onclick={() => leadFilter = 'hot'}>Hot ({getSegmentCount('hot')})</button>
-            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'warm' ? 'bg-yellow-500 text-white' : 'text-yellow-600 hover:bg-yellow-50'}`} onclick={() => leadFilter = 'warm'}>Warm ({getSegmentCount('warm')})</button>
-            <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'cold' ? 'bg-gray-500 text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'cold'}>Cold ({getSegmentCount('cold')})</button>
-          </div>
+            {:else if activeTab === 'leads'}
+              <div class="space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div><h2 class="text-2xl font-bold text-gray-900">Contact Leads</h2><p class="text-gray-600">{submissions.length} total</p></div>
+                  <div class="flex items-center space-x-3">
+                    <div class="relative">
+                      <Search class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <input type="text" bind:value={searchQuery} placeholder="Search leads..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg" />
+                    </div>
+                    <Button variant="outline" onclick={exportSubmissions}><Download class="w-4 h-4 mr-2" />Export</Button>
+                  </div>
+                </div>
+          
+                <!-- Advanced Filters -->
+                {#if showAdvancedFilters}
+                  <div class="flex flex-wrap items-center gap-3 p-4 bg-gray-50 rounded-lg border">
+                    <div class="flex items-center gap-2">
+                      <Label class="text-sm">Sort by:</Label>
+                      <select bind:value={sortBy} class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm">
+                        <option value="score">Lead Score</option>
+                        <option value="date">Date</option>
+                        <option value="source">Source</option>
+                      </select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <Label class="text-sm">Order:</Label>
+                      <select bind:value={sortOrder} class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm">
+                        <option value="desc">Descending</option>
+                        <option value="asc">Ascending</option>
+                      </select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <Label class="text-sm">Date Range:</Label>
+                      <select bind:value={dateRange} class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm">
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                      </select>
+                    </div>
+                    <Button variant="ghost" size="sm" onclick={() => showAdvancedFilters = false}><X class="w-4 h-4 mr-1" /> Hide</Button>
+                  </div>
+                {/if}
+
+                <div class="flex items-center gap-2">
+                  <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'all' ? 'bg-[var(--primary)] text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'all'}>All ({getSegmentCount('hot') + getSegmentCount('warm') + getSegmentCount('cold')})</button>
+                  <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'hot' ? 'bg-red-500 text-white' : 'text-red-600 hover:bg-red-50'}`} onclick={() => leadFilter = 'hot'}>Hot ({getSegmentCount('hot')})</button>
+                  <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'warm' ? 'bg-yellow-500 text-white' : 'text-yellow-600 hover:bg-yellow-50'}`} onclick={() => leadFilter = 'warm'}>Warm ({getSegmentCount('warm')})</button>
+                  <button class={`px-3 py-1.5 rounded-lg text-sm font-medium ${leadFilter === 'cold' ? 'bg-gray-500 text-white' : 'text-gray-600 hover:bg-gray-100'}`} onclick={() => leadFilter = 'cold'}>Cold ({getSegmentCount('cold')})</button>
+                </div>
           <Card>
             <CardContent class="p-0">
               <div class="overflow-x-auto">
