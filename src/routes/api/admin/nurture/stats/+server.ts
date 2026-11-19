@@ -1,7 +1,19 @@
 import { createSupabaseAdminClient } from '$lib/supabase/server';
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 
-export async function GET() {
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || 'kennethvic07@gmail.com,rydertech.ng@gmail.com,victorkenneth9@gmail.com')
+  .split(',')
+  .map(e => e.trim());
+
+async function requireAdmin(locals: any) {
+  const user = locals.user;
+  if (!user || !user.email || !ADMIN_EMAILS.includes(user.email)) {
+    throw error(403, 'Unauthorized');
+  }
+}
+
+export async function GET({ locals }) {
+  await requireAdmin(locals);
   const admin = createSupabaseAdminClient();
 
   try {
