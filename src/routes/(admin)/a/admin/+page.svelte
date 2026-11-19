@@ -1,5 +1,5 @@
 <script>
-  import { Shield, Users, Mail, MessageCircle, TrendingUp, Download, Search, ArrowRight, BarChart3, Settings, CheckCircle, XCircle, Eye, X, Building2, CheckCircle2, AlertCircle, ExternalLink } from '@lucide/svelte';
+  import { Shield, Users, Mail, MessageCircle, TrendingUp, Download, Search, ArrowRight, BarChart3, Settings, CheckCircle, XCircle, Eye, X, Building2, CheckCircle2, AlertCircle, ExternalLink, Bell, Zap, Target, Calendar, Filter, ChevronDown, ChevronUp, MoreHorizontal, Edit, Trash2, FileText, PieChart, Activity, AlertTriangle, Star, Flag } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
@@ -12,6 +12,11 @@
   let selectedLead = $state(null);
   let showLeadModal = $state(false);
   let leadFilter = $state('all');
+  let hotLeadsAlert = $state(true);
+  let dateRange = $state('week'); // 'week' | 'month' | 'quarter'
+  let sortBy = $state('score'); // 'score' | 'date' | 'source'
+  let sortOrder = $state('desc'); // 'asc' | 'desc'
+  let showAdvancedFilters = $state(false);
 
   // Derived from server data
   const submissions = data.submissions;

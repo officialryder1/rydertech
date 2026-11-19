@@ -17,7 +17,8 @@
 			LayoutGrid,
 			ArrowRight,
 			Mail,
-			MessageCircle
+			MessageCircle,
+			Target
 		} from "@lucide/svelte";
 
 	let showNewsletter = $state(false);
