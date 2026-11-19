@@ -31,25 +31,25 @@ function pickSupabaseTable(leadType?: string): string {
 function buildSupabaseRow(data: z.infer<typeof schema>, table: string) {
 	const base = {
 		email: data.from_email,
-		company: data.company || null,
-		budget: data.budget || null,
-		timeline: data.timeline || null,
-		message: data.message,
 		lead_score: data.lead_score ?? null,
 		lead_tier: data.lead_tier || null,
-		lead_source: data.lead_source || null,
-		submitted_at: new Date().toISOString()
+		lead_source: data.lead_source || null
 	};
 
 	if (table === 'contact_submissions') {
 		return {
 			...base,
 			name: data.from_name,
-			status: 'new'
+			company: data.company || null,
+			budget: data.budget || null,
+			timeline: data.timeline || null,
+			message: data.message,
+			status: 'new',
+			submitted_at: new Date().toISOString()
 		};
 	}
 
-	// newsletter_subscriptions
+	// newsletter_subscriptions - only columns that exist
 	return {
 		...base,
 		source: data.lead_type || 'unknown',
