@@ -5,15 +5,16 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || 'kennethvic07@gmail.com,rydert
   .split(',')
   .map(e => e.trim());
 
-async function requireAdmin(locals: App.Locals) {
+async function requireAdmin(locals: any) {
   const user = locals.user;
   if (!user || !user.email || !ADMIN_EMAILS.includes(user.email)) {
-    throw error(403, 'Unauthorized');
+    return json({ success: false, error: 'Unauthorized' }, { status: 403 });
   }
 }
 
 export async function POST({ locals }) {
-  await requireAdmin(locals);
+  const auth = await requireAdmin(locals);
+  if (auth) return auth;
   const admin = createSupabaseAdminClient();
 
   try {
