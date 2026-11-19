@@ -1,5 +1,5 @@
 <script>
-  import { Shield, Users, Mail, MessageCircle, TrendingUp, Download, Search, ArrowRight, BarChart3, Settings, CheckCircle, XCircle, Eye, X, Building2, CheckCircle2, AlertCircle, ExternalLink, Bell, Zap, Target, Calendar, Filter, ChevronDown, ChevronUp, MoreHorizontal, Edit, Trash2, FileText, PieChart, Activity, AlertTriangle, Star, Flag } from '@lucide/svelte';
+  import { Shield, Users, Mail, MessageCircle, TrendingUp, Download, Search, ArrowRight, BarChart3, Settings, CheckCircle, XCircle, Eye, X, Building2, CheckCircle2, AlertCircle, ExternalLink, Bell, Zap, Target, Calendar, Filter, ChevronDown, ChevronUp, MoreHorizontal, Edit, Trash2, FileText, PieChart, Activity, AlertTriangle, Star, Flag, Clock, RefreshCw, Send, List, History } from '@lucide/svelte';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
@@ -7,25 +7,33 @@
   let { data } = $props();
 
   // Local UI state
-  let activeTab = $state('overview');
-  let searchQuery = $state('');
-  let selectedLead = $state(null);
-  let showLeadModal = $state(false);
-  let leadFilter = $state('all');
-  let hotLeadsAlert = $state(true);
-  let dateRange = $state('week'); // 'week' | 'month' | 'quarter'
-  let sortBy = $state('score'); // 'score' | 'date' | 'source'
-  let sortOrder = $state('desc'); // 'asc' | 'desc'
-  let showAdvancedFilters = $state(false);
+    let activeTab = $state('overview');
+    let searchQuery = $state('');
+    let selectedLead = $state(null);
+    let showLeadModal = $state(false);
+    let leadFilter = $state('all');
+    let hotLeadsAlert = $state(true);
+    let dateRange = $state('week'); // 'week' | 'month' | 'quarter'
+    let sortBy = $state('score'); // 'score' | 'date' | 'source'
+    let sortOrder = $state('desc'); // 'asc' | 'desc'
+    let showAdvancedFilters = $state(false);
 
-  // Derived from server data
-  const submissions = data.submissions;
-  const newsletters = data.newsletters;
-  const magnets = data.magnets;
-  const stats = data.stats;
-  const user = data.user;
-  const findingsng = data.findingsng;
-  const vendorData = data.vendors;
+    // Nurture automation state
+    let nurtureStats = $state({ totalEnrolled: 0, activeSequences: 0, touchesSent30d: 0, completed: 0 });
+    let nurtureLeads = $state([]);
+    let dueTouches = $state([]);
+    let sendLog = $state([]);
+    let previewTouchData = $state(null);
+    let nurtureLoading = $state(false);
+
+    // Derived from server data
+    const submissions = data.submissions;
+    const newsletters = data.newsletters;
+    const magnets = data.magnets;
+    const stats = data.stats;
+    const user = data.user;
+    const findingsng = data.findingsng;
+    const vendorData = data.vendors;
 
   // Lead segment helpers
   const segmentColors = {
@@ -230,8 +238,158 @@
   }
 
   const verifiedBadge = 'bg-green-100 text-green-800 border-green-200';
-  const unverifiedBadge = 'bg-yellow-100 text-yellow-800 border-yellow-200';
-</script>
+    const unverifiedBadge = 'bg-yellow-100 text-yellow-800 border-yellow-200';
+
+    // ---- Nurture Automation Functions ----
+    async function fetchNurtureData() {
+      nurtureLoading = true;
+      try {
+        const [statsRes, leadsRes, dueRes, logRes] = await Promise.all([
+          fetch('/api/admin/nurture/stats').then(r => r.json()),
+          fetch('/api/admin/nurture/leads').then(r => r.json()),
+          fetch('/api/admin/nurture/due').then(r => r.json()),
+          fetch('/api/admin/nurture/log').then(r => r.json())
+        ]);
+        nurtureStats = statsRes.data || nurtureStats;
+        nurtureLeads = leadsRes.data || [];
+        dueTouches = dueRes.data || [];
+        sendLog = logRes.data || [];
+      } catch (e) {
+        console.error('Failed to fetch nurture data:', e);
+      } finally {
+        nurtureLoading = false;
+      }
+    }
+
+    async function runNurtureCycle() {
+      nurtureLoading = true;
+      try {
+        const res = await fetch('/api/admin/nurture/run', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          await fetchNurtureData();
+          alert(`Cycle complete: ${data.enrolled} enrolled, ${data.touchesSent} touches sent, ${data.errors} errors`);
+        } else {
+          alert('Cycle failed: ' + data.error);
+        }
+      } catch (e) {
+        console.error('Nurture cycle failed:', e);
+        alert('Cycle failed: ' + e.message);
+      } finally {
+        nurtureLoading = false;
+      }
+    }
+
+    async function triggerFullSync() {
+      nurtureLoading = true;
+      try {
+        const res = await fetch('/api/admin/nurture/sync', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          await fetchNurtureData();
+          alert(`Sync complete: ${data.enrolled} new leads enrolled`);
+        } else {
+          alert('Sync failed: ' + data.error);
+        }
+      } catch (e) {
+        console.error('Full sync failed:', e);
+        alert('Sync failed: ' + e.message);
+      } finally {
+        nurtureLoading = false;
+      }
+    }
+
+    async function refreshDueTouches() {
+      try {
+        const res = await fetch('/api/admin/nurture/due');
+        const data = await res.json();
+        dueTouches = data.data || [];
+      } catch (e) {
+        console.error('Failed to refresh due touches:', e);
+      }
+    }
+
+    async function sendManualTouch(email, tool, name, touch) {
+      try {
+        const res = await fetch('/api/admin/nurture/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, tool, name, touch })
+        });
+        const data = await res.json();
+        if (data.success) {
+          await fetchNurtureData();
+          alert(`Touch ${touch} sent to ${email}`);
+        } else {
+          alert('Send failed: ' + data.error);
+        }
+      } catch (e) {
+        console.error('Manual send failed:', e);
+        alert('Send failed: ' + e.message);
+      }
+    }
+
+    function previewTouch(tool, touch, name = 'there') {
+      const toolUrls = {
+        ops_drain: '/labs/ops-drain',
+        revleak: '/labs/revleak',
+        event_risk: '/labs/event-access-risk',
+        website_rater: '/labs/website-rater',
+        visibility: '/labs/visibility',
+        aeo: '/labs/aeo-readiness',
+        clausescan: '/labs/clausescan',
+        gateway_calc: '/labs/gateway-calc',
+        agentic_cost: '/labs/agentic-workflow-cost',
+        q_day: '/labs/q-day-readiness',
+        gpt6_checker: '/labs/gpt-6-checker',
+        headline_studio: '/labs/headline-studio',
+        content_repurposer: '/labs/content-repurposer',
+        property_chatbot: '/labs/property-chatbot',
+        cost_estimator: '/labs/cost-estimator',
+        agent_templates: '/labs/agent-templates',
+        automation_readiness: '/labs/automation-readiness',
+        voice_agent: '/services/ai',
+        ai_widget: '/services/ai',
+        course_interest: '/courses',
+        contact: '/contact'
+      };
+      const toolUrl = toolUrls[tool] || '/labs';
+    
+      // Templates matching internalNurture.ts
+      const templates = {
+        ops_drain: {
+          1: { subject: 'Your Ops Drain audit — the 1-line version', body: (n, u) => `Hi ${n},\n\nThanks for running the Ops Drain Calculator. The headline: you're losing hours every week to manual work that a simple workflow could handle.\n\nHere's your branded audit you can keep/share: https://rydertech.ng${u}\n\nIn two days I'll send the 3 automations that recover the most staff time.\n\n— Victor, RyderTech` },
+          2: { subject: '3 automations that recover the most staff time', body: (n, u) => `Hi ${n},\n\nThe three workflows that consistently pay for themselves in month one:\n\n1. Invoicing & billing — webhook → PDF → auto-send. Kills monthly reconciliation.\n2. Client onboarding — self-serve forms → database → welcome sequence. No copy-paste.\n3. Reporting — scheduled job aggregates data → emails digest. Zero manual pulls.\n\nIf any of those are still human-powered in your shop, that's exactly what we'd automate first.\n\n— Victor, RyderTech` },
+          3: { subject: 'Worth a 15-minute scoping call?', body: (n, u) => `Hi ${n},\n\nI'll stop here. If the audit made you wince, the next step is a 15-minute scoping call — I'll show you what automating your top task actually looks like and what it costs.\n\nGrab a slot: https://rydertech.ng/contact\n\nIf the timing's off, just reply "later" and I'll check back next quarter.\n\n— Victor, RyderTech` }
+        },
+        revleak: {
+          1: { subject: 'Your RevLeak audit — the 1-line version', body: (n, u) => `Hi ${n},\n\nThanks for running the RevLeak Auditor. The headline: your funnel has specific, measurable leaks — and each one is fixable.\n\nHere's your branded audit you can keep/share: https://rydertech.ng${u}\n\nIn two days I'll send the 3 speed fixes that lift conversion fastest.\n\n— Victor, RyderTech` },
+          2: { subject: '3 speed fixes that lift conversion', body: (n, u) => `Hi ${n},\n\nThe three fixes that consistently lift funnel conversion:\n\n1. Above-the-fold clarity — headline + outcome + CTA in 3 seconds.\n2. Trust density — logos, outcomes, specifics near every ask.\n3. Friction removal — kill fields, auto-fill, one-click where possible.\n\nImplement those and your leak score drops 2-3 points. That's real revenue.\n\n— Victor, RyderTech` },
+          3: { subject: 'Worth a 15-minute CRO audit?', body: (n, u) => `Hi ${n},\n\nI'll stop here. If you want to close the leaks, the next step is a 15-minute CRO audit — I'll walk your live funnel, prioritize fixes, and quote the implementation.\n\nBook it: https://rydertech.ng/contact\n\nIf now's not the time, reply "later" and I'll check back next quarter.\n\n— Victor, RyderTech` }
+        },
+        website_rater: {
+          1: { subject: 'Your Website Review — the 1-line version', body: (n, u) => `Hi ${n},\n\nThanks for running the Website Review. The headline: your site has specific, fixable gaps that are costing you leads and credibility every day.\n\nHere's your branded audit you can keep/share: https://rydertech.ng${u}\n\nIn two days I'll send the 3 quick wins that move the needle fastest.\n\n— Victor, RyderTech` },
+          2: { subject: '3 quick wins for a higher-converting site', body: (n, u) => `Hi ${n},\n\nThe three fixes that consistently lift conversion for sites like yours:\n\n1. Above-the-fold clarity — headline + subhead + CTA in the first 3 seconds.\n2. Trust signals — logos, testimonials, concrete outcomes near every ask.\n3. Friction removal — kill fields, auto-fill, one-click actions where possible.\n\nImplement those and your score jumps 2-3 points. That's real revenue.\n\n— Victor, RyderTech` },
+          3: { subject: 'Worth a 15-minute CRO audit?', body: (n, u) => `Hi ${n},\n\nI'll stop here. If the review showed gaps you want to close, the next step is a 15-minute CRO audit — I'll walk your live site, prioritize the fixes, and quote the implementation.\n\nBook it: https://rydertech.ng/contact\n\nIf now's not the time, reply "later" and I'll check back next quarter.\n\n— Victor, RyderTech` }
+        }
+      };
+    
+      const t = templates[tool]?.[touch] || { subject: 'Preview', body: () => 'Template not found' };
+      const subject = t.subject;
+      const body = t.body(name, toolUrl);
+    
+      previewTouchData = { tool, touch, subject, body };
+    }
+
+    // Load nurture data when tab is activated
+    let previousTab = 'overview';
+    $effect(() => {
+      if (activeTab === 'nurture' && previousTab !== 'nurture') {
+        fetchNurtureData();
+      }
+      previousTab = activeTab;
+    });
+  </script>
 
 <svelte:head>
   <title>Admin Dashboard — RyderTech</title>
@@ -267,14 +425,15 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-gray-200 min-h-screen">
       <nav class="p-4 space-y-2">
-        {#each [
-          { id: 'overview', label: 'Overview', icon: BarChart3 },
-          { id: 'findingsng', label: 'FindingsNg', icon: TrendingUp },
-          { id: 'vendors', label: 'Vendor Intel', icon: Building2 },
-          { id: 'leads', label: 'Contact Leads', icon: Users },
-          { id: 'magnets', label: 'Lead Magnets', icon: Download },
-          { id: 'newsletter', label: 'Newsletter', icon: Mail }
-        ] as tab}
+              {#each [
+                { id: 'overview', label: 'Overview', icon: BarChart3 },
+                { id: 'nurture', label: 'Nurture', icon: Zap },
+                { id: 'findingsng', label: 'FindingsNg', icon: TrendingUp },
+                { id: 'vendors', label: 'Vendor Intel', icon: Building2 },
+                { id: 'leads', label: 'Contact Leads', icon: Users },
+                { id: 'magnets', label: 'Lead Magnets', icon: Download },
+                { id: 'newsletter', label: 'Newsletter', icon: Mail }
+              ] as tab}
           <button
             class={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
               activeTab === tab.id
@@ -968,14 +1127,239 @@
                       <tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No subscribers yet</td></tr>
                     {/each}
                   </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      {/if}
+                                  </table>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
 
-      <!-- Lead Details Modal -->
+                        <!-- Nurture Automation Tab -->
+                        {:else if activeTab === 'nurture'}
+                  <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                      <div><h2 class="text-2xl font-bold text-gray-900">Nurture Automation</h2><p class="text-gray-600">Monitor and control automated lead nurture sequences</p></div>
+                      <div class="flex items-center gap-2">
+                        <Button variant="outline" size="sm" onclick={() => runNurtureCycle()}>
+                          <Zap class="w-4 h-4 mr-2" /> Run Cycle
+                        </Button>
+                        <Button variant="primary" size="sm" onclick={() => triggerFullSync()}>
+                          <RefreshCw class="w-4 h-4 mr-2" /> Full Sync
+                        </Button>
+                      </div>
+                    </div>
+
+                    <!-- Nurture Pipeline Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      {#each [
+                        { label: 'Enrolled', value: nurtureStats?.totalEnrolled || 0, icon: Users, color: 'blue' },
+                        { label: 'Active Sequences', value: nurtureStats?.activeSequences || 0, icon: Zap, color: 'amber' },
+                        { label: 'Touches Sent (30d)', value: nurtureStats?.touchesSent30d || 0, icon: Mail, color: 'green' },
+                        { label: 'Completed', value: nurtureStats?.completed || 0, icon: CheckCircle2, color: 'purple' }
+                      ] as stat}
+                        <Card class="hover:shadow-lg transition-shadow duration-300">
+                          <CardContent class="p-6">
+                            <div class="flex items-center justify-between">
+                              <div>
+                                <p class="text-sm font-medium text-gray-600">{stat.label}</p>
+                                <p class="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                              </div>
+                              <div class="p-3 rounded-lg bg-{stat.color}-100">
+                                <stat.icon class="w-6 h-6 text-{stat.color}-600" />
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      {/each}
+                    </div>
+
+                    <!-- Due Touches Queue -->
+                    <Card>
+                      <CardHeader class="flex items-center justify-between">
+                        <CardTitle class="flex items-center gap-2"><Clock class="w-4 h-4 text-blue-500" /> Due for Next Touch</CardTitle>
+                        <Button variant="ghost" size="sm" onclick={() => refreshDueTouches()}>
+                          <RefreshCw class="w-4 h-4 mr-1" /> Refresh
+                        </Button>
+                      </CardHeader>
+                      <CardContent>
+                        <div class="overflow-x-auto">
+                          <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                              <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tool</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Next Touch</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Days Since Capture</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                              {#each dueTouches as touch}
+                                <tr class="hover:bg-gray-50">
+                                  <td class="px-6 py-4">
+                                    <div class="font-medium text-gray-900">{touch.email}</div>
+                                    <div class="text-sm text-gray-500">{touch.name}</div>
+                                  </td>
+                                  <td class="px-6 py-4">
+                                    <Badge variant="outline">{touch.tool}</Badge>
+                                  </td>
+                                  <td class="px-6 py-4 text-center">
+                                    <span class={`inline-flex w-10 h-10 rounded-full items-center justify-center text-sm font-bold ${touch.nextTouch === 1 ? 'bg-blue-100 text-blue-700' : touch.nextTouch === 2 ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`}>
+                                      Touch {touch.nextTouch}
+                                    </span>
+                                  </td>
+                                  <td class="px-6 py-4 text-sm text-gray-600">{touch.daysSinceCapture}d</td>
+                                  <td class="px-6 py-4">
+                                    {#if touch.leadScore != null}
+                                      <span class={`inline-flex w-10 h-10 rounded-full items-center justify-center text-sm font-bold ${touch.leadScore >= 70 ? 'bg-red-100 text-red-700' : touch.leadScore >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-700'}`}>
+                                        {touch.leadScore}
+                                      </span>
+                                    {:else}
+                                      <span class="text-gray-400">—</span>
+                                    {/if}
+                                  </td>
+                                  <td class="px-6 py-4">
+                                    <Button size="sm" variant="outline" onclick={() => sendManualTouch(touch.email, touch.tool, touch.name, touch.nextTouch)}>
+                                      <Send class="w-4 h-4 mr-1" /> Send Now
+                                    </Button>
+                                  </td>
+                                </tr>
+                              {:else}
+                                <tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">No touches due — all caught up!</td></tr>
+                              {/each}
+                            </tbody>
+                          </table>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <!-- All Nurture Leads Table -->
+                    <Card>
+                      <CardHeader><CardTitle class="flex items-center gap-2"><List class="w-4 h-4 text-gray-500" /> All Enrolled Leads</CardTitle></CardHeader>
+                      <CardContent>
+                        <div class="overflow-x-auto">
+                          <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                              <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tool</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Touches Sent</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Next Due</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Captured</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                              {#each nurtureLeads as lead}
+                                <tr class="hover:bg-gray-50">
+                                  <td class="px-6 py-4">
+                                    <div class="font-medium text-gray-900">{lead.email}</div>
+                                  </td>
+                                  <td class="px-6 py-4">
+                                    <Badge variant="outline">{lead.tool}</Badge>
+                                  </td>
+                                  <td class="px-6 py-4 text-sm">{lead.name}</td>
+                                  <td class="px-6 py-4 text-center">
+                                    <div class="flex items-center justify-center gap-1">
+                                      {#each [1,2,3] as t}
+                                        <span class={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${lead.touchesSent.includes(t) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'}`}>
+                                          {t}
+                                        </span>
+                                      {/each}
+                                    </div>
+                                  </td>
+                                  <td class="px-6 py-4 text-center">
+                                    {#if lead.touchesSent.length >= 3}
+                                      <Badge class="bg-green-100 text-green-800">Complete</Badge>
+                                    {:else if lead.nextTouch}
+                                      <span class="text-sm font-medium text-blue-600">Touch {lead.nextTouch} ({lead.daysSinceCapture}d)</span>
+                                    {:else}
+                                      <span class="text-gray-400">—</span>
+                                    {/if}
+                                  </td>
+                                  <td class="px-6 py-4 text-sm text-gray-500">{formatDate(lead.capturedAt)}</td>
+                                  <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                      <Button size="sm" variant="ghost" onclick={() => previewTouch(lead.tool, lead.nextTouch || 1, lead.name)}>
+                                        <Eye class="w-4 h-4" />
+                                      </Button>
+                                      {#if lead.touchesSent.length < 3 && lead.nextTouch && lead.daysSinceCapture >= (lead.nextTouch === 1 ? 0 : lead.nextTouch === 2 ? 2 : 5)}
+                                        <Button size="sm" variant="outline" onclick={() => sendManualTouch(lead.email, lead.tool, lead.name, lead.nextTouch)}>
+                                          <Send class="w-4 h-4 mr-1" /> Send
+                                        </Button>
+                                      {/if}
+                                    </div>
+                                  </td>
+                                </tr>
+                              {:else}
+                                <tr><td colspan="7" class="px-6 py-8 text-center text-gray-500">No leads enrolled yet — run a sync to enroll recent leads</td></tr>
+                              {/each}
+                            </tbody>
+                          </table>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <!-- Touch Preview Modal -->
+                    {#if previewTouchData}
+                      <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+                          <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold">Touch Preview — {previewTouchData.tool} • Touch {previewTouchData.touch}</h2>
+                            <button onclick={() => previewTouchData = null} class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200"><X class="w-5 h-5" /></button>
+                          </div>
+                          <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                              <p class="text-sm font-medium text-gray-600">Subject</p>
+                              <p class="font-medium text-gray-900 mt-1">{previewTouchData.subject}</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                              <p class="text-sm font-medium text-gray-600">Body</p>
+                              <pre class="whitespace-pre-wrap text-sm text-gray-700 mt-1 font-sans">{previewTouchData.body}</pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {/if}
+
+                    <!-- Recent Send Log -->
+                    <Card>
+                      <CardHeader><CardTitle class="flex items-center gap-2"><History class="w-4 h-4 text-gray-500" /> Recent Send Log</CardTitle></CardHeader>
+                      <CardContent>
+                        <div class="overflow-x-auto">
+                          <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                              <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tool</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Touch</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sent At</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message ID</th>
+                              </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                              {#each sendLog.slice(0, 20) as log}
+                                <tr class="hover:bg-gray-50">
+                                  <td class="px-6 py-4 text-sm">{log.email}</td>
+                                  <td class="px-6 py-4"><Badge variant="outline">{log.tool}</Badge></td>
+                                  <td class="px-6 py-4 text-center"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Touch {log.touch}</span></td>
+                                  <td class="px-6 py-4 text-sm text-gray-500">{formatDate(log.sentAt)}</td>
+                                  <td class="px-6 py-4 text-xs text-gray-500 font-mono">{log.messageId}</td>
+                                </tr>
+                              {:else}
+                                <tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No sends logged yet</td></tr>
+                              {/each}
+                            </tbody>
+                          </table>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                {/if}
+
+                <!-- Lead Details Modal -->
       {#if showLeadModal && selectedLead}
         <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
           <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
