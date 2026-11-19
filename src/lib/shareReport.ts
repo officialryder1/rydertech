@@ -9,7 +9,7 @@
  * wrapper; no DOM, no network. Kept tiny so the URL stays shareable.
  */
 
-export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness' | 'website-rater' | 'property-chatbot';
+export type ToolId = 'revleak' | 'event-risk' | 'ops-drain' | 'agentic-cost' | 'visibility' | 'aeo' | 'clausescan' | 'gateway-calc' | 'gpt6-checker' | 'headline-studio' | 'content-repurposer' | 'q-day-readiness' | 'website-rater' | 'property-chatbot' | 'automation-readiness';
 
 export interface ReportRow {
   label: string;
@@ -76,6 +76,7 @@ import type { EngineResult as EventRiskResult } from './eventAccessRisk';
 import { formatMoney } from './opsDrain';
 import type { EngineResult as OpsDrainResult } from './opsDrain';
 import { formatMoney as formatMoneyAgentic, recommendAgenticStack } from './agenticWorkflowCost';
+import { scoreLead, type ScoreResult as LeadScoreResult } from './leadScore';
 import type { EngineResult as AgenticCostResult } from './agenticWorkflowCost';
 import type { QDayResult } from './qDayReadiness';
 import type { EngineResult as LocalVisibilityResult } from './localVisibility';
@@ -483,6 +484,46 @@ export function reportFromWebsiteRater(r: ReviewResult, url: string): ReportPayl
 		rows,
 		recommendations: r.improvements.slice(0, 3),
 		generatedAt: todayIso(),
-		sourceUrl: 'https://rydertech.ng/labs/website-rater'
-	};
-}
+				sourceUrl: 'https://rydertech.ng/labs/website-rater'
+			};
+		}
+
+		export function reportFromAutomationReadiness(
+			r: OpsDrainResult,
+			currency: 'NGN' | 'USD',
+			leadScore: LeadScoreResult
+		): ReportPayload {
+			const money = (n: number) => formatMoney(n, currency);
+			const topTasks = r.tasks
+				.filter((t) => t.recoverableCost > 0)
+				.sort((a, b) => b.recoverableCost - a.recoverableCost)
+				.slice(0, 5);
+			return {
+				tool: 'automation-readiness',
+				title: 'Automation Readiness Diagnostic',
+				heroLabel: 'Annual cost of manual processes',
+				heroValue: money(r.totalAnnualCost),
+				heroTone: r.severity === 'critical' || r.severity === 'high' ? 'bad' : 'neutral',
+				verdict:
+					r.paybackMonths === null
+						? 'Automation does not yet pay back at this saving rate — but the recovered time is real.'
+						: `Automation pays for itself in ${r.paybackMonths} months at ${r.firstYearRoiPct}% first-year ROI.`,
+				rows: [
+					{ label: 'Staff-days lost / year', value: `${Math.round(r.recoverableAnnualHours / 8).toLocaleString()} days`, tone: 'bad' },
+					{ label: 'Recoverable cost / year', value: money(r.recoverableAnnualCost), tone: 'good' },
+					{ label: 'Net annual saving', value: money(r.netAnnualSaving), tone: 'good' },
+					{ label: 'Payback period', value: r.paybackMonths === null ? '—' : `${r.paybackMonths} mo`, tone: 'neutral' },
+					{ label: 'Lead score', value: `${leadScore.points}/100 (${leadScore.tier})`, tone: leadScore.tier === 'hot' ? 'good' : leadScore.tier === 'warm' ? 'neutral' : 'bad' },
+					{ label: 'Top priority task', value: topTasks[0]?.label || '—', tone: 'neutral' }
+				],
+				recommendations: [
+					'Custom workflow automation — API-first backend replacing the manual handoffs identified.',
+					'Central ops dashboard so the recovered time stays recovered — visibility on every automated run.',
+					`Phased build: ${topTasks.map(t => t.label).join(' → ')}`,
+					'Book a scoping call and RyderTech can automate your highest-ROI workflows first.'
+				],
+				currency,
+				generatedAt: todayIso(),
+				sourceUrl: 'https://rydertech.ng/labs/automation-readiness'
+			};
+		}

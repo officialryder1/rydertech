@@ -158,6 +158,15 @@
 		  category: "Automation",
 		  new: true
 		},
+		{
+		  title: "Automation Readiness Diagnostic",
+		  description: "Map your manual workflows, calculate automation ROI, get a prioritized Nigerian-cost build roadmap.",
+		  icon: Target,
+		  href: "/labs/automation-readiness",
+		  action: "Start Diagnostic",
+		  category: "Automation",
+		  new: true
+		},
 		// AI Tools
 		{
 			title: "Property Chatbot Lead Capture",
