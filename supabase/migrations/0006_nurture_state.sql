@@ -70,7 +70,13 @@ begin
          or (lead.next_touch = 2 and lead.days_since_capture >= 2)
          or (lead.next_touch = 3 and lead.days_since_capture >= 5)
       then
-        return next lead;
+        email := lead.email;
+        tool := lead.tool;
+        name := lead.name;
+        captured_at := lead.captured_at;
+        next_touch := lead.next_touch;
+        days_since_capture := lead.days_since_capture;
+        return next;
       end if;
     end if;
   end loop;

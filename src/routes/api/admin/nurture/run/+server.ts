@@ -96,8 +96,17 @@ export async function POST() {
       dueLeads: dueLeads || []
     });
   } catch (e: unknown) {
-    console.error('Nurture run error:', e);
-    return json({ success: false, error: e instanceof Error ? e.message : 'Unknown error' }, { status: 500 });
+    const err = e as Error;
+    console.error('Nurture run error:', {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    });
+    return json({ 
+      success: false, 
+      error: err.message || 'Unknown error',
+      details: err.stack 
+    }, { status: 500 });
   }
 }
 
