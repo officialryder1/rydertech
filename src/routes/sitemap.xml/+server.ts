@@ -22,9 +22,10 @@ export const GET: RequestHandler = async () => {
     .sort((a, b) => a.path.localeCompare(b.path));
 
   const pages = [
-      { path: '', priority: '1.0', freq: 'daily' },
-      { path: '/proof', priority: '0.9', freq: 'weekly' },
-      { path: '/services', priority: '0.9', freq: 'weekly' },
+        { path: '', priority: '1.0', freq: 'daily' },
+        { path: '/proof', priority: '0.9', freq: 'weekly' },
+        { path: '/14', priority: '0.9', freq: 'weekly' },
+        { path: '/services', priority: '0.9', freq: 'weekly' },
     { path: '/services/ai', priority: '0.9', freq: 'weekly' },
     { path: '/services/web-design-in-nigeria', priority: '0.8', freq: 'monthly' },
     { path: '/about', priority: '0.6', freq: 'monthly' },
