@@ -166,7 +166,7 @@
 	data={{
 		title: "Proof — RyderTech",
 		description: "Real-time proof that RyderTech runs its own business on the machines we sell you. Live nurture automation stats, 17 production Labs tools, deploy history, and the email pipeline that never sleeps.",
-		canonical: "/proof"
+		canonical: "https://www.rydertech.ng/proof"
 	}}
 />
 
@@ -177,7 +177,7 @@
 			"@type": "WebPage",
 			"name": "Proof — RyderTech",
 			"description": "Real-time proof that RyderTech runs its own business on the machines we sell you. Live nurture automation stats, 17 production Labs tools, deploy history, and the email pipeline that never sleeps.",
-			"url": "https://rydertech.ng/proof",
+			"url": "https://www.rydertech.ng/proof",
 			"publisher": {
 				"@type": "Organization",
 				"name": "RyderTech"
