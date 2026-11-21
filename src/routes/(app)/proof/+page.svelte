@@ -440,16 +440,16 @@
 					]}
 				/>
 				<ArchCard
-					title="Lead Capture"
-					description="Unified email.ts helper with Resend + EmailJS + Supabase. Vercel Analytics track() on intent. Admin dashboard at /a/admin reads service-role."
-					icon={Shield}
-					details={[
-						'src/lib/email.ts unified helper',
-						'Vercel Analytics track() events',
-						'Admin dashboard /a/admin',
-						'RLS bypass via service-role'
-					]}
-				/>
+									title="Lead Capture"
+									description="Unified email.ts helper with Resend + EmailJS + Supabase. Vercel Analytics track() on intent. Admin dashboard reads service-role."
+									icon={Shield}
+									details={[
+										'src/lib/email.ts unified helper',
+										'Vercel Analytics track() events',
+										'Admin dashboard (service-role)',
+										'RLS bypass via service-role'
+									]}
+								/>
 			</div>
 		</div>
 	</section>
