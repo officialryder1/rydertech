@@ -533,55 +533,38 @@
 				</div>
 
 				<!-- Service bridge + lead capture: unified conversion block -->
-								<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-primary via-primary to-primary-dark p-6 md:p-8 text-white">
-									<h3 class="text-xl md:text-2xl font-bold mb-2">
-										{#if weakestAreas.length > 0}
-											Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
-										{:else}
-											Ready to raise your score?
-										{/if}
-									</h3>
-									<p class="text-white/90 text-sm md:text-base mb-5 max-w-2xl">
-										These are exactly the areas a targeted rebuild fixes first. RyderTech designs and builds fast, SEO-ready websites for Nigerian businesses — we'll scope the fixes for {reviewedUrl} in one call.
-									</p>
+									<div class="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-r from-primary via-primary to-primary-dark p-6 md:p-8 text-white">
+										<h3 class="text-xl md:text-2xl font-bold mb-2">
+											{#if weakestAreas.length > 0}
+												Your weakest areas: {weakestAreas.map(([key]) => categoryNames[key] ?? key).join(' & ')}
+											{:else}
+												Ready to raise your score?
+											{/if}
+										</h3>
+										<p class="text-white/90 text-sm md:text-base mb-5 max-w-2xl">
+											These are exactly the areas a targeted rebuild fixes first. RyderTech designs and builds fast, SEO-ready websites for Nigerian businesses — we'll scope the fixes for {reviewedUrl} in one call.
+										</p>
 
-									{#if !unlocked}
-										<div class="group max-w-md mx-auto space-y-3">
-											<form onsubmit={handleLeadSubmit} class="space-y-3">
-												<div class="flex flex-col sm:flex-row gap-2">
-																					<Input type="text" bind:value={company} placeholder="Company" required class="flex-1 text-foreground" />
-																					<Input type="email" bind:value={email} placeholder="you@company.com" required class="flex-1 text-foreground" />
-																				</div>
-												{#if leadError}
-													<p class="text-xs text-red-200 text-center">{leadError}</p>
-												{/if}
-												<Button type="submit" disabled={isSubmitting} class="w-full bg-white text-primary hover:bg-blue-50 border-0 font-semibold" onclick={() => track('website_rater_bridge_click', { cta: 'fix_my', category: primaryFix.label, url: reviewedUrl })}>
-													{isSubmitting ? 'Sending…' : 'Send Me the Fix Plan'}
-												</Button>
-												<p class="text-center text-xs text-white/70">No spam. Unsubscribe anytime.</p>
-											</form>
-										</div>
-									{:else}
 										<div class="text-center pt-4 space-y-4">
+											<a
+												href="/14?from=website-rater&url={encodeURIComponent(reviewedUrl)}&score={review?.overallScore}"
+												class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-white text-primary font-semibold rounded-xl hover:bg-blue-50 transition-colors"
+												onclick={() => track('website_rater_bridge_click', { cta: 'start_14day_proof', category: primaryFix.label, url: reviewedUrl })}
+											>
+												<Zap class="w-5 h-5" />
+												Start 14-Day Proof
+											</a>
+											<p class="text-center text-xs text-white/70">Fixed scope • Your repo • Your credentials • Demo at day 14 or no bill</p>
 											<Button
 												variant="outline"
 												onclick={() => { track('website_rater_share_report', { url: reviewedUrl, score: review?.overallScore }); getReport(); }}
-												class="gap-2 border-white/40 text-white hover:bg-white/10"
+												class="gap-2 border-white/40 text-white hover:bg-white/10 mt-4"
 											>
 												<Gauge class="w-4 h-4 mr-2" />
 												Get shareable audit report
 											</Button>
-											<Button
-												size="lg"
-												onclick={reset}
-												class="bg-white/10 text-white hover:bg-white/20"
-											>
-												<RefreshCw class="w-5 h-5 mr-2" />
-												Analyze Another Website
-											</Button>
 										</div>
-									{/if}
-								</div>
+									</div>
 				</article>
 		{/if}
 	</main>
