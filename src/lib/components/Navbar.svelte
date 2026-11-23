@@ -8,15 +8,14 @@
   let isMobile = $state(false);
 
   const navItems = [
-      { name: 'Services', href: '/services' },
-      { name: 'AI Services', href: '/services/ai' },
-      { name: 'Courses', href: '/courses' },
-      { name: 'Work', href: '/work' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Review', href: '/reviews' },
-      { name: 'Proof', href: '/proof' },
-      { name: 'Contact', href: '/contact' }
-    ];
+        { name: 'Services', href: '/services' },
+        { name: 'AI Services', href: '/services/ai' },
+        { name: 'Work', href: '/work' },
+        { name: 'Blog', href: '/blog' },
+        { name: 'Review', href: '/reviews' },
+        { name: 'Proof', href: '/proof' },
+        { name: 'Contact', href: '/contact' }
+      ];
 
 
   onMount(() => {

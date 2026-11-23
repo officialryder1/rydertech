@@ -455,31 +455,31 @@
 	</section>
 
 	<!-- CTA -->
-	<section class="py-16 px-6 md:px-12 lg:px-20 bg-primary">
-		<div class="max-w-3xl mx-auto text-center">
-			<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Want this running for your business?</h2>
-			<p class="text-primary-100 text-lg mb-8">We'll set up your lead capture → nurture → booking pipeline in 14 days. Fixed scope. Your repo. Your credentials. Demo at day 14 or the milestone isn't billed.</p>
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-				<Button size="lg" variant="secondary" href="/contact" class="gap-2 text-lg px-8 py-3">
-					<Zap class="w-5 h-5" />
-					Start 14-Day Proof
-				</Button>
-				<Button size="lg" variant="outline" href="/labs" class="gap-2 text-lg px-8 py-3 bg-transparent border-white/30 text-white hover:bg-white/10">
-					<Code2 class="w-5 h-5" />
-					Try Our Tools First
-				</Button>
+		<section class="py-16 px-6 md:px-12 lg:px-20 bg-primary">
+			<div class="max-w-3xl mx-auto text-center">
+				<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Want this running for your business?</h2>
+				<p class="text-primary-100 text-lg mb-8">We'll set up your lead capture → nurture → booking pipeline in 14 days. Fixed scope. Your repo. Your credentials. Demo at day 14 or the milestone isn't billed.</p>
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+					<Button size="lg" variant="secondary" href="/14" class="gap-2 text-lg px-8 py-3">
+						<Zap class="w-5 h-5" />
+						Start 14-Day Proof
+					</Button>
+					<Button size="lg" variant="outline" href="/labs" class="gap-2 text-lg px-8 py-3 bg-transparent border-white/30 text-white hover:bg-white/10">
+						<Code2 class="w-5 h-5" />
+						Try Our Tools First
+					</Button>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<!-- Footer note -->
-	<footer class="py-8 px-6 md:px-12 lg:px-20 bg-gray-50 border-t border-gray-100">
-		<div class="max-w-7xl mx-auto text-center text-sm text-gray-500">
-			<p>All data on this page is real telemetry from RyderTech's production systems. No mocked numbers, no staged screenshots.</p>
-			<p class="mt-1">Last refreshed: {lastRefreshed || '—'} · <a href="https://github.com/officialryder1/rydertech" target="_blank" rel="noopener" class="text-primary hover:underline">View source on GitHub</a></p>
-		</div>
-	</footer>
-</div>
+		<!-- Footer note -->
+		<footer class="py-8 px-6 md:px-12 lg:px-20 bg-gray-50 border-t border-gray-100">
+			<div class="max-w-7xl mx-auto text-center text-sm text-gray-500">
+				<p>All data on this page is real telemetry from RyderTech's production systems. No mocked numbers, no staged screenshots.</p>
+				<p class="mt-1">Last refreshed: {lastRefreshed || '—'} · <a href="https://github.com/officialryder1/rydertech" target="_blank" rel="noopener" class="text-primary hover:underline">View source on GitHub</a> · <a href="/14" class="text-primary hover:underline">View 14-Day Proof offer →</a></p>
+			</div>
+		</footer>
+	</div>
 
 <style>
 	@keyframes spin {
