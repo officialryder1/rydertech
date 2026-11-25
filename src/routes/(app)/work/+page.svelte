@@ -97,23 +97,23 @@
             liveUrl: 'https://maison-estate-ten.vercel.app/'
         },
         {
-            slug: 'odera',
-            title: 'Odera',
-            filter: 'Web Apps',
-            category: 'Web & AI',
-            tagline: 'AI Business & Contract Risk Consultant',
-            summary: 'An intelligent consultant that analyzes contracts, business ideas, and decisions to identify risks, hidden assumptions, and weaknesses before they cost money.',
-            image: '/odera-screenshot.png',
-            featured: true,
-            metrics: [
-                { value: '8+', label: 'Analysis types' },
-                { value: '25+', label: 'Risk categories' },
-                { value: '100%', label: 'Critical review' }
-            ],
-            results: ['AI-powered risk identification', 'Evidence-driven recommendations', 'Multi-jurisdiction support'],
-            tech: ['SvelteKit', 'Supabase', 'Gemini AI'],
-            liveUrl: null
-        },
+                    slug: 'odera',
+                    title: 'Odera',
+                    filter: 'Web Apps',
+                    category: 'Web & AI',
+                    tagline: 'AI Business & Contract Risk Consultant',
+                    summary: 'An intelligent consultant that analyzes contracts, business ideas, and decisions to identify risks, hidden assumptions, and weaknesses before they cost money.',
+                    image: '/odera-screenshot.png',
+                    featured: true,
+                    metrics: [
+                        { value: '8+', label: 'Analysis types' },
+                        { value: '25+', label: 'Risk categories' },
+                        { value: '100%', label: 'Critical review' }
+                    ],
+                    results: ['AI-powered risk identification', 'Evidence-driven recommendations', 'Multi-jurisdiction support'],
+                    tech: ['SvelteKit', 'Supabase', 'Gemini AI'],
+                    liveUrl: 'https://odera-beta.vercel.app'
+                },
         {
             slug: 'realestate',
             title: 'Real Estate Platform',
