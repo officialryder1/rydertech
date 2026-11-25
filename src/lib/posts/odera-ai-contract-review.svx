@@ -1,0 +1,439 @@
+---
+title: "Odera: The AI Contract Review Tool Built for Nigerian Businesses Who Sign Without a Lawyer"
+date: 2026-11-22
+author: "Kenneth Victor"
+excerpt: "Most Nigerian founders and freelancers sign contracts they don't fully understand. Odera changes that — an AI that reads your contracts, flags the risky clauses in plain English, and gives you negotiation-ready recommendations. Built by RyderTech, live at odera-beta.vercel.app."
+readTime: "7 min read"
+tags: ["ai contract review", "nigerian startups", "freelancer tools", "legal tech nigeria", "contract risk", "rydertech"]
+image: "https://rydertech.ng/images/blog/odera-contract-review.jpg"
+views: 0
+comments: 0
+schemaType: "Article"
+category: "AI & Legal Tech"
+readingTime: "7 min read"
+labs_tool: "clausescan"
+---
+
+<script context="module">
+  import { Zap, Shield, FileText, CheckCircle, AlertTriangle, Star, Users, Globe, CreditCard, ArrowRight } from '@lucide/svelte';
+</script>
+
+<script>
+  const stats = [
+    { value: '1 in 4', label: 'owners sign contracts exactly as presented', icon: Users },
+    { value: '69%', label: 'worry about financial risk in signed terms', icon: AlertTriangle },
+    { value: '43%', label: 'hit by non-payment disputes last year', icon: CreditCard },
+    { value: '~60s', label: 'per analysis — contract to report', icon: Zap }
+  ];
+
+  const pricingTiers = [
+    {
+      name: 'Free',
+      price: '₦0',
+      period: '/month',
+      description: 'See a real risk report before you pay',
+      features: ['3 analyses/month', 'Paste text', 'Risk level + top 3 findings', 'Clause highlighting', 'Suggested safer wording', 'PDF export', '1 seat'],
+      cta: 'Start free',
+      highlighted: false
+    },
+    {
+      name: 'Freelancer',
+      price: '₦4,900',
+      period: '/month',
+      description: 'For client work and contracts you sign yourself',
+      features: ['10 analyses/month', 'Upload PDF & DOCX', 'Full risk report', 'Clause highlighting in document', 'Suggested safer wording', 'PDF export', '1 seat'],
+      cta: 'Choose Freelancer',
+      highlighted: false
+    },
+    {
+      name: 'Startup',
+      price: '₦14,900',
+      period: '/month',
+      description: 'For teams signing their first serious contracts — Most popular',
+      features: ['30 analyses/month', 'Upload PDF & DOCX', 'Full risk report', 'Clause highlighting', 'Suggested safer wording', 'PDF export', '3 team seats'],
+      cta: 'Choose Startup',
+      highlighted: true
+    },
+    {
+      name: 'Business',
+      price: '₦39,900',
+      period: '/month',
+      description: 'For supplier and partner deal pipelines — Best value',
+      features: ['100 analyses/month', 'Upload PDF & DOCX', 'Full risk report', 'Clause highlighting', 'Suggested safer wording', 'PDF export', '10 team seats'],
+      cta: 'Choose Business',
+      highlighted: false
+    }
+  ];
+
+  const analysisTypes = [
+    { name: 'Contracts & Agreements', desc: 'Ambiguous clauses, one-sided terms, uncapped liabilities, missing protections', icon: FileText, core: true },
+    { name: 'Business Ideas', desc: 'Stress-test market viability, customer acquisition, competition assumptions', icon: Star },
+    { name: 'Business Plans', desc: 'Unrealistic projections, unsupported growth assumptions, operational dependencies', icon: FileText },
+    { name: 'Partnerships & Deals', desc: 'Hidden risks, one-sided terms, unclear responsibilities', icon: Users },
+    { name: 'Policies & Terms', desc: 'ToS, privacy policies, internal policies checked for compliance gaps', icon: Shield },
+    { name: 'Business Decisions', desc: 'Hiring, expansion, investment decisions weighed against what could go wrong', icon: Globe }
+  ];
+
+  const howItWorks = [
+    { step: '01', title: 'Submit your content', desc: 'Paste contract text or upload a PDF or Word document. The more detail you provide, the better the analysis.' },
+    { step: '02', title: 'Receive critical analysis', desc: 'Odera identifies risks, hidden assumptions, missing information and contradictions, organised by severity.' },
+    { step: '03', title: 'Take informed action', desc: 'Get specific recommendations and negotiation priorities, plus clear guidance on when professional review is needed.' }
+  ];
+
+  const differentiators = [
+    { title: 'Critical, not sycophantic', desc: 'We flag unrealistic assumptions, unsupported claims and contradictions, even when it is uncomfortable. Most AI tools tell you what you want to hear. We tell you what you need to hear.' },
+    { title: 'Evidence-driven', desc: 'Jurisdiction-specific claims are cited. Uncertainty is communicated, not hidden. No vague "consult a lawyer" disclaimers.' },
+    { title: 'Practical, not generic', desc: 'Specific recommendations and negotiation priorities you can actually use in your next conversation.' }
+  ];
+</script>
+
+<!-- Schema.org Markup -->
+{@html `
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Odera: The AI Contract Review Tool Built for Nigerian Businesses Who Sign Without a Lawyer",
+  "description": "Most Nigerian founders and freelancers sign contracts they don't fully understand. Odera changes that — an AI that reads your contracts, flags the risky clauses in plain English, and gives you negotiation-ready recommendations.",
+  "image": "https://rydertech.ng/images/blog/odera-contract-review.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Kenneth Victor",
+    "url": "https://rydertech.ng"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "RyderTech",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rydertech.ng/logo.png"
+    }
+  },
+  "datePublished": "2026-11-22",
+  "dateModified": "2026-11-22",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rydertech.ng/blog/odera-ai-contract-review"
+  },
+  "articleSection": "AI & Legal Tech",
+  "keywords": "ai contract review nigeria, contract risk analysis, freelancer tools nigeria, legal tech africa, clause analysis ai"
+}
+</script>
+`}
+
+<!-- FAQ Schema -->
+{@html `
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Odera replace a lawyer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Odera is a pre-review tool that helps you understand your contract and prepare for negotiations. It identifies risks and gives you specific questions to ask. For high-stakes deals, always consult a qualified lawyer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What Nigerian laws and jurisdictions does Odera cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Odera currently covers 12 jurisdictions including Nigerian contract law. Jurisdiction-specific findings are cited in the report with source references."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I upload PDF and Word documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Paid plans support PDF and DOCX uploads with clause highlighting directly in your document. Free plan accepts pasted text only."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does an analysis take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Approximately 60 seconds per analysis. You get a complete risk report with severity-organised findings, plain-English explanations, and negotiation priorities."
+      }
+    }
+  ]
+}
+</script>
+`}
+
+<div class="prose-custom max-w-3xl mx-auto">
+
+<p class="lead text-xl text-gray-600 mb-8">
+<strong>1 in 4 Nigerian business owners signs contracts exactly as presented.</strong> 69% worry about the financial risk in the terms they sign. 43% were hit by a non-payment dispute in the last year.
+</p>
+
+<p>These aren't our numbers — they're from Researchscape (2026), Rocket Lawyer (2025), and SMEDAN/NBS surveys. The pattern is clear: Nigerian founders, freelancers, and SMEs are signing agreements they don't fully understand, and it's costing them.</p>
+
+<p>Enter <strong>Odera</strong> — an AI contract review tool built specifically for Nigerian businesses who sign without a lawyer. Live now at <a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="text-primary hover:underline font-medium">odera-beta.vercel.app</a>.</p>
+
+</div>
+
+<div class="max-w-3xl mx-auto space-y-12">
+
+<section class="bg-gray-50 rounded-xl p-6 md:p-8">
+<h2 class="text-2xl font-bold text-gray-900 mb-6">The problem: you're signing blind</h2>
+
+<p class="text-gray-600 mb-4">Most agreements get signed without a second read. The clause that lets your client deduct "any amounts considered outstanding" with no notice? You missed it. The 12-month probation with termination on one week's notice? You thought it was standard. The IP assignment that hands over work you haven't been paid for? You didn't catch it.</p>
+
+<p class="text-gray-600 mb-4">Odera was built for <em>the people who sign without a lawyer</em>:</p>
+
+<ul class="space-y-3 text-gray-600">
+<li><strong>Freelancers</strong> — Protect your payment and your work. Catch scope creep, late-payment clauses, and IP assignments that hand over work you haven't been paid for.</li>
+<li><strong>Startups</strong> — Spot liability and IP traps before you sign. Founders agreements, vendor terms, and client contracts all carry clauses that quietly cost equity or ownership.</li>
+<li><strong>SMEs</strong> — Catch one-sided terms in supplier and partner deals: uncapped liability, unilateral price changes, and termination rights that only one side holds.</li>
+</ul>
+</section>
+
+<section>
+<h2 class="text-2xl font-bold text-gray-900 mb-6">How it works: three steps, ~60 seconds</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+{#each howItWorks as step}
+<div class="bg-white rounded-xl p-6 border border-gray-100 relative">
+<div class="absolute -top-3 left-6 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">{step.step}</div>
+<div class="pt-6">
+<h3 class="font-semibold text-gray-900 mb-2">{step.title}</h3>
+<p class="text-sm text-gray-600">{step.desc}</p>
+</div>
+</div>
+{/each}
+</div>
+</section>
+
+<section class="bg-primary text-white rounded-xl p-6 md:p-8">
+<h2 class="text-2xl font-bold mb-4">What makes Odera different</h2>
+
+<p class="text-primary-100 text-lg mb-6"><strong>We don't agree with you. We challenge you.</strong></p>
+
+<div class="grid md:grid-cols-3 gap-6">
+{#each differentiators as diff}
+<div class="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+<h3 class="font-semibold text-lg mb-2">{diff.title}</h3>
+<p class="text-primary-100 text-sm">{diff.desc}</p>
+</div>
+{/each}
+</div>
+</section>
+
+<section>
+<h2 class="text-2xl font-bold text-gray-900 mb-6">What you can analyze — everything that carries risk</h2>
+
+<p class="text-gray-600 mb-6">Contracts first, then the rest:</p>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+{#each analysisTypes as type}
+<div class="bg-white rounded-xl p-6 border border-gray-100 {type.core ? 'border-2 border-primary' : ''} hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+{#if type.core}
+<FileText class="w-5 h-5 text-primary" />
+{:else if type.name === 'Business Ideas'}
+<Star class="w-5 h-5 text-primary" />
+{:else if type.name === 'Partnerships & Deals'}
+<Users class="w-5 h-5 text-primary" />
+{:else if type.name === 'Policies & Terms'}
+<Shield class="w-5 h-5 text-primary" />
+{:else if type.name === 'Business Decisions'}
+<Globe class="w-5 h-5 text-primary" />
+{/if}
+</div>
+<h3 class="font-semibold text-gray-900">{type.name} {#if type.core}<span class="text-xs bg-primary text-white px-2 py-0.5 rounded ml-2">Core focus</span>{/if}</h3>
+</div>
+<p class="text-sm text-gray-600">{type.desc}</p>
+</div>
+{/each}
+</div>
+</section>
+
+<section>
+<h2 class="text-2xl font-bold text-gray-900 mb-6">Real output: what a report looks like</h2>
+
+<p class="text-gray-600 mb-6">Odera doesn't just give you a risk score. You get a complete report with every flagged clause, plain-English explanations, what a normal review would miss, and the order to raise them in negotiations.</p>
+
+<div class="bg-gray-50 rounded-xl p-6 border border-gray-100 mb-6">
+<h3 class="font-semibold text-gray-900 mb-3">Sample: Employment Contract, Apex Consulting Ltd</h3>
+<div class="space-y-3">
+<div class="bg-red-50 border border-red-200 rounded-lg p-4">
+<h4 class="font-semibold text-red-800 flex items-center gap-2"><AlertTriangle class="w-4 h-4" /> CRITICAL — Unilateral Salary Deduction</h4>
+<p class="text-red-700 text-sm mt-1">Clause 6.3 lets the employer deduct "any amounts considered outstanding" with no notice and no right to dispute.</p>
+</div>
+<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+<h4 class="font-semibold text-yellow-800 flex items-center gap-2"><AlertTriangle class="w-4 h-4" /> MEDIUM — 12-Month Probation</h4>
+<p class="text-yellow-700 text-sm mt-1">Termination on one week's notice during a 12-month probation is unusually long and one-sided.</p>
+</div>
+<p class="text-sm text-gray-500 mt-2"><strong>7 risks · 3 questions · fictional contract</strong></p>
+</div>
+</div>
+
+<div class="text-center">
+<a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-colors">
+<ArrowRight class="w-5 h-5" />
+View the full sample report
+</a>
+</div>
+</section>
+
+<section>
+<h2 class="text-2xl font-bold text-gray-900 mb-6">Pricing: start free, upgrade when stakes are higher</h2>
+
+<p class="text-gray-600 mb-6">Prices in Nigerian Naira, billed monthly. Every paid plan uploads your PDF or DOCX and returns the full report. Tiers differ by volume and team size.</p>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+{#each pricingTiers as tier}
+<div class="relative bg-white rounded-xl p-6 border {tier.highlighted ? 'border-primary/30 shadow-lg shadow-primary/5 ring-2 ring-primary/20' : 'border-gray-100'} flex flex-col">
+{#if tier.highlighted}
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">Most Popular</div>
+{/if}
+<div class="mb-4">
+<h3 class="font-semibold text-gray-900">{tier.name}</h3>
+<p class="text-sm text-gray-500 mt-1">{tier.description}</p>
+</div>
+<div class="mb-6">
+<div class="text-4xl font-bold text-gray-900">{tier.price}<span class="text-gray-500 font-normal">{tier.period}</span></div>
+</div>
+<ul class="space-y-3 mb-6 flex-1">
+{#each tier.features as feature}
+<li class="flex items-start gap-2 text-sm text-gray-600">
+<CheckCircle class="w-4 h-4 text-primary/60 mt-0.5 flex-shrink-0" />
+<span>{feature}</span>
+</li>
+{/each}
+</ul>
+<a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 {tier.highlighted ? 'bg-primary text-white hover:bg-primary/90' : 'border-2 border-primary text-primary hover:bg-primary/5'} font-semibold rounded-xl transition-colors">
+{tier.cta}
+<ArrowRight class="w-4 h-4" />
+</a>
+</div>
+{/each}
+</div>
+
+<div class="mt-8 text-center">
+<p class="text-gray-600 mb-4"><strong>Only have one contract?</strong> A single full analysis is ₦3,000 — pay once, no plan, no renewal.</p>
+<p class="text-gray-600 mb-4"><strong>Paying yearly?</strong> Pay for 10 months, get 12. Startup works out at ₦12,417/month instead of ₦14,900.</p>
+<p class="text-gray-600"><strong>Founding member discount:</strong> First 100 subscribers keep −30% on any paid plan for as long as they stay subscribed. Startup from ₦10,430/month.</p>
+</div>
+</section>
+
+<section class="bg-gray-50 rounded-xl p-6 md:p-8">
+<h2 class="text-2xl font-bold text-gray-900 mb-4">Privacy: your documents are yours</h2>
+
+<ul class="space-y-3 text-gray-600">
+<li>Contracts and business documents stored in a private bucket — not public. Only you and your organisation can open them.</li>
+<li>We do not sell your data, and we do not use your documents to train AI models. Submitted content is processed by Odera AI to produce the analysis you asked for.</li>
+<li>Analyses and reports kept until you delete them; removing one also removes its report, findings and share links.</li>
+<li>Closing an account and erasing everything is done on request (email oderainbox@gmail.com).</li>
+<li>Full detail — including who we share data with and your rights under the Nigerian Data Protection Act — in our <a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="text-primary hover:underline">privacy policy</a>.</li>
+</ul>
+</section>
+
+<section class="bg-gray-900 text-white rounded-xl p-6 md:p-8 text-center">
+<h2 class="text-2xl font-bold mb-4">Ready to read the fine print before you sign?</h2>
+<p class="text-gray-300 text-lg mb-8 max-w-xl mx-auto">Upload your contract and get a clear, critical read in about a minute. Free to start. No card required.</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-colors">
+<Zap class="w-5 h-5" />
+Start analyzing for free
+</a>
+<a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-8 py-3 border-2 border-white/40 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
+<FileText class="w-5 h-5" />
+See a sample report
+</a>
+</div>
+<p class="mt-6 text-xs text-gray-500">This tool does not provide legal advice. Always consult qualified professionals for high-stakes decisions.</p>
+</section>
+
+</div>
+
+<!-- Footer CTA -->
+<div class="max-w-3xl mx-auto text-center mt-16 pt-8 border-t border-gray-100">
+<p class="text-sm text-gray-500 mb-2">Sources: <a href="https://www.researchscape.com" target="_blank" rel="noopener" class="text-primary hover:underline">Researchscape 2026 SMB Survey</a> · <a href="https://www.rocketlawyer.com" target="_blank" rel="noopener" class="text-primary hover:underline">Rocket Lawyer 2025 SMB Legal Concerns Survey</a> · <a href="https://www.smedan.gov.ng" target="_blank" rel="noopener" class="text-primary hover:underline">SMEDAN/NBS MSME National Survey 2017</a></p>
+<p class="text-xs text-gray-400">Published 2026-11-22 · Kenneth Victor, Co-Founder, RyderTech · Built with SvelteKit + Supabase + Gemini AI · <a href="https://odera-beta.vercel.app" target="_blank" rel="noopener" class="text-primary hover:underline">Try Odera →</a> · <a href="https://www.rydertech.ng/work" class="text-primary hover:underline">View case study →</a></p>
+</div>
+
+<style>
+  .prose-custom { 
+    color: #374151; 
+    line-height: 1.75;
+  }
+  .prose-custom h2 { 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    color: #111827; 
+    margin-top: 3rem; 
+    margin-bottom: 1.5rem; 
+  }
+  .prose-custom h3 { 
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    color: #111827; 
+    margin-top: 2rem; 
+    margin-bottom: 1rem; 
+  }
+  .prose-custom p { 
+    margin-bottom: 1rem; 
+  }
+  .prose-custom ul { 
+    list-style-type: disc; 
+    padding-left: 1.5rem; 
+    margin-bottom: 1rem; 
+  }
+  .prose-custom ol { 
+    list-style-type: decimal; 
+    padding-left: 1.5rem; 
+    margin-bottom: 1rem; 
+  }
+  .prose-custom a { 
+    color: #1E40AF; 
+  }
+  .prose-custom a:hover { 
+    text-decoration: underline; 
+  }
+  .prose-custom strong { 
+    font-weight: 600; 
+  }
+  .prose-custom em { 
+    font-style: italic; 
+  }
+  .prose-custom blockquote { 
+    border-left: 4px solid #1E40AF; 
+    padding-left: 1rem; 
+    font-style: italic; 
+    color: #4B5563; 
+    margin: 1rem 0; 
+  }
+  .prose-custom code { 
+    background-color: #F3F4F6; 
+    padding: 0.25rem 0.375rem; 
+    border-radius: 0.25rem; 
+    font-size: 0.875rem; 
+    font-family: monospace; 
+  }
+  .prose-custom pre { 
+    background-color: #111827; 
+    color: #F3F4F6; 
+    padding: 1rem; 
+    border-radius: 0.5rem; 
+    overflow-x: auto; 
+    margin: 1rem 0; 
+  }
+  .prose-custom dt { 
+    font-weight: 600; 
+  }
+  .prose-custom dd { 
+    margin-left: 1rem; 
+    margin-bottom: 0.5rem; 
+  }
+  .prose-custom .lead { 
+    font-size: 1.25rem; 
+    font-weight: 400; 
+  }
+</style>
